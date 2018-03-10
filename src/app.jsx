@@ -5,6 +5,7 @@ import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import Layout  from './app/layouts/Layout';
 import Main from './app/pages/Main';
 import Blogs from './app/pages/Blogs';
+import About from './app/pages/About';
 import PageNotFound from './app/pages/PageNotFound';
 
 const app = document.getElementById('app');
@@ -16,6 +17,7 @@ ReactDOM.render(
                component={Layout}>
             <IndexRoute component={Main}/>
             <Route path="blogs" component={Blogs}/>
+            <Route path="about" component={About}/>
             <Route path="*" component={PageNotFound}/>
         </Route>
     </Router>,

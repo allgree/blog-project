@@ -1,0 +1,77 @@
+@import "font-awesome"
+
+
+$nav_height: 80px
+$nav_background_color: rgba(0, 0, 0, 0.8)
+
+*
+  padding: 0
+  margin: 0
+
+html
+  height: 100%
+
+body
+  height: 100%
+  position: relative
+
+#app
+  height: 100%
+
+main
+  height: 100%
+
+.empty_up
+  height: $nav_height
+
+nav
+  width: 100%
+  height: $nav_height
+  position: fixed
+  background: $nav_background_color
+  box-sizing: border-box
+
+
+#nav_input
+  display: none
+
+#nav_input:checked ~.nav_menu
+  width: 150px
+
+.nav_header_label
+  color: white
+  font-size: 30px
+  float: left
+  cursor: pointer
+  margin: 20px 0 0 20px
+
+.nav_header
+  color: white
+  float: left
+  margin: 20px 0 0 50px
+
+.nav_page_header
+  color: white
+  float: left
+  margin: 20px 0 0 30%
+
+.nav_menu
+  background: $nav_background_color
+  width: 0
+  min-height: 100%
+  position: fixed
+  margin-top: $nav_height
+  overflow: hidden
+  padding-top: 20px
+  transition: width 0.2s linear
+
+.nav_menu__link
+  text-decoration: none
+  color: white
+  display: block
+  margin: 10px 0 0 20px
+  font-size: 20px
+
+footer
+  position: absolute
+  bottom: 0

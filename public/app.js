@@ -24893,7 +24893,7 @@ var Nav = function (_React$Component) {
                     _react2.default.createElement(
                         _reactRouter.Link,
                         { to: '/about', className: 'nav_menu__link ' + this.isActive('/about') },
-                        '\u041E \u0441\u0435\u0431\u0435'
+                        '\u041E\xA0\u0441\u0435\u0431\u0435'
                     )
                 ),
                 _react2.default.createElement(

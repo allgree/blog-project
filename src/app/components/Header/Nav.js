@@ -12,15 +12,20 @@ export default class Nav extends React.Component {
         }
     }
 
+    isActive(href) {
+        return window.location.pathname === href ? 'nav_menu__link_active' : '';
+    }
+
     render() {
         return (
             <nav>
                 <label htmlFor="nav_input" className="nav_header_label"><i className="fa fa-bars" aria-hidden="true"/></label>
                 <input type="checkbox" id="nav_input"/>
                 <div className="nav_menu">
-                    <Link to="/posts" className="nav_menu__link">Записи</Link>
-                    <Link to='/blogs' className="nav_menu__link">Блоги</Link>
-                    <Link to='/about' className="nav_menu__link">О себе</Link>
+                    <Link to="/" className={`nav_menu__link ${this.isActive('/')}`}>Главная</Link>
+                    <Link to="/posts" className={`nav_menu__link ${this.isActive('/posts')}`}>Записи</Link>
+                    <Link to='/blogs' className={`nav_menu__link ${this.isActive('/blogs')}`}>Блоги</Link>
+                    <Link to='/about' className={`nav_menu__link ${this.isActive('/about')}`}>О себе</Link>
                 </div>
                 <Link to="/">
                     <h2 className="nav_header">Личный блог</h2>

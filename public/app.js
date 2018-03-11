@@ -24856,6 +24856,11 @@ var Nav = function (_React$Component) {
     }
 
     _createClass(Nav, [{
+        key: 'isActive',
+        value: function isActive(href) {
+            return window.location.pathname === href ? 'nav_menu__link_active' : '';
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
@@ -24872,17 +24877,22 @@ var Nav = function (_React$Component) {
                     { className: 'nav_menu' },
                     _react2.default.createElement(
                         _reactRouter.Link,
-                        { to: '/posts', className: 'nav_menu__link' },
+                        { to: '/', className: 'nav_menu__link ' + this.isActive('/') },
+                        '\u0413\u043B\u0430\u0432\u043D\u0430\u044F'
+                    ),
+                    _react2.default.createElement(
+                        _reactRouter.Link,
+                        { to: '/posts', className: 'nav_menu__link ' + this.isActive('/posts') },
                         '\u0417\u0430\u043F\u0438\u0441\u0438'
                     ),
                     _react2.default.createElement(
                         _reactRouter.Link,
-                        { to: '/blogs', className: 'nav_menu__link' },
-                        '\u0411\u043B\u043E\u0433\u0438 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u0435\u0439'
+                        { to: '/blogs', className: 'nav_menu__link ' + this.isActive('/blogs') },
+                        '\u0411\u043B\u043E\u0433\u0438'
                     ),
                     _react2.default.createElement(
                         _reactRouter.Link,
-                        { to: '/about', className: 'nav_menu__link' },
+                        { to: '/about', className: 'nav_menu__link ' + this.isActive('/about') },
                         '\u041E \u0441\u0435\u0431\u0435'
                     )
                 ),
@@ -24950,15 +24960,15 @@ var Main = function (_React$Component) {
     }
 
     _createClass(Main, [{
-        key: 'render',
+        key: "render",
         value: function render() {
             return _react2.default.createElement(
-                'div',
-                null,
+                "div",
+                { className: "content" },
                 _react2.default.createElement(
-                    'h1',
+                    "h1",
                     null,
-                    'Main Page'
+                    "Main Page"
                 )
             );
         }
@@ -25005,12 +25015,16 @@ var Blogs = function (_React$Component) {
     }
 
     _createClass(Blogs, [{
-        key: 'render',
+        key: "render",
         value: function render() {
             return _react2.default.createElement(
-                'h1',
-                null,
-                'Posts'
+                "div",
+                { className: "content" },
+                _react2.default.createElement(
+                    "h1",
+                    null,
+                    "Posts"
+                )
             );
         }
     }]);
@@ -25056,12 +25070,16 @@ var Blogs = function (_React$Component) {
     }
 
     _createClass(Blogs, [{
-        key: 'render',
+        key: "render",
         value: function render() {
             return _react2.default.createElement(
-                'h1',
-                null,
-                'Blogs'
+                "div",
+                { className: "content" },
+                _react2.default.createElement(
+                    "h1",
+                    null,
+                    "Blogs"
+                )
             );
         }
     }]);
@@ -25107,12 +25125,16 @@ var Main = function (_React$Component) {
     }
 
     _createClass(Main, [{
-        key: 'render',
+        key: "render",
         value: function render() {
             return _react2.default.createElement(
-                'h1',
-                null,
-                'About'
+                "div",
+                { className: "content" },
+                _react2.default.createElement(
+                    "h1",
+                    null,
+                    "About"
+                )
             );
         }
     }]);

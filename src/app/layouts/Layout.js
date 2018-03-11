@@ -9,7 +9,7 @@ export default class Layout extends React.Component {
             <main>
                 <Nav/>
                 <div className="empty_up"/>
-                {this.props.children}
+                    {this.props.children}
                 <footer>
                     &copy; Алексей Гриценко 2018
                 </footer>

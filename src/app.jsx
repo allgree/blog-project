@@ -4,6 +4,7 @@ import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 
 import Layout  from './app/layouts/Layout';
 import Main from './app/pages/Main';
+import Posts from './app/pages/Posts';
 import Blogs from './app/pages/Blogs';
 import About from './app/pages/About';
 import PageNotFound from './app/pages/PageNotFound';
@@ -16,6 +17,7 @@ ReactDOM.render(
         <Route path="/"
                component={Layout}>
             <IndexRoute component={Main}/>
+            <Route path="posts" component={Posts}/>
             <Route path="blogs" component={Blogs}/>
             <Route path="about" component={About}/>
             <Route path="*" component={PageNotFound}/>

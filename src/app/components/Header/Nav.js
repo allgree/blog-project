@@ -6,7 +6,8 @@ export default class Nav extends React.Component {
         super(...arguments);
         this.headers = {
             '/': 'Добро пожаловать',
-            '/blogs': 'Блоги',
+            '/posts': 'Записи',
+            '/blogs': 'Блоги пользователей',
             '/about': 'О себе'
         }
     }
@@ -17,6 +18,7 @@ export default class Nav extends React.Component {
                 <label htmlFor="nav_input" className="nav_header_label"><i className="fa fa-bars" aria-hidden="true"/></label>
                 <input type="checkbox" id="nav_input"/>
                 <div className="nav_menu">
+                    <Link to="/posts" className="nav_menu__link">Записи</Link>
                     <Link to='/blogs' className="nav_menu__link">Блоги</Link>
                     <Link to='/about' className="nav_menu__link">О себе</Link>
                 </div>

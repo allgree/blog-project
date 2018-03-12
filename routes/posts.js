@@ -24,7 +24,7 @@ router.get('/top', (req, res, next) => {
                return b.dataValues.likes - a.dataValues.likes;
             });
             let res_array = posts_obj.slice(0, 5);
-            res.send(res_array);
+            res.json(res_array);
         });
 
     })

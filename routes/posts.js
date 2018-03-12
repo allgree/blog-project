@@ -5,29 +5,75 @@ const router = express.Router();
 const Posts = require('../models/posts');
 const PostsLikes = require('../models/posts_likes');
 
+// все посты
+router.get('/', (req, res, next) => {
+    Posts.findAll((result_posts) => {
+        PostsLikes.findAll((result_posts_likes) => {
+            for (let i = 0; i < result_posts.length; i++) {
+                result_posts[i].dataValues.likes = 0;
+                for (let j = 0; j < result_posts_likes.length; j++) {
+                    if (result_posts[i].id === result_posts_likes[j].post_id) {
+                        result_posts[i].dataValues.likes++;
+                    }
+                }
+            }
+            res.json(result_posts);
+        });
+    })
+});
+
 
 // топ 5 популярных постов
 router.get('/top', (req, res, next) => {
     Posts.findAll((result_posts) => {
         PostsLikes.findAll((result_posts_likes) => {
-            let posts_obj = result_posts;
-            let posts_likes_obj = result_posts_likes;
-            for (let i = 0; i < posts_obj.length; i++) {
-                posts_obj[i].dataValues.likes = 0;
-                for (let j = 0; j < posts_likes_obj.length; j++) {
-                    if (posts_obj[i].id === posts_likes_obj[j].post_id) {
-                        posts_obj[i].dataValues.likes++;
+            for (let i = 0; i < result_posts.length; i++) {
+                result_posts[i].dataValues.likes = 0;
+                for (let j = 0; j < result_posts_likes.length; j++) {
+                    if (result_posts[i].id === result_posts_likes[j].post_id) {
+                        result_posts[i].dataValues.likes++;
                     }
                 }
             }
-            posts_obj.sort((a, b) => {
+            result_posts.sort((a, b) => {
                return b.dataValues.likes - a.dataValues.likes;
             });
-            let res_array = posts_obj.slice(0, 5);
+            let res_array = result_posts.slice(0, 5);
             res.json(res_array);
         });
+    });
+});
 
+// все посты по id пользователя
+router.get('/user/:user_id', (req, res, next) => {
+    Posts.findByUserId(req.params.user_id, (result_posts) => {
+        PostsLikes.findAll((result_posts_likes) => {
+            for (let i = 0; i < result_posts.length; i++) {
+                result_posts[i].dataValues.likes = 0;
+                for (let j = 0; j < result_posts_likes.length; j++) {
+                    if (result_posts[i].id === result_posts_likes[j].post_id) {
+                        result_posts[i].dataValues.likes++;
+                    }
+                }
+            }
+            res.json(result_posts);
+        });
     })
 });
+
+// один пост по id
+router.get('/:post_id', (req, res, next) => {
+    Posts.findById(req.params.post_id, (resultPost) => {
+        PostsLikes.findByPostId(req.params.post_id, (resultLikes) => {
+            resultPost.dataValues.likes = resultLikes.length;
+            //console.log(resultPost.dataValues);
+
+            res.json(resultPost);
+        });
+    })
+});
+
+
+
 
 module.exports = router;

@@ -8,6 +8,8 @@ const PORT = 8090;
 
 //Подключение маршрутов
 let routePosts = require('./routes/posts');
+let routeComments = require('./routes/comments');
+let routeUsers = require('./routes/users');
 
 let app = express();
 
@@ -24,7 +26,8 @@ app.use(express.static(__dirname + '/public'));
 
 //Маршруты
 app.use('/api/posts', routePosts);
-
+app.use('/api/comments', routeComments);
+app.use('/api/users', routeUsers);
 
 app.use((req, res) => {
     return res.sendFile('/public/index.html', {root: __dirname})

@@ -7,7 +7,7 @@ const PORT = 8090;
 
 
 //Подключение маршрутов
-
+let routePosts = require('./routes/posts');
 
 let app = express();
 
@@ -23,7 +23,7 @@ app.use(function (req, res, next) {
 app.use(express.static(__dirname + '/public'));
 
 //Маршруты
-
+app.use('/api/posts', routePosts);
 
 
 app.use((req, res) => {

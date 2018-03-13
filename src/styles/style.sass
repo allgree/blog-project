@@ -3,6 +3,7 @@
 
 $nav_height: 80px
 $nav_background_color: rgba(0, 0, 0, 0.8)
+$content_width: 800px
 
 *
   padding: 0
@@ -93,12 +94,73 @@ nav
 
 
 .content
-  width: 800px
-  height: 100%
+  width: $content_width
+  min-height: 100%
   margin: 0 auto
   background-color: rgba(255, 255, 255, 0.5)
   padding: 20px
 
+.content__top_user
+  width: ($content_width - 20)/2
+  float: left
+  margin: 0 10px 10px 0
+
+.content__top_user_h2
+  text-align: center
+  margin-bottom: 10px
+
+.content__top_user_item
+  display: block
+  padding: 10px
+  border-radius: 10px
+  background-color: rgba(255, 255, 255, 0.5)
+  box-shadow: 0 0 30px #a19a98
+  text-decoration: none
+  color: black
+
+.content__top_user_item:hover
+  box-shadow: 0 0 30px #fc9097
+
+.content__main_posts_h2
+  margin-bottom: 20px
+  text-align: center
+
+.content__post_top
+  padding: 10px 10px 30px
+  border-radius: 10px
+  background-color: rgba(255, 255, 255, 0.5)
+  margin-bottom: 10px
+  box-shadow: 0 0 30px #a19a98
+
+.content__post_top_link
+  text-decoration: none
+  color: black
+
+.content__post_top_link:hover
+  color: #91231f
+
+.content__post_top_head
+  margin-bottom: 10px
+  text-align: center
+
+.content__post_top_body
+  margin-bottom: 10px
+
+.content__post_top_author
+  float: left
+
+.content__post_top_author_link
+  margin-bottom: 10px
+  text-decoration: none
+  color: #5f5f5f
+
+.content__post_top_like
+  float: right
+  color: red
+  cursor: pointer
+
+/*footer*/
 footer
-  position: absolute
+  position: relative
   bottom: 0
+  text-align: center

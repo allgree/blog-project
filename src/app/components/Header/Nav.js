@@ -28,7 +28,7 @@ export default class Nav extends React.Component {
                     <Link to='/about' className={`nav_menu__link ${this.isActive('/about')}`}>О&nbsp;себе</Link>
                 </div>
                 <Link to="/">
-                    <h2 className="nav_header">Личный блог</h2>
+                    <h2 className="nav_header">Personal Blog</h2>
                 </Link>
                 <h2 className="nav_page_header">{this.headers[window.location.pathname]}</h2>
             </nav>

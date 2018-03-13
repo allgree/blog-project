@@ -7,6 +7,7 @@ export default class Layout extends React.Component {
     render () {
         return (
             <main>
+                <div className="main_background"/>
                 <Nav/>
                 <div className="empty_up"/>
                     {this.props.children}

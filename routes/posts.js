@@ -66,8 +66,6 @@ router.get('/:post_id', (req, res, next) => {
     Posts.findById(req.params.post_id, (resultPost) => {
         PostsLikes.findByPostId(req.params.post_id, (resultLikes) => {
             resultPost.dataValues.likes = resultLikes.length;
-            //console.log(resultPost.dataValues);
-
             res.json(resultPost);
         });
     })

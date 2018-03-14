@@ -2407,13 +2407,17 @@ nav {
 .nav_menu__link_active {
   color: #ff8787; }
 
-/*Content*/
+/*Content Main*/
 .content {
   width: 800px;
-  min-height: 100%;
+  height: auto;
   margin: 0 auto;
   background-color: rgba(255, 255, 255, 0.5);
-  padding: 20px; }
+  padding: 20px;
+  overflow: hidden; }
+
+.content_loader {
+  text-align: center; }
 
 .content__top_user {
   width: 390px;
@@ -2436,7 +2440,12 @@ nav {
 .content__top_user_item:hover {
   box-shadow: 0 0 30px #fc9097; }
 
-.content__main_posts_h2 {
+.content__top_post_aside {
+  width: 390px;
+  float: left;
+  margin-right: 10px; }
+
+.content__top_post_h2 {
   margin-bottom: 20px;
   text-align: center; }
 
@@ -2469,8 +2478,13 @@ nav {
   text-decoration: none;
   color: #5f5f5f; }
 
-.content__post_top_like {
-  float: right;
+.content__post_top_info {
+  float: right; }
+
+.post_view {
+  color: blue; }
+
+.post_like {
   color: red;
   cursor: pointer; }
 
@@ -2478,6 +2492,7 @@ nav {
 footer {
   position: relative;
   bottom: 0;
-  text-align: center; }
+  text-align: center;
+  clear: both; }
 
 /*# sourceMappingURL=app.css.map*/

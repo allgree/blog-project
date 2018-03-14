@@ -1,7 +1,8 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {reducer as formReducer} from 'redux-form'
 
-import {topPostsReducer} from './reducers/topPostsReducer';
+import {topLikesPostsReducer} from './reducers/topLikesPostsReducer';
+import {topViewsPostsReducer} from "./reducers/topViewsPostsReducer";
 import {userReducer} from './reducers/userReducer';
 import {usersListReducer} from "./reducers/usersListReducer";
 import {blogerReducer} from "./reducers/blogerReducer";
@@ -12,7 +13,8 @@ import promise from 'redux-promise-middleware';
 const middleware = applyMiddleware(promise());
 
 const reducers = combineReducers({
-    topPosts: topPostsReducer,
+    topLikesPosts: topLikesPostsReducer,
+    topViewsPosts: topViewsPostsReducer,
     user: userReducer,
     usersList: usersListReducer,
     bloger: blogerReducer,

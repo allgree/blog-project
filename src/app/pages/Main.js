@@ -1,19 +1,22 @@
 import React from 'react';
 
-import PostForTop from '../components/Content/PostForTop';
+import PostForTop from '../components/Content/PostForTopLikes';
 import UserTop from '../components/Content/UserTop';
 
 import {connect} from 'react-redux';
 
-import {fetchTopPost} from '../actions/topPostsActions';
+import {fetchTopLikesPost} from '../actions/topLikesPostsActions';
+import {fetchTopViewsPost} from "../actions/topViewsPostsActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {fetchBloger} from "../actions/blogerActions";
 import {fetchCommentator} from "../actions/commentatorActions";
 
 @connect((store) => {
     return {
-        posts: store.topPosts.posts,
-        is_top_posts_fetching: store.topPosts.is_fetching,
+        top_likes_posts: store.topLikesPosts.posts,
+        is_top_likes_posts_fetching: store.topLikesPosts.is_fetching,
+        top_views_posts: store.topViewsPosts.posts,
+        is_top_views_posts_fetching: store.topViewsPosts.is_fetching,
         users: store.usersList.users,
         is_users_fetching: store.usersList.is_fetching,
         bloger: store.bloger.user,
@@ -26,36 +29,90 @@ import {fetchCommentator} from "../actions/commentatorActions";
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
-        this.props.dispatch(fetchTopPost());
         this.props.dispatch(fetchUsers());
+        this.props.dispatch(fetchTopLikesPost());
+        this.props.dispatch(fetchTopViewsPost());
         this.props.dispatch(fetchBloger());
         this.props.dispatch(fetchCommentator());
     }
 
+    loader() {
+        return  <p className="content_loader">
+            <img src="../../img/25.gif"/>
+        </p>
+    }
+
 
     render() {
-        console.log(this.props.commentator);
-        let posts = this.props.posts.map((post, index) => {
+        let top_views_posts = this.props.top_views_posts.map((post, index) => {
+            let user = this.props.users.find(item => item.id === post.user_id);
+            return <PostForTop key={index}
+                               post={post}
+                               user={user}
+                                />
+        });
+        let top_likes_posts = this.props.top_likes_posts.map((post, index) => {
             let user = this.props.users.find(item => item.id === post.user_id);
             return <PostForTop key={index}
                                post={post}
                                user={user}
                                />
         });
+
         return (
             <div className="content">
                 <div className="content__top_users">
-                    <aside className="content__top_user">
-                        <h2 className="content__top_user_h2">Самый активный блогер</h2>
-                        <UserTop user={this.props.bloger}/>
-                    </aside>
-                    <aside className="content__top_user">
-                        <h2 className="content__top_user_h2">Самый активный комментатор</h2>
-                        <UserTop user={this.props.commentator}/>
-                    </aside>
+
+                    {this.props.is_bloger_fetching
+                        ?
+                        <aside className="content__top_user">
+                            {this.loader()}
+                        </aside>
+                        :
+                        <aside className="content__top_user">
+                            <h2 className="content__top_user_h2">Самый активный блогер</h2>
+                            <UserTop user={this.props.bloger}/>
+                        </aside>
+                    }
+
+                    {this.props.is_commentator_fetching
+                        ?
+                        <aside className="content__top_user">
+                            {this.loader()}
+                        </aside>
+                        :
+                        <aside className="content__top_user">
+                            <h2 className="content__top_user_h2">Самый активный комментатор</h2>
+                            <UserTop user={this.props.commentator}/>
+                        </aside>
+                    }
+
                 </div>
-                <h2 className="content__main_posts_h2">Популярные записи</h2>
-                {posts}
+                <div className="content__top_posts">
+                    {this.props.is_top_views_posts_fetching
+                        ?
+                        <aside className="content__top_post_aside">
+                            {this.loader()}
+                        </aside>
+                        :
+                           <aside className="content__top_post_aside">
+                               <h2 className="content__top_post_h2">Топ 5 просмотренных записей</h2>
+                               {top_views_posts}
+                           </aside>
+                    }
+                    {this.props.is_top_likes_posts_fetching
+                        ?
+                        <aside className="content__top_post_aside">
+                            {this.loader()}
+                        </aside>
+                        :
+                        <aside className="content__top_post_aside">
+                            <h2 className="content__top_post_h2">Топ 5 отмеченных записей</h2>
+                            {top_likes_posts}
+                        </aside>
+                    }
+
+                </div>
             </div>
         )
     }

@@ -116,12 +116,12 @@ module.exports = {
             template: path.join(__dirname, 'src', 'index.html'),
             filename: path.join(__dirname, 'public', 'index.html')
         }),
-        new BrowserSyncPlugin({
-            host: 'localhost',
-            port: 8090,
-            server: {
-                baseDir: ['public']
-            }
-        })
+        //new BrowserSyncPlugin({
+        //    host: 'localhost',
+        //    port: 8090,
+        //    server: {
+        //        baseDir: ['public']
+        //    }
+        //})
     ]
 };

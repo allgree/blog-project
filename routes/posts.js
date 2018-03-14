@@ -23,8 +23,8 @@ router.get('/', (req, res, next) => {
 });
 
 
-// топ 5 популярных постов
-router.get('/top', (req, res, next) => {
+// топ 5 отмеченных постов
+router.get('/top-likes', (req, res, next) => {
     Posts.findAll((result_posts) => {
         PostsLikes.findAll((result_posts_likes) => {
             for (let i = 0; i < result_posts.length; i++) {
@@ -42,6 +42,18 @@ router.get('/top', (req, res, next) => {
             res.json(res_array);
         });
     });
+});
+
+
+// топ 5 просмотренных постов
+router.get('/top-views', (req, res, next) => {
+    Posts.findAll((result_posts) => {
+        result_posts.sort((a, b) => {
+            return b.dataValues.views - a.dataValues.views;
+        });
+        let res_array = result_posts.slice(0, 5);
+        res.json(res_array);
+    })
 });
 
 // все посты по id пользователя

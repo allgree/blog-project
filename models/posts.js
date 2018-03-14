@@ -10,6 +10,7 @@ const model = db.define('posts', {
     user_id: Sequelize.INTEGER,
     title: Sequelize.STRING(255),
     body: Sequelize.TEXT,
+    views: Sequelize.INTEGER,
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
 });

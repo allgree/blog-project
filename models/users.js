@@ -13,6 +13,8 @@ const model = db.define('users', {
     surname: Sequelize.STRING(255),
     city: Sequelize.STRING(255),
     age: Sequelize.INTEGER,
+    site: Sequelize.STRING(100),
+    email: Sequelize.STRING(100),
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
 });

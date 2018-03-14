@@ -89,16 +89,20 @@ nav
   color: #ff8787
 
 
-/*Content*/
+/*Content Main*/
 
 
 
 .content
   width: $content_width
-  min-height: 100%
+  height: auto
   margin: 0 auto
   background-color: rgba(255, 255, 255, 0.5)
   padding: 20px
+  overflow: hidden
+
+.content_loader
+  text-align: center
 
 .content__top_user
   width: ($content_width - 20)/2
@@ -121,7 +125,13 @@ nav
 .content__top_user_item:hover
   box-shadow: 0 0 30px #fc9097
 
-.content__main_posts_h2
+
+.content__top_post_aside
+  width: ($content_width - 20)/2
+  float: left
+  margin-right: 10px
+
+.content__top_post_h2
   margin-bottom: 20px
   text-align: center
 
@@ -135,6 +145,7 @@ nav
 .content__post_top_link
   text-decoration: none
   color: black
+
 
 .content__post_top_link:hover
   color: #91231f
@@ -154,13 +165,20 @@ nav
   text-decoration: none
   color: #5f5f5f
 
-.content__post_top_like
+.content__post_top_info
   float: right
+
+.post_view
+  color: blue
+
+.post_like
   color: red
   cursor: pointer
+
 
 /*footer*/
 footer
   position: relative
   bottom: 0
   text-align: center
+  clear: both

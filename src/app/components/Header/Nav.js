@@ -8,7 +8,8 @@ export default class Nav extends React.Component {
             '/': 'Добро пожаловать',
             '/posts': 'Записи',
             '/blogs': 'Блоги пользователей',
-            '/about': 'О себе'
+            '/about': 'О себе',
+            '/user': 'Информация о пользователе'
         }
     }
 
@@ -17,6 +18,12 @@ export default class Nav extends React.Component {
     }
 
     render() {
+        let location = window.location.pathname;
+        let arr_path = location.split('/');
+        if (/[\d]/g.test(arr_path[arr_path.length - 1])) {
+            let count = arr_path[arr_path.length - 1].length + 1;
+            location = location.slice(0, -(count));
+        }
         return (
             <nav>
                 <label htmlFor="nav_input" className="nav_header_label"><i className="fa fa-bars" aria-hidden="true"/></label>
@@ -30,7 +37,7 @@ export default class Nav extends React.Component {
                 <Link to="/">
                     <h2 className="nav_header">Personal Blog</h2>
                 </Link>
-                <h2 className="nav_page_header">{this.headers[window.location.pathname]}</h2>
+                <h2 className="nav_page_header">{this.headers[location]}</h2>
             </nav>
         )
     }

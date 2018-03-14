@@ -7,6 +7,7 @@ import {userReducer} from './reducers/userReducer';
 import {usersListReducer} from "./reducers/usersListReducer";
 import {blogerReducer} from "./reducers/blogerReducer";
 import {commentatorReducer} from "./reducers/commentatorReducer";
+import {userPostsReducer} from './reducers/userPostsReducer';
 
 import promise from 'redux-promise-middleware';
 
@@ -19,6 +20,7 @@ const reducers = combineReducers({
     usersList: usersListReducer,
     bloger: blogerReducer,
     commentator: commentatorReducer,
+    userPosts: userPostsReducer,
     form: formReducer
 });
 

@@ -10,6 +10,7 @@ import Main from './app/pages/Main';
 import Posts from './app/pages/Posts';
 import Blogs from './app/pages/Blogs';
 import About from './app/pages/About';
+import User from './app/pages/User';
 import PageNotFound from './app/pages/PageNotFound';
 
 const app = document.getElementById('app');
@@ -24,6 +25,7 @@ ReactDOM.render(
                 <Route path="posts" component={Posts}/>
                 <Route path="blogs" component={Blogs}/>
                 <Route path="about" component={About}/>
+                <Route path="user/:user_id" component={User}/>
                 <Route path="*" component={PageNotFound}/>
             </Route>
         </Router>

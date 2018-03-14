@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export function fetchUser(id) {
+export function fetchUser(user_id) {
     return {
         type: 'FETCH_USER',
-        payload: axios.get(`api/users/${id}`)
+        payload: axios.get(`/api/users/${user_id}`)
     }
 }

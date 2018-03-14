@@ -2410,10 +2410,10 @@ nav {
 /*Content Main*/
 .content {
   width: 800px;
-  height: auto;
+  height: 100%;
   margin: 0 auto;
-  background-color: rgba(255, 255, 255, 0.5);
   padding: 20px;
+  background-color: rgba(255, 255, 255, 0.5);
   overflow: hidden; }
 
 .content_loader {

@@ -4,6 +4,8 @@ import {reducer as formReducer} from 'redux-form'
 import {topLikesPostsReducer} from './reducers/topLikesPostsReducer';
 import {topViewsPostsReducer} from "./reducers/topViewsPostsReducer";
 import {userReducer} from './reducers/userReducer';
+import {postReducer} from "./reducers/postReducer";
+import {postCommentsReducer} from "./reducers/postCommentsReducer";
 import {usersListReducer} from "./reducers/usersListReducer";
 import {blogerReducer} from "./reducers/blogerReducer";
 import {commentatorReducer} from "./reducers/commentatorReducer";
@@ -17,6 +19,8 @@ const reducers = combineReducers({
     topLikesPosts: topLikesPostsReducer,
     topViewsPosts: topViewsPostsReducer,
     user: userReducer,
+    post: postReducer,
+    postComments: postCommentsReducer,
     usersList: usersListReducer,
     bloger: blogerReducer,
     commentator: commentatorReducer,

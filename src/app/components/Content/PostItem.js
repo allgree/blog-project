@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-export default class PostForTop extends React.Component {
+export default class PostItem extends React.Component {
     render() {
         return (
             <div className="content__post_top">
@@ -13,7 +13,6 @@ export default class PostForTop extends React.Component {
                     {this.props.user
                     ?
                     <p className="content__post_top_author">
-                        Автор:&nbsp;
                         <Link to={`/user/${this.props.user.id}`}
                               className="content__post_top_author_link">
                             {this.props.user.name} {this.props.user.surname}

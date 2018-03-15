@@ -54,16 +54,15 @@ export default class Main extends React.Component {
         let top_likes_posts = this.props.top_likes_posts.map((post, index) => {
             let user = this.props.users.find(item => item.id === post.user_id);
             return <PostItem key={index}
-                               post={post}
-                               user={user}
-                               />
+                             post={post}
+                             user={user}
+                             />
         });
 
         return (
             <div className="content">
                 <div className="content__top_users">
-
-                    {this.props.is_bloger_fetching
+                    {this.props.is_bloger_fetching || this.props.is_users_fetching
                         ?
                         <aside className="content__top_user">
                             {this.loader()}
@@ -75,7 +74,7 @@ export default class Main extends React.Component {
                         </aside>
                     }
 
-                    {this.props.is_commentator_fetching
+                    {this.props.is_commentator_fetching || this.props.is_users_fetching
                         ?
                         <aside className="content__top_user">
                             {this.loader()}
@@ -89,7 +88,7 @@ export default class Main extends React.Component {
 
                 </div>
                 <div className="content__top_posts">
-                    {this.props.is_top_views_posts_fetching
+                    {this.props.is_top_views_posts_fetching || this.props.is_users_fetching
                         ?
                         <aside className="content__top_post_aside">
                             {this.loader()}
@@ -100,7 +99,7 @@ export default class Main extends React.Component {
                                {top_views_posts}
                            </aside>
                     }
-                    {this.props.is_top_likes_posts_fetching
+                    {this.props.is_top_likes_posts_fetching || this.props.is_users_fetching
                         ?
                         <aside className="content__top_post_aside">
                             {this.loader()}

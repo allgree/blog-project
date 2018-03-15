@@ -8215,6 +8215,10 @@ var _User = __webpack_require__(411);
 
 var _User2 = _interopRequireDefault(_User);
 
+var _Post = __webpack_require__(429);
+
+var _Post2 = _interopRequireDefault(_Post);
+
 var _PageNotFound = __webpack_require__(414);
 
 var _PageNotFound2 = _interopRequireDefault(_PageNotFound);
@@ -8238,6 +8242,7 @@ _reactDom2.default.render(_react2.default.createElement(
             _react2.default.createElement(_reactRouter.Route, { path: 'blogs', component: _Blogs2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: 'about', component: _About2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: 'user/:user_id', component: _User2.default }),
+            _react2.default.createElement(_reactRouter.Route, { path: 'post/:post_id', component: _Post2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '*', component: _PageNotFound2.default })
         )
     )
@@ -30254,6 +30259,10 @@ var _topViewsPostsReducer = __webpack_require__(367);
 
 var _userReducer = __webpack_require__(369);
 
+var _postReducer = __webpack_require__(430);
+
+var _postCommentsReducer = __webpack_require__(432);
+
 var _usersListReducer = __webpack_require__(371);
 
 var _blogerReducer = __webpack_require__(373);
@@ -30274,6 +30283,8 @@ var reducers = (0, _redux.combineReducers)({
     topLikesPosts: _topLikesPostsReducer.topLikesPostsReducer,
     topViewsPosts: _topViewsPostsReducer.topViewsPostsReducer,
     user: _userReducer.userReducer,
+    post: _postReducer.postReducer,
+    postComments: _postCommentsReducer.postCommentsReducer,
     usersList: _usersListReducer.usersListReducer,
     bloger: _blogerReducer.blogerReducer,
     commentator: _commentatorReducer.commentatorReducer,
@@ -39453,7 +39464,8 @@ var Nav = function (_React$Component) {
             '/posts': 'Записи',
             '/blogs': 'Блоги пользователей',
             '/about': 'О себе',
-            '/user': 'Блог'
+            '/user': 'Блог',
+            '/post': 'Запись'
         };
         return _this;
     }
@@ -39649,7 +39661,7 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
                 _react2.default.createElement(
                     'div',
                     { className: 'content__top_users' },
-                    this.props.is_bloger_fetching ? _react2.default.createElement(
+                    this.props.is_bloger_fetching || this.props.is_users_fetching ? _react2.default.createElement(
                         'aside',
                         { className: 'content__top_user' },
                         this.loader()
@@ -39663,7 +39675,7 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
                         ),
                         _react2.default.createElement(_UserTop2.default, { user: this.props.bloger })
                     ),
-                    this.props.is_commentator_fetching ? _react2.default.createElement(
+                    this.props.is_commentator_fetching || this.props.is_users_fetching ? _react2.default.createElement(
                         'aside',
                         { className: 'content__top_user' },
                         this.loader()
@@ -39681,7 +39693,7 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
                 _react2.default.createElement(
                     'div',
                     { className: 'content__top_posts' },
-                    this.props.is_top_views_posts_fetching ? _react2.default.createElement(
+                    this.props.is_top_views_posts_fetching || this.props.is_users_fetching ? _react2.default.createElement(
                         'aside',
                         { className: 'content__top_post_aside' },
                         this.loader()
@@ -39695,7 +39707,7 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
                         ),
                         top_views_posts
                     ),
-                    this.props.is_top_likes_posts_fetching ? _react2.default.createElement(
+                    this.props.is_top_likes_posts_fetching || this.props.is_users_fetching ? _react2.default.createElement(
                         'aside',
                         { className: 'content__top_post_aside' },
                         this.loader()
@@ -41207,16 +41219,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var PostForTop = function (_React$Component) {
-    _inherits(PostForTop, _React$Component);
+var PostItem = function (_React$Component) {
+    _inherits(PostItem, _React$Component);
 
-    function PostForTop() {
-        _classCallCheck(this, PostForTop);
+    function PostItem() {
+        _classCallCheck(this, PostItem);
 
-        return _possibleConstructorReturn(this, (PostForTop.__proto__ || Object.getPrototypeOf(PostForTop)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (PostItem.__proto__ || Object.getPrototypeOf(PostItem)).apply(this, arguments));
     }
 
-    _createClass(PostForTop, [{
+    _createClass(PostItem, [{
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
@@ -41240,7 +41252,6 @@ var PostForTop = function (_React$Component) {
                 this.props.user ? _react2.default.createElement(
                     'p',
                     { className: 'content__post_top_author' },
-                    '\u0410\u0432\u0442\u043E\u0440:\xA0',
                     _react2.default.createElement(
                         _reactRouter.Link,
                         { to: '/user/' + this.props.user.id,
@@ -41273,10 +41284,418 @@ var PostForTop = function (_React$Component) {
         }
     }]);
 
-    return PostForTop;
+    return PostItem;
 }(_react2.default.Component);
 
-exports.default = PostForTop;
+exports.default = PostItem;
+
+/***/ }),
+/* 429 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _class;
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = __webpack_require__(32);
+
+var _reactRedux = __webpack_require__(9);
+
+var _postActions = __webpack_require__(434);
+
+var _postCommentsActions = __webpack_require__(435);
+
+var _usersListActions = __webpack_require__(405);
+
+var _CommentItem = __webpack_require__(436);
+
+var _CommentItem2 = _interopRequireDefault(_CommentItem);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Post = (_dec = (0, _reactRedux.connect)(function (store) {
+    return {
+        post: store.post.post,
+        is_post_fetching: store.post.is_fetching,
+        comments: store.postComments.comments,
+        is_post_comments_fetching: store.postComments.is_fetching,
+        users: store.usersList.users,
+        is_users_fetching: store.usersList.is_fetching
+    };
+}), _dec(_class = function (_React$Component) {
+    _inherits(Post, _React$Component);
+
+    function Post(props) {
+        _classCallCheck(this, Post);
+
+        var _this = _possibleConstructorReturn(this, (Post.__proto__ || Object.getPrototypeOf(Post)).call(this, props));
+
+        _this.props.dispatch((0, _usersListActions.fetchUsers)());
+        _this.props.dispatch((0, _postActions.fetchPost)(_this.props.params.post_id));
+        _this.props.dispatch((0, _postCommentsActions.fetchPostComments)(_this.props.params.post_id));
+        return _this;
+    }
+
+    _createClass(Post, [{
+        key: 'loader',
+        value: function loader() {
+            return _react2.default.createElement(
+                'p',
+                { className: 'content_loader' },
+                _react2.default.createElement('img', { src: '../../img/25.gif' })
+            );
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            var post_author = this.props.users.find(function (item) {
+                return item.id === _this2.props.post.user_id;
+            });
+            var comments = this.props.comments.map(function (comment, index) {
+                var user = _this2.props.users.find(function (item) {
+                    return item.id === comment.user_id;
+                });
+                return _react2.default.createElement(_CommentItem2.default, { key: index,
+                    comment: comment,
+                    user: user });
+            });
+            return _react2.default.createElement(
+                'div',
+                { className: 'content' },
+                !post_author || this.props.is_post_fetching ? _react2.default.createElement(
+                    'div',
+                    { className: 'content__post' },
+                    this.loader()
+                ) : _react2.default.createElement(
+                    'div',
+                    { className: 'content__post' },
+                    _react2.default.createElement(
+                        'h2',
+                        { className: 'content__post_title' },
+                        this.props.post.title
+                    ),
+                    _react2.default.createElement(
+                        'p',
+                        { className: 'content__post_body' },
+                        this.props.post.body
+                    ),
+                    _react2.default.createElement(
+                        'p',
+                        { className: 'content__post_author' },
+                        '\u0410\u0432\u0442\u043E\u0440:\xA0',
+                        _react2.default.createElement(
+                            _reactRouter.Link,
+                            { to: '/user/' + post_author.id,
+                                className: 'content__post_author_link' },
+                            post_author.name,
+                            ' ',
+                            post_author.surname
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'p',
+                        { className: 'content__post_info' },
+                        _react2.default.createElement(
+                            'span',
+                            { className: 'post_view' },
+                            _react2.default.createElement('i', { className: 'fa fa-eye', 'aria-hidden': 'true' }),
+                            ' ',
+                            this.props.post.views
+                        ),
+                        '\xA0',
+                        _react2.default.createElement(
+                            'span',
+                            { className: 'post_like' },
+                            _react2.default.createElement('i', { className: 'fa fa-heart', 'aria-hidden': 'true' }),
+                            ' ',
+                            this.props.post.likes === 0 ? '' : this.props.post.likes
+                        )
+                    )
+                ),
+                this.props.is_users_fetching || this.props.is_post_comments_fetching ? _react2.default.createElement(
+                    'div',
+                    { className: 'content__post_comments' },
+                    this.loader()
+                ) : _react2.default.createElement(
+                    'div',
+                    { className: 'content__post_comments' },
+                    _react2.default.createElement(
+                        'h3',
+                        { className: 'content__post_comments_header' },
+                        '\u041A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0438'
+                    ),
+                    comments
+                )
+            );
+        }
+    }]);
+
+    return Post;
+}(_react2.default.Component)) || _class);
+exports.default = Post;
+
+/***/ }),
+/* 430 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.postReducer = postReducer;
+
+var _postConstants = __webpack_require__(431);
+
+var Post = _interopRequireWildcard(_postConstants);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function postReducer() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { post: {}, is_fetching: false };
+    var action = arguments[1];
+
+    switch (action.type) {
+        case Post.FETCH_POST_PENDING:
+            {
+                state = _extends({}, state, { is_fetching: true });
+                break;
+            }
+        case Post.FETCH_POST_FULFILLED:
+            {
+                state = _extends({}, state, { is_fetching: false, post: action.payload.data });
+                break;
+            }
+        case Post.FETCH_POST_REJECTED:
+            {
+                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
+                break;
+            }
+    }
+    return state;
+}
+
+/***/ }),
+/* 431 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var FETCH_POST_PENDING = exports.FETCH_POST_PENDING = 'FETCH_POST_PENDING';
+var FETCH_POST_FULFILLED = exports.FETCH_POST_FULFILLED = 'FETCH_POST_FULFILLED';
+var FETCH_POST_REJECTED = exports.FETCH_POST_REJECTED = 'FETCH_POST_REJECTED';
+
+/***/ }),
+/* 432 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.postCommentsReducer = postCommentsReducer;
+
+var _postCommentsConstants = __webpack_require__(433);
+
+var PostComments = _interopRequireWildcard(_postCommentsConstants);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function postCommentsReducer() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { comments: [], is_fetching: false };
+    var action = arguments[1];
+
+    switch (action.type) {
+        case PostComments.FETCH_POST_COMMENTS_PENDING:
+            {
+                state = _extends({}, state, { is_fetching: true });
+                break;
+            }
+        case PostComments.FETCH_POST_COMMENTS_FULFILLED:
+            {
+                state = _extends({}, state, { is_fetching: false, comments: action.payload.data });
+                break;
+            }
+        case PostComments.FETCH_POST_COMMENTS_REJECTED:
+            {
+                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
+                break;
+            }
+    }
+    return state;
+}
+
+/***/ }),
+/* 433 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var FETCH_POST_COMMENTS_PENDING = exports.FETCH_POST_COMMENTS_PENDING = 'FETCH_POST_COMMENTS_PENDING';
+var FETCH_POST_COMMENTS_FULFILLED = exports.FETCH_POST_COMMENTS_FULFILLED = 'FETCH_POST_COMMENTS_FULFILLED';
+var FETCH_POST_COMMENTS_REJECTED = exports.FETCH_POST_COMMENTS_REJECTED = 'FETCH_POST_COMMENTS_REJECTED';
+
+/***/ }),
+/* 434 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.fetchPost = fetchPost;
+
+var _axios = __webpack_require__(18);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function fetchPost(post_id) {
+    return {
+        type: 'FETCH_POST',
+        payload: _axios2.default.get('/api/posts/' + post_id)
+    };
+}
+
+/***/ }),
+/* 435 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.fetchPostComments = fetchPostComments;
+
+var _axios = __webpack_require__(18);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function fetchPostComments(post_id) {
+    return {
+        type: 'FETCH_POST_COMMENTS',
+        payload: _axios2.default.get('/api/comments/post/' + post_id)
+    };
+}
+
+/***/ }),
+/* 436 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = __webpack_require__(32);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CommentItem = function (_React$Component) {
+    _inherits(CommentItem, _React$Component);
+
+    function CommentItem() {
+        _classCallCheck(this, CommentItem);
+
+        return _possibleConstructorReturn(this, (CommentItem.__proto__ || Object.getPrototypeOf(CommentItem)).apply(this, arguments));
+    }
+
+    _createClass(CommentItem, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                { className: 'content__post_comment' },
+                _react2.default.createElement(
+                    'p',
+                    { className: 'content__post_comment_body' },
+                    this.props.comment.body
+                ),
+                _react2.default.createElement(
+                    'p',
+                    { className: 'content__post_comment_author' },
+                    _react2.default.createElement(
+                        _reactRouter.Link,
+                        { to: '/user/' + this.props.user.id,
+                            className: 'content__post_comment_author_link' },
+                        this.props.user.name,
+                        ' ',
+                        this.props.user.surname
+                    )
+                ),
+                _react2.default.createElement(
+                    'p',
+                    { className: 'content__post_comment_likes post_like' },
+                    _react2.default.createElement('i', { className: 'fa fa-heart', 'aria-hidden': 'true' }),
+                    this.props.comment.likes === 0 ? '' : this.props.comment.likes
+                )
+            );
+        }
+    }]);
+
+    return CommentItem;
+}(_react2.default.Component);
+
+exports.default = CommentItem;
 
 /***/ })
 /******/ ]);

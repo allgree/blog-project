@@ -9,7 +9,8 @@ export default class Nav extends React.Component {
             '/posts': 'Записи',
             '/blogs': 'Блоги пользователей',
             '/about': 'О себе',
-            '/user': 'Блог'
+            '/user': 'Блог',
+            '/post': 'Запись'
         }
     }
 

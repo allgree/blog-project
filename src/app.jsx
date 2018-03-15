@@ -11,6 +11,7 @@ import Posts from './app/pages/Posts';
 import Blogs from './app/pages/Blogs';
 import About from './app/pages/About';
 import User from './app/pages/User';
+import Post from './app/pages/Post';
 import PageNotFound from './app/pages/PageNotFound';
 
 const app = document.getElementById('app');
@@ -26,6 +27,7 @@ ReactDOM.render(
                 <Route path="blogs" component={Blogs}/>
                 <Route path="about" component={About}/>
                 <Route path="user/:user_id" component={User}/>
+                <Route path="post/:post_id" component={Post}/>
                 <Route path="*" component={PageNotFound}/>
             </Route>
         </Router>

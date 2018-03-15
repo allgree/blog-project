@@ -2410,7 +2410,7 @@ nav {
 /*Content Main*/
 .content {
   width: 800px;
-  height: 100%;
+  height: auto;
   margin: 0 auto;
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.5);
@@ -2487,6 +2487,26 @@ nav {
 .post_like {
   color: red;
   cursor: pointer; }
+
+.content__user_aside {
+  width: 390px;
+  float: right; }
+
+.user_info_fixed {
+  width: 380px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  box-shadow: 0 0 30px #a19a98;
+  position: fixed;
+  top: 100px; }
+
+.big_avatar {
+  width: 350px;
+  height: 350px; }
+
+.content__user_name {
+  margin: 10px 0; }
 
 /*footer*/
 footer {

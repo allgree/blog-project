@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PostForTop from '../components/Content/PostForTopLikes';
+import PostItem from '../components/Content/PostItem';
 import UserTop from '../components/Content/UserTop';
 
 import {connect} from 'react-redux';
@@ -13,12 +13,12 @@ import {fetchCommentator} from "../actions/commentatorActions";
 
 @connect((store) => {
     return {
+        users: store.usersList.users,
+        is_users_fetching: store.usersList.is_fetching,
         top_likes_posts: store.topLikesPosts.posts,
         is_top_likes_posts_fetching: store.topLikesPosts.is_fetching,
         top_views_posts: store.topViewsPosts.posts,
         is_top_views_posts_fetching: store.topViewsPosts.is_fetching,
-        users: store.usersList.users,
-        is_users_fetching: store.usersList.is_fetching,
         bloger: store.bloger.user,
         is_bloger_fetching: store.bloger.is_fetching,
         commentator: store.commentator.user,
@@ -46,14 +46,14 @@ export default class Main extends React.Component {
     render() {
         let top_views_posts = this.props.top_views_posts.map((post, index) => {
             let user = this.props.users.find(item => item.id === post.user_id);
-            return <PostForTop key={index}
+            return <PostItem key={index}
                                post={post}
                                user={user}
                                 />
         });
         let top_likes_posts = this.props.top_likes_posts.map((post, index) => {
             let user = this.props.users.find(item => item.id === post.user_id);
-            return <PostForTop key={index}
+            return <PostItem key={index}
                                post={post}
                                user={user}
                                />

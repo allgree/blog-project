@@ -15,6 +15,7 @@ const model = db.define('users', {
     age: Sequelize.INTEGER,
     site: Sequelize.STRING(100),
     email: Sequelize.STRING(100),
+    avatar_path: Sequelize.STRING(100),
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
 });

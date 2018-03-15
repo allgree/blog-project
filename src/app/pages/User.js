@@ -2,6 +2,8 @@ import React from 'react';
 
 import {connect} from 'react-redux';
 
+import PostItem from '../components/Content/PostItem';
+
 import {fetchUser} from "../actions/userActions";
 import {fetchUserPosts} from "../actions/userPostsActions";
 
@@ -21,11 +23,47 @@ export default class User extends React.Component {
         this.props.dispatch(fetchUserPosts(this.props.params.user_id));
     }
 
+    loader() {
+        return  <p className="content_loader">
+            <img src="../../img/25.gif"/>
+        </p>
+    }
+
     render() {
-        console.log(this.props);
+        let posts = this.props.user_posts.map((post, index) => {
+            return <PostItem key={index} post={post}/>
+        });
         return (
             <div className="content">
-                <h2>Пользователь</h2>
+                {
+                    this.props.is_user_fetching
+                    ?
+                        <aside className="content__user_aside user_info_fixed">
+                            {this.loader()}
+                        </aside>
+                     :
+                        <aside className="content__user_aside user_info_fixed">
+                            <div className="content__user_ava_div">
+                                <img src={this.props.user.avatar_path} className="big_avatar"/>
+                            </div>
+                            <h2 className="content__user_name">{this.props.user.name} {this.props.user.surname}</h2>
+                            <p className="content__user_info">Город: {this.props.user.city}</p>
+                            <p className="content__user_info">Возраст: {this.props.user.age}</p>
+                            <p className="content__user_info">Email: <a href={`mailto:${this.props.user.email}`}>{this.props.user.email}</a></p>
+                            <p className="content__user_info">Веб-сайт: <a href={`http://${this.props.user.site}`} target="_blank">{this.props.user.site}</a></p>
+                        </aside>
+                }
+                {
+                    this.props.is_user_posts_fetching
+                    ?
+                        <aside className="content__user_aside">
+                            {this.loader()}
+                        </aside>
+                    :
+                        <aside className="content__user_aside">
+                            {posts}
+                        </aside>
+                }
             </div>
         )
     }

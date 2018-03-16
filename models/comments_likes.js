@@ -19,6 +19,16 @@ let CommentsLikes = {
              .then(result => {
                 callback(result);
             })
+    },
+    findByCommentId: (comment_id, callback) => {
+        model.findAll({
+            where: {
+                comment_id: comment_id
+            }
+        })
+            .then(result => {
+                callback(result);
+            })
     }
 };
 

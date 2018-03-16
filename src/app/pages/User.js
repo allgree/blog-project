@@ -18,8 +18,8 @@ import {fetchUserPosts} from "../actions/userPostsActions";
 })
 
 export default class User extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super(...arguments);
         this.props.dispatch(fetchUser(this.props.params.user_id));
         this.props.dispatch(fetchUserPosts(this.props.params.user_id));
     }

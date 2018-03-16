@@ -2552,6 +2552,33 @@ nav {
 .content__post_comment_likes {
   float: right; }
 
+.tooltip {
+  position: absolute; }
+
+.tooltip_content {
+  background-color: antiquewhite;
+  width: 200px;
+  margin-left: -190px;
+  margin-top: -30px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 30px #a19a98; }
+
+.tooltip_comment {
+  margin-left: -230px; }
+
+.ava_tooltip {
+  height: 20px;
+  display: inline-block;
+  vertical-align: middle; }
+
+.tooltip_user {
+  margin-bottom: 3px; }
+
+.tooltip_user_link {
+  text-decoration: none;
+  color: #636363; }
+
 /*footer*/
 footer {
   position: relative;

@@ -7915,6 +7915,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = __webpack_require__(20);
 
+var _axios = __webpack_require__(10);
+
+var _axios2 = _interopRequireDefault(_axios);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7929,12 +7933,65 @@ var PostItem = function (_React$Component) {
     function PostItem() {
         _classCallCheck(this, PostItem);
 
-        return _possibleConstructorReturn(this, (PostItem.__proto__ || Object.getPrototypeOf(PostItem)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (PostItem.__proto__ || Object.getPrototypeOf(PostItem)).apply(this, arguments));
+
+        _this.timeout = 0;
+        _this.state = {
+            users: [],
+            tooltip: ''
+        };
+        _this.tooltipHide = _this.tooltipHide.bind(_this);
+        return _this;
     }
 
     _createClass(PostItem, [{
+        key: 'tooltipShow',
+        value: function tooltipShow() {
+            var _this2 = this;
+
+            _axios2.default.get('/api/users/like-post/' + this.props.post.id).then(function (result) {
+                _this2.setState({
+                    users: result.data
+                });
+                _this2.setState({
+                    tooltip: _react2.default.createElement(
+                        'div',
+                        { className: 'tooltip_content',
+                            onMouseEnter: function onMouseEnter() {
+                                clearTimeout(_this2.timeout);
+                            },
+                            onMouseLeave: function onMouseLeave() {
+                                _this2.timeout = setTimeout(_this2.tooltipHide, 1000);
+                            } },
+                        _this2.state.users.map(function (user, index) {
+                            return _react2.default.createElement(
+                                'p',
+                                { className: 'tooltip_user', key: index },
+                                _react2.default.createElement(
+                                    _reactRouter.Link,
+                                    { to: '/user/' + user.id, className: 'tooltip_user_link' },
+                                    _react2.default.createElement('img', { src: '' + user.avatar_path, className: 'ava_tooltip' }),
+                                    ' ',
+                                    user.name + ' ' + user.surname
+                                )
+                            );
+                        })
+                    )
+                });
+            });
+        }
+    }, {
+        key: 'tooltipHide',
+        value: function tooltipHide() {
+            this.setState({
+                tooltip: ''
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this3 = this;
+
             return _react2.default.createElement(
                 'div',
                 { className: 'content__post_top' },
@@ -7966,7 +8023,7 @@ var PostItem = function (_React$Component) {
                     )
                 ) : '',
                 _react2.default.createElement(
-                    'p',
+                    'div',
                     { className: 'content__post_top_info' },
                     _react2.default.createElement(
                         'span',
@@ -7977,10 +8034,21 @@ var PostItem = function (_React$Component) {
                     ),
                     '\xA0',
                     _react2.default.createElement(
+                        'div',
+                        { className: 'tooltip', id: 'tooltip_' + this.props.post.id },
+                        this.state.tooltip
+                    ),
+                    _react2.default.createElement(
                         'span',
-                        { className: 'post_like' },
+                        { className: 'post_like',
+                            id: 'post_id_' + this.props.post.id,
+                            onMouseEnter: function onMouseEnter() {
+                                _this3.tooltipShow();
+                            },
+                            onMouseLeave: function onMouseLeave() {
+                                _this3.timeout = setTimeout(_this3.tooltipHide, 1000);
+                            } },
                         _react2.default.createElement('i', { className: 'fa fa-heart', 'aria-hidden': 'true' }),
-                        ' ',
                         this.props.post.likes === 0 ? '' : this.props.post.likes
                     )
                 )
@@ -39854,10 +39922,10 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
 }), _dec(_class = function (_React$Component) {
     _inherits(Main, _React$Component);
 
-    function Main(props) {
+    function Main() {
         _classCallCheck(this, Main);
 
-        var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
 
         _this.props.dispatch((0, _usersListActions.fetchUsers)());
         _this.props.dispatch((0, _topLikesPostsActions.fetchTopLikesPost)());
@@ -41240,10 +41308,10 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
 }), _dec(_class = function (_React$Component) {
     _inherits(User, _React$Component);
 
-    function User(props) {
+    function User() {
         _classCallCheck(this, User);
 
-        var _this = _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).apply(this, arguments));
 
         _this.props.dispatch((0, _userActions.fetchUser)(_this.props.params.user_id));
         _this.props.dispatch((0, _userPostsActions.fetchUserPosts)(_this.props.params.user_id));
@@ -41436,10 +41504,10 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
 }), _dec(_class = function (_React$Component) {
     _inherits(Post, _React$Component);
 
-    function Post(props) {
+    function Post() {
         _classCallCheck(this, Post);
 
-        var _this = _possibleConstructorReturn(this, (Post.__proto__ || Object.getPrototypeOf(Post)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Post.__proto__ || Object.getPrototypeOf(Post)).apply(this, arguments));
 
         _this.props.dispatch((0, _usersListActions.fetchUsers)());
         _this.props.dispatch((0, _postActions.fetchPost)(_this.props.params.post_id));
@@ -41608,6 +41676,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = __webpack_require__(20);
 
+var _axios = __webpack_require__(10);
+
+var _axios2 = _interopRequireDefault(_axios);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41622,12 +41694,65 @@ var CommentItem = function (_React$Component) {
     function CommentItem() {
         _classCallCheck(this, CommentItem);
 
-        return _possibleConstructorReturn(this, (CommentItem.__proto__ || Object.getPrototypeOf(CommentItem)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (CommentItem.__proto__ || Object.getPrototypeOf(CommentItem)).apply(this, arguments));
+
+        _this.timeout = 0;
+        _this.state = {
+            users: [],
+            tooltip: ''
+        };
+        _this.tooltipHide = _this.tooltipHide.bind(_this);
+        return _this;
     }
 
     _createClass(CommentItem, [{
+        key: 'tooltipShow',
+        value: function tooltipShow() {
+            var _this2 = this;
+
+            _axios2.default.get('/api/users/like-comment/' + this.props.comment.id).then(function (result) {
+                _this2.setState({
+                    users: result.data
+                });
+                _this2.setState({
+                    tooltip: _react2.default.createElement(
+                        'div',
+                        { className: 'tooltip_content tooltip_comment',
+                            onMouseEnter: function onMouseEnter() {
+                                clearTimeout(_this2.timeout);
+                            },
+                            onMouseLeave: function onMouseLeave() {
+                                _this2.timeout = setTimeout(_this2.tooltipHide, 1000);
+                            } },
+                        _this2.state.users.map(function (user, index) {
+                            return _react2.default.createElement(
+                                'p',
+                                { className: 'tooltip_user', key: index },
+                                _react2.default.createElement(
+                                    _reactRouter.Link,
+                                    { to: '/user/' + user.id, className: 'tooltip_user_link' },
+                                    _react2.default.createElement('img', { src: '' + user.avatar_path, className: 'ava_tooltip' }),
+                                    ' ',
+                                    user.name + ' ' + user.surname
+                                )
+                            );
+                        })
+                    )
+                });
+            });
+        }
+    }, {
+        key: 'tooltipHide',
+        value: function tooltipHide() {
+            this.setState({
+                tooltip: ''
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this3 = this;
+
             return _react2.default.createElement(
                 'div',
                 { className: 'content__post_comment' },
@@ -41649,10 +41774,26 @@ var CommentItem = function (_React$Component) {
                     )
                 ),
                 _react2.default.createElement(
-                    'p',
-                    { className: 'content__post_comment_likes post_like' },
-                    _react2.default.createElement('i', { className: 'fa fa-heart', 'aria-hidden': 'true' }),
-                    this.props.comment.likes === 0 ? '' : this.props.comment.likes
+                    'div',
+                    { className: 'content__post_comment_likes post_like',
+                        id: 'comment_id_' + this.props.comment.id,
+                        onMouseEnter: function onMouseEnter() {
+                            _this3.tooltipShow();
+                        },
+                        onMouseLeave: function onMouseLeave() {
+                            _this3.timeout = setTimeout(_this3.tooltipHide, 1000);
+                        } },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'tooltip', id: 'tooltip_' + this.props.comment.id },
+                        this.state.tooltip
+                    ),
+                    _react2.default.createElement(
+                        'span',
+                        null,
+                        _react2.default.createElement('i', { className: 'fa fa-heart', 'aria-hidden': 'true' }),
+                        this.props.comment.likes === 0 ? '' : this.props.comment.likes
+                    )
                 )
             );
         }

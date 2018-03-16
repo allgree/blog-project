@@ -1,8 +1,49 @@
 import React from 'react';
 import {Link} from 'react-router';
-
+import axios from 'axios';
 
 export default class PostItem extends React.Component {
+    constructor() {
+        super(...arguments);
+        this.timeout = 0;
+        this.state = {
+            users: [],
+            tooltip: ''
+        };
+        this.tooltipHide = this.tooltipHide.bind(this);
+    }
+
+    tooltipShow() {
+        axios.get(`/api/users/like-post/${this.props.post.id}`)
+            .then((result) => {
+                this.setState({
+                    users: result.data
+                });
+                this.setState({
+                    tooltip: <div className="tooltip_content"
+                                  onMouseEnter={() => {clearTimeout(this.timeout)}}
+                                  onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, 1000)}}>
+                                {this.state.users.map((user, index) => {
+                                    return (
+                                        <p className='tooltip_user' key={index}>
+                                            <Link to={`/user/${user.id}`} className="tooltip_user_link">
+                                                <img src={`${user.avatar_path}`} className="ava_tooltip"/> {`${user.name} ${user.surname}`}
+                                            </Link>
+                                        </p>
+                                    )
+                                })}
+                            </div>
+                });
+            });
+    }
+
+    tooltipHide() {
+        this.setState({
+            tooltip: ''
+        });
+    }
+
+
     render() {
         return (
             <div className="content__post_top">
@@ -11,7 +52,8 @@ export default class PostItem extends React.Component {
                     <h3 className="content__post_top_head">{this.props.post.title}</h3>
                     <div className="content__post_top_body">{this.props.post.body}</div>
                 </Link>
-                    {this.props.user
+                {
+                    this.props.user
                     ?
                     <p className="content__post_top_author">
                         <Link to={`/user/${this.props.user.id}`}
@@ -20,15 +62,21 @@ export default class PostItem extends React.Component {
                         </Link>
                     </p>
                     :
-                    ''}
-                <p className="content__post_top_info">
+                    ''
+                }
+                <div className="content__post_top_info">
                     <span className="post_view">
                         <i className="fa fa-eye" aria-hidden="true"/> {this.props.post.views}
                     </span>&nbsp;
-                    <span className="post_like">
-                        <i className="fa fa-heart" aria-hidden="true"/> {this.props.post.likes === 0 ? '' : this.props.post.likes}
+                    <div className="tooltip" id={`tooltip_${this.props.post.id}`}>{this.state.tooltip}</div>
+                    <span className="post_like"
+                          id={`post_id_${this.props.post.id}`}
+                          onMouseEnter={() => {this.tooltipShow()}}
+                          onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, 1000)}}>
+                             <i className="fa fa-heart" aria-hidden="true"/>
+                             {this.props.post.likes === 0 ? '' : this.props.post.likes}
                     </span>
-                </p>
+                </div>
             </div>
         )
     }

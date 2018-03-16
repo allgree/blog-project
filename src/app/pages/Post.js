@@ -22,8 +22,8 @@ import Loader from '../components/Content/Loader';
     }
 })
 export default class Post extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super(...arguments);
         this.props.dispatch(fetchUsers());
         this.props.dispatch(fetchPost(this.props.params.post_id));
         this.props.dispatch(fetchPostComments(this.props.params.post_id));

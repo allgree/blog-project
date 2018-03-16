@@ -5,6 +5,8 @@ const router = express.Router();
 const Users = require('../models/users');
 const Posts = require('../models/posts');
 const Comments = require('../models/comments');
+const PostLikes = require('../models/posts_likes');
+const CommentLikes = require('../models/comments_likes');
 
 // все пользователи
 router.get('/', (req, res, next) => {
@@ -50,6 +52,32 @@ router.get('/commentator', (req, res, next) => {
             });
             res.json(result_users[0]);
         })
+    })
+});
+
+// пользователи, отметившие пост
+router.get('/like-post/:post_id', (req, res, next) => {
+    let users = [];
+    PostLikes.findByPostId(req.params.post_id, (result_likes) => {
+        for (let i = 0; i < result_likes.length; i++) {
+            Users.findById(result_likes[i].user_id, (result_user) => {
+                users.push(result_user.dataValues);
+                if (i === result_likes.length - 1) res.json(users);
+            });
+        }
+    })
+});
+
+// пользователи, отметившие комментарий
+router.get('/like-comment/:comment_id', (req, res, next) => {
+    let users = [];
+    CommentLikes.findByCommentId(req.params.comment_id, (result_likes) => {
+        for (let i = 0; i < result_likes.length; i++) {
+            Users.findById(result_likes[i].user_id, (result_user) => {
+                users.push(result_user.dataValues);
+                if (i === result_likes.length - 1) res.json(users);
+            })
+        }
     })
 });
 

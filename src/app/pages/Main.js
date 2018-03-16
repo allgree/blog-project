@@ -28,8 +28,8 @@ import {fetchCommentator} from "../actions/commentatorActions";
 })
 
 export default class Main extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super(...arguments);
         this.props.dispatch(fetchUsers());
         this.props.dispatch(fetchTopLikesPost());
         this.props.dispatch(fetchTopViewsPost());

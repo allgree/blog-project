@@ -8,6 +8,7 @@ import {fetchPostComments} from "../actions/postCommentsActions";
 import {fetchUsers} from "../actions/usersListActions";
 
 import CommentItem from '../components/Content/CommentItem';
+import Loader from '../components/Content/Loader';
 
 
 @connect((store) => {
@@ -28,11 +29,6 @@ export default class Post extends React.Component {
         this.props.dispatch(fetchPostComments(this.props.params.post_id));
     }
 
-    loader() {
-        return  <p className="content_loader">
-            <img src="../../img/25.gif"/>
-        </p>
-    }
 
     render() {
         let post_author = this.props.users.find(item => item.id === this.props.post.user_id);
@@ -47,7 +43,7 @@ export default class Post extends React.Component {
                 {!post_author || this.props.is_post_fetching
                 ?
                     <div className="content__post">
-                        {this.loader()}
+                        <Loader/>
                     </div>
                 :
                     <div className="content__post">
@@ -70,7 +66,7 @@ export default class Post extends React.Component {
                 {this.props.is_users_fetching || this.props.is_post_comments_fetching
                 ?
                 <div className="content__post_comments">
-                    {this.loader()}
+                    <Loader/>
                 </div>
                 :
                  <div className="content__post_comments">

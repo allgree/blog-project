@@ -3,6 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import PostItem from '../components/Content/PostItem';
+import Loader from '../components/Content/Loader';
 
 import {fetchUser} from "../actions/userActions";
 import {fetchUserPosts} from "../actions/userPostsActions";
@@ -23,12 +24,6 @@ export default class User extends React.Component {
         this.props.dispatch(fetchUserPosts(this.props.params.user_id));
     }
 
-    loader() {
-        return  <p className="content_loader">
-            <img src="../../img/25.gif"/>
-        </p>
-    }
-
     render() {
         let posts = this.props.user_posts.map((post, index) => {
             return <PostItem key={index} post={post}/>
@@ -39,7 +34,7 @@ export default class User extends React.Component {
                     this.props.is_user_fetching
                     ?
                         <aside className="content__user_aside user_info_fixed">
-                            {this.loader()}
+                            <Loader/>
                         </aside>
                      :
                         <aside className="content__user_aside user_info_fixed">
@@ -57,7 +52,7 @@ export default class User extends React.Component {
                     this.props.is_user_posts_fetching
                     ?
                         <aside className="content__user_aside">
-                            {this.loader()}
+                            <Loader/>
                         </aside>
                     :
                         <aside className="content__user_aside">

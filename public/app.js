@@ -40007,11 +40007,7 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
                 _react2.default.createElement(
                     'div',
                     { className: 'content__top_users' },
-                    this.props.is_bloger_fetching || this.props.is_users_fetching ? _react2.default.createElement(
-                        'aside',
-                        { className: 'content__top_user' },
-                        _react2.default.createElement(_Loader2.default, null)
-                    ) : _react2.default.createElement(
+                    _react2.default.createElement(
                         'aside',
                         { className: 'content__top_user' },
                         _react2.default.createElement(
@@ -40019,13 +40015,9 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
                             { className: 'content__top_user_h2' },
                             '\u0421\u0430\u043C\u044B\u0439 \u0430\u043A\u0442\u0438\u0432\u043D\u044B\u0439 \u0431\u043B\u043E\u0433\u0435\u0440'
                         ),
-                        _react2.default.createElement(_UserTop2.default, { user: this.props.bloger })
+                        this.props.is_bloger_fetching || this.props.is_users_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(_UserTop2.default, { user: this.props.bloger })
                     ),
-                    this.props.is_commentator_fetching || this.props.is_users_fetching ? _react2.default.createElement(
-                        'aside',
-                        { className: 'content__top_user' },
-                        _react2.default.createElement(_Loader2.default, null)
-                    ) : _react2.default.createElement(
+                    _react2.default.createElement(
                         'aside',
                         { className: 'content__top_user' },
                         _react2.default.createElement(
@@ -40033,17 +40025,13 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
                             { className: 'content__top_user_h2' },
                             '\u0421\u0430\u043C\u044B\u0439 \u0430\u043A\u0442\u0438\u0432\u043D\u044B\u0439 \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0442\u043E\u0440'
                         ),
-                        _react2.default.createElement(_UserTop2.default, { user: this.props.commentator })
+                        this.props.is_commentator_fetching || this.props.is_users_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(_UserTop2.default, { user: this.props.commentator })
                     )
                 ),
                 _react2.default.createElement(
                     'div',
                     { className: 'content__top_posts' },
-                    this.props.is_top_views_posts_fetching || this.props.is_users_fetching ? _react2.default.createElement(
-                        'aside',
-                        { className: 'content__top_post_aside' },
-                        _react2.default.createElement(_Loader2.default, null)
-                    ) : _react2.default.createElement(
+                    _react2.default.createElement(
                         'aside',
                         { className: 'content__top_post_aside' },
                         _react2.default.createElement(
@@ -40051,13 +40039,13 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
                             { className: 'content__top_post_h2' },
                             '\u0422\u043E\u043F 5 \u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u0435\u043D\u043D\u044B\u0445 \u0437\u0430\u043F\u0438\u0441\u0435\u0439'
                         ),
-                        top_views_posts
+                        this.props.is_top_views_posts_fetching || this.props.is_users_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
+                            'div',
+                            null,
+                            top_views_posts
+                        )
                     ),
-                    this.props.is_top_likes_posts_fetching || this.props.is_users_fetching ? _react2.default.createElement(
-                        'aside',
-                        { className: 'content__top_post_aside' },
-                        _react2.default.createElement(_Loader2.default, null)
-                    ) : _react2.default.createElement(
+                    _react2.default.createElement(
                         'aside',
                         { className: 'content__top_post_aside' },
                         _react2.default.createElement(
@@ -40065,7 +40053,11 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
                             { className: 'content__top_post_h2' },
                             '\u0422\u043E\u043F 5 \u043E\u0442\u043C\u0435\u0447\u0435\u043D\u043D\u044B\u0445 \u0437\u0430\u043F\u0438\u0441\u0435\u0439'
                         ),
-                        top_likes_posts
+                        this.props.is_top_likes_posts_fetching || this.props.is_users_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
+                            'div',
+                            null,
+                            top_likes_posts
+                        )
                     )
                 )
             );
@@ -41640,11 +41632,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                         )
                     )
                 ),
-                this.props.is_users_fetching || this.props.is_post_comments_fetching ? _react2.default.createElement(
-                    'div',
-                    { className: 'content__post_comments' },
-                    _react2.default.createElement(_Loader2.default, null)
-                ) : _react2.default.createElement(
+                _react2.default.createElement(
                     'div',
                     { className: 'content__post_comments' },
                     _react2.default.createElement(
@@ -41652,7 +41640,11 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                         { className: 'content__post_comments_header' },
                         '\u041A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0438'
                     ),
-                    comments
+                    this.props.is_users_fetching || this.props.is_post_comments_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
+                        'div',
+                        null,
+                        comments
+                    )
                 )
             );
         }

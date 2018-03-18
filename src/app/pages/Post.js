@@ -62,18 +62,13 @@ export default class Post extends React.Component {
                         </p>
                     </div>
                 }
-
-                {this.props.is_users_fetching || this.props.is_post_comments_fetching
-                ?
                 <div className="content__post_comments">
-                    <Loader/>
+                    <h3 className="content__post_comments_header">Комментарии</h3>
+                    {this.props.is_users_fetching || this.props.is_post_comments_fetching
+                        ? <Loader/>
+                        : <div>{comments}</div>
+                    }
                 </div>
-                :
-                 <div className="content__post_comments">
-                     <h3 className="content__post_comments_header">Комментарии</h3>
-                     {comments}
-                 </div>
-                }
             </div>
         )
     }

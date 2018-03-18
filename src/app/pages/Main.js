@@ -56,55 +56,36 @@ export default class Main extends React.Component {
         return (
             <div className="content">
                 <div className="content__top_users">
-                    {this.props.is_bloger_fetching || this.props.is_users_fetching
-                        ?
-                        <aside className="content__top_user">
-                            <Loader/>
-                        </aside>
-                        :
-                        <aside className="content__top_user">
-                            <h2 className="content__top_user_h2">Самый активный блогер</h2>
-                            <UserTop user={this.props.bloger}/>
-                        </aside>
-                    }
-
-                    {this.props.is_commentator_fetching || this.props.is_users_fetching
-                        ?
-                        <aside className="content__top_user">
-                            <Loader/>
-                        </aside>
-                        :
-                        <aside className="content__top_user">
-                            <h2 className="content__top_user_h2">Самый активный комментатор</h2>
-                            <UserTop user={this.props.commentator}/>
-                        </aside>
-                    }
-
+                    <aside className="content__top_user">
+                        <h2 className="content__top_user_h2">Самый активный блогер</h2>
+                        {this.props.is_bloger_fetching || this.props.is_users_fetching
+                            ? <Loader/>
+                            : <UserTop user={this.props.bloger}/>
+                        }
+                    </aside>
+                    <aside className="content__top_user">
+                        <h2 className="content__top_user_h2">Самый активный комментатор</h2>
+                        {this.props.is_commentator_fetching || this.props.is_users_fetching
+                            ? <Loader/>
+                            : <UserTop user={this.props.commentator}/>
+                        }
+                    </aside>
                 </div>
                 <div className="content__top_posts">
-                    {this.props.is_top_views_posts_fetching || this.props.is_users_fetching
-                        ?
-                        <aside className="content__top_post_aside">
-                            <Loader/>
-                        </aside>
-                        :
-                           <aside className="content__top_post_aside">
-                               <h2 className="content__top_post_h2">Топ 5 просмотренных записей</h2>
-                               {top_views_posts}
-                           </aside>
-                    }
-                    {this.props.is_top_likes_posts_fetching || this.props.is_users_fetching
-                        ?
-                        <aside className="content__top_post_aside">
-                            <Loader/>
-                        </aside>
-                        :
-                        <aside className="content__top_post_aside">
-                            <h2 className="content__top_post_h2">Топ 5 отмеченных записей</h2>
-                            {top_likes_posts}
-                        </aside>
-                    }
-
+                    <aside className="content__top_post_aside">
+                        <h2 className="content__top_post_h2">Топ 5 просмотренных записей</h2>
+                        {this.props.is_top_views_posts_fetching || this.props.is_users_fetching
+                            ? <Loader/>
+                            : <div>{top_views_posts}</div>
+                        }
+                    </aside>
+                    <aside className="content__top_post_aside">
+                        <h2 className="content__top_post_h2">Топ 5 отмеченных записей</h2>
+                        {this.props.is_top_likes_posts_fetching || this.props.is_users_fetching
+                            ? <Loader/>
+                            : <div>{top_likes_posts}</div>
+                        }
+                    </aside>
                 </div>
             </div>
         )

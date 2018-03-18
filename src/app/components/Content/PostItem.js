@@ -2,6 +2,8 @@ import React from 'react';
 import {Link} from 'react-router';
 import axios from 'axios';
 
+import TooltipLikes from './TooltipLikes';
+
 export default class PostItem extends React.Component {
     constructor() {
         super(...arguments);
@@ -20,20 +22,12 @@ export default class PostItem extends React.Component {
                     users: result.data
                 });
                 this.setState({
-                    tooltip: <div className="tooltip_content"
-                                  onMouseEnter={() => {clearTimeout(this.timeout)}}
-                                  onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, 1000)}}>
-                                {this.state.users.map((user, index) => {
-                                    return (
-                                        <p className='tooltip_user' key={index}>
-                                            <Link to={`/user/${user.id}`} className="tooltip_user_link">
-                                                <img src={`${user.avatar_path}`} className="ava_tooltip"/> {`${user.name} ${user.surname}`}
-                                            </Link>
-                                        </p>
-                                    )
-                                })}
-                            </div>
-                });
+                    tooltip:
+                        <div onMouseEnter={() => {clearTimeout(this.timeout)}}
+                             onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, 1000)}}>
+                            <TooltipLikes users={this.state.users}/>
+                        </div>
+                })
             });
     }
 

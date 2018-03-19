@@ -1,5 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router';
+//import {Link} from 'react-router';
+import {NavLink} from 'react-router-dom';
 
 export default class Nav extends React.Component {
     constructor() {
@@ -30,14 +31,14 @@ export default class Nav extends React.Component {
                 <label htmlFor="nav_input" className="nav_header_label"><i className="fa fa-bars" aria-hidden="true"/></label>
                 <input type="checkbox" id="nav_input"/>
                 <div className="nav_menu">
-                    <Link to="/" className={`nav_menu__link ${this.isActive('/')}`}>Главная</Link>
-                    <Link to="/posts" className={`nav_menu__link ${this.isActive('/posts')}`}>Записи</Link>
-                    <Link to='/blogs' className={`nav_menu__link ${this.isActive('/blogs')}`}>Блоги</Link>
-                    <Link to='/about' className={`nav_menu__link ${this.isActive('/about')}`}>О&nbsp;себе</Link>
+                    <NavLink to="/" className={`nav_menu__link ${this.isActive('/')}`}>Главная</NavLink>
+                    <NavLink to="/posts" className={`nav_menu__link ${this.isActive('/posts')}`}>Записи</NavLink>
+                    <NavLink to='/blogs' className={`nav_menu__link ${this.isActive('/blogs')}`}>Блоги</NavLink>
+                    <NavLink to='/about' className={`nav_menu__link ${this.isActive('/about')}`}>О&nbsp;себе</NavLink>
                 </div>
-                <Link to="/">
+                <NavLink to="/">
                     <h2 className="nav_header">Personal Blog</h2>
-                </Link>
+                </NavLink>
                 <h2 className="nav_page_header">{this.headers[location]}</h2>
             </nav>
         )

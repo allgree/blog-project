@@ -2332,12 +2332,11 @@
   padding: 0;
   margin: 0; }
 
-html {
+body {
   height: 100%; }
 
-body {
-  height: 100%;
-  position: relative; }
+html {
+  height: 100%; }
 
 .main_background {
   position: fixed;
@@ -2348,21 +2347,20 @@ body {
   background-size: cover; }
 
 #app {
-  height: 100%; }
+  min-height: 100%;
+  height: 1px; }
 
 main {
   height: 100%; }
 
 /*Navigation*/
-.empty_up {
-  height: 80px; }
-
 nav {
   width: 100%;
   height: 80px;
   position: fixed;
   background: rgba(0, 0, 0, 0.8);
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  z-index: 1; }
 
 #nav_input {
   display: none; }
@@ -2409,19 +2407,24 @@ nav {
 
 /*Content Main*/
 .content {
-  width: 800px;
+  min-width: 800px;
+  width: 840px;
   min-height: 100%;
   margin: 0 auto;
-  padding: 20px;
+  padding: 100px 20px 20px;
   background-color: rgba(255, 255, 255, 0.5);
-  overflow: hidden; }
+  box-sizing: border-box; }
 
 .content_loader {
   text-align: center; }
 
+/*Main*/
+.content__top_users {
+  display: flex;
+  justify-content: space-around; }
+
 .content__top_user {
   width: 390px;
-  float: left;
   margin: 0 10px 10px 0; }
 
 .content__top_user_h2 {
@@ -2440,9 +2443,12 @@ nav {
 .content__top_user_item:hover {
   box-shadow: 0 0 30px #fc9097; }
 
+.content__top_posts {
+  display: flex;
+  justify-content: space-around; }
+
 .content__top_post_aside {
   width: 390px;
-  float: left;
   margin-right: 10px; }
 
 .content__top_post_h2 {
@@ -2488,9 +2494,9 @@ nav {
   color: red;
   cursor: pointer; }
 
+/*User*/
 .content__user_aside {
-  width: 390px;
-  float: right; }
+  width: 380px; }
 
 .user_info_fixed {
   width: 380px;
@@ -2500,6 +2506,9 @@ nav {
   box-shadow: 0 0 30px #a19a98;
   position: fixed;
   top: 100px; }
+
+.user_posts {
+  margin-left: 420px; }
 
 .big_avatar {
   width: 350px;
@@ -2581,11 +2590,28 @@ nav {
   text-decoration: none;
   color: #636363; }
 
+.appearance-enter {
+  opacity: 0.01; }
+
+.appearance-enter.appearance-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in; }
+
+.appearance-exit {
+  opacity: 1; }
+
+.appearance-exit.appearance-exit-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in; }
+
+.empty_down {
+  height: 40px; }
+
 /*footer*/
 footer {
-  position: relative;
-  bottom: 0;
+  height: 40px;
   text-align: center;
-  clear: both; }
+  clear: both;
+  margin-top: -40px; }
 
 /*# sourceMappingURL=app.css.map*/

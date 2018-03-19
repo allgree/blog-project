@@ -1,5 +1,7 @@
 import React from 'react';
-import {Link} from 'react-router';
+//import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
+import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
 import {connect} from 'react-redux';
 
@@ -25,8 +27,8 @@ export default class Post extends React.Component {
     constructor() {
         super(...arguments);
         this.props.dispatch(fetchUsers());
-        this.props.dispatch(fetchPost(this.props.params.post_id));
-        this.props.dispatch(fetchPostComments(this.props.params.post_id));
+        this.props.dispatch(fetchPost(this.props.match.params.post_id));
+        this.props.dispatch(fetchPostComments(this.props.match.params.post_id));
     }
 
 
@@ -39,35 +41,43 @@ export default class Post extends React.Component {
                                user={user}/>
         });
         return (
-            <div className="content">
-                {!post_author || this.props.is_post_fetching
-                ?
-                    <div className="content__post">
-                        <Loader/>
-                    </div>
-                :
-                    <div className="content__post">
-                        <h2 className="content__post_title">{this.props.post.title}</h2>
-                        <p className="content__post_body">{this.props.post.body}</p>
-                        <p className="content__post_author">
-                            Автор:&nbsp;
-                            <Link to={`/user/${post_author.id}`}
-                                  className="content__post_author_link">
-                                {post_author.name} {post_author.surname}
-                            </Link>
-                        </p>
-                        <p className="content__post_info">
-                            <span className="post_view"><i className="fa fa-eye" aria-hidden="true"/> {this.props.post.views}</span>&nbsp;
-                            <span className="post_like"><i className="fa fa-heart" aria-hidden="true"/> {this.props.post.likes === 0 ? '' : this.props.post.likes}</span>
-                        </p>
-                    </div>
-                }
+            <div>
+                <div className="content__post">
+                    <TransitionGroup className="transition_group">
+                        {!post_author || this.props.is_post_fetching
+                        ? <Loader/>
+                        : <CSSTransition timeout={1000}
+                                         classNames="appearance">
+                                <div>
+                                    <h2 className="content__post_title">{this.props.post.title}</h2>
+                                    <p className="content__post_body">{this.props.post.body}</p>
+                                    <p className="content__post_author">
+                                        Автор:&nbsp;
+                                        <Link to={`/user/${post_author.id}`}
+                                              className="content__post_author_link">
+                                            {post_author.name} {post_author.surname}
+                                        </Link>
+                                    </p>
+                                    <p className="content__post_info">
+                                        <span className="post_view"><i className="fa fa-eye" aria-hidden="true"/> {this.props.post.views}</span>&nbsp;
+                                        <span className="post_like"><i className="fa fa-heart" aria-hidden="true"/> {this.props.post.likes === 0 ? '' : this.props.post.likes}</span>
+                                    </p>
+                                </div>
+                          </CSSTransition>
+                        }
+                    </TransitionGroup>
+                </div>
                 <div className="content__post_comments">
                     <h3 className="content__post_comments_header">Комментарии</h3>
+                    <TransitionGroup className="transition_group">
                     {this.props.is_users_fetching || this.props.is_post_comments_fetching
                         ? <Loader/>
-                        : <div>{comments}</div>
+                        : <CSSTransition timeout={1000}
+                                         classNames="appearance">
+                            <div>{comments}</div>
+                          </CSSTransition>
                     }
+                    </TransitionGroup>
                 </div>
             </div>
         )

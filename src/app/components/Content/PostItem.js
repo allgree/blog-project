@@ -1,5 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router';
+//import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 import TooltipLikes from './TooltipLikes';
@@ -22,11 +23,10 @@ export default class PostItem extends React.Component {
                     users: result.data
                 });
                 this.setState({
-                    tooltip:
-                        <div onMouseEnter={() => {clearTimeout(this.timeout)}}
-                             onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, 1000)}}>
-                            <TooltipLikes users={this.state.users}/>
-                        </div>
+                    tooltip: <div onMouseEnter={() => {clearTimeout(this.timeout)}}
+                                         onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, 1000)}}>
+                                        <TooltipLikes users={this.state.users}/>
+                              </div>
                 })
             });
     }

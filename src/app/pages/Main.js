@@ -1,4 +1,5 @@
 import React from 'react';
+import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
 import PostItem from '../components/Content/PostItem';
 import UserTop from '../components/Content/UserTop';
@@ -54,37 +55,64 @@ export default class Main extends React.Component {
         });
 
         return (
-            <div className="content">
+            <div className="content__main">
                 <div className="content__top_users">
                     <aside className="content__top_user">
                         <h2 className="content__top_user_h2">Самый активный блогер</h2>
-                        {this.props.is_bloger_fetching || this.props.is_users_fetching
-                            ? <Loader/>
-                            : <UserTop user={this.props.bloger}/>
-                        }
+                        <TransitionGroup className="transition_group">
+                            {this.props.is_bloger_fetching || this.props.is_users_fetching
+                                ? <Loader/>
+                                : <CSSTransition timeout={1000}
+                                                 classNames="appearance">
+                                    <UserTop user={this.props.bloger}/>
+                                </CSSTransition>
+                            }
+                        </TransitionGroup>
                     </aside>
                     <aside className="content__top_user">
                         <h2 className="content__top_user_h2">Самый активный комментатор</h2>
-                        {this.props.is_commentator_fetching || this.props.is_users_fetching
-                            ? <Loader/>
-                            : <UserTop user={this.props.commentator}/>
-                        }
+                        <TransitionGroup className="transition_group">
+
+                            {this.props.is_commentator_fetching || this.props.is_users_fetching
+                                ? <Loader/>
+                                :
+                                <CSSTransition timeout={1000}
+                                               classNames="appearance">
+                                    <UserTop user={this.props.commentator}/>
+                                </CSSTransition>
+                            }
+                        </TransitionGroup>
                     </aside>
+
                 </div>
                 <div className="content__top_posts">
                     <aside className="content__top_post_aside">
                         <h2 className="content__top_post_h2">Топ 5 просмотренных записей</h2>
-                        {this.props.is_top_views_posts_fetching || this.props.is_users_fetching
-                            ? <Loader/>
-                            : <div>{top_views_posts}</div>
-                        }
+                        <TransitionGroup className="transition_group">
+                            {this.props.is_top_views_posts_fetching || this.props.is_users_fetching
+                                ? <Loader/>
+                                : <CSSTransition timeout={1000}
+                                                 classNames="appearance">
+                                    <div>
+                                        {top_views_posts}
+                                     </div>
+                                </CSSTransition>
+                            }
+                        </TransitionGroup>
                     </aside>
                     <aside className="content__top_post_aside">
                         <h2 className="content__top_post_h2">Топ 5 отмеченных записей</h2>
-                        {this.props.is_top_likes_posts_fetching || this.props.is_users_fetching
-                            ? <Loader/>
-                            : <div>{top_likes_posts}</div>
-                        }
+                        <TransitionGroup className="transition_group">
+                            {this.props.is_top_likes_posts_fetching || this.props.is_users_fetching
+                                ? <Loader/>
+                                : <CSSTransition timeout={1000}
+                                                 classNames="appearance">
+                                     <div>
+                                         {top_likes_posts}
+                                     </div>
+                                </CSSTransition>
+                            }
+                        </TransitionGroup>
                     </aside>
                 </div>
             </div>

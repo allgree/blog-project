@@ -8,7 +8,7 @@ export default class Nav extends React.Component {
         this.headers = {
             '/': 'Добро пожаловать',
             '/posts': 'Все записи',
-            '/blogs': 'Блоги пользователей',
+            '/blogs': 'Авторы блогов',
             '/about': 'О себе',
             '/user': 'Блог',
             '/post': 'Запись'
@@ -33,8 +33,8 @@ export default class Nav extends React.Component {
                 <div className="nav_menu">
                     <NavLink exact to="/" className={`nav_menu__link ${this.isActive('/')}`}>Главная</NavLink>
                     <NavLink to="/posts" className={`nav_menu__link ${this.isActive('/posts')}`}>Записи</NavLink>
-                    <NavLink to='/blogs' className={`nav_menu__link ${this.isActive('/blogs')}`}>Блоги</NavLink>
-                    <NavLink to='/about' className={`nav_menu__link ${this.isActive('/about')}`}>О&nbsp;себе</NavLink>
+                    <NavLink to='/blogs' className={`nav_menu__link ${this.isActive('/blogs')}`}>Авторы</NavLink>
+                    <NavLink to='/about' className={`nav_menu__link ${this.isActive('/about')}`}>О&nbsp;проекте</NavLink>
                 </div>
                 <NavLink to="/">
                     <h2 className="nav_header">Personal Blog</h2>

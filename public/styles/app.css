@@ -2576,6 +2576,32 @@ nav {
 .content__post_comment_likes {
   float: right; }
 
+.content_blogs {
+  padding: 10px; }
+
+.user_item {
+  text-decoration: none;
+  color: black;
+  display: block;
+  min-height: 100px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  transition: all 0.2s linear;
+  box-shadow: 0 0 30px #a19a98; }
+
+.user_item:hover {
+  box-shadow: 0 0 30px #fc9097; }
+
+.user_item__ava {
+  float: left;
+  margin-right: 20px; }
+
+.user_item__ava__img {
+  width: 100px;
+  height: 100px; }
+
 .tooltip {
   position: absolute; }
 

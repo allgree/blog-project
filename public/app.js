@@ -41685,7 +41685,7 @@ var Nav = function (_React$Component) {
         _this.headers = {
             '/': 'Добро пожаловать',
             '/posts': 'Все записи',
-            '/blogs': 'Блоги пользователей',
+            '/blogs': 'Авторы блогов',
             '/about': 'О себе',
             '/user': 'Блог',
             '/post': 'Запись'
@@ -41732,12 +41732,12 @@ var Nav = function (_React$Component) {
                     _react2.default.createElement(
                         _reactRouterDom.NavLink,
                         { to: '/blogs', className: 'nav_menu__link ' + this.isActive('/blogs') },
-                        '\u0411\u043B\u043E\u0433\u0438'
+                        '\u0410\u0432\u0442\u043E\u0440\u044B'
                     ),
                     _react2.default.createElement(
                         _reactRouterDom.NavLink,
                         { to: '/about', className: 'nav_menu__link ' + this.isActive('/about') },
-                        '\u041E\xA0\u0441\u0435\u0431\u0435'
+                        '\u041E\xA0\u043F\u0440\u043E\u0435\u043A\u0442\u0435'
                     )
                 ),
                 _react2.default.createElement(
@@ -43169,9 +43169,25 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _dec, _class;
+
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactTransitionGroup = __webpack_require__(22);
+
+var _Loader = __webpack_require__(72);
+
+var _Loader2 = _interopRequireDefault(_Loader);
+
+var _UserItem = __webpack_require__(461);
+
+var _UserItem2 = _interopRequireDefault(_UserItem);
+
+var _reactRedux = __webpack_require__(9);
+
+var _usersListActions = __webpack_require__(142);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -43181,33 +43197,53 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Blogs = function (_React$Component) {
+var Blogs = (_dec = (0, _reactRedux.connect)(function (store) {
+    return {
+        users: store.usersList.users,
+        is_users_fetching: store.usersList.is_fetching
+    };
+}), _dec(_class = function (_React$Component) {
     _inherits(Blogs, _React$Component);
 
     function Blogs() {
         _classCallCheck(this, Blogs);
 
-        return _possibleConstructorReturn(this, (Blogs.__proto__ || Object.getPrototypeOf(Blogs)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Blogs.__proto__ || Object.getPrototypeOf(Blogs)).apply(this, arguments));
+
+        _this.props.dispatch((0, _usersListActions.fetchUsers)());
+        return _this;
     }
 
     _createClass(Blogs, [{
-        key: "render",
+        key: 'render',
         value: function render() {
+            var users = this.props.users.map(function (user, index) {
+                return _react2.default.createElement(_UserItem2.default, { key: index,
+                    user: user });
+            });
             return _react2.default.createElement(
-                "div",
-                { className: "content" },
+                'div',
+                { className: 'content_blogs' },
                 _react2.default.createElement(
-                    "h1",
-                    null,
-                    "Blogs"
+                    _reactTransitionGroup.TransitionGroup,
+                    { className: 'transition_group' },
+                    this.props.is_users_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
+                        _reactTransitionGroup.CSSTransition,
+                        { timeout: 1000,
+                            classNames: 'appearance' },
+                        _react2.default.createElement(
+                            'div',
+                            null,
+                            users
+                        )
+                    )
                 )
             );
         }
     }]);
 
     return Blogs;
-}(_react2.default.Component);
-
+}(_react2.default.Component)) || _class);
 exports.default = Blogs;
 
 /***/ }),
@@ -44013,6 +44049,82 @@ function fetchPostsList() {
         payload: _axios2.default.get('/api/posts/')
     };
 }
+
+/***/ }),
+/* 461 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(13);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UserItem = function (_React$Component) {
+    _inherits(UserItem, _React$Component);
+
+    function UserItem() {
+        _classCallCheck(this, UserItem);
+
+        return _possibleConstructorReturn(this, (UserItem.__proto__ || Object.getPrototypeOf(UserItem)).apply(this, arguments));
+    }
+
+    _createClass(UserItem, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: '/user/' + this.props.user.id, className: 'user_item' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'user_item__ava' },
+                    _react2.default.createElement('img', { src: this.props.user.avatar_path, className: 'user_item__ava__img' })
+                ),
+                _react2.default.createElement(
+                    'h3',
+                    { className: 'user_item__name' },
+                    this.props.user.name,
+                    ' ',
+                    this.props.user.surname
+                ),
+                _react2.default.createElement(
+                    'p',
+                    { className: 'user_item__info' },
+                    '\u0413\u043E\u0440\u043E\u0434: ',
+                    this.props.user.city
+                ),
+                _react2.default.createElement(
+                    'p',
+                    { className: 'user_item__info' },
+                    '\u0412\u043E\u0437\u0440\u0430\u0441\u0442: ',
+                    this.props.user.age
+                )
+            );
+        }
+    }]);
+
+    return UserItem;
+}(_react2.default.Component);
+
+exports.default = UserItem;
 
 /***/ })
 /******/ ]);

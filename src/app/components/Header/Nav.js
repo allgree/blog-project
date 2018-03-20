@@ -7,7 +7,7 @@ export default class Nav extends React.Component {
         super(...arguments);
         this.headers = {
             '/': 'Добро пожаловать',
-            '/posts': 'Записи',
+            '/posts': 'Все записи',
             '/blogs': 'Блоги пользователей',
             '/about': 'О себе',
             '/user': 'Блог',
@@ -31,7 +31,7 @@ export default class Nav extends React.Component {
                 <label htmlFor="nav_input" className="nav_header_label"><i className="fa fa-bars" aria-hidden="true"/></label>
                 <input type="checkbox" id="nav_input"/>
                 <div className="nav_menu">
-                    <NavLink to="/" className={`nav_menu__link ${this.isActive('/')}`}>Главная</NavLink>
+                    <NavLink exact to="/" className={`nav_menu__link ${this.isActive('/')}`}>Главная</NavLink>
                     <NavLink to="/posts" className={`nav_menu__link ${this.isActive('/posts')}`}>Записи</NavLink>
                     <NavLink to='/blogs' className={`nav_menu__link ${this.isActive('/blogs')}`}>Блоги</NavLink>
                     <NavLink to='/about' className={`nav_menu__link ${this.isActive('/about')}`}>О&nbsp;себе</NavLink>

@@ -24,7 +24,7 @@ export default class PostItem extends React.Component {
                 });
                 this.setState({
                     tooltip: <div onMouseEnter={() => {clearTimeout(this.timeout)}}
-                                         onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, 1000)}}>
+                                  onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, 1000)}}>
                                         <TooltipLikes users={this.state.users}/>
                               </div>
                 })
@@ -62,7 +62,9 @@ export default class PostItem extends React.Component {
                     <span className="post_view">
                         <i className="fa fa-eye" aria-hidden="true"/> {this.props.post.views}
                     </span>&nbsp;
-                    <div className="tooltip" id={`tooltip_${this.props.post.id}`}>{this.state.tooltip}</div>
+                    <div className="tooltip" id={`tooltip_${this.props.post.id}`}>
+                         {this.state.tooltip}
+                    </div>
                     <span className="post_like"
                           id={`post_id_${this.props.post.id}`}
                           onMouseEnter={() => {this.tooltipShow()}}

@@ -2386,7 +2386,7 @@ nav {
   margin: 20px 0 0 30%; }
 
 .nav_menu {
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(250, 235, 215, 0.8);
   width: 0;
   min-height: 100%;
   position: fixed;
@@ -2397,12 +2397,19 @@ nav {
 
 .nav_menu__link {
   text-decoration: none;
-  color: white;
+  color: #614343;
   display: block;
-  margin: 10px 0 0 20px;
-  font-size: 20px; }
+  padding: 3px;
+  border: 1px solid antiquewhite;
+  border-radius: 3px;
+  margin: 10px 10px 0 20px;
+  font-size: 20px;
+  transition: all 0.3s linear; }
 
-.nav_menu__link_active {
+.nav_menu__link:hover {
+  border: 1px solid #614343; }
+
+.nav_menu__link_active, .active {
   color: #ff8787; }
 
 /*Content Main*/
@@ -2414,6 +2421,12 @@ nav {
   padding: 100px 20px 20px;
   background-color: rgba(255, 255, 255, 0.5);
   box-sizing: border-box; }
+
+.switch-wrapper {
+  position: relative; }
+
+.switch-wrapper > div {
+  position: absolute; }
 
 .content_loader {
   text-align: center; }
@@ -2438,7 +2451,8 @@ nav {
   background-color: rgba(255, 255, 255, 0.5);
   box-shadow: 0 0 30px #a19a98;
   text-decoration: none;
-  color: black; }
+  color: black;
+  transition: all 0.2s linear; }
 
 .content__top_user_item:hover {
   box-shadow: 0 0 30px #fc9097; }
@@ -2464,7 +2478,8 @@ nav {
 
 .content__post_top_link {
   text-decoration: none;
-  color: black; }
+  color: black;
+  transition: all 0.2s linear; }
 
 .content__post_top_link:hover {
   color: #91231f; }
@@ -2612,6 +2627,11 @@ footer {
   height: 40px;
   text-align: center;
   clear: both;
+  background-color: rgba(166, 31, 32, 0.8);
+  color: white;
+  position: relative;
+  line-height: 40px;
+  z-index: 1;
   margin-top: -40px; }
 
 /*# sourceMappingURL=app.css.map*/

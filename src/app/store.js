@@ -10,6 +10,7 @@ import {usersListReducer} from "./reducers/usersListReducer";
 import {blogerReducer} from "./reducers/blogerReducer";
 import {commentatorReducer} from "./reducers/commentatorReducer";
 import {userPostsReducer} from './reducers/userPostsReducer';
+import {postsListReducer} from "./reducers/postsListReducer";
 
 import promise from 'redux-promise-middleware';
 
@@ -20,6 +21,7 @@ const reducers = combineReducers({
     topViewsPosts: topViewsPostsReducer,
     user: userReducer,
     post: postReducer,
+    postsList: postsListReducer,
     postComments: postCommentsReducer,
     usersList: usersListReducer,
     bloger: blogerReducer,

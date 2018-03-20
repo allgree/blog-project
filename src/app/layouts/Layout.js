@@ -12,9 +12,10 @@ export default class Layout extends React.Component {
                 <div className="content">
                     {this.props.children}
                     <div className="empty_down"/>
+
                 </div>
                 <footer>
-                    &copy; Алексей Гриценко 2018
+                    &copy; 2018 Personal blog. Developed by Alexey Gritsenko
                 </footer>
             </main>
         );

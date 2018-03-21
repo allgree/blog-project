@@ -115,6 +115,7 @@ export default class Main extends React.Component {
                         </TransitionGroup>
                     </aside>
                 </div>
+
             </div>
         )
     }

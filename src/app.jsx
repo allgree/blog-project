@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {AnimatedSwitch} from 'react-router-transition';
+import {AnimatedSwitch, RouteTransition} from 'react-router-transition';
 //import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
 import store from './app/store';
 
@@ -15,6 +14,7 @@ import Blogs from './app/pages/Blogs';
 import About from './app/pages/About';
 import User from './app/pages/User';
 import Post from './app/pages/Post';
+import Login from './app/pages/Login';
 import PageNotFound from './app/pages/PageNotFound';
 
 const app = document.getElementById('app');
@@ -30,6 +30,7 @@ ReactDOM.render(
                     <Route path="/about" component={About}/>
                     <Route path="/user/:user_id" component={User}/>
                     <Route path="/post/:post_id" component={Post}/>
+                    <Route path="/login" component={Login}/>
                     <Route path="*" component={PageNotFound}/>
                 </Switch>
             </Layout>
@@ -62,6 +63,8 @@ ReactDOM.render(
 //    ,
 //    app
 //);
+
+
 
 //ReactDOM.render(
 //    <Provider store={store}>

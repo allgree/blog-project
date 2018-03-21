@@ -9,6 +9,7 @@ export default class PostItem extends React.Component {
     constructor() {
         super(...arguments);
         this.timeout = 0;
+        this.time = 500;
         this.state = {
             users: [],
             tooltip: ''
@@ -24,7 +25,7 @@ export default class PostItem extends React.Component {
                 });
                 this.setState({
                     tooltip: <div onMouseEnter={() => {clearTimeout(this.timeout)}}
-                                  onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, 1000)}}>
+                                  onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}>
                                         <TooltipLikes users={this.state.users}/>
                               </div>
                 })
@@ -68,7 +69,7 @@ export default class PostItem extends React.Component {
                     <span className="post_like"
                           id={`post_id_${this.props.post.id}`}
                           onMouseEnter={() => {this.tooltipShow()}}
-                          onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, 1000)}}>
+                          onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}>
                              <i className="fa fa-heart" aria-hidden="true"/>
                              {this.props.post.likes === 0 ? '' : this.props.post.likes}
                     </span>

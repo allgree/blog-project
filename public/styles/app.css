@@ -2422,12 +2422,6 @@ nav {
   background-color: rgba(255, 255, 255, 0.5);
   box-sizing: border-box; }
 
-.switch-wrapper {
-  position: relative; }
-
-.switch-wrapper > div {
-  position: absolute; }
-
 .content_loader {
   text-align: center; }
 
@@ -2631,20 +2625,6 @@ nav {
   text-decoration: none;
   color: #636363; }
 
-.appearance-enter {
-  opacity: 0.01; }
-
-.appearance-enter.appearance-enter-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in; }
-
-.appearance-exit {
-  opacity: 1; }
-
-.appearance-exit.appearance-exit-active {
-  opacity: 0.01;
-  transition: opacity 300ms ease-in; }
-
 .empty_down {
   height: 40px; }
 
@@ -2659,5 +2639,26 @@ footer {
   line-height: 40px;
   z-index: 1;
   margin-top: -40px; }
+
+/*react transitions*/
+.switch-wrapper {
+  position: relative; }
+
+.switch-wrapper > div {
+  position: absolute; }
+
+.appearance-enter {
+  opacity: 0.01; }
+
+.appearance-enter.appearance-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in; }
+
+.appearance-exit {
+  opacity: 1; }
+
+.appearance-exit.appearance-exit-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in; }
 
 /*# sourceMappingURL=app.css.map*/

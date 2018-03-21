@@ -1,7 +1,6 @@
 import React from 'react';
-
 import Nav from '../components/Header/Nav';
-
+import Footer from '../components/Footer/Footer'
 
 export default class Layout extends React.Component {
     render () {
@@ -10,13 +9,10 @@ export default class Layout extends React.Component {
                 <div className="main_background"/>
                 <Nav/>
                 <div className="content">
-                    {this.props.children}
+                        {this.props.children}
                     <div className="empty_down"/>
-
                 </div>
-                <footer>
-                    &copy; 2018 Personal blog. Developed by Alexey Gritsenko
-                </footer>
+                <Footer/>
             </main>
         );
     }

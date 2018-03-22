@@ -1,12 +1,16 @@
 const express = require('express');
 
 const router = express.Router();
+const FirebaseTokenGenerator = require("firebase-token-generator");
+const tokenGenerator = new FirebaseTokenGenerator("<YOUR_FIREBASE_SECRET>");
+
 
 const Users = require('../models/users');
 const Posts = require('../models/posts');
 const Comments = require('../models/comments');
 const PostLikes = require('../models/posts_likes');
 const CommentLikes = require('../models/comments_likes');
+const Tokens = require('../models/tokens');
 
 // все пользователи
 router.get('/', (req, res, next) => {
@@ -100,6 +104,28 @@ router.get('/:user_id', (req, res, next) => {
        delete result.dataValues.password;
        delete result.dataValues.login;
        res.json(result);
+   })
+});
+
+// авторизующийся пользователь
+router.post('/login', (req, res, next) => {
+      Users.findByLogin(req.body.login, (result) => {
+          delete result.dataValues.password;
+          delete result.dataValues.login;
+          let token = tokenGenerator.createToken({uid: String(result.id), some: "arbitrary", data: "here"});
+          Tokens.updateByUserId(result.id, token, (result) => {
+              console.log(result);
+          });
+          result.dataValues.token = token;
+          res.json(result);
+      })
+});
+
+router.post('/unlogged', (req, res, next) => {
+   Tokens.updateByUserId(req.body.user_id, null, (result) => {
+       if (result[0] === 1) {
+           res.json({result: 1})
+       }
    })
 });
 

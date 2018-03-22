@@ -36,6 +36,16 @@ let Users = {
             .then(result => {
                 callback(result);
             })
+    },
+    findByLogin: (login, callback) => {
+        model.findOne({
+            where: {
+                login: login
+            }
+        })
+            .then(result => {
+                callback(result);
+            })
     }
 };
 

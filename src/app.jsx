@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {AnimatedSwitch, RouteTransition} from 'react-router-transition';
-//import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {Provider} from 'react-redux';
 
@@ -15,6 +14,7 @@ import About from './app/pages/About';
 import User from './app/pages/User';
 import Post from './app/pages/Post';
 import Login from './app/pages/Login';
+import Unlogged from './app/pages/Unlogged';
 import PageNotFound from './app/pages/PageNotFound';
 
 const app = document.getElementById('app');
@@ -31,6 +31,7 @@ ReactDOM.render(
                     <Route path="/user/:user_id" component={User}/>
                     <Route path="/post/:post_id" component={Post}/>
                     <Route path="/login" component={Login}/>
+                    <Route path="/unlogged" component={Unlogged}/>
                     <Route path="*" component={PageNotFound}/>
                 </Switch>
             </Layout>
@@ -64,30 +65,4 @@ ReactDOM.render(
 //    app
 //);
 
-
-
-//ReactDOM.render(
-//    <Provider store={store}>
-//        <Router history={browserHistory}>
-//
-//                <Route path="/"
-//                       component={Layout}>
-//                    <AnimatedSwitch atEnter={{ opacity: 0 }}
-//                                    atLeave={{ opacity: 0 }}
-//                                    atActive={{ opacity: 1 }}
-//                                    className="switch-wrapper">
-//                    <IndexRoute component={Main}/>
-//                    <Route path="posts" component={Posts}/>
-//                    <Route path="blogs" component={Blogs}/>
-//                    <Route path="about" component={About}/>
-//                    <Route path="user/:user_id" component={User}/>
-//                    <Route path="post/:post_id" component={Post}/>
-//                    <Route path="*" component={PageNotFound}/>
-//                    </AnimatedSwitch>
-//                </Route>
-//        </Router>
-//    </Provider>
-//    ,
-//    app
-//);
 

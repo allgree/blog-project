@@ -1,9 +1,8 @@
 let express = require('express');
 let bodyParser = require('body-parser');
 
-const PORT = 8090;
 
-//Модели
+const PORT = 8090;
 
 
 //Подключение маршрутов
@@ -15,6 +14,7 @@ let app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

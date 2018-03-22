@@ -2409,6 +2409,16 @@ nav {
 .nav_menu__link:hover {
   border: 1px solid #614343; }
 
+.login__links {
+  float: right; }
+
+.login__link {
+  color: #faebd7;
+  border: 1px solid transparent; }
+
+.login__link:hover {
+  border: 1px solid #FAEBD7; }
+
 .nav_menu__link_active, .active {
   color: #ff8787; }
 

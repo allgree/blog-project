@@ -1,6 +1,7 @@
 import React from 'react';
-//import {Link} from 'react-router';
 import {NavLink} from 'react-router-dom';
+
+import LoginPanel from './LoginPanel';
 
 export default class Nav extends React.Component {
     constructor() {
@@ -36,12 +37,12 @@ export default class Nav extends React.Component {
                     <NavLink to="/posts" className={`nav_menu__link ${this.isActive('/posts')}`}>Записи</NavLink>
                     <NavLink to='/blogs' className={`nav_menu__link ${this.isActive('/blogs')}`}>Авторы</NavLink>
                     <NavLink to='/about' className={`nav_menu__link ${this.isActive('/about')}`}>О&nbsp;проекте</NavLink>
-                    <NavLink to='login' className={`nav_menu__link ${this.isActive('/login')}`}>Вход на сайт</NavLink>
                 </div>
                 <NavLink to="/">
                     <h2 className="nav_header">Personal Blog</h2>
                 </NavLink>
                 <h2 className="nav_page_header">{this.headers[location]}</h2>
+                <LoginPanel/>
             </nav>
         )
     }

@@ -12,7 +12,7 @@ import {fetchTopViewsPost} from "../actions/topViewsPostsActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {fetchBloger} from "../actions/blogerActions";
 import {fetchCommentator} from "../actions/commentatorActions";
-import {fetchPostLikes} from "../actions/postLikesActions";
+import {fetchPostLikes, addPostLike, deletePostLike} from "../actions/postLikesActions";
 
 @connect((store) => {
     return {
@@ -27,7 +27,8 @@ import {fetchPostLikes} from "../actions/postLikesActions";
         commentator: store.commentator.user,
         is_commentator_fetching: store.commentator.is_fetching,
         post_likes: store.postLikes.likes,
-        is_post_likes_fetching: store.postLikes.is_fetching
+        is_post_likes_fetching: store.postLikes.is_fetching,
+        login: store.login.login
     }
 })
 
@@ -40,6 +41,17 @@ export default class Main extends React.Component {
         this.props.dispatch(fetchTopViewsPost());
         this.props.dispatch(fetchBloger());
         this.props.dispatch(fetchCommentator());
+        this.triggerPostLike = this.triggerPostLike.bind(this);
+    }
+
+    triggerPostLike(post_id) {
+        if (Object.keys(this.props.login).length === 0) return;
+        if (this.props.post_likes.find(item =>
+                item.post_id === post_id && item.user_id === this.props.login.id)) {
+            this.props.dispatch(deletePostLike(post_id, this.props.login.id));
+        } else {
+            this.props.dispatch(addPostLike(post_id, this.props.login.id));
+        }
     }
 
     render() {
@@ -55,8 +67,11 @@ export default class Main extends React.Component {
                              user={user}
                              likes={likes}
                              users={users}
+                             triggerLike={this.triggerPostLike}
                              />
         });
+
+
         let top_likes_posts = this.props.top_likes_posts.map((post, index) => {
             let user = this.props.users.find(item => item.id === post.user_id);
             let likes = this.props.post_likes.filter(item => item.post_id === post.id);
@@ -68,6 +83,7 @@ export default class Main extends React.Component {
                              user={user}
                              likes={likes}
                              users={users}
+                             triggerLike={this.triggerPostLike}
                              />
         });
 

@@ -9,7 +9,7 @@ import Loader from '../components/Content/Loader';
 import {fetchUser} from "../actions/userActions";
 import {fetchUserPosts} from "../actions/userPostsActions";
 import {fetchUsers} from "../actions/usersListActions";
-import {fetchPostLikes} from "../actions/postLikesActions";
+import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 
 @connect((store) => {
     return {
@@ -19,8 +19,9 @@ import {fetchPostLikes} from "../actions/postLikesActions";
         is_user_fetching: store.user.is_fetching,
         user_posts: store.userPosts.posts,
         is_user_posts_fetching: store.userPosts.is_fetching,
-        post_likes: store.post_likes.likes,
-        is_post_likes_fetching: store.post_likes.is_fetching
+        post_likes: store.postLikes.likes,
+        is_post_likes_fetching: store.postLikes.is_fetching,
+        login: store.login.login
     }
 })
 
@@ -31,6 +32,17 @@ export default class User extends React.Component {
         this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchUser(this.props.match.params.user_id));
         this.props.dispatch(fetchUserPosts(this.props.match.params.user_id));
+        this.triggerPostLike = this.triggerPostLike.bind(this);
+    }
+
+    triggerPostLike(post_id) {
+        if (Object.keys(this.props.login).length === 0) return;
+        if (this.props.post_likes.find(item =>
+                item.post_id === post_id && item.user_id === this.props.login.id)) {
+            this.props.dispatch(deletePostLike(post_id, this.props.login.id));
+        } else {
+            this.props.dispatch(addPostLike(post_id, this.props.login.id));
+        }
     }
 
     render() {
@@ -42,7 +54,8 @@ export default class User extends React.Component {
             return <PostItem key={index}
                              post={post}
                              likes={likes}
-                             users={users}/>
+                             users={users}
+                             triggerLike={this.triggerPostLike}/>
         });
         return (
             <div className="content__user">

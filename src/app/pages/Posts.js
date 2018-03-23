@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 
 import {fetchPostsList} from "../actions/postsListActions";
 import {fetchUsers} from "../actions/usersListActions";
-import {fetchPostLikes} from "../actions/postLikesActions";
+import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 
 
 @connect((store) => {
@@ -18,7 +18,8 @@ import {fetchPostLikes} from "../actions/postLikesActions";
         posts: store.postsList.posts,
         is_posts_fetching: store.postsList.is_fetching,
         post_likes: store.postLikes.likes,
-        is_post_likes_fetching: store.postLikes.is_fetching
+        is_post_likes_fetching: store.postLikes.is_fetching,
+        login: store.login.login
     }
 })
 export default class Posts extends React.Component {
@@ -27,7 +28,19 @@ export default class Posts extends React.Component {
         this.props.dispatch(fetchUsers());
         this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchPostsList());
+        this.triggerPostLike = this.triggerPostLike.bind(this);
     }
+
+    triggerPostLike(post_id) {
+        if (Object.keys(this.props.login).length === 0) return;
+        if (this.props.post_likes.find(item =>
+                item.post_id === post_id && item.user_id === this.props.login.id)) {
+            this.props.dispatch(deletePostLike(post_id, this.props.login.id));
+        } else {
+            this.props.dispatch(addPostLike(post_id, this.props.login.id));
+        }
+    }
+
     render() {
         let posts = this.props.posts.map((post, index) => {
             let user = this.props.users.find(item => item.id === post.user_id);
@@ -40,6 +53,7 @@ export default class Posts extends React.Component {
                              user={user}
                              likes={likes}
                              users={users}
+                             triggerLike={this.triggerPostLike}
                     />
         });
         return (

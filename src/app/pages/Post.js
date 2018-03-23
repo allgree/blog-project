@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import {fetchPost} from "../actions/postActions";
 import {fetchPostComments} from "../actions/postCommentsActions";
 import {fetchUsers} from "../actions/usersListActions";
-import {fetchPostLikes} from "../actions/postLikesActions";
+import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 import {fetchCommentLikes} from "../actions/commentLikesActions";
 
 import CommentItem from '../components/Content/CommentItem';
@@ -27,7 +27,8 @@ import TooltipLikes from '../components/Content/TooltipLikes';
         post_likes: store.postLikes.likes,
         is_post_likes_fetching: store.postLikes.is_fetching,
         comment_likes: store.commentLikes.likes,
-        comment_likes_fetching: store.commentLikes.is_fetching
+        comment_likes_fetching: store.commentLikes.is_fetching,
+        login: store.login.login
     }
 })
 export default class Post extends React.Component {
@@ -44,11 +45,20 @@ export default class Post extends React.Component {
             tooltip: ''
         };
         this.tooltipHide = this.tooltipHide.bind(this);
+        this.triggerPostLike = this.triggerPostLike.bind(this);
         this.post_likes = [];
         this.users_like = [];
     }
 
-
+    triggerPostLike(post_id) {
+        if (Object.keys(this.props.login).length === 0) return;
+        if (this.props.post_likes.find(item =>
+                item.post_id === post_id && item.user_id === this.props.login.id)) {
+            this.props.dispatch(deletePostLike(post_id, this.props.login.id));
+        } else {
+            this.props.dispatch(addPostLike(post_id, this.props.login.id));
+        }
+    }
 
     tooltipShow() {
         if (this.users_like.length === 0) return;
@@ -111,7 +121,8 @@ export default class Post extends React.Component {
                                         </div>
                                         <span className="post_like"
                                               onMouseEnter={() => {this.tooltipShow()}}
-                                              onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}>
+                                              onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}
+                                              onClick={() => {this.triggerPostLike(this.props.post.id)}}>
                                             <i className="fa fa-heart" aria-hidden="true"/> {this.post_likes.length === 0 ? '' : this.post_likes.length}
                                         </span>
                                     </div>

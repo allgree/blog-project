@@ -3867,8 +3867,8 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
             users: [],
             tooltip: ''
         };
+        _this.tooltipShow = _this.tooltipShow.bind(_this);
         _this.tooltipHide = _this.tooltipHide.bind(_this);
-        _this.addLike = _this.addLike.bind(_this);
         return _this;
     }
 
@@ -3899,28 +3899,9 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
             });
         }
     }, {
-        key: 'addLike',
-        value: function addLike(post_id) {
-            var _this3 = this;
-
-            if (Object.keys(this.props.login).length === 0) {
-                return;
-            }
-            var user = this.state.users.find(function (item) {
-                return item.id === _this3.props.login.id;
-            });
-            if (!user) {
-                var usersList = this.state.users;
-                this.setState({
-                    users: [1, 3, 4]
-                });
-                console.log(this.state.users);
-            }
-        }
-    }, {
         key: 'render',
         value: function render() {
-            var _this4 = this;
+            var _this3 = this;
 
             return _react2.default.createElement(
                 'div',
@@ -3973,13 +3954,13 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
                         { className: 'post_like',
                             id: 'post_id_' + this.props.post.id,
                             onMouseEnter: function onMouseEnter() {
-                                _this4.tooltipShow();
+                                _this3.tooltipShow();
                             },
                             onMouseLeave: function onMouseLeave() {
-                                _this4.timeout = setTimeout(_this4.tooltipHide, _this4.time);
+                                _this3.timeout = setTimeout(_this3.tooltipHide, _this3.time);
                             },
                             onClick: function onClick() {
-                                _this4.addLike(_this4.props.post.id);
+                                _this3.props.triggerLike(_this3.props.post.id);
                             } },
                         _react2.default.createElement('i', { className: 'fa fa-heart', 'aria-hidden': 'true' }),
                         '\xA0',
@@ -41389,7 +41370,8 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
         commentator: store.commentator.user,
         is_commentator_fetching: store.commentator.is_fetching,
         post_likes: store.postLikes.likes,
-        is_post_likes_fetching: store.postLikes.is_fetching
+        is_post_likes_fetching: store.postLikes.is_fetching,
+        login: store.login.login
     };
 }), _dec(_class = function (_React$Component) {
     _inherits(Main, _React$Component);
@@ -41405,23 +41387,38 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.props.dispatch((0, _topViewsPostsActions.fetchTopViewsPost)());
         _this.props.dispatch((0, _blogerActions.fetchBloger)());
         _this.props.dispatch((0, _commentatorActions.fetchCommentator)());
+        _this.triggerPostLike = _this.triggerPostLike.bind(_this);
         return _this;
     }
 
     _createClass(Main, [{
-        key: 'render',
-        value: function render() {
+        key: 'triggerPostLike',
+        value: function triggerPostLike(post_id) {
             var _this2 = this;
 
+            if (Object.keys(this.props.login).length === 0) return;
+            if (this.props.post_likes.find(function (item) {
+                return item.post_id === post_id && item.user_id === _this2.props.login.id;
+            })) {
+                this.props.dispatch((0, _postLikesActions.deletePostLike)(post_id, this.props.login.id));
+            } else {
+                this.props.dispatch((0, _postLikesActions.addPostLike)(post_id, this.props.login.id));
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
             var top_views_posts = this.props.top_views_posts.map(function (post, index) {
-                var user = _this2.props.users.find(function (item) {
+                var user = _this3.props.users.find(function (item) {
                     return item.id === post.user_id;
                 });
-                var likes = _this2.props.post_likes.filter(function (item) {
+                var likes = _this3.props.post_likes.filter(function (item) {
                     return item.post_id === post.id;
                 });
                 var users = likes.map(function (like, index) {
-                    return _this2.props.users.find(function (item) {
+                    return _this3.props.users.find(function (item) {
                         return item.id === like.user_id;
                     });
                 });
@@ -41429,18 +41426,20 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
                     post: post,
                     user: user,
                     likes: likes,
-                    users: users
+                    users: users,
+                    triggerLike: _this3.triggerPostLike
                 });
             });
+
             var top_likes_posts = this.props.top_likes_posts.map(function (post, index) {
-                var user = _this2.props.users.find(function (item) {
+                var user = _this3.props.users.find(function (item) {
                     return item.id === post.user_id;
                 });
-                var likes = _this2.props.post_likes.filter(function (item) {
+                var likes = _this3.props.post_likes.filter(function (item) {
                     return item.post_id === post.id;
                 });
                 var users = likes.map(function (like, index) {
-                    return _this2.props.users.find(function (item) {
+                    return _this3.props.users.find(function (item) {
                         return item.id === like.user_id;
                     });
                 });
@@ -41448,7 +41447,8 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
                     post: post,
                     user: user,
                     likes: likes,
-                    users: users
+                    users: users,
+                    triggerLike: _this3.triggerPostLike
                 });
             });
 
@@ -43447,7 +43447,8 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
         posts: store.postsList.posts,
         is_posts_fetching: store.postsList.is_fetching,
         post_likes: store.postLikes.likes,
-        is_post_likes_fetching: store.postLikes.is_fetching
+        is_post_likes_fetching: store.postLikes.is_fetching,
+        login: store.login.login
     };
 }), _dec(_class = function (_React$Component) {
     _inherits(Posts, _React$Component);
@@ -43460,23 +43461,38 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.props.dispatch((0, _usersListActions.fetchUsers)());
         _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
         _this.props.dispatch((0, _postsListActions.fetchPostsList)());
+        _this.triggerPostLike = _this.triggerPostLike.bind(_this);
         return _this;
     }
 
     _createClass(Posts, [{
-        key: 'render',
-        value: function render() {
+        key: 'triggerPostLike',
+        value: function triggerPostLike(post_id) {
             var _this2 = this;
 
+            if (Object.keys(this.props.login).length === 0) return;
+            if (this.props.post_likes.find(function (item) {
+                return item.post_id === post_id && item.user_id === _this2.props.login.id;
+            })) {
+                this.props.dispatch((0, _postLikesActions.deletePostLike)(post_id, this.props.login.id));
+            } else {
+                this.props.dispatch((0, _postLikesActions.addPostLike)(post_id, this.props.login.id));
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
             var posts = this.props.posts.map(function (post, index) {
-                var user = _this2.props.users.find(function (item) {
+                var user = _this3.props.users.find(function (item) {
                     return item.id === post.user_id;
                 });
-                var likes = _this2.props.post_likes.filter(function (item) {
+                var likes = _this3.props.post_likes.filter(function (item) {
                     return item.post_id === post.id;
                 });
                 var users = likes.map(function (like, index) {
-                    return _this2.props.users.find(function (item) {
+                    return _this3.props.users.find(function (item) {
                         return item.id === like.user_id;
                     });
                 });
@@ -43484,7 +43500,8 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
                     post: post,
                     user: user,
                     likes: likes,
-                    users: users
+                    users: users,
+                    triggerLike: _this3.triggerPostLike
                 });
             });
             return _react2.default.createElement(
@@ -43815,8 +43832,9 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
         is_user_fetching: store.user.is_fetching,
         user_posts: store.userPosts.posts,
         is_user_posts_fetching: store.userPosts.is_fetching,
-        post_likes: store.post_likes.likes,
-        is_post_likes_fetching: store.post_likes.is_fetching
+        post_likes: store.postLikes.likes,
+        is_post_likes_fetching: store.postLikes.is_fetching,
+        login: store.login.login
     };
 }), _dec(_class = function (_React$Component) {
     _inherits(User, _React$Component);
@@ -43830,27 +43848,43 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
         _this.props.dispatch((0, _userActions.fetchUser)(_this.props.match.params.user_id));
         _this.props.dispatch((0, _userPostsActions.fetchUserPosts)(_this.props.match.params.user_id));
+        _this.triggerPostLike = _this.triggerPostLike.bind(_this);
         return _this;
     }
 
     _createClass(User, [{
-        key: 'render',
-        value: function render() {
+        key: 'triggerPostLike',
+        value: function triggerPostLike(post_id) {
             var _this2 = this;
 
+            if (Object.keys(this.props.login).length === 0) return;
+            if (this.props.post_likes.find(function (item) {
+                return item.post_id === post_id && item.user_id === _this2.props.login.id;
+            })) {
+                this.props.dispatch((0, _postLikesActions.deletePostLike)(post_id, this.props.login.id));
+            } else {
+                this.props.dispatch((0, _postLikesActions.addPostLike)(post_id, this.props.login.id));
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
             var posts = this.props.user_posts.map(function (post, index) {
-                var likes = _this2.props.post_likes.filter(function (item) {
+                var likes = _this3.props.post_likes.filter(function (item) {
                     return item.post_id === post.id;
                 });
                 var users = likes.map(function (like, index) {
-                    return _this2.props.users.find(function (item) {
+                    return _this3.props.users.find(function (item) {
                         return item.id === like.user_id;
                     });
                 });
                 return _react2.default.createElement(_PostItem2.default, { key: index,
                     post: post,
                     likes: likes,
-                    users: users });
+                    users: users,
+                    triggerLike: _this3.triggerPostLike });
             });
             return _react2.default.createElement(
                 'div',
@@ -44061,7 +44095,8 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
         post_likes: store.postLikes.likes,
         is_post_likes_fetching: store.postLikes.is_fetching,
         comment_likes: store.commentLikes.likes,
-        comment_likes_fetching: store.commentLikes.is_fetching
+        comment_likes_fetching: store.commentLikes.is_fetching,
+        login: store.login.login
     };
 }), _dec(_class = function (_React$Component) {
     _inherits(Post, _React$Component);
@@ -44082,25 +44117,40 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
             tooltip: ''
         };
         _this.tooltipHide = _this.tooltipHide.bind(_this);
+        _this.triggerPostLike = _this.triggerPostLike.bind(_this);
         _this.post_likes = [];
         _this.users_like = [];
         return _this;
     }
 
     _createClass(Post, [{
+        key: 'triggerPostLike',
+        value: function triggerPostLike(post_id) {
+            var _this2 = this;
+
+            if (Object.keys(this.props.login).length === 0) return;
+            if (this.props.post_likes.find(function (item) {
+                return item.post_id === post_id && item.user_id === _this2.props.login.id;
+            })) {
+                this.props.dispatch((0, _postLikesActions.deletePostLike)(post_id, this.props.login.id));
+            } else {
+                this.props.dispatch((0, _postLikesActions.addPostLike)(post_id, this.props.login.id));
+            }
+        }
+    }, {
         key: 'tooltipShow',
         value: function tooltipShow() {
-            var _this2 = this;
+            var _this3 = this;
 
             if (this.users_like.length === 0) return;
             this.setState({
                 tooltip: _react2.default.createElement(
                     'div',
                     { onMouseEnter: function onMouseEnter() {
-                            clearTimeout(_this2.timeout);
+                            clearTimeout(_this3.timeout);
                         },
                         onMouseLeave: function onMouseLeave() {
-                            _this2.timeout = setTimeout(_this2.tooltipHide, _this2.time);
+                            _this3.timeout = setTimeout(_this3.tooltipHide, _this3.time);
                         } },
                     _react2.default.createElement(_TooltipLikes2.default, { users: this.users_like })
                 )
@@ -44116,28 +44166,28 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this4 = this;
 
             this.post_likes = this.props.post_likes.filter(function (like) {
-                return like.post_id === _this3.props.post.id;
+                return like.post_id === _this4.props.post.id;
             });
             this.users_like = this.post_likes.map(function (like, index) {
-                return _this3.props.users.find(function (item) {
+                return _this4.props.users.find(function (item) {
                     return item.id === like.user_id;
                 });
             });
             var post_author = this.props.users.find(function (item) {
-                return item.id === _this3.props.post.user_id;
+                return item.id === _this4.props.post.user_id;
             });
             var comments = this.props.comments.map(function (comment, index) {
-                var user = _this3.props.users.find(function (item) {
+                var user = _this4.props.users.find(function (item) {
                     return item.id === comment.user_id;
                 });
-                var likes = _this3.props.comment_likes.filter(function (item) {
+                var likes = _this4.props.comment_likes.filter(function (item) {
                     return item.comment_id === comment.id;
                 });
                 var users = likes.map(function (like, index) {
-                    return _this3.props.users.find(function (item) {
+                    return _this4.props.users.find(function (item) {
                         return item.id === like.user_id;
                     });
                 });
@@ -44206,10 +44256,13 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                                         'span',
                                         { className: 'post_like',
                                             onMouseEnter: function onMouseEnter() {
-                                                _this3.tooltipShow();
+                                                _this4.tooltipShow();
                                             },
                                             onMouseLeave: function onMouseLeave() {
-                                                _this3.timeout = setTimeout(_this3.tooltipHide, _this3.time);
+                                                _this4.timeout = setTimeout(_this4.tooltipHide, _this4.time);
+                                            },
+                                            onClick: function onClick() {
+                                                _this4.triggerPostLike(_this4.props.post.id);
                                             } },
                                         _react2.default.createElement('i', { className: 'fa fa-heart', 'aria-hidden': 'true' }),
                                         ' ',
@@ -44751,6 +44804,8 @@ var PostLikes = _interopRequireWildcard(_postLikesConstants);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function postLikesReducer() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { likes: [], is_fetching: false };
     var action = arguments[1];
@@ -44767,6 +44822,46 @@ function postLikesReducer() {
                 break;
             }
         case PostLikes.FETCH_POST_LIKES_REJECTED:
+            {
+                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
+                break;
+            }
+        case PostLikes.ADD_POST_LIKE_PENDING:
+            {
+                state = _extends({}, state, { is_fetching: true });
+                break;
+            }
+        case PostLikes.ADD_POST_LIKE_FULFILLED:
+            {
+                var likes = state.likes.concat(action.payload.data);
+                state = _extends({}, state, { is_fetching: false, likes: likes });
+                break;
+            }
+        case PostLikes.ADD_POST_LIKE_REJECTED:
+            {
+                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
+                break;
+            }
+        case PostLikes.DELETE_POST_LIKE_PENDING:
+            {
+                state = _extends({}, state, { is_fetching: true });
+                break;
+            }
+        case PostLikes.DELETE_POST_LIKE_FULFILLED:
+            {
+                var _likes = [].concat(_toConsumableArray(state.likes));
+                var deleted_like = JSON.parse(action.payload.config.data);
+                if (action.payload.data === 1) {
+                    _likes.find(function (like, index) {
+                        if (like.post_id === deleted_like.post_id && like.user_id === deleted_like.user_id) {
+                            return _likes.splice(index, 1);
+                        }
+                    });
+                }
+                state = _extends({}, state, { is_fetching: false, likes: _likes });
+                break;
+            }
+        case PostLikes.DELETE_POST_LIKE_REJECTED:
             {
                 state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
                 break;
@@ -44788,6 +44883,12 @@ Object.defineProperty(exports, "__esModule", {
 var FETCH_POST_LIKES_PENDING = exports.FETCH_POST_LIKES_PENDING = 'FETCH_POST_LIKES_PENDING';
 var FETCH_POST_LIKES_FULFILLED = exports.FETCH_POST_LIKES_FULFILLED = 'FETCH_POST_LIKES_FULFILLED';
 var FETCH_POST_LIKES_REJECTED = exports.FETCH_POST_LIKES_REJECTED = 'FETCH_POST_LIKES_REJECTED';
+var ADD_POST_LIKE_PENDING = exports.ADD_POST_LIKE_PENDING = 'ADD_POST_LIKE_PENDING';
+var ADD_POST_LIKE_FULFILLED = exports.ADD_POST_LIKE_FULFILLED = 'ADD_POST_LIKE_FULFILLED';
+var ADD_POST_LIKE_REJECTED = exports.ADD_POST_LIKE_REJECTED = 'ADD_POST_LIKE_REJECTED';
+var DELETE_POST_LIKE_PENDING = exports.DELETE_POST_LIKE_PENDING = 'DELETE_POST_LIKE_PENDING';
+var DELETE_POST_LIKE_FULFILLED = exports.DELETE_POST_LIKE_FULFILLED = 'DELETE_POST_LIKE_FULFILLED';
+var DELETE_POST_LIKE_REJECTED = exports.DELETE_POST_LIKE_REJECTED = 'DELETE_POST_LIKE_REJECTED';
 
 /***/ }),
 /* 472 */
@@ -44800,6 +44901,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.fetchPostLikes = fetchPostLikes;
+exports.addPostLike = addPostLike;
+exports.deletePostLike = deletePostLike;
 
 var _axios = __webpack_require__(7);
 
@@ -44811,6 +44914,20 @@ function fetchPostLikes() {
     return {
         type: 'FETCH_POST_LIKES',
         payload: _axios2.default.get('/api/post-likes/')
+    };
+}
+
+function addPostLike(post_id, user_id) {
+    return {
+        type: 'ADD_POST_LIKE',
+        payload: _axios2.default.post('/api/post-likes/add/', { post_id: post_id, user_id: user_id })
+    };
+}
+
+function deletePostLike(post_id, user_id) {
+    return {
+        type: 'DELETE_POST_LIKE',
+        payload: _axios2.default.post('/api/post-likes/delete', { post_id: post_id, user_id: user_id })
     };
 }
 

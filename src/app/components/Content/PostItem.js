@@ -20,8 +20,8 @@ export default class PostItem extends React.Component {
             users: [],
             tooltip: ''
         };
+        this.tooltipShow = this.tooltipShow.bind(this);
         this.tooltipHide = this.tooltipHide.bind(this);
-        this.addLike = this.addLike.bind(this);
     }
 
     tooltipShow() {
@@ -39,21 +39,6 @@ export default class PostItem extends React.Component {
             tooltip: ''
         });
     }
-
-    addLike(post_id) {
-        if (Object.keys(this.props.login).length === 0) {
-            return;
-        }
-        let user = this.state.users.find(item => item.id === this.props.login.id);
-        if (!user) {
-            let usersList = this.state.users;
-           this.setState({
-               users: [1, 3, 4]
-           });
-           console.log(this.state.users);
-        }
-    }
-
 
     render() {
         return (
@@ -86,7 +71,7 @@ export default class PostItem extends React.Component {
                           id={`post_id_${this.props.post.id}`}
                           onMouseEnter={() => {this.tooltipShow()}}
                           onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}
-                          onClick={() => {this.addLike(this.props.post.id)}}>
+                          onClick={() => {this.props.triggerLike(this.props.post.id)}}>
                              <i className="fa fa-heart" aria-hidden="true"/>&nbsp;
                              {this.props.likes.length === 0 ? '' : this.props.likes.length}
                     </span>

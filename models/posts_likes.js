@@ -29,6 +29,24 @@ let PostsLikes = {
             .then(result => {
                 callback(result);
             })
+    },
+    add: (post_id, user_id, callback) => {
+        model.create({
+            post_id: post_id,
+            user_id: user_id,
+        })
+            .then(result => callback(result))
+    },
+    delete: (post_id, user_id, callback) => {
+        model.destroy({
+            where: {
+                post_id: post_id,
+                user_id: user_id
+            }
+        })
+            .then(result => {
+                callback(result);
+            })
     }
 };
 

@@ -8,17 +8,7 @@ const PostsLikes = require('../models/posts_likes');
 // все посты
 router.get('/', (req, res, next) => {
     Posts.findAll((result_posts) => {
-        PostsLikes.findAll((result_posts_likes) => {
-            for (let i = 0; i < result_posts.length; i++) {
-                result_posts[i].dataValues.likes = 0;
-                for (let j = 0; j < result_posts_likes.length; j++) {
-                    if (result_posts[i].id === result_posts_likes[j].post_id) {
-                        result_posts[i].dataValues.likes++;
-                    }
-                }
-            }
-            res.json(result_posts);
-        });
+        res.json(result_posts);
     })
 });
 
@@ -76,10 +66,7 @@ router.get('/user/:user_id', (req, res, next) => {
 // один пост по id
 router.get('/:post_id', (req, res, next) => {
     Posts.findById(req.params.post_id, (resultPost) => {
-        PostsLikes.findByPostId(req.params.post_id, (resultLikes) => {
-            resultPost.dataValues.likes = resultLikes.length;
-            res.json(resultPost);
-        });
+        res.json(resultPost);
     })
 });
 

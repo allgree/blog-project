@@ -12,6 +12,8 @@ import {commentatorReducer} from "./reducers/commentatorReducer";
 import {userPostsReducer} from './reducers/userPostsReducer';
 import {postsListReducer} from "./reducers/postsListReducer";
 import {loginReducer} from "./reducers/loginReducer";
+import {postLikesReducer} from "./reducers/postLikesReducer";
+import {commentLikesReducer} from "./reducers/commentLikesReducer";
 
 import promise from 'redux-promise-middleware';
 
@@ -29,6 +31,8 @@ const reducers = combineReducers({
     commentator: commentatorReducer,
     userPosts: userPostsReducer,
     login: loginReducer,
+    postLikes: postLikesReducer,
+    commentLikes: commentLikesReducer,
     form: formReducer
 });
 

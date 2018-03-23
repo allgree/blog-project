@@ -12,6 +12,7 @@ import {fetchTopViewsPost} from "../actions/topViewsPostsActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {fetchBloger} from "../actions/blogerActions";
 import {fetchCommentator} from "../actions/commentatorActions";
+import {fetchPostLikes} from "../actions/postLikesActions";
 
 @connect((store) => {
     return {
@@ -24,7 +25,9 @@ import {fetchCommentator} from "../actions/commentatorActions";
         bloger: store.bloger.user,
         is_bloger_fetching: store.bloger.is_fetching,
         commentator: store.commentator.user,
-        is_commentator_fetching: store.commentator.is_fetching
+        is_commentator_fetching: store.commentator.is_fetching,
+        post_likes: store.postLikes.likes,
+        is_post_likes_fetching: store.postLikes.is_fetching
     }
 })
 
@@ -32,6 +35,7 @@ export default class Main extends React.Component {
     constructor() {
         super(...arguments);
         this.props.dispatch(fetchUsers());
+        this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchTopLikesPost());
         this.props.dispatch(fetchTopViewsPost());
         this.props.dispatch(fetchBloger());
@@ -39,18 +43,31 @@ export default class Main extends React.Component {
     }
 
     render() {
+
         let top_views_posts = this.props.top_views_posts.map((post, index) => {
             let user = this.props.users.find(item => item.id === post.user_id);
-            return <PostItem key={index}
-                               post={post}
-                               user={user}
-                                />
-        });
-        let top_likes_posts = this.props.top_likes_posts.map((post, index) => {
-            let user = this.props.users.find(item => item.id === post.user_id);
+            let likes = this.props.post_likes.filter(item => item.post_id === post.id);
+            let users = likes.map((like, index) => {
+                return this.props.users.find(item => item.id === like.user_id);
+            });
             return <PostItem key={index}
                              post={post}
                              user={user}
+                             likes={likes}
+                             users={users}
+                             />
+        });
+        let top_likes_posts = this.props.top_likes_posts.map((post, index) => {
+            let user = this.props.users.find(item => item.id === post.user_id);
+            let likes = this.props.post_likes.filter(item => item.post_id === post.id);
+            let users = likes.map((like, index) => {
+                return this.props.users.find(item => item.id === like.user_id);
+            });
+            return <PostItem key={index}
+                             post={post}
+                             user={user}
+                             likes={likes}
+                             users={users}
                              />
         });
 
@@ -89,7 +106,7 @@ export default class Main extends React.Component {
                     <aside className="content__top_post_aside">
                         <h2 className="content__top_post_h2">Топ 5 просмотренных записей</h2>
                         <TransitionGroup className="transition_group">
-                            {this.props.is_top_views_posts_fetching || this.props.is_users_fetching
+                            {this.props.is_top_views_posts_fetching || this.props.is_users_fetching || this.props.is_post_likes_fetching
                                 ? <Loader/>
                                 : <CSSTransition timeout={1000}
                                                  classNames="appearance">
@@ -103,7 +120,7 @@ export default class Main extends React.Component {
                     <aside className="content__top_post_aside">
                         <h2 className="content__top_post_h2">Топ 5 отмеченных записей</h2>
                         <TransitionGroup className="transition_group">
-                            {this.props.is_top_likes_posts_fetching || this.props.is_users_fetching
+                            {this.props.is_top_likes_posts_fetching || this.props.is_users_fetching || this.props.is_post_likes_fetching
                                 ? <Loader/>
                                 : <CSSTransition timeout={1000}
                                                  classNames="appearance">

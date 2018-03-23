@@ -19,7 +19,6 @@ export default class Unlogged extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         if (Object.keys(this.props.login).length === 0) {
             return <Redirect to="/"/>
         }

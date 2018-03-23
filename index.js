@@ -9,6 +9,8 @@ const PORT = 8090;
 let routePosts = require('./routes/posts');
 let routeComments = require('./routes/comments');
 let routeUsers = require('./routes/users');
+let routePostLikes = require('./routes/postLikes');
+let routeCommentLikes = require('./routes/commentLikes');
 
 let app = express();
 
@@ -28,6 +30,8 @@ app.use(express.static(__dirname + '/public'));
 app.use('/api/posts', routePosts);
 app.use('/api/comments', routeComments);
 app.use('/api/users', routeUsers);
+app.use('/api/post-likes', routePostLikes);
+app.use('/api/comment-likes', routeCommentLikes);
 
 app.use((req, res) => {
     return res.sendFile('/public/index.html', {root: __dirname})

@@ -1,10 +1,16 @@
 import React from 'react';
 //import {Link} from 'react-router';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
+import {connect} from 'react-redux';
 
 import TooltipLikes from './TooltipLikes';
 
+@connect((store) => {
+    return {
+        login: store.login.login,
+        is_login_fetching: store.login.is_fetching,
+    }
+})
 export default class PostItem extends React.Component {
     constructor() {
         super(...arguments);
@@ -15,27 +21,37 @@ export default class PostItem extends React.Component {
             tooltip: ''
         };
         this.tooltipHide = this.tooltipHide.bind(this);
+        this.addLike = this.addLike.bind(this);
     }
 
     tooltipShow() {
-        axios.get(`/api/users/like-post/${this.props.post.id}`)
-            .then((result) => {
-                this.setState({
-                    users: result.data
-                });
-                this.setState({
-                    tooltip: <div onMouseEnter={() => {clearTimeout(this.timeout)}}
-                                  onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}>
-                                        <TooltipLikes users={this.state.users}/>
-                              </div>
-                })
-            });
+        if (this.props.likes.length === 0) return;
+        this.setState({
+            tooltip: <div onMouseEnter={() => {clearTimeout(this.timeout)}}
+                          onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}>
+                <TooltipLikes users={this.props.users}/>
+            </div>
+        })
     }
 
     tooltipHide() {
         this.setState({
             tooltip: ''
         });
+    }
+
+    addLike(post_id) {
+        if (Object.keys(this.props.login).length === 0) {
+            return;
+        }
+        let user = this.state.users.find(item => item.id === this.props.login.id);
+        if (!user) {
+            let usersList = this.state.users;
+           this.setState({
+               users: [1, 3, 4]
+           });
+           console.log(this.state.users);
+        }
     }
 
 
@@ -69,9 +85,10 @@ export default class PostItem extends React.Component {
                     <span className="post_like"
                           id={`post_id_${this.props.post.id}`}
                           onMouseEnter={() => {this.tooltipShow()}}
-                          onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}>
-                             <i className="fa fa-heart" aria-hidden="true"/>
-                             {this.props.post.likes === 0 ? '' : this.props.post.likes}
+                          onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}
+                          onClick={() => {this.addLike(this.props.post.id)}}>
+                             <i className="fa fa-heart" aria-hidden="true"/>&nbsp;
+                             {this.props.likes.length === 0 ? '' : this.props.likes.length}
                     </span>
                 </div>
             </div>

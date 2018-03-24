@@ -4,6 +4,7 @@ $nav_height: 80px
 $nav_background_color: rgba(0, 0, 0, 0.8)
 $content_width: 800px
 $footer_height: 40px
+$big_avatar_size: 350px
 
 *
   padding: 0
@@ -93,6 +94,7 @@ nav
   float: right
 
 .login__link
+  display: inline-block
   color: #faebd7
   border: 1px solid rgba(0, 0, 0, 0)
 
@@ -227,8 +229,8 @@ nav
   //float: right
 
 .big_avatar
-  width: 350px
-  height: 350px
+  width: $big_avatar_size
+  height: $big_avatar_size
 
 .content__user_name
   margin: 10px 0
@@ -304,6 +306,17 @@ nav
   width: 100px
   height: 100px
 
+/*Cabinet*/
+.content__cabinet__login
+  box-sizing: border-box
+  padding: 10px
+  height: $big_avatar_size + 30px
+
+.content__cabinet__login_ava
+  float: left
+  margin-right: 10px
+
+  /*Tooltip*/
 .tooltip
   position: absolute
 

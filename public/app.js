@@ -8973,6 +8973,10 @@ var _Unlogged = __webpack_require__(461);
 
 var _Unlogged2 = _interopRequireDefault(_Unlogged);
 
+var _Cabinet = __webpack_require__(476);
+
+var _Cabinet2 = _interopRequireDefault(_Cabinet);
+
 var _PageNotFound = __webpack_require__(462);
 
 var _PageNotFound2 = _interopRequireDefault(_PageNotFound);
@@ -9001,6 +9005,7 @@ _reactDom2.default.render(_react2.default.createElement(
                 _react2.default.createElement(_reactRouterDom.Route, { path: '/post/:post_id', component: _Post2.default }),
                 _react2.default.createElement(_reactRouterDom.Route, { path: '/login', component: _Login2.default }),
                 _react2.default.createElement(_reactRouterDom.Route, { path: '/unlogged', component: _Unlogged2.default }),
+                _react2.default.createElement(_reactRouterDom.Route, { path: '/cabinet', component: _Cabinet2.default }),
                 _react2.default.createElement(_reactRouterDom.Route, { path: '*', component: _PageNotFound2.default })
             )
         )
@@ -41562,6 +41567,11 @@ var LoginPanel = (_dec = (0, _reactRedux.connect)(function (store) {
                     { className: 'login__links' },
                     _react2.default.createElement(
                         _reactRouterDom.NavLink,
+                        { to: '/cabinet', className: 'nav_menu__link login__link' },
+                        '\u041B\u0438\u0447\u043D\u044B\u0439 \u043A\u0430\u0431\u0438\u043D\u0435\u0442'
+                    ),
+                    _react2.default.createElement(
+                        _reactRouterDom.NavLink,
                         { to: '/unlogged', className: 'nav_menu__link login__link' },
                         '\u0412\u044B\u0445\u043E\u0434'
                     )
@@ -45087,6 +45097,205 @@ exports.default = Main;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 464 */,
+/* 465 */,
+/* 466 */,
+/* 467 */,
+/* 468 */,
+/* 469 */,
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _class;
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(9);
+
+var _reactTransitionGroup = __webpack_require__(26);
+
+var _reactRedux = __webpack_require__(6);
+
+var _PostItem = __webpack_require__(74);
+
+var _PostItem2 = _interopRequireDefault(_PostItem);
+
+var _Loader = __webpack_require__(27);
+
+var _Loader2 = _interopRequireDefault(_Loader);
+
+var _userPostsActions = __webpack_require__(453);
+
+var _usersListActions = __webpack_require__(28);
+
+var _postLikesActions = __webpack_require__(47);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
+    return {
+        login: store.login.login,
+        users: store.usersList.users,
+        is_users_fetching: store.usersList.is_fetching,
+        user_posts: store.userPosts.posts,
+        is_user_posts_fetching: store.userPosts.is_fetching,
+        post_likes: store.postLikes.likes,
+        is_post_likes_fetching: store.postLikes.is_fetching
+    };
+}), _dec(_class = function (_React$Component) {
+    _inherits(Cabinet, _React$Component);
+
+    function Cabinet() {
+        _classCallCheck(this, Cabinet);
+
+        var _this = _possibleConstructorReturn(this, (Cabinet.__proto__ || Object.getPrototypeOf(Cabinet)).apply(this, arguments));
+
+        _this.props.dispatch((0, _usersListActions.fetchUsers)());
+        _this.props.dispatch((0, _userPostsActions.fetchUserPosts)(_this.props.login.id));
+        _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
+        _this.triggerPostLike = _this.triggerPostLike.bind(_this);
+        return _this;
+    }
+
+    _createClass(Cabinet, [{
+        key: 'triggerPostLike',
+        value: function triggerPostLike(post_id) {
+            var _this2 = this;
+
+            if (Object.keys(this.props.login).length === 0) return;
+            if (this.props.post_likes.find(function (item) {
+                return item.post_id === post_id && item.user_id === _this2.props.login.id;
+            })) {
+                this.props.dispatch((0, _postLikesActions.deletePostLike)(post_id, this.props.login.id));
+            } else {
+                this.props.dispatch((0, _postLikesActions.addPostLike)(post_id, this.props.login.id));
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
+            if (Object.keys(this.props.login).length === 0) {
+                return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/login' });
+            }
+            var posts = this.props.user_posts.map(function (post, index) {
+                var likes = _this3.props.post_likes.filter(function (item) {
+                    return item.post_id === post.id;
+                });
+                var users = likes.map(function (like, index) {
+                    return _this3.props.users.find(function (item) {
+                        return item.id === like.user_id;
+                    });
+                });
+                return _react2.default.createElement(_PostItem2.default, { key: index,
+                    post: post,
+                    likes: likes,
+                    users: users,
+                    triggerLikes: _this3.triggerPostLike });
+            });
+            return _react2.default.createElement(
+                'div',
+                { className: 'content__cabinet' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'content__cabinet__login' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'content__cabinet__login_ava' },
+                        _react2.default.createElement('img', { src: this.props.login.avatar_path, className: 'big_avatar' })
+                    ),
+                    _react2.default.createElement(
+                        'h2',
+                        { className: 'content__cabinet__login_name' },
+                        this.props.login.name,
+                        ' ',
+                        this.props.login.surname
+                    ),
+                    _react2.default.createElement(
+                        'p',
+                        { className: 'content__cabinet__login_info' },
+                        '\u0413\u043E\u0440\u043E\u0434: ',
+                        this.props.login.city
+                    ),
+                    _react2.default.createElement(
+                        'p',
+                        { className: 'content__cabinet__login_info' },
+                        '\u0412\u043E\u0437\u0440\u0430\u0441\u0442: ',
+                        this.props.login.age
+                    ),
+                    _react2.default.createElement(
+                        'p',
+                        { className: 'content__cabinet__login_info' },
+                        'Email: ',
+                        _react2.default.createElement(
+                            'a',
+                            { href: 'mailto:' + this.props.login.email },
+                            this.props.login.email
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'p',
+                        { className: 'content__cabinet__login_info' },
+                        '\u0412\u0435\u0431-\u0441\u0430\u0439\u0442: ',
+                        _react2.default.createElement(
+                            'a',
+                            { href: 'http://' + this.props.login.site, target: '_blank' },
+                            this.props.login.site
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        _reactTransitionGroup.TransitionGroup,
+                        null,
+                        this.props.is_user_posts_fetching || this.props.is_users_fetching || this.props.is_post_likes_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
+                            _reactTransitionGroup.CSSTransition,
+                            { timeout: 1000,
+                                classNames: 'appearance' },
+                            _react2.default.createElement(
+                                'div',
+                                null,
+                                posts
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Cabinet;
+}(_react2.default.Component)) || _class);
+exports.default = Cabinet;
 
 /***/ })
 /******/ ]);

@@ -2413,6 +2413,7 @@ nav {
   float: right; }
 
 .login__link {
+  display: inline-block;
   color: #faebd7;
   border: 1px solid transparent; }
 
@@ -2605,6 +2606,17 @@ nav {
 .user_item__ava__img {
   width: 100px;
   height: 100px; }
+
+/*Cabinet*/
+.content__cabinet__login {
+  box-sizing: border-box;
+  padding: 10px;
+  height: 380px; }
+
+.content__cabinet__login_ava {
+  float: left;
+  margin-right: 10px;
+  /*Tooltip*/ }
 
 .tooltip {
   position: absolute; }

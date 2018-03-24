@@ -1,6 +1,6 @@
 import React from 'react';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
-
+import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import PostItem from '../components/Content/PostItem';
@@ -46,6 +46,9 @@ export default class User extends React.Component {
     }
 
     render() {
+        if (Object.keys(this.props.login).length !== 0 && this.props.login.id === +this.props.match.params.user_id) {
+            return <Redirect to="/cabinet"/>
+        }
         let posts = this.props.user_posts.map((post, index) => {
             let likes = this.props.post_likes.filter(item => item.post_id === post.id);
             let users = likes.map((like, index) => {

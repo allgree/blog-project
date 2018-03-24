@@ -90,10 +90,10 @@ export default class Post extends React.Component {
     }
 
     addComment(values) {
-        if (Object.keys(this.props.login).length === 0) return;
+        if (Object.keys(this.props.login).length === 0 || !values.body) return;
         this.props.dispatch(addPostComment(this.props.post.id, this.props.login.id, values.body));
     }
-    
+
     deleteComment(comment_id) {
         if (Object.keys(this.props.login).length === 0) return;
         this.props.dispatch(deletePostComment(comment_id));

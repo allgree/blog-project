@@ -41479,7 +41479,8 @@ var Nav = function (_React$Component) {
             '/about': 'О проекте',
             '/user': 'О авторе блога',
             '/post': 'Запись',
-            '/login': 'Вход на сайт'
+            '/login': 'Вход на сайт',
+            '/cabinet': 'Личный кабинет'
         };
         return _this;
     }
@@ -44122,6 +44123,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactTransitionGroup = __webpack_require__(26);
 
+var _reactRouterDom = __webpack_require__(9);
+
 var _reactRedux = __webpack_require__(6);
 
 var _PostItem = __webpack_require__(74);
@@ -44195,6 +44198,9 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
         value: function render() {
             var _this3 = this;
 
+            if (Object.keys(this.props.login).length !== 0 && this.props.login.id === +this.props.match.params.user_id) {
+                return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/cabinet' });
+            }
             var posts = this.props.user_posts.map(function (post, index) {
                 var likes = _this3.props.post_likes.filter(function (item) {
                     return item.post_id === post.id;
@@ -44511,7 +44517,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'addComment',
         value: function addComment(values) {
-            if (Object.keys(this.props.login).length === 0) return;
+            if (Object.keys(this.props.login).length === 0 || !values.body) return;
             this.props.dispatch((0, _postCommentsActions.addPostComment)(this.props.post.id, this.props.login.id, values.body));
         }
     }, {
@@ -45442,11 +45448,19 @@ var CommentForm = function (_React$Component) {
     }
 
     _createClass(CommentForm, [{
+        key: 'submit',
+        value: function submit() {
+            this.props.reset();
+            this.props.handleSubmit();
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
                 'form',
-                { onSubmit: this.props.handleSubmit, id: 'comment' },
+                null,
                 _react2.default.createElement(_reduxForm.Field, { component: 'textarea',
                     name: 'body',
                     cols: '110',
@@ -45456,7 +45470,9 @@ var CommentForm = function (_React$Component) {
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     'button',
-                    { type: 'submit' },
+                    { onClick: function onClick() {
+                            _this2.submit();
+                        } },
                     '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439'
                 )
             );

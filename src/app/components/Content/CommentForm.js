@@ -2,9 +2,14 @@ import React from 'react';
 import {Field, reduxForm } from 'redux-form';
 
 class CommentForm extends React.Component {
+    submit() {
+        this.props.reset();
+        this.props.handleSubmit();
+    }
+
     render() {
         return (
-            <form onSubmit={this.props.handleSubmit} id="comment">
+            <form>
                 <Field component="textarea"
                        name="body"
                        cols="110"
@@ -12,9 +17,9 @@ class CommentForm extends React.Component {
                        id="comment_body"
                        required/>
                 <br/>
-                <button type="submit">
+                   <button onClick={() => {this.submit()}}>
                             Добавить комментарий
-                </button>
+                   </button>
             </form>
         )
     }

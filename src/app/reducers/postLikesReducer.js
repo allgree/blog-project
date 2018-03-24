@@ -33,8 +33,8 @@ export function postLikesReducer(state = {likes: [], is_fetching: false}, action
         }
         case PostLikes.DELETE_POST_LIKE_FULFILLED: {
             let likes = [...state.likes];
-            let deleted_like = JSON.parse(action.payload.config.data);
             if (action.payload.data === 1) {
+                let deleted_like = JSON.parse(action.payload.config.data);
                 likes.find((like, index) => {
                     if (like.post_id === deleted_like.post_id && like.user_id === deleted_like.user_id) {
                         return likes.splice(index, 1);

@@ -30,6 +30,24 @@ let Comments = {
             .then(result => {
                 callback(result);
             })
+    },
+    add: (post_id, user_id, body, callback) => {
+        model.create({
+            post_id: post_id,
+            user_id: user_id,
+            body: body
+        })
+            .then(result => {callback(result)})
+    },
+    delete: (comment_id, callback) => {
+        model.destroy({
+            where: {
+                id: comment_id
+            }
+        })
+            .then(result => {
+                callback(result);
+            })
     }
 };
 

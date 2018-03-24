@@ -2399,14 +2399,20 @@ function fetchPostLikes() {
 function addPostLike(post_id, user_id) {
     return {
         type: 'ADD_POST_LIKE',
-        payload: _axios2.default.post('/api/post-likes/add/', { post_id: post_id, user_id: user_id })
+        payload: _axios2.default.post('/api/post-likes/add/', {
+            post_id: post_id,
+            user_id: user_id
+        })
     };
 }
 
 function deletePostLike(post_id, user_id) {
     return {
         type: 'DELETE_POST_LIKE',
-        payload: _axios2.default.post('/api/post-likes/delete', { post_id: post_id, user_id: user_id })
+        payload: _axios2.default.post('/api/post-likes/delete', {
+            post_id: post_id,
+            user_id: user_id
+        })
     };
 }
 
@@ -40493,11 +40499,14 @@ var PostComments = _interopRequireWildcard(_postCommentsConstants);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function postCommentsReducer() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { comments: [], is_fetching: false };
     var action = arguments[1];
 
     switch (action.type) {
+
         case PostComments.FETCH_POST_COMMENTS_PENDING:
             {
                 state = _extends({}, state, { is_fetching: true });
@@ -40509,6 +40518,48 @@ function postCommentsReducer() {
                 break;
             }
         case PostComments.FETCH_POST_COMMENTS_REJECTED:
+            {
+                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
+                break;
+            }
+
+        case PostComments.ADD_POST_COMMENT_PENDING:
+            {
+                state = _extends({}, state, { is_fetching: true });
+                break;
+            }
+        case PostComments.ADD_POST_COMMENT_FULFILLED:
+            {
+                var comments = state.comments.concat(action.payload.data);
+                state = _extends({}, state, { is_fetching: false, comments: comments });
+                break;
+            }
+        case PostComments.ADD_POST_COMMENT_REJECTED:
+            {
+                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
+                break;
+            }
+
+        case PostComments.DELETE_POST_COMMENT_PENDING:
+            {
+                state = _extends({}, state, { is_fetching: true });
+                break;
+            }
+        case PostComments.DELETE_POST_COMMENT_FULFILLED:
+            {
+                var _comments = [].concat(_toConsumableArray(state.comments));
+                if (action.payload.data === 1) {
+                    var deleted_comment_id = JSON.parse(action.payload.config.data).comment_id;
+                    _comments.find(function (comment, index) {
+                        if (comment.id === deleted_comment_id) {
+                            return _comments.splice(index, 1);
+                        }
+                    });
+                }
+                state = _extends({}, state, { is_fetching: false, comments: _comments });
+                break;
+            }
+        case PostComments.DELETE_POST_COMMENT_REJECTED:
             {
                 state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
                 break;
@@ -40530,6 +40581,12 @@ Object.defineProperty(exports, "__esModule", {
 var FETCH_POST_COMMENTS_PENDING = exports.FETCH_POST_COMMENTS_PENDING = 'FETCH_POST_COMMENTS_PENDING';
 var FETCH_POST_COMMENTS_FULFILLED = exports.FETCH_POST_COMMENTS_FULFILLED = 'FETCH_POST_COMMENTS_FULFILLED';
 var FETCH_POST_COMMENTS_REJECTED = exports.FETCH_POST_COMMENTS_REJECTED = 'FETCH_POST_COMMENTS_REJECTED';
+var ADD_POST_COMMENT_PENDING = exports.ADD_POST_COMMENT_PENDING = 'ADD_POST_COMMENT_PENDING';
+var ADD_POST_COMMENT_FULFILLED = exports.ADD_POST_COMMENT_FULFILLED = 'ADD_POST_COMMENT_FULFILLED';
+var ADD_POST_COMMENT_REJECTED = exports.ADD_POST_COMMENT_REJECTED = 'ADD_POST_COMMENT_REJECTED';
+var DELETE_POST_COMMENT_PENDING = exports.DELETE_POST_COMMENT_PENDING = 'DELETE_POST_COMMENT_PENDING';
+var DELETE_POST_COMMENT_FULFILLED = exports.DELETE_POST_COMMENT_FULFILLED = 'DELETE_POST_COMMENT_FULFILLED';
+var DELETE_POST_COMMENT_REJECTED = exports.DELETE_POST_COMMENT_REJECTED = 'DELETE_POST_COMMENT_REJECTED';
 
 /***/ }),
 /* 395 */
@@ -40970,8 +41027,8 @@ function postLikesReducer() {
         case PostLikes.DELETE_POST_LIKE_FULFILLED:
             {
                 var _likes = [].concat(_toConsumableArray(state.likes));
-                var deleted_like = JSON.parse(action.payload.config.data);
                 if (action.payload.data === 1) {
+                    var deleted_like = JSON.parse(action.payload.config.data);
                     _likes.find(function (like, index) {
                         if (like.post_id === deleted_like.post_id && like.user_id === deleted_like.user_id) {
                             return _likes.splice(index, 1);
@@ -41077,8 +41134,8 @@ function commentLikesReducer() {
         case CommentLikes.DELETE_COMMENT_LIKE_FULFILLED:
             {
                 var _likes = [].concat(_toConsumableArray(state.likes));
-                var deleted_like = JSON.parse(action.payload.config.data);
                 if (action.payload.data === 1) {
+                    var deleted_like = JSON.parse(action.payload.config.data);
                     _likes.find(function (like, index) {
                         if (like.comment_id === deleted_like.comment_id && like.user_id === deleted_like.user_id) {
                             return _likes.splice(index, 1);
@@ -44343,6 +44400,10 @@ var _TooltipLikes = __webpack_require__(75);
 
 var _TooltipLikes2 = _interopRequireDefault(_TooltipLikes);
 
+var _CommentForm = __webpack_require__(477);
+
+var _CommentForm2 = _interopRequireDefault(_CommentForm);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -44386,6 +44447,8 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.tooltipHide = _this.tooltipHide.bind(_this);
         _this.triggerPostLike = _this.triggerPostLike.bind(_this);
         _this.triggerCommentLike = _this.triggerCommentLike.bind(_this);
+        _this.addComment = _this.addComment.bind(_this);
+        _this.deleteComment = _this.deleteComment.bind(_this);
         _this.post_likes = [];
         _this.users_like = [];
         return _this;
@@ -44446,6 +44509,18 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
             });
         }
     }, {
+        key: 'addComment',
+        value: function addComment(values) {
+            if (Object.keys(this.props.login).length === 0) return;
+            this.props.dispatch((0, _postCommentsActions.addPostComment)(this.props.post.id, this.props.login.id, values.body));
+        }
+    }, {
+        key: 'deleteComment',
+        value: function deleteComment(comment_id) {
+            if (Object.keys(this.props.login).length === 0) return;
+            this.props.dispatch((0, _postCommentsActions.deletePostComment)(comment_id));
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this5 = this;
@@ -44478,7 +44553,9 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                     user: user,
                     likes: likes,
                     users: users,
-                    triggerLike: _this5.triggerCommentLike });
+                    triggerLike: _this5.triggerCommentLike,
+                    'delete': _this5.deleteComment,
+                    login: _this5.props.login });
             });
             return _react2.default.createElement(
                 'div',
@@ -44577,7 +44654,8 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                                 comments
                             )
                         )
-                    )
+                    ),
+                    Object.keys(this.props.login).length !== 0 && _react2.default.createElement(_CommentForm2.default, { onSubmit: this.addComment })
                 )
             );
         }
@@ -44623,6 +44701,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.fetchPostComments = fetchPostComments;
+exports.addPostComment = addPostComment;
+exports.deletePostComment = deletePostComment;
 
 var _axios = __webpack_require__(7);
 
@@ -44634,6 +44714,26 @@ function fetchPostComments(post_id) {
     return {
         type: 'FETCH_POST_COMMENTS',
         payload: _axios2.default.get('/api/comments/post/' + post_id)
+    };
+}
+
+function addPostComment(post_id, user_id, body) {
+    return {
+        type: 'ADD_POST_COMMENT',
+        payload: _axios2.default.post('/api/comments/add/', {
+            post_id: post_id,
+            user_id: user_id,
+            body: body
+        })
+    };
+}
+
+function deletePostComment(comment_id) {
+    return {
+        type: 'DELETE_POST_COMMENT',
+        payload: _axios2.default.post('/api/comments/delete', {
+            comment_id: comment_id
+        })
     };
 }
 
@@ -44779,6 +44879,14 @@ var CommentItem = function (_React$Component) {
                         ' ',
                         this.props.user.surname
                     )
+                ),
+                Object.keys(this.props.login).length !== 0 && this.props.comment.user_id === this.props.login.id && _react2.default.createElement(
+                    'div',
+                    { className: 'content__post_comment_delete',
+                        onClick: function onClick() {
+                            _this3.props.delete(_this3.props.comment.id);
+                        } },
+                    _react2.default.createElement('i', { className: 'fa fa-trash-o', 'aria-hidden': 'true' })
                 ),
                 _react2.default.createElement(
                     'div',
@@ -45218,7 +45326,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                     post: post,
                     likes: likes,
                     users: users,
-                    triggerLikes: _this3.triggerPostLike });
+                    triggerLike: _this3.triggerPostLike });
             });
             return _react2.default.createElement(
                 'div',
@@ -45296,6 +45404,73 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
     return Cabinet;
 }(_react2.default.Component)) || _class);
 exports.default = Cabinet;
+
+/***/ }),
+/* 477 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reduxForm = __webpack_require__(105);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CommentForm = function (_React$Component) {
+    _inherits(CommentForm, _React$Component);
+
+    function CommentForm() {
+        _classCallCheck(this, CommentForm);
+
+        return _possibleConstructorReturn(this, (CommentForm.__proto__ || Object.getPrototypeOf(CommentForm)).apply(this, arguments));
+    }
+
+    _createClass(CommentForm, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'form',
+                { onSubmit: this.props.handleSubmit, id: 'comment' },
+                _react2.default.createElement(_reduxForm.Field, { component: 'textarea',
+                    name: 'body',
+                    cols: '110',
+                    rows: '10',
+                    id: 'comment_body',
+                    required: true }),
+                _react2.default.createElement('br', null),
+                _react2.default.createElement(
+                    'button',
+                    { type: 'submit' },
+                    '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439'
+                )
+            );
+        }
+    }]);
+
+    return CommentForm;
+}(_react2.default.Component);
+
+CommentForm = (0, _reduxForm.reduxForm)({
+    form: 'Comment'
+})(CommentForm);
+
+exports.default = CommentForm;
 
 /***/ })
 /******/ ]);

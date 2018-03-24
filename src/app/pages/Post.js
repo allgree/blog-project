@@ -6,7 +6,7 @@ import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import {connect} from 'react-redux';
 
 import {fetchPost} from "../actions/postActions";
-import {fetchPostComments} from "../actions/postCommentsActions";
+import {fetchPostComments, addPostComment, deletePostComment} from "../actions/postCommentsActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 import {fetchCommentLikes, addCommentLike, deleteCommentLike} from "../actions/commentLikesActions";
@@ -14,7 +14,7 @@ import {fetchCommentLikes, addCommentLike, deleteCommentLike} from "../actions/c
 import CommentItem from '../components/Content/CommentItem';
 import Loader from '../components/Content/Loader';
 import TooltipLikes from '../components/Content/TooltipLikes';
-
+import CommentForm from '../components/Content/CommentForm';
 
 @connect((store) => {
     return {
@@ -47,6 +47,8 @@ export default class Post extends React.Component {
         this.tooltipHide = this.tooltipHide.bind(this);
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.triggerCommentLike = this.triggerCommentLike.bind(this);
+        this.addComment = this.addComment.bind(this);
+        this.deleteComment = this.deleteComment.bind(this);
         this.post_likes = [];
         this.users_like = [];
     }
@@ -87,6 +89,16 @@ export default class Post extends React.Component {
         });
     }
 
+    addComment(values) {
+        if (Object.keys(this.props.login).length === 0) return;
+        this.props.dispatch(addPostComment(this.props.post.id, this.props.login.id, values.body));
+    }
+    
+    deleteComment(comment_id) {
+        if (Object.keys(this.props.login).length === 0) return;
+        this.props.dispatch(deletePostComment(comment_id));
+    }
+
     render() {
         this.post_likes = this.props.post_likes.filter(like => like.post_id === this.props.post.id);
         this.users_like = this.post_likes.map((like, index) => {
@@ -104,7 +116,9 @@ export default class Post extends React.Component {
                                user={user}
                                likes={likes}
                                users={users}
-                               triggerLike={this.triggerCommentLike}/>
+                               triggerLike={this.triggerCommentLike}
+                               delete={this.deleteComment}
+                               login={this.props.login}/>
         });
         return (
             <div>
@@ -154,6 +168,8 @@ export default class Post extends React.Component {
                           </CSSTransition>
                     }
                     </TransitionGroup>
+                    {Object.keys(this.props.login).length !== 0 &&
+                        <CommentForm onSubmit={this.addComment}/>}
                 </div>
             </div>
         )

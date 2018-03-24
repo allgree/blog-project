@@ -54,7 +54,7 @@ export default class Cabinet extends React.Component {
                              post={post}
                              likes={likes}
                              users={users}
-                             triggerLikes={this.triggerPostLike}/>
+                             triggerLike={this.triggerPostLike}/>
         });
         return (
             <div className="content__cabinet">

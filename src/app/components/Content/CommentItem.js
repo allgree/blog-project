@@ -43,21 +43,24 @@ export default class CommentItem extends React.Component {
                         {this.props.user.name} {this.props.user.surname}
                     </Link>
                 </p>
-
-
+                {Object.keys(this.props.login).length !== 0 && this.props.comment.user_id === this.props.login.id &&
+                    <div className="content__post_comment_delete"
+                        onClick={() => {this.props.delete(this.props.comment.id)}}>
+                            <i className="fa fa-trash-o" aria-hidden="true"/>
+                    </div>
+                }
                 <div className="content__post_comment_likes post_like"
                     id={`comment_id_${this.props.comment.id}`}
                     onMouseEnter={() => {this.tooltipShow()}}
                     onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}
                     onClick={() => {this.props.triggerLike(this.props.comment.id)}}>
-                    <div className="tooltip tooltip_comment" id={`tooltip_${this.props.comment.id}`}>
-                        {this.state.tooltip}
-                    </div>
-                    <span>
-                        <i className="fa fa-heart" aria-hidden="true"/>
-                        {this.props.likes.length === 0 ? '' : this.props.likes.length}
-                    </span>
-
+                        <div className="tooltip tooltip_comment" id={`tooltip_${this.props.comment.id}`}>
+                            {this.state.tooltip}
+                        </div>
+                        <span>
+                            <i className="fa fa-heart" aria-hidden="true"/>
+                            {this.props.likes.length === 0 ? '' : this.props.likes.length}
+                        </span>
                 </div>
             </div>
         )

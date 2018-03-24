@@ -39,4 +39,16 @@ router.get('/post/:post_id', (req, res, next) => {
    })
 });
 
+router.post('/add/', (req, res, next) => {
+    Comments.add(req.body.post_id, req.body.user_id, req.body.body, (result) => {
+        res.json(result.dataValues);
+    })
+});
+
+router.post('/delete/', (req, res, next) => {
+    Comments.delete(req.body.comment_id, (result) => {
+        res.json(result);
+    })
+});
+
 module.exports = router;

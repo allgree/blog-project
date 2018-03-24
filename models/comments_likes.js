@@ -29,6 +29,22 @@ let CommentsLikes = {
             .then(result => {
                 callback(result);
             })
+    },
+    add: (comment_id, user_id, callback) => {
+        model.create({
+            comment_id: comment_id,
+            user_id: user_id
+        })
+            .then(result => {callback(result)})
+    },
+    delete: (comment_id, user_id, callback) => {
+        model.destroy({
+            where: {
+                comment_id: comment_id,
+                user_id: user_id
+            }
+        })
+            .then(result => {callback(result);})
     }
 };
 

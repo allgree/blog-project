@@ -48,7 +48,8 @@ export default class CommentItem extends React.Component {
                 <div className="content__post_comment_likes post_like"
                     id={`comment_id_${this.props.comment.id}`}
                     onMouseEnter={() => {this.tooltipShow()}}
-                    onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}>
+                    onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}
+                    onClick={() => {this.props.triggerLike(this.props.comment.id)}}>
                     <div className="tooltip tooltip_comment" id={`tooltip_${this.props.comment.id}`}>
                         {this.state.tooltip}
                     </div>

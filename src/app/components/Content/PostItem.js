@@ -9,6 +9,8 @@ import TooltipLikes from './TooltipLikes';
     return {
         login: store.login.login,
         is_login_fetching: store.login.is_fetching,
+        post_likes: store.postLikes.likes,
+        is_post_likes_fetching: store.postLikes.is_fetching,
     }
 })
 export default class PostItem extends React.Component {

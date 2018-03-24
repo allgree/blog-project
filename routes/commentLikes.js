@@ -9,4 +9,16 @@ router.get('/', (req, res, next) => {
    })
 });
 
+router.post('/add/', (req, res, next) => {
+   CommentLikes.add(req.body.comment_id, req.body.user_id, (result) => {
+       res.json(result.dataValues);
+   })
+});
+
+router.post('/delete/', (req, res, next) => {
+   CommentLikes.delete(req.body.comment_id, req.body.user_id, (result) => {
+       res.json(result);
+   })
+});
+
 module.exports = router;

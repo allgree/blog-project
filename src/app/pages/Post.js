@@ -9,7 +9,7 @@ import {fetchPost} from "../actions/postActions";
 import {fetchPostComments} from "../actions/postCommentsActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
-import {fetchCommentLikes} from "../actions/commentLikesActions";
+import {fetchCommentLikes, addCommentLike, deleteCommentLike} from "../actions/commentLikesActions";
 
 import CommentItem from '../components/Content/CommentItem';
 import Loader from '../components/Content/Loader';
@@ -46,6 +46,7 @@ export default class Post extends React.Component {
         };
         this.tooltipHide = this.tooltipHide.bind(this);
         this.triggerPostLike = this.triggerPostLike.bind(this);
+        this.triggerCommentLike = this.triggerCommentLike.bind(this);
         this.post_likes = [];
         this.users_like = [];
     }
@@ -57,6 +58,16 @@ export default class Post extends React.Component {
             this.props.dispatch(deletePostLike(post_id, this.props.login.id));
         } else {
             this.props.dispatch(addPostLike(post_id, this.props.login.id));
+        }
+    }
+
+    triggerCommentLike(comment_id) {
+        if (Object.keys(this.props.login).length === 0) return;
+        if (this.props.comment_likes.find(item =>
+                item.comment_id === comment_id && item.user_id === this.props.login.id)) {
+            this.props.dispatch(deleteCommentLike(comment_id, this.props.login.id));
+        } else {
+            this.props.dispatch(addCommentLike(comment_id, this.props.login.id));
         }
     }
 
@@ -92,7 +103,8 @@ export default class Post extends React.Component {
                                comment={comment}
                                user={user}
                                likes={likes}
-                               users={users}/>
+                               users={users}
+                               triggerLike={this.triggerCommentLike}/>
         });
         return (
             <div>

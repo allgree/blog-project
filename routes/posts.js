@@ -32,7 +32,16 @@ router.get('/user/:user_id', (req, res, next) => {
 // один пост по id
 router.get('/:post_id', (req, res, next) => {
     Posts.findById(req.params.post_id, (resultPost) => {
-        res.json(resultPost);
+        resultPost.dataValues.views++;
+        Posts.updateViews(resultPost.dataValues.id, resultPost.dataValues.views, (resultUpdate) => {
+            res.json(resultPost);
+        });
+    })
+});
+
+router.post('/addView/', (req, res, next) => {
+    Posts.updateViews(req.body.post_id, req.body.views, (result) => {
+        res.json(result);
     })
 });
 

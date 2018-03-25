@@ -76,6 +76,7 @@ export default class Main extends React.Component {
                              post={post}
                              user={user}
                              likes={likes}
+                             users={users}
                              triggerLike={this.triggerPostLike}
                              delete={this.deletePost}
                              login={this.props.login}

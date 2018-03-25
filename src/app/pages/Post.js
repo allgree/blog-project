@@ -35,6 +35,7 @@ export default class Post extends React.Component {
     constructor() {
         super(...arguments);
         this.props.dispatch(fetchPost(this.props.match.params.post_id));
+
         this.props.dispatch(fetchUsers());
         this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchPostComments(this.props.match.params.post_id));

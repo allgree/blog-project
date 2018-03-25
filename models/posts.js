@@ -63,6 +63,18 @@ let Posts = {
             .then(result => {
                 callback(result);
             })
+    },
+    updateViews: (post_id, views, callback) => {
+        model.update({
+            views: views
+        }, {
+            where: {
+                id: post_id
+            }
+        })
+            .then(result => {
+                callback(result);
+            })
     }
 };
 

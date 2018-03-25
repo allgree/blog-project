@@ -41842,6 +41842,7 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
                     post: post,
                     user: user,
                     likes: likes,
+                    users: users,
                     triggerLike: _this3.triggerPostLike,
                     'delete': _this3.deletePost,
                     login: _this3.props.login
@@ -44423,6 +44424,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
         var _this = _possibleConstructorReturn(this, (Post.__proto__ || Object.getPrototypeOf(Post)).apply(this, arguments));
 
         _this.props.dispatch((0, _postActions.fetchPost)(_this.props.match.params.post_id));
+
         _this.props.dispatch((0, _usersListActions.fetchUsers)());
         _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
         _this.props.dispatch((0, _postCommentsActions.fetchPostComments)(_this.props.match.params.post_id));

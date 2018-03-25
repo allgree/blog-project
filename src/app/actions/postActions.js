@@ -6,4 +6,3 @@ export function fetchPost(post_id) {
         payload: axios.get(`/api/posts/${post_id}`)
     }
 }
-

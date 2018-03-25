@@ -42,8 +42,28 @@ let Posts = {
                 callback(result);
             }
         )
+    },
+    add: (user_id, title, body, callback) => {
+        model.create({
+            user_id: user_id,
+            title: title,
+            body: body,
+            views: 0
+        })
+            .then(result => {
+                callback(result);
+            })
+    },
+    delete: (post_id, callback) => {
+        model.destroy({
+            where: {
+                id: post_id
+            }
+        })
+            .then(result => {
+                callback(result);
+            })
     }
-
 };
 
 module.exports = Posts;

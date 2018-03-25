@@ -2584,6 +2584,11 @@ nav {
   margin-top: 10px;
   margin-left: 20px; }
 
+.content__post_delete {
+  cursor: pointer;
+  float: left;
+  margin-left: 20px; }
+
 .content__post_comment_likes {
   float: right; }
 

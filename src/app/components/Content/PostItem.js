@@ -62,6 +62,12 @@ export default class PostItem extends React.Component {
                     :
                     ''
                 }
+                {Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id &&
+                <div className="content__post_delete"
+                     onClick={() => {this.props.delete(this.props.post.id)}}>
+                    <i className="fa fa-trash-o" aria-hidden="true"/>
+                </div>
+                }
                 <div className="content__post_top_info">
                     <span className="post_view">
                         <i className="fa fa-eye" aria-hidden="true"/> {this.props.post.views}

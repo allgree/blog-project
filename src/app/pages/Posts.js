@@ -6,7 +6,7 @@ import PostItem from '../components/Content/PostItem';
 
 import {connect} from 'react-redux';
 
-import {fetchPostsList} from "../actions/postsListActions";
+import {fetchPostsList, deletePost} from "../actions/postsListActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 
@@ -15,10 +15,13 @@ import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesA
     return {
         users: store.usersList.users,
         is_users_fetching: store.usersList.is_fetching,
+
         posts: store.postsList.posts,
         is_posts_fetching: store.postsList.is_fetching,
+
         post_likes: store.postLikes.likes,
         is_post_likes_fetching: store.postLikes.is_fetching,
+
         login: store.login.login
     }
 })
@@ -29,6 +32,7 @@ export default class Posts extends React.Component {
         this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchPostsList());
         this.triggerPostLike = this.triggerPostLike.bind(this);
+        this.deletePost = this.deletePost.bind(this);
     }
 
     triggerPostLike(post_id) {
@@ -39,6 +43,11 @@ export default class Posts extends React.Component {
         } else {
             this.props.dispatch(addPostLike(post_id, this.props.login.id));
         }
+    }
+
+    deletePost(post_id) {
+        if (Object.keys(this.props.login).length === 0) return;
+        this.props.dispatch(deletePost(post_id));
     }
 
     render() {
@@ -54,6 +63,8 @@ export default class Posts extends React.Component {
                              likes={likes}
                              users={users}
                              triggerLike={this.triggerPostLike}
+                             delete={this.deletePost}
+                             login={this.props.login}
                     />
         });
         return (

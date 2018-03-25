@@ -6,18 +6,22 @@ import {connect} from 'react-redux';
 
 import PostItem from '../components/Content/PostItem';
 import Loader from '../components/Content/Loader';
+import PostForm from '../components/Content/PostForm';
 
-import {fetchUserPosts} from "../actions/userPostsActions";
+import {fetchUserPosts, addUserPost, deleteUserPost} from "../actions/userPostsActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 
 @connect((store) => {
     return {
         login: store.login.login,
+
         users: store.usersList.users,
         is_users_fetching: store.usersList.is_fetching,
+
         user_posts: store.userPosts.posts,
         is_user_posts_fetching: store.userPosts.is_fetching,
+
         post_likes: store.postLikes.likes,
         is_post_likes_fetching: store.postLikes.is_fetching,
     }
@@ -29,6 +33,8 @@ export default class Cabinet extends React.Component {
         this.props.dispatch(fetchUserPosts(this.props.login.id));
         this.props.dispatch(fetchPostLikes());
         this.triggerPostLike = this.triggerPostLike.bind(this);
+        this.addPost = this.addPost.bind(this);
+        this.deletePost = this.deletePost.bind(this);
     }
 
     triggerPostLike(post_id) {
@@ -39,6 +45,16 @@ export default class Cabinet extends React.Component {
         } else {
             this.props.dispatch(addPostLike(post_id, this.props.login.id));
         }
+    }
+
+    addPost(values) {
+        if (Object.keys(this.props.login).length === 0 || !values.title || !values.body) return;
+        this.props.dispatch(addUserPost(this.props.login.id, values.title, values.body));
+    }
+
+    deletePost(post_id) {
+        if (Object.keys(this.props.login).length === 0) return;
+        this.props.dispatch(deleteUserPost(post_id));
     }
 
     render() {
@@ -54,7 +70,9 @@ export default class Cabinet extends React.Component {
                              post={post}
                              likes={likes}
                              users={users}
-                             triggerLike={this.triggerPostLike}/>
+                             triggerLike={this.triggerPostLike}
+                             delete={this.deletePost}
+                             login={this.props.login}/>
         });
         return (
             <div className="content__cabinet">
@@ -79,6 +97,7 @@ export default class Cabinet extends React.Component {
                               </CSSTransition>
                         }
                     </TransitionGroup>
+                    <PostForm onSubmit={this.addPost}/>
                 </div>
             </div>
         )

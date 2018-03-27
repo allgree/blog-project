@@ -23,7 +23,7 @@ export function loginReducer(state = {login: {}, is_fetching: false}, action) {
             break;
         }
         case Login.UNLOGGED_REJECTED: {
-            state = {...state, is_fetching: false, error_message: action.payload};
+            state = {...state, is_fetching: false, error_message: action.payload.message};
             break;
         }
     }

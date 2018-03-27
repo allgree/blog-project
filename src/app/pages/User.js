@@ -73,11 +73,29 @@ export default class User extends React.Component {
                                     <div className="content__user_ava_div">
                                         <img src={this.props.user.avatar_path} className="big_avatar"/>
                                     </div>
-                                    <h2 className="content__user_name">{this.props.user.name} {this.props.user.surname}</h2>
-                                    <p className="content__user_info">Город: {this.props.user.city}</p>
-                                    <p className="content__user_info">Возраст: {this.props.user.age}</p>
-                                    <p className="content__user_info">Email: <a href={`mailto:${this.props.user.email}`}>{this.props.user.email}</a></p>
-                                    <p className="content__user_info">Веб-сайт: <a href={`http://${this.props.user.site}`} target="_blank">{this.props.user.site}</a></p>
+                                    <h2 className="content__user_name">
+                                        {this.props.user.name} {this.props.user.surname}
+                                    </h2>
+                                    {this.props.user.city &&
+                                    <p className="content__user_info">
+                                        Город: {this.props.user.city}
+                                    </p>}
+                                    {this.props.user.age &&
+                                    <p className="content__user_info">
+                                        Возраст: {this.props.user.age}
+                                    </p>}
+                                    {this.props.user.email &&
+                                    <p className="content__user_info">
+                                        Email: <a href={`mailto:${this.props.user.email}`}>
+                                            {this.props.user.email}
+                                        </a>
+                                    </p>}
+                                    {this.props.user.site &&
+                                    <p className="content__user_info">
+                                        Веб-сайт: <a href={`http://${this.props.user.site}`} target="_blank">
+                                            {this.props.user.site}
+                                        </a>
+                                    </p>}
                                 </div>
                      </CSSTransition>
                 }

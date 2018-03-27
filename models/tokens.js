@@ -33,6 +33,14 @@ let Tokens = {
           }
       })
           .then(result => {callback(result)})
+  },
+  addUserId: (user_id, callback) => {
+      model.create({
+          user_id: user_id
+      })
+          .then(result => {
+              callback(result);
+          })
   }
 };
 

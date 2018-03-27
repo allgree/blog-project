@@ -1,5 +1,5 @@
 const express = require('express');
-
+const multiparty = require('multiparty');
 const router = express.Router();
 const FirebaseTokenGenerator = require("firebase-token-generator");
 const tokenGenerator = new FirebaseTokenGenerator("<YOUR_FIREBASE_SECRET>");
@@ -98,6 +98,8 @@ router.get('/like-comment/:comment_id', (req, res, next) => {
     })
 });
 
+
+
 // один пользователь по id
 router.get('/:user_id', (req, res, next) => {
    Users.findById(req.params.user_id, (result) => {
@@ -110,23 +112,90 @@ router.get('/:user_id', (req, res, next) => {
 // авторизующийся пользователь
 router.post('/login', (req, res, next) => {
       Users.findByLogin(req.body.login, (result) => {
-          delete result.dataValues.password;
-          delete result.dataValues.login;
-          let token = tokenGenerator.createToken({uid: String(result.id), some: "arbitrary", data: "here"});
-          Tokens.updateByUserId(result.id, token, (result) => {
-              console.log(result);
-          });
-          result.dataValues.token = token;
-          res.json(result);
+          if (req.body.password !== result.dataValues.password) {
+              return res.json({});
+          } else {
+              delete result.dataValues.password;
+              delete result.dataValues.login;
+              let token = tokenGenerator.createToken({uid: String(result.id), some: "arbitrary", data: "here"});
+              Tokens.updateByUserId(result.id, token, (result) => {
+                  console.log(result);
+              });
+              result.dataValues.token = token;
+              res.json(result);
+          }
       })
 });
 
 router.post('/unlogged', (req, res, next) => {
-   Tokens.updateByUserId(req.body.user_id, null, (result) => {
+    console.log('UNLOGGED USER ID');
+    console.log(req.body);
+    Tokens.updateByUserId(req.body.user_id, null, (result) => {
+       console.log('RESULT UNLOGGED TOKEN ');
+       console.log(result);
        if (result[0] === 1) {
            res.json({result: 1})
        }
    })
 });
+
+router.post('/avatar', (req, res, next) => {
+    console.log(req.body);
+    let form = new multiparty.Form();
+
+    form.on('part', function(part) {
+        // You *must* act on the part by reading it
+        // NOTE: if you want to ignore it, just call "part.resume()"
+
+        if (!part.filename) {
+            // filename is not defined when this is a field and not a file
+            console.log('got field named ' + part.name);
+            // ignore field's content
+            part.resume();
+        }
+//
+        if (part.filename) {
+            // filename is defined when this is a file
+            //count++;
+            console.log('got file named ' + part.name);
+            // ignore file's content here
+            part.resume();
+        }
+
+        part.on('error', function(err) {
+            // decide what to do
+        });
+    });
+    //form.parse(req, function(err, fields, files) {
+    //console.log(fields);
+    //let fiels_name = Object.keys(files)[0];
+    //console.log(files[fiels_name][0]);
+    //Object.keys(fields).forEach(function(name) {
+    //    console.log('got field named ' + name);
+    //});
+////
+    //Object.keys(files).forEach(function(name) {
+    //    console.log('got file named ' + name);
+    //});
+//
+    //console.log('Upload completed!');
+    //res.setHeader('text/plain');
+    //res.end('Received ' + files.length + ' files');
+    //});
+
+    form.parse(req);
+});
+
+router.post('/register',  (req, res, next) => {
+    let avatar = '/img/avatars/default.jpeg';
+    Users.register(req.body, avatar, (result) => {
+        Tokens.addUserId(result.id, (result) => {
+            console.log(result);
+        });
+        res.json(result.dataValues);
+    })
+});
+
+
 
 module.exports = router;

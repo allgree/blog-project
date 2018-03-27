@@ -14,6 +14,19 @@ export function usersListReducer(state = {users: [], is_fetching: false}, action
             state = {...state, is_fetching: false, error_message: action.payload.message};
             break;
         }
+        case UsersList.REGISTER_USER_PENDING: {
+            state = {...state, is_fetching: true};
+            break;
+        }
+        case UsersList.REGISTER_USER_FULFILLED: {
+            let users = state.users.concat(action.payload.data);
+            state = {...state, is_fetching: false, users: users};
+            break;
+        }
+        case UsersList.REGISTER_USER_REJECTED: {
+            state = {...state, is_fetching: false, error_message: action.payload.message};
+            break;
+        }
     }
     return state;
 }

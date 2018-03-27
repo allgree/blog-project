@@ -16,6 +16,7 @@ import Post from './app/pages/Post';
 import Login from './app/pages/Login';
 import Unlogged from './app/pages/Unlogged';
 import Cabinet from './app/pages/Cabinet';
+import Register from './app/pages/Register';
 import PageNotFound from './app/pages/PageNotFound';
 
 const app = document.getElementById('app');
@@ -34,6 +35,7 @@ ReactDOM.render(
                     <Route path="/login" component={Login}/>
                     <Route path="/unlogged" component={Unlogged}/>
                     <Route path="/cabinet" component={Cabinet}/>
+                    <Route path="/register" component={Register}/>
                     <Route path="*" component={PageNotFound}/>
                 </Switch>
             </Layout>

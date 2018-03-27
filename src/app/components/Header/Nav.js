@@ -14,7 +14,8 @@ export default class Nav extends React.Component {
             '/user': 'О авторе блога',
             '/post': 'Запись',
             '/login': 'Вход на сайт',
-            '/cabinet': 'Личный кабинет'
+            '/cabinet': 'Личный кабинет',
+            '/register': 'Регистрация',
         }
     }
 

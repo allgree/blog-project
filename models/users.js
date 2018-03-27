@@ -46,6 +46,21 @@ let Users = {
             .then(result => {
                 callback(result);
             })
+    },
+    register: (user, avatar, callback) => {
+        model.create({
+            login: user.login,
+            password: user.pass1,
+            name: user.name,
+            surname: user.surname,
+            avatar_path: avatar,
+            city: user.city,
+            site: user.site,
+            email: user.email
+        })
+            .then(result => {
+                callback(result);
+            })
     }
 };
 

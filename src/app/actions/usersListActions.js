@@ -6,3 +6,10 @@ export function fetchUsers() {
         payload: axios.get('/api/users/')
     }
 }
+
+export function registerUser(user) {
+    return {
+        type: 'REGISTER_USER',
+        payload: axios.post('api/users/register', user)
+    }
+}

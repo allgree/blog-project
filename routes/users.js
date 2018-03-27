@@ -1,9 +1,11 @@
 const express = require('express');
 const multiparty = require('multiparty');
+const crypto = require('crypto');
 const router = express.Router();
 const FirebaseTokenGenerator = require("firebase-token-generator");
 const tokenGenerator = new FirebaseTokenGenerator("<YOUR_FIREBASE_SECRET>");
 
+const Salts = require('../salts');
 
 const Users = require('../models/users');
 const Posts = require('../models/posts');
@@ -112,7 +114,10 @@ router.get('/:user_id', (req, res, next) => {
 // авторизующийся пользователь
 router.post('/login', (req, res, next) => {
       Users.findByLogin(req.body.login, (result) => {
-          if (req.body.password !== result.dataValues.password) {
+          let hash_pass = crypto.createHash('md5')
+                                        .update(Salts.salt1 + req.body.password + Salts.salt2)
+                                        .digest('hex');
+          if (hash_pass !== result.dataValues.password) {
               return res.json({});
           } else {
               delete result.dataValues.password;
@@ -128,8 +133,6 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post('/unlogged', (req, res, next) => {
-    console.log('UNLOGGED USER ID');
-    console.log(req.body);
     Tokens.updateByUserId(req.body.user_id, null, (result) => {
        console.log('RESULT UNLOGGED TOKEN ');
        console.log(result);
@@ -188,11 +191,14 @@ router.post('/avatar', (req, res, next) => {
 
 router.post('/register',  (req, res, next) => {
     let avatar = '/img/avatars/default.jpeg';
-    Users.register(req.body, avatar, (result) => {
-        Tokens.addUserId(result.id, (result) => {
-            console.log(result);
+    let password = crypto.createHash('md5')
+                         .update(Salts.salt1 + req.body.pass1 + Salts.salt2)
+                         .digest('hex');
+    Users.register(req.body, avatar, password, (result_users) => {
+        Tokens.addUserId(result_users.id, (result_tokens) => {
+            console.log(result_tokens.dataValues);
         });
-        res.json(result.dataValues);
+        res.json(result_users.dataValues);
     })
 });
 

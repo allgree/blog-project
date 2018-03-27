@@ -47,10 +47,10 @@ let Users = {
                 callback(result);
             })
     },
-    register: (user, avatar, callback) => {
+    register: (user, avatar, password, callback) => {
         model.create({
             login: user.login,
-            password: user.pass1,
+            password: password,
             name: user.name,
             surname: user.surname,
             avatar_path: avatar,

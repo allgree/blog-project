@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import {connect} from 'react-redux';
 
-import RegisterForm from '../components/Content/RegisterForm';
+import RegisterForm from '../components/Content/forms/RegisterForm';
 import {registerUser} from "../actions/usersListActions";
 
 @connect((store) => {

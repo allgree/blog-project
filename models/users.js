@@ -61,6 +61,35 @@ let Users = {
             .then(result => {
                 callback(result);
             })
+    },
+    editProfile: (profile, callback) => {
+        model.update({
+            login: profile.login,
+            name: profile.name,
+            surname: profile.surname,
+            city: profile.city,
+            site: profile.site,
+            email: profile.email
+        }, {
+            where: {
+                id: profile.id
+            }
+        })
+            .then(result => {
+                callback(result)
+            })
+    },
+    editPass: (user_id, password, callback) => {
+        model.update({
+            password: password
+        }, {
+            where: {
+                id: user_id
+            }
+        })
+            .then(result => {
+                callback(result)
+            })
     }
 };
 

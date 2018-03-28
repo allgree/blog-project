@@ -111,6 +111,20 @@ router.get('/:user_id', (req, res, next) => {
    })
 });
 
+// регистрация
+router.post('/register',  (req, res, next) => {
+    let avatar = '/img/avatars/default.jpeg';
+    let password = crypto.createHash('md5')
+        .update(Salts.salt1 + req.body.pass1 + Salts.salt2)
+        .digest('hex');
+    Users.register(req.body, avatar, password, (result_users) => {
+        Tokens.addUserId(result_users.id, (result_tokens) => {
+            console.log(result_tokens.dataValues);
+        });
+        res.json(result_users.dataValues);
+    })
+});
+
 // авторизующийся пользователь
 router.post('/login', (req, res, next) => {
       Users.findByLogin(req.body.login, (result) => {
@@ -121,7 +135,6 @@ router.post('/login', (req, res, next) => {
               return res.json({});
           } else {
               delete result.dataValues.password;
-              delete result.dataValues.login;
               let token = tokenGenerator.createToken({uid: String(result.id), some: "arbitrary", data: "here"});
               Tokens.updateByUserId(result.id, token, (result) => {
                   console.log(result);
@@ -132,6 +145,7 @@ router.post('/login', (req, res, next) => {
       })
 });
 
+// выход из аккаунта
 router.post('/unlogged', (req, res, next) => {
     Tokens.updateByUserId(req.body.user_id, null, (result) => {
        console.log('RESULT UNLOGGED TOKEN ');
@@ -142,6 +156,33 @@ router.post('/unlogged', (req, res, next) => {
    })
 });
 
+// редактирование профиля
+router.post('/edit', (req, res, next) => {
+   Users.editProfile(req.body, (result) => {
+       res.json(result);
+   })
+});
+
+//изменение пароля
+router.post('/pass', (req, res, next) => {
+    Users.findById(req.body.user_id, (result_user) => {
+        let hash_old_pass = crypto.createHash('md5')
+                                  .update(Salts.salt1 + req.body.password + Salts.salt2)
+                                  .digest('hex');
+        if (result_user.password !== hash_old_pass) {
+            res.json({result: 0})
+        } else {
+            let hash_new_pass = crypto.createHash('md5')
+                                .update(Salts.salt1 + req.body.new_pass + Salts.salt2)
+                                .digest('hex');
+            Users.editPass(req.body.user_id, hash_new_pass, (result_pass) => {
+                res.json(result_pass)
+            })
+        }
+    });
+});
+
+// смена аватара
 router.post('/avatar', (req, res, next) => {
     console.log(req.body);
     let form = new multiparty.Form();
@@ -188,20 +229,5 @@ router.post('/avatar', (req, res, next) => {
 
     form.parse(req);
 });
-
-router.post('/register',  (req, res, next) => {
-    let avatar = '/img/avatars/default.jpeg';
-    let password = crypto.createHash('md5')
-                         .update(Salts.salt1 + req.body.pass1 + Salts.salt2)
-                         .digest('hex');
-    Users.register(req.body, avatar, password, (result_users) => {
-        Tokens.addUserId(result_users.id, (result_tokens) => {
-            console.log(result_tokens.dataValues);
-        });
-        res.json(result_users.dataValues);
-    })
-});
-
-
 
 module.exports = router;

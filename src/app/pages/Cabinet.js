@@ -1,16 +1,21 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
+import axios from 'axios';
 
 import {connect} from 'react-redux';
 
 import PostItem from '../components/Content/PostItem';
 import Loader from '../components/Content/Loader';
-import PostForm from '../components/Content/PostForm';
+import PostForm from '../components/Content/forms/PostForm';
+import UserProfile from '../components/Content/UserProfile';
+import EditUserForm from '../components/Content/forms/EditUserForm';
+import EditPassForm from '../components/Content/forms/EditPassForm';
 
 import {fetchUserPosts, addUserPost, deleteUserPost} from "../actions/userPostsActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
+import {editUser} from "../actions/loginActions";
 
 @connect((store) => {
     return {
@@ -35,6 +40,12 @@ export default class Cabinet extends React.Component {
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.addPost = this.addPost.bind(this);
         this.deletePost = this.deletePost.bind(this);
+        this.triggerShow = this.triggerShow.bind(this);
+        this.editUser = this.editUser.bind(this);
+        this.editPass = this.editPass.bind(this);
+        this.state = {
+            show: 'info'
+        }
     }
 
     triggerPostLike(post_id) {
@@ -55,6 +66,45 @@ export default class Cabinet extends React.Component {
     deletePost(post_id) {
         if (Object.keys(this.props.login).length === 0) return;
         this.props.dispatch(deleteUserPost(post_id));
+    }
+
+    triggerShow(param) {
+        this.setState({
+            show: param
+        })
+    }
+
+    editUser(values) {
+        values.id = this.props.login.id;
+        this.props.dispatch(editUser(values));
+        this.setState({
+            show: 'info'
+        })
+    }
+
+    editPass(values) {
+        let incorrect_caution = document.querySelector('.pass_incorrect');
+        let mismatch_caution = document.querySelector('.pass_mismatch');
+        incorrect_caution.style.display = 'none';
+        mismatch_caution.style.display = 'none';
+        if (values.pass1 === values.pass2) {
+            axios.post('/api/users/pass',
+                {
+                    user_id: this.props.login.id,
+                    password: values.password,
+                    new_pass: values.pass1
+                }).then((responce) => {
+                    if (responce.data[0] === 1) {
+                        this.setState({
+                            show: 'info'
+                        })
+                    } else {
+                        incorrect_caution.style.display = 'inline';
+                    }
+            })
+        } else {
+            mismatch_caution.style.display = 'inline';
+        }
     }
 
     render() {
@@ -79,18 +129,22 @@ export default class Cabinet extends React.Component {
                 <div className="content__cabinet__login">
                     <div className="content__cabinet__login_ava">
                         <img src={this.props.login.avatar_path} className="big_avatar"/>
+                        <button className="button__change_avatar">
+                            Сменить аватар
+                        </button>
                     </div>
-                    <h2 className="content__cabinet__login_name">{this.props.login.name} {this.props.login.surname}</h2>
-                    {this.props.login.city &&
-                    <p className="content__cabinet__login_info">Город: {this.props.login.city}</p>}
-                    {this.props.login.age &&
-                    <p className="content__cabinet__login_info">Возраст: {this.props.login.age}</p>}
-                    {this.props.login.email &&
-                    <p className="content__cabinet__login_info">Email: <a href={`mailto:${this.props.login.email}`}>{this.props.login.email}</a></p>}
-                    {this.props.login.site &&
-                    <p className="content__cabinet__login_info">Веб-сайт: <a href={`http://${this.props.login.site}`} target="_blank">{this.props.login.site}</a></p>}
+                    {this.state.show === 'info' &&
+                    <UserProfile login={this.props.login}
+                                 click={this.triggerShow}/>}
+                    {this.state.show === 'form' &&
+                    <EditUserForm onSubmit={this.editUser}
+                                  login={this.props.login}/>}
+                    {this.state.show === 'pass' &&
+                    <EditPassForm onSubmit={this.editPass}
+                                  login={this.props.login}/>}
+
                 </div>
-                <div>
+                <div className="content__cabinet__posts">
                     <TransitionGroup>
                         {
                             this.props.is_user_posts_fetching || this.props.is_users_fetching || this.props.is_post_likes_fetching

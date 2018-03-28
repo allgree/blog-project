@@ -14,7 +14,7 @@ import {fetchCommentLikes, addCommentLike, deleteCommentLike} from "../actions/c
 import CommentItem from '../components/Content/CommentItem';
 import Loader from '../components/Content/Loader';
 import TooltipLikes from '../components/Content/TooltipLikes';
-import CommentForm from '../components/Content/CommentForm';
+import CommentForm from '../components/Content/forms/CommentForm';
 
 @connect((store) => {
     return {

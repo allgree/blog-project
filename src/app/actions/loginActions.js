@@ -13,3 +13,10 @@ export function unlogged(login) {
         payload: axios.post('api/users/unlogged', {user_id: login.id})
     }
 }
+
+export function editUser(login) {
+    return {
+        type: 'EDIT_USER',
+        payload: axios.post('api/users/edit', login)
+    }
+}

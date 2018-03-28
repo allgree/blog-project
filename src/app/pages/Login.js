@@ -1,6 +1,6 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
-import LoginForm from '../components/Content/LoginForm';
+import LoginForm from '../components/Content/forms/LoginForm';
 
 import {connect} from 'react-redux';
 
@@ -24,7 +24,7 @@ export default class Login extends React.Component {
 
     render() {
         if (Object.keys(this.props.login).length !== 0) {
-            return <Redirect to="/"/>
+            return <Redirect to="/cabinet"/>
         }
         return (
             <div className="content__login">

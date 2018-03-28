@@ -59,7 +59,7 @@ class RegisterForm extends React.Component {
                         name="pass1"
                         id="pass1"
                         type="password"
-                       required
+                        required
                         /><br/>
                 <label htmlFor="pass2">Повтор пароля</label><br/>
                 <Field component="input"

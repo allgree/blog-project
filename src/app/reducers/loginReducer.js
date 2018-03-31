@@ -53,6 +53,24 @@ export function loginReducer(state = {login: {}, is_fetching: false}, action) {
             state = {...state, is_fetching: false, error_message: action.payload.message};
             break;
         }
+
+        //изменение аватара
+        case Login.CHANGE_AVATAR_PENDING: {
+            state = {...state, is_fetching: true};
+            break;
+        }
+        case Login.CHANGE_AVATAR_FULFILLED: {
+            let login = {...state.login};
+            if (action.payload.data.result === 1) {
+                login.avatar_path = action.payload.data.avatar_path;
+            }
+            state = {...state, is_fetching: false, login: login};
+            break;
+        }
+        case Login.CHANGE_AVATAR_REJECTED: {
+            state = {...state, is_fetching: false, error_message: action.payload.message};
+            break;
+        }
     }
     return state;
 }

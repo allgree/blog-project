@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const router = express.Router();
 const FirebaseTokenGenerator = require("firebase-token-generator");
 const tokenGenerator = new FirebaseTokenGenerator("<YOUR_FIREBASE_SECRET>");
+const fs = require('fs');
 
 const Salts = require('../salts');
 
@@ -137,7 +138,7 @@ router.post('/login', (req, res, next) => {
               delete result.dataValues.password;
               let token = tokenGenerator.createToken({uid: String(result.id), some: "arbitrary", data: "here"});
               Tokens.updateByUserId(result.id, token, (result) => {
-                  console.log(result);
+                  //console.log(result);
               });
               result.dataValues.token = token;
               res.json(result);
@@ -184,50 +185,33 @@ router.post('/pass', (req, res, next) => {
 
 // смена аватара
 router.post('/avatar', (req, res, next) => {
-    console.log(req.body);
     let form = new multiparty.Form();
-
-    form.on('part', function(part) {
-        // You *must* act on the part by reading it
-        // NOTE: if you want to ignore it, just call "part.resume()"
-
-        if (!part.filename) {
-            // filename is not defined when this is a field and not a file
-            console.log('got field named ' + part.name);
-            // ignore field's content
-            part.resume();
-        }
-//
-        if (part.filename) {
-            // filename is defined when this is a file
-            //count++;
-            console.log('got file named ' + part.name);
-            // ignore file's content here
-            part.resume();
-        }
-
-        part.on('error', function(err) {
-            // decide what to do
+    form.parse(req, function(err, fields, files) {
+        let user_id = +fields.user_id[0];
+        let temp_path = files.avatar[0].path;
+        let file_name = files.avatar[0].originalFilename;
+        let new_base_path = `/img/avatars/${file_name}`;
+        fs.readFile(temp_path , function(err, data) {
+            Users.findById(user_id, (result_user) => {
+               let old_base_path = result_user.dataValues.avatar_path;
+               let arr_old_path = old_base_path.split('/');
+               let name_avatar = arr_old_path[arr_old_path.length - 1];
+               if (name_avatar !== 'default.jpeg') {
+                   fs.unlink(`./src${old_base_path}`, function(){if(err) throw err});
+                   fs.unlink(`./public${old_base_path}`, function(){if(err) throw err});
+               }
+            });
+            fs.writeFile(`./src${new_base_path}`, data, function(err) {if(err) throw err;});
+            fs.writeFile(`./public${new_base_path}`, data, function(err) {
+                Users.editAvatar(user_id, new_base_path, (result) => {
+                    fs.unlink(temp_path, function(){
+                        if(err) throw err;
+                    });
+                    res.json({result: result[0], avatar_path: new_base_path});
+                });
+            });
         });
     });
-    //form.parse(req, function(err, fields, files) {
-    //console.log(fields);
-    //let fiels_name = Object.keys(files)[0];
-    //console.log(files[fiels_name][0]);
-    //Object.keys(fields).forEach(function(name) {
-    //    console.log('got field named ' + name);
-    //});
-////
-    //Object.keys(files).forEach(function(name) {
-    //    console.log('got file named ' + name);
-    //});
-//
-    //console.log('Upload completed!');
-    //res.setHeader('text/plain');
-    //res.end('Received ' + files.length + ' files');
-    //});
-
-    form.parse(req);
 });
 
 module.exports = router;

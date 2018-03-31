@@ -90,7 +90,20 @@ let Users = {
             .then(result => {
                 callback(result)
             })
+    },
+    editAvatar: (user_id, avatar_path, callback) => {
+        model.update({
+            avatar_path: avatar_path
+        }, {
+            where: {
+                id: user_id
+            }
+        })
+            .then(result => {
+                callback(result)
+            })
     }
+
 };
 
 module.exports = Users;

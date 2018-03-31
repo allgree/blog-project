@@ -20,3 +20,11 @@ export function editUser(login) {
         payload: axios.post('api/users/edit', login)
     }
 }
+
+export function changeAvatar(login_id, data) {
+    const config = {headers: {'content-type': 'multipart/form-data'}};
+    return {
+        type: 'CHANGE_AVATAR',
+        payload: axios.post('api/users/avatar', data, config)
+    }
+}

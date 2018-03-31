@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import PostItem from '../components/Content/PostItem';
 import Loader from '../components/Content/Loader';
 import PostForm from '../components/Content/forms/PostForm';
+import AvatarForm from '../components/Content/forms/AvatarForm';
 import UserProfile from '../components/Content/UserProfile';
 import EditUserForm from '../components/Content/forms/EditUserForm';
 import EditPassForm from '../components/Content/forms/EditPassForm';
@@ -15,7 +16,7 @@ import EditPassForm from '../components/Content/forms/EditPassForm';
 import {fetchUserPosts, addUserPost, deleteUserPost} from "../actions/userPostsActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
-import {editUser} from "../actions/loginActions";
+import {editUser, changeAvatar} from "../actions/loginActions";
 
 @connect((store) => {
     return {
@@ -41,11 +42,15 @@ export default class Cabinet extends React.Component {
         this.addPost = this.addPost.bind(this);
         this.deletePost = this.deletePost.bind(this);
         this.triggerShow = this.triggerShow.bind(this);
+        this.triggerAvatarButton = this.triggerAvatarButton.bind(this);
         this.editUser = this.editUser.bind(this);
         this.editPass = this.editPass.bind(this);
+        this.changeAvatar = this.changeAvatar.bind(this);
         this.state = {
-            show: 'info'
-        }
+            show: 'info',
+            avatar: 'button',
+        };
+        this.extensions = ['jpeg', 'jpg'];
     }
 
     triggerPostLike(post_id) {
@@ -71,6 +76,12 @@ export default class Cabinet extends React.Component {
     triggerShow(param) {
         this.setState({
             show: param
+        })
+    }
+
+    triggerAvatarButton() {
+        this.setState({
+            avatar: 'form'
         })
     }
 
@@ -107,6 +118,21 @@ export default class Cabinet extends React.Component {
         }
     }
 
+    changeAvatar(files) {
+        let name_arr = files[0].name.split('.');
+        let extension = name_arr[name_arr.length - 1];
+        if (this.extensions.indexOf(extension) === -1) {
+            return;
+        }
+        let data = new FormData();
+        data.append('avatar', files[0], files[0].name);
+        data.append('user_id', this.props.login.id);
+        this.props.dispatch(changeAvatar(this.props.login.id, data));
+        this.setState({
+            avatar: 'button'
+        })
+    }
+
     render() {
         if (Object.keys(this.props.login).length === 0) {
             return <Redirect to="/login"/>
@@ -129,9 +155,14 @@ export default class Cabinet extends React.Component {
                 <div className="content__cabinet__login">
                     <div className="content__cabinet__login_ava">
                         <img src={this.props.login.avatar_path} className="big_avatar"/>
-                        <button className="button__change_avatar">
-                            Сменить аватар
-                        </button>
+                        {this.state.avatar === 'button' &&
+                            <button onClick={() => {this.triggerAvatarButton()}}>
+                                Сменить аватар
+                            </button>
+                        }
+                        {this.state.avatar === 'form' &&
+                            <AvatarForm changeAvatar={this.changeAvatar}/>
+                        }
                     </div>
                     {this.state.show === 'info' &&
                     <UserProfile login={this.props.login}

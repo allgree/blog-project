@@ -44,7 +44,7 @@ export default class PostItem extends React.Component {
 
     render() {
         return (
-            <div className="content__post_top">
+            <div className="content__post_top block_item">
                 <Link to={`/post/${this.props.post.id}`}
                       className="content__post_top_link">
                     <h3 className="content__post_top_head">{this.props.post.title}</h3>

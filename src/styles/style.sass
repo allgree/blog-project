@@ -125,8 +125,33 @@ nav
 .content_loader
   text-align: center
 
+.block_item
+  padding: 10px 10px 10px
+  border-radius: 10px
+  background-color: rgba(255, 255, 255, 0.5)
+  margin-bottom: 10px
+  box-shadow: 0 0 30px #a19a98
+  transition: all 0.2s linear
+
+.block_item:hover
+  box-shadow: 0 0 30px #fc9097
 
 /*Main*/
+
+.content__welcome
+  text-align: center
+
+.content__welcome:hover
+  box-shadow: 0 0 30px #a19a98
+
+.content__main__link
+  font-size: 20px
+  text-decoration: none
+  color: black
+  display: block
+  text-align: center
+
+/*Ratings*/
 
 .content__top_users
   display: flex
@@ -142,16 +167,8 @@ nav
 
 .content__top_user_item
   display: block
-  padding: 10px
-  border-radius: 10px
-  background-color: rgba(255, 255, 255, 0.5)
-  box-shadow: 0 0 30px #a19a98
   text-decoration: none
   color: black
-  transition: all 0.2s linear
-
-.content__top_user_item:hover
-  box-shadow: 0 0 30px #fc9097
 
 .content__top_posts
   display: flex
@@ -159,7 +176,6 @@ nav
 
 .content__top_post_aside
   width: ($content_width - 20)/2
-  //float: left
   margin-right: 10px
 
 .content__top_post_h2
@@ -167,11 +183,7 @@ nav
   text-align: center
 
 .content__post_top
-  padding: 10px 10px 30px
-  border-radius: 10px
-  background-color: rgba(255, 255, 255, 0.5)
-  margin-bottom: 10px
-  box-shadow: 0 0 30px #a19a98
+  padding-bottom: 30px
 
 .content__post_top_link
   text-decoration: none
@@ -300,15 +312,6 @@ nav
   color: black
   display: block
   min-height: 100px
-  padding: 10px
-  margin-bottom: 10px
-  background-color: rgba(255, 255, 255, 0.5)
-  border-radius: 10px
-  transition: all 0.2s linear
-  box-shadow: 0 0 30px #a19a98
-
-.user_item:hover
-  box-shadow: 0 0 30px #fc9097
 
 .user_item__ava
   float: left

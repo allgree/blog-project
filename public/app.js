@@ -2704,7 +2704,7 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
 
             return _react2.default.createElement(
                 'div',
-                { className: 'content__post_top' },
+                { className: 'content__post_top block_item' },
                 _react2.default.createElement(
                     _reactRouterDom.Link,
                     { to: '/post/' + this.props.post.id,
@@ -9026,7 +9026,7 @@ function deleteUserPost(post_id) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(150);
-module.exports = __webpack_require__(465);
+module.exports = __webpack_require__(466);
 
 
 /***/ }),
@@ -9070,6 +9070,10 @@ var _Blogs = __webpack_require__(443);
 
 var _Blogs2 = _interopRequireDefault(_Blogs);
 
+var _Ratings = __webpack_require__(479);
+
+var _Ratings2 = _interopRequireDefault(_Ratings);
+
 var _About = __webpack_require__(445);
 
 var _About2 = _interopRequireDefault(_About);
@@ -9094,11 +9098,11 @@ var _Cabinet = __webpack_require__(457);
 
 var _Cabinet2 = _interopRequireDefault(_Cabinet);
 
-var _Register = __webpack_require__(462);
+var _Register = __webpack_require__(463);
 
 var _Register2 = _interopRequireDefault(_Register);
 
-var _PageNotFound = __webpack_require__(464);
+var _PageNotFound = __webpack_require__(465);
 
 var _PageNotFound2 = _interopRequireDefault(_PageNotFound);
 
@@ -9121,6 +9125,7 @@ _reactDom2.default.render(_react2.default.createElement(
                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Main2.default }),
                 _react2.default.createElement(_reactRouterDom.Route, { path: '/posts', component: _Posts2.default }),
                 _react2.default.createElement(_reactRouterDom.Route, { path: '/blogs', component: _Blogs2.default }),
+                _react2.default.createElement(_reactRouterDom.Route, { path: '/ratings', component: _Ratings2.default }),
                 _react2.default.createElement(_reactRouterDom.Route, { path: '/about', component: _About2.default }),
                 _react2.default.createElement(_reactRouterDom.Route, { path: '/user/:user_id', component: _User2.default }),
                 _react2.default.createElement(_reactRouterDom.Route, { path: '/post/:post_id', component: _Post2.default }),
@@ -41626,6 +41631,7 @@ var Nav = function (_React$Component) {
             '/': 'Добро пожаловать',
             '/posts': 'Все записи',
             '/blogs': 'Авторы блогов',
+            '/ratings': 'Рейтинги',
             '/about': 'О проекте',
             '/user': 'О авторе блога',
             '/post': 'Запись',
@@ -41676,6 +41682,11 @@ var Nav = function (_React$Component) {
                         _reactRouterDom.NavLink,
                         { to: '/blogs', className: 'nav_menu__link ' + this.isActive('/blogs') },
                         '\u0410\u0432\u0442\u043E\u0440\u044B'
+                    ),
+                    _react2.default.createElement(
+                        _reactRouterDom.NavLink,
+                        { to: '/ratings', className: 'nav_menu__link ' + this.isActive('/ratings') },
+                        '\u0420\u0435\u0439\u0442\u0438\u043D\u0433\u0438'
                     ),
                     _react2.default.createElement(
                         _reactRouterDom.NavLink,
@@ -41861,11 +41872,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _dec, _class;
 
 var _react = __webpack_require__(0);
 
@@ -41873,29 +41880,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactTransitionGroup = __webpack_require__(19);
 
-var _PostItem = __webpack_require__(49);
-
-var _PostItem2 = _interopRequireDefault(_PostItem);
-
-var _UserTop = __webpack_require__(422);
-
-var _UserTop2 = _interopRequireDefault(_UserTop);
-
-var _Loader = __webpack_require__(20);
-
-var _Loader2 = _interopRequireDefault(_Loader);
-
-var _reactRedux = __webpack_require__(6);
-
-var _postsListActions = __webpack_require__(142);
-
-var _usersListActions = __webpack_require__(17);
-
-var _blogerActions = __webpack_require__(440);
-
-var _commentatorActions = __webpack_require__(441);
-
-var _postLikesActions = __webpack_require__(30);
+var _reactRouterDom = __webpack_require__(7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41905,226 +41890,58 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Main = (_dec = (0, _reactRedux.connect)(function (store) {
-    return {
-        users: store.usersList.users,
-        is_users_fetching: store.usersList.is_fetching,
-
-        posts: store.postsList.posts,
-        is_posts_fetching: store.postsList.is_fetching,
-
-        bloger: store.bloger.user,
-        is_bloger_fetching: store.bloger.is_fetching,
-
-        commentator: store.commentator.user,
-        is_commentator_fetching: store.commentator.is_fetching,
-
-        post_likes: store.postLikes.likes,
-        is_post_likes_fetching: store.postLikes.is_fetching,
-
-        login: store.login.login
-    };
-}), _dec(_class = function (_React$Component) {
+var Main = function (_React$Component) {
     _inherits(Main, _React$Component);
 
     function Main() {
         _classCallCheck(this, Main);
 
-        var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
-
-        _this.props.dispatch((0, _usersListActions.fetchUsers)());
-        _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
-        _this.props.dispatch((0, _postsListActions.fetchPostsList)());
-        _this.props.dispatch((0, _blogerActions.fetchBloger)());
-        _this.props.dispatch((0, _commentatorActions.fetchCommentator)());
-        _this.triggerPostLike = _this.triggerPostLike.bind(_this);
-        _this.deletePost = _this.deletePost.bind(_this);
-        return _this;
+        return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
     }
 
     _createClass(Main, [{
-        key: 'triggerPostLike',
-        value: function triggerPostLike(post_id) {
-            var _this2 = this;
-
-            if (Object.keys(this.props.login).length === 0) return;
-            if (this.props.post_likes.find(function (item) {
-                return item.post_id === post_id && item.user_id === _this2.props.login.id;
-            })) {
-                this.props.dispatch((0, _postLikesActions.deletePostLike)(post_id, this.props.login.id));
-            } else {
-                this.props.dispatch((0, _postLikesActions.addPostLike)(post_id, this.props.login.id));
-            }
-        }
-    }, {
-        key: 'deletePost',
-        value: function deletePost(post_id) {
-            if (Object.keys(this.props.login).length === 0) return;
-            this.props.dispatch((0, _postsListActions.deletePost)(post_id));
-        }
-    }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
 
-            var top_views_posts_info = this.props.posts.sort(function (a, b) {
-                return b.views - a.views;
-            }).slice(0, 5);
-            var top_views_posts = top_views_posts_info.map(function (post, index) {
-                var user = _this3.props.users.find(function (user) {
-                    return user.id === post.user_id;
-                });
-                var likes = _this3.props.post_likes.filter(function (like) {
-                    return like.post_id === post.id;
-                });
-                var users = likes.map(function (like, index) {
-                    return _this3.props.users.find(function (user) {
-                        return user.id === like.user_id;
-                    });
-                });
-                return _react2.default.createElement(_PostItem2.default, { key: index,
-                    post: post,
-                    user: user,
-                    likes: likes,
-                    users: users,
-                    triggerLike: _this3.triggerPostLike,
-                    'delete': _this3.deletePost,
-                    login: _this3.props.login
-                });
-            });
-
-            var likes_posts = this.props.posts.map(function (post, index) {
-                var likes = _this3.props.post_likes.filter(function (like) {
-                    return like.post_id === post.id;
-                });
-                return _extends({}, post, { likes: likes.length });
-            });
-            var top_likes_posts_info = likes_posts.sort(function (a, b) {
-                return b.likes - a.likes;
-            }).slice(0, 5);
-            var top_likes_posts = top_likes_posts_info.map(function (post, index) {
-                var user = _this3.props.users.find(function (user) {
-                    return user.id === post.user_id;
-                });
-                var likes = _this3.props.post_likes.filter(function (like) {
-                    return like.post_id === post.id;
-                });
-                var users = likes.map(function (like, index) {
-                    return _this3.props.users.find(function (user) {
-                        return user.id === like.user_id;
-                    });
-                });
-                return _react2.default.createElement(_PostItem2.default, { key: index,
-                    post: post,
-                    user: user,
-                    likes: likes,
-                    users: users,
-                    triggerLike: _this3.triggerPostLike,
-                    'delete': _this3.deletePost,
-                    login: _this3.props.login
-                });
-            });
             return _react2.default.createElement(
                 'div',
                 { className: 'content__main' },
                 _react2.default.createElement(
                     'div',
-                    { className: 'content__top_users' },
+                    { className: 'content__welcome block_item' },
                     _react2.default.createElement(
-                        'aside',
-                        { className: 'content__top_user' },
-                        _react2.default.createElement(
-                            'h2',
-                            { className: 'content__top_user_h2' },
-                            '\u0421\u0430\u043C\u044B\u0439 \u0430\u043A\u0442\u0438\u0432\u043D\u044B\u0439 \u0431\u043B\u043E\u0433\u0435\u0440'
-                        ),
-                        _react2.default.createElement(
-                            _reactTransitionGroup.TransitionGroup,
-                            { className: 'transition_group' },
-                            this.props.is_bloger_fetching || this.props.is_users_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
-                                _reactTransitionGroup.CSSTransition,
-                                { timeout: 1000,
-                                    classNames: 'appearance' },
-                                _react2.default.createElement(_UserTop2.default, { user: this.props.bloger })
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'aside',
-                        { className: 'content__top_user' },
-                        _react2.default.createElement(
-                            'h2',
-                            { className: 'content__top_user_h2' },
-                            '\u0421\u0430\u043C\u044B\u0439 \u0430\u043A\u0442\u0438\u0432\u043D\u044B\u0439 \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0442\u043E\u0440'
-                        ),
-                        _react2.default.createElement(
-                            _reactTransitionGroup.TransitionGroup,
-                            { className: 'transition_group' },
-                            this.props.is_commentator_fetching || this.props.is_users_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
-                                _reactTransitionGroup.CSSTransition,
-                                { timeout: 1000,
-                                    classNames: 'appearance' },
-                                _react2.default.createElement(_UserTop2.default, { user: this.props.commentator })
-                            )
-                        )
+                        'h2',
+                        null,
+                        '\u0414\u043E\u0431\u0440\u043E \u043F\u043E\u0436\u0430\u043B\u043E\u0432\u0430\u0442\u044C \u0432 \u0412\u0430\u0448 \u041F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0439 \u0411\u043B\u043E\u0433!'
                     )
                 ),
                 _react2.default.createElement(
-                    'div',
-                    { className: 'content__top_posts' },
-                    _react2.default.createElement(
-                        'aside',
-                        { className: 'content__top_post_aside' },
-                        _react2.default.createElement(
-                            'h2',
-                            { className: 'content__top_post_h2' },
-                            '\u0422\u043E\u043F 5 \u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u0435\u043D\u043D\u044B\u0445 \u0437\u0430\u043F\u0438\u0441\u0435\u0439'
-                        ),
-                        _react2.default.createElement(
-                            _reactTransitionGroup.TransitionGroup,
-                            { className: 'transition_group' },
-                            this.props.is_top_views_posts_fetching || this.props.is_users_fetching || this.props.is_post_likes_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
-                                _reactTransitionGroup.CSSTransition,
-                                { timeout: 1000,
-                                    classNames: 'appearance' },
-                                _react2.default.createElement(
-                                    'div',
-                                    null,
-                                    top_views_posts
-                                )
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'aside',
-                        { className: 'content__top_post_aside' },
-                        _react2.default.createElement(
-                            'h2',
-                            { className: 'content__top_post_h2' },
-                            '\u0422\u043E\u043F 5 \u043E\u0442\u043C\u0435\u0447\u0435\u043D\u043D\u044B\u0445 \u0437\u0430\u043F\u0438\u0441\u0435\u0439'
-                        ),
-                        _react2.default.createElement(
-                            _reactTransitionGroup.TransitionGroup,
-                            { className: 'transition_group' },
-                            this.props.is_top_likes_posts_fetching || this.props.is_users_fetching || this.props.is_post_likes_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
-                                _reactTransitionGroup.CSSTransition,
-                                { timeout: 1000,
-                                    classNames: 'appearance' },
-                                _react2.default.createElement(
-                                    'div',
-                                    null,
-                                    top_likes_posts
-                                )
-                            )
-                        )
-                    )
+                    _reactRouterDom.Link,
+                    { to: '/posts', className: 'content__main__link block_item' },
+                    '\u0417\u0430\u043F\u0438\u0441\u0438'
+                ),
+                _react2.default.createElement(
+                    _reactRouterDom.Link,
+                    { to: '/blogs', className: 'content__main__link block_item' },
+                    '\u0410\u0432\u0442\u043E\u0440\u044B'
+                ),
+                _react2.default.createElement(
+                    _reactRouterDom.Link,
+                    { to: '/ratings', className: 'content__main__link block_item' },
+                    '\u0420\u0435\u0439\u0442\u0438\u043D\u0433\u0438'
+                ),
+                _react2.default.createElement(
+                    _reactRouterDom.Link,
+                    { to: '/about', className: 'content__main__link block_item' },
+                    '\u041E \u043F\u0440\u043E\u0435\u043A\u0442\u0435'
                 )
             );
         }
     }]);
 
     return Main;
-}(_react2.default.Component)) || _class);
+}(_react2.default.Component);
+
 exports.default = Main;
 
 /***/ }),
@@ -42935,7 +42752,7 @@ var UserTop = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 _reactRouterDom.Link,
-                { to: '/user/' + this.props.user.id, className: 'content__top_user_item' },
+                { to: '/user/' + this.props.user.id, className: 'content__top_user_item block_item' },
                 _react2.default.createElement(
                     'h3',
                     null,
@@ -44129,7 +43946,7 @@ var UserItem = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 _reactRouterDom.Link,
-                { to: '/user/' + this.props.user.id, className: 'user_item' },
+                { to: '/user/' + this.props.user.id, className: 'user_item block_item' },
                 _react2.default.createElement(
                     'div',
                     { className: 'user_item__ava' },
@@ -45363,19 +45180,19 @@ var _PostForm = __webpack_require__(458);
 
 var _PostForm2 = _interopRequireDefault(_PostForm);
 
-var _AvatarForm = __webpack_require__(680);
+var _AvatarForm = __webpack_require__(459);
 
 var _AvatarForm2 = _interopRequireDefault(_AvatarForm);
 
-var _UserProfile = __webpack_require__(459);
+var _UserProfile = __webpack_require__(460);
 
 var _UserProfile2 = _interopRequireDefault(_UserProfile);
 
-var _EditUserForm = __webpack_require__(460);
+var _EditUserForm = __webpack_require__(461);
 
 var _EditUserForm2 = _interopRequireDefault(_EditUserForm);
 
-var _EditPassForm = __webpack_require__(461);
+var _EditPassForm = __webpack_require__(462);
 
 var _EditPassForm2 = _interopRequireDefault(_EditPassForm);
 
@@ -45709,6 +45526,79 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var AvatarForm = function (_React$Component) {
+    _inherits(AvatarForm, _React$Component);
+
+    function AvatarForm() {
+        _classCallCheck(this, AvatarForm);
+
+        var _this = _possibleConstructorReturn(this, (AvatarForm.__proto__ || Object.getPrototypeOf(AvatarForm)).apply(this, arguments));
+
+        _this.files = [];
+        _this.onFormSubmit = _this.onFormSubmit.bind(_this);
+        _this.change = _this.change.bind(_this);
+        return _this;
+    }
+
+    _createClass(AvatarForm, [{
+        key: "onFormSubmit",
+        value: function onFormSubmit(e) {
+            e.preventDefault();
+            this.props.changeAvatar(this.files);
+        }
+    }, {
+        key: "change",
+        value: function change(e) {
+            e.preventDefault();
+            this.files = e.target.files;
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "form",
+                { onSubmit: this.onFormSubmit },
+                _react2.default.createElement("input", { name: "avatar", type: "file", id: "avatar", onChange: this.change }),
+                _react2.default.createElement(
+                    "button",
+                    { type: "submit" },
+                    "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"
+                )
+            );
+        }
+    }]);
+
+    return AvatarForm;
+}(_react2.default.Component);
+
+exports.default = AvatarForm;
+
+/***/ }),
+/* 460 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var UserProfile = function (_React$Component) {
     _inherits(UserProfile, _React$Component);
 
@@ -45792,7 +45682,7 @@ var UserProfile = function (_React$Component) {
 exports.default = UserProfile;
 
 /***/ }),
-/* 460 */
+/* 461 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45952,7 +45842,7 @@ EditUserForm = (0, _reduxForm.reduxForm)({
 exports.default = EditUserForm;
 
 /***/ }),
-/* 461 */
+/* 462 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46061,7 +45951,7 @@ EditPassForm = (0, _reduxForm.reduxForm)({
 exports.default = EditPassForm;
 
 /***/ }),
-/* 462 */
+/* 463 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46088,7 +45978,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 var _reactRedux = __webpack_require__(6);
 
-var _RegisterForm = __webpack_require__(463);
+var _RegisterForm = __webpack_require__(464);
 
 var _RegisterForm2 = _interopRequireDefault(_RegisterForm);
 
@@ -46150,7 +46040,7 @@ var Register = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = Register;
 
 /***/ }),
-/* 463 */
+/* 464 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46323,7 +46213,7 @@ RegisterForm = (0, _reduxForm.reduxForm)({
 exports.default = RegisterForm;
 
 /***/ }),
-/* 464 */
+/* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46378,13 +46268,12 @@ var Main = function (_React$Component) {
 exports.default = Main;
 
 /***/ }),
-/* 465 */
+/* 466 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 466 */,
 /* 467 */,
 /* 468 */,
 /* 469 */,
@@ -46397,208 +46286,7 @@ exports.default = Main;
 /* 476 */,
 /* 477 */,
 /* 478 */,
-/* 479 */,
-/* 480 */,
-/* 481 */,
-/* 482 */,
-/* 483 */,
-/* 484 */,
-/* 485 */,
-/* 486 */,
-/* 487 */,
-/* 488 */,
-/* 489 */,
-/* 490 */,
-/* 491 */,
-/* 492 */,
-/* 493 */,
-/* 494 */,
-/* 495 */,
-/* 496 */,
-/* 497 */,
-/* 498 */,
-/* 499 */,
-/* 500 */,
-/* 501 */,
-/* 502 */,
-/* 503 */,
-/* 504 */,
-/* 505 */,
-/* 506 */,
-/* 507 */,
-/* 508 */,
-/* 509 */,
-/* 510 */,
-/* 511 */,
-/* 512 */,
-/* 513 */,
-/* 514 */,
-/* 515 */,
-/* 516 */,
-/* 517 */,
-/* 518 */,
-/* 519 */,
-/* 520 */,
-/* 521 */,
-/* 522 */,
-/* 523 */,
-/* 524 */,
-/* 525 */,
-/* 526 */,
-/* 527 */,
-/* 528 */,
-/* 529 */,
-/* 530 */,
-/* 531 */,
-/* 532 */,
-/* 533 */,
-/* 534 */,
-/* 535 */,
-/* 536 */,
-/* 537 */,
-/* 538 */,
-/* 539 */,
-/* 540 */,
-/* 541 */,
-/* 542 */,
-/* 543 */,
-/* 544 */,
-/* 545 */,
-/* 546 */,
-/* 547 */,
-/* 548 */,
-/* 549 */,
-/* 550 */,
-/* 551 */,
-/* 552 */,
-/* 553 */,
-/* 554 */,
-/* 555 */,
-/* 556 */,
-/* 557 */,
-/* 558 */,
-/* 559 */,
-/* 560 */,
-/* 561 */,
-/* 562 */,
-/* 563 */,
-/* 564 */,
-/* 565 */,
-/* 566 */,
-/* 567 */,
-/* 568 */,
-/* 569 */,
-/* 570 */,
-/* 571 */,
-/* 572 */,
-/* 573 */,
-/* 574 */,
-/* 575 */,
-/* 576 */,
-/* 577 */,
-/* 578 */,
-/* 579 */,
-/* 580 */,
-/* 581 */,
-/* 582 */,
-/* 583 */,
-/* 584 */,
-/* 585 */,
-/* 586 */,
-/* 587 */,
-/* 588 */,
-/* 589 */,
-/* 590 */,
-/* 591 */,
-/* 592 */,
-/* 593 */,
-/* 594 */,
-/* 595 */,
-/* 596 */,
-/* 597 */,
-/* 598 */,
-/* 599 */,
-/* 600 */,
-/* 601 */,
-/* 602 */,
-/* 603 */,
-/* 604 */,
-/* 605 */,
-/* 606 */,
-/* 607 */,
-/* 608 */,
-/* 609 */,
-/* 610 */,
-/* 611 */,
-/* 612 */,
-/* 613 */,
-/* 614 */,
-/* 615 */,
-/* 616 */,
-/* 617 */,
-/* 618 */,
-/* 619 */,
-/* 620 */,
-/* 621 */,
-/* 622 */,
-/* 623 */,
-/* 624 */,
-/* 625 */,
-/* 626 */,
-/* 627 */,
-/* 628 */,
-/* 629 */,
-/* 630 */,
-/* 631 */,
-/* 632 */,
-/* 633 */,
-/* 634 */,
-/* 635 */,
-/* 636 */,
-/* 637 */,
-/* 638 */,
-/* 639 */,
-/* 640 */,
-/* 641 */,
-/* 642 */,
-/* 643 */,
-/* 644 */,
-/* 645 */,
-/* 646 */,
-/* 647 */,
-/* 648 */,
-/* 649 */,
-/* 650 */,
-/* 651 */,
-/* 652 */,
-/* 653 */,
-/* 654 */,
-/* 655 */,
-/* 656 */,
-/* 657 */,
-/* 658 */,
-/* 659 */,
-/* 660 */,
-/* 661 */,
-/* 662 */,
-/* 663 */,
-/* 664 */,
-/* 665 */,
-/* 666 */,
-/* 667 */,
-/* 668 */,
-/* 669 */,
-/* 670 */,
-/* 671 */,
-/* 672 */,
-/* 673 */,
-/* 674 */,
-/* 675 */,
-/* 676 */,
-/* 677 */,
-/* 678 */,
-/* 679 */,
-/* 680 */
+/* 479 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46609,11 +46297,41 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _class;
 
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactTransitionGroup = __webpack_require__(19);
+
+var _PostItem = __webpack_require__(49);
+
+var _PostItem2 = _interopRequireDefault(_PostItem);
+
+var _UserTop = __webpack_require__(422);
+
+var _UserTop2 = _interopRequireDefault(_UserTop);
+
+var _Loader = __webpack_require__(20);
+
+var _Loader2 = _interopRequireDefault(_Loader);
+
+var _reactRedux = __webpack_require__(6);
+
+var _postsListActions = __webpack_require__(142);
+
+var _usersListActions = __webpack_require__(17);
+
+var _blogerActions = __webpack_require__(440);
+
+var _commentatorActions = __webpack_require__(441);
+
+var _postLikesActions = __webpack_require__(30);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -46623,52 +46341,226 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var AvatarForm = function (_React$Component) {
-    _inherits(AvatarForm, _React$Component);
+var Ratings = (_dec = (0, _reactRedux.connect)(function (store) {
+    return {
+        users: store.usersList.users,
+        is_users_fetching: store.usersList.is_fetching,
 
-    function AvatarForm() {
-        _classCallCheck(this, AvatarForm);
+        posts: store.postsList.posts,
+        is_posts_fetching: store.postsList.is_fetching,
 
-        var _this = _possibleConstructorReturn(this, (AvatarForm.__proto__ || Object.getPrototypeOf(AvatarForm)).apply(this, arguments));
+        bloger: store.bloger.user,
+        is_bloger_fetching: store.bloger.is_fetching,
 
-        _this.files = [];
-        _this.onFormSubmit = _this.onFormSubmit.bind(_this);
-        _this.change = _this.change.bind(_this);
+        commentator: store.commentator.user,
+        is_commentator_fetching: store.commentator.is_fetching,
+
+        post_likes: store.postLikes.likes,
+        is_post_likes_fetching: store.postLikes.is_fetching,
+
+        login: store.login.login
+    };
+}), _dec(_class = function (_React$Component) {
+    _inherits(Ratings, _React$Component);
+
+    function Ratings() {
+        _classCallCheck(this, Ratings);
+
+        var _this = _possibleConstructorReturn(this, (Ratings.__proto__ || Object.getPrototypeOf(Ratings)).apply(this, arguments));
+
+        _this.props.dispatch((0, _usersListActions.fetchUsers)());
+        _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
+        _this.props.dispatch((0, _postsListActions.fetchPostsList)());
+        _this.props.dispatch((0, _blogerActions.fetchBloger)());
+        _this.props.dispatch((0, _commentatorActions.fetchCommentator)());
+        _this.triggerPostLike = _this.triggerPostLike.bind(_this);
+        _this.deletePost = _this.deletePost.bind(_this);
         return _this;
     }
 
-    _createClass(AvatarForm, [{
-        key: "onFormSubmit",
-        value: function onFormSubmit(e) {
-            e.preventDefault();
-            this.props.changeAvatar(this.files);
+    _createClass(Ratings, [{
+        key: 'triggerPostLike',
+        value: function triggerPostLike(post_id) {
+            var _this2 = this;
+
+            if (Object.keys(this.props.login).length === 0) return;
+            if (this.props.post_likes.find(function (item) {
+                return item.post_id === post_id && item.user_id === _this2.props.login.id;
+            })) {
+                this.props.dispatch((0, _postLikesActions.deletePostLike)(post_id, this.props.login.id));
+            } else {
+                this.props.dispatch((0, _postLikesActions.addPostLike)(post_id, this.props.login.id));
+            }
         }
     }, {
-        key: "change",
-        value: function change(e) {
-            e.preventDefault();
-            this.files = e.target.files;
+        key: 'deletePost',
+        value: function deletePost(post_id) {
+            if (Object.keys(this.props.login).length === 0) return;
+            this.props.dispatch((0, _postsListActions.deletePost)(post_id));
         }
     }, {
-        key: "render",
+        key: 'render',
         value: function render() {
+            var _this3 = this;
+
+            var top_views_posts_info = this.props.posts.sort(function (a, b) {
+                return b.views - a.views;
+            }).slice(0, 5);
+            var top_views_posts = top_views_posts_info.map(function (post, index) {
+                var user = _this3.props.users.find(function (user) {
+                    return user.id === post.user_id;
+                });
+                var likes = _this3.props.post_likes.filter(function (like) {
+                    return like.post_id === post.id;
+                });
+                var users = likes.map(function (like, index) {
+                    return _this3.props.users.find(function (user) {
+                        return user.id === like.user_id;
+                    });
+                });
+                return _react2.default.createElement(_PostItem2.default, { key: index,
+                    post: post,
+                    user: user,
+                    likes: likes,
+                    users: users,
+                    triggerLike: _this3.triggerPostLike,
+                    'delete': _this3.deletePost,
+                    login: _this3.props.login });
+            });
+
+            var likes_posts = this.props.posts.map(function (post, index) {
+                var likes = _this3.props.post_likes.filter(function (like) {
+                    return like.post_id === post.id;
+                });
+                return _extends({}, post, { likes: likes.length });
+            });
+            var top_likes_posts_info = likes_posts.sort(function (a, b) {
+                return b.likes - a.likes;
+            }).slice(0, 5);
+            var top_likes_posts = top_likes_posts_info.map(function (post, index) {
+                var user = _this3.props.users.find(function (user) {
+                    return user.id === post.user_id;
+                });
+                var likes = _this3.props.post_likes.filter(function (like) {
+                    return like.post_id === post.id;
+                });
+                var users = likes.map(function (like, index) {
+                    return _this3.props.users.find(function (user) {
+                        return user.id === like.user_id;
+                    });
+                });
+                return _react2.default.createElement(_PostItem2.default, { key: index,
+                    post: post,
+                    user: user,
+                    likes: likes,
+                    users: users,
+                    triggerLike: _this3.triggerPostLike,
+                    'delete': _this3.deletePost,
+                    login: _this3.props.login
+                });
+            });
             return _react2.default.createElement(
-                "form",
-                { onSubmit: this.onFormSubmit },
-                _react2.default.createElement("input", { name: "avatar", type: "file", id: "avatar", onChange: this.change }),
+                'div',
+                { className: 'content__ratings' },
                 _react2.default.createElement(
-                    "button",
-                    { type: "submit" },
-                    "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"
+                    'div',
+                    { className: 'content__top_users' },
+                    _react2.default.createElement(
+                        'aside',
+                        { className: 'content__top_user' },
+                        _react2.default.createElement(
+                            'h2',
+                            { className: 'content__top_user_h2' },
+                            '\u0421\u0430\u043C\u044B\u0439 \u0430\u043A\u0442\u0438\u0432\u043D\u044B\u0439 \u0431\u043B\u043E\u0433\u0435\u0440'
+                        ),
+                        _react2.default.createElement(
+                            _reactTransitionGroup.TransitionGroup,
+                            { className: 'transition_group' },
+                            this.props.is_bloger_fetching || this.props.is_users_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
+                                _reactTransitionGroup.CSSTransition,
+                                { timeout: 1000,
+                                    classNames: 'appearance' },
+                                _react2.default.createElement(_UserTop2.default, { user: this.props.bloger })
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'aside',
+                        { className: 'content__top_user' },
+                        _react2.default.createElement(
+                            'h2',
+                            { className: 'content__top_user_h2' },
+                            '\u0421\u0430\u043C\u044B\u0439 \u0430\u043A\u0442\u0438\u0432\u043D\u044B\u0439 \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0442\u043E\u0440'
+                        ),
+                        _react2.default.createElement(
+                            _reactTransitionGroup.TransitionGroup,
+                            { className: 'transition_group' },
+                            this.props.is_commentator_fetching || this.props.is_users_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
+                                _reactTransitionGroup.CSSTransition,
+                                { timeout: 1000,
+                                    classNames: 'appearance' },
+                                _react2.default.createElement(_UserTop2.default, { user: this.props.commentator })
+                            )
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'content__top_posts' },
+                    _react2.default.createElement(
+                        'aside',
+                        { className: 'content__top_post_aside' },
+                        _react2.default.createElement(
+                            'h2',
+                            { className: 'content__top_post_h2' },
+                            '\u0422\u043E\u043F 5 \u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u0435\u043D\u043D\u044B\u0445 \u0437\u0430\u043F\u0438\u0441\u0435\u0439'
+                        ),
+                        _react2.default.createElement(
+                            _reactTransitionGroup.TransitionGroup,
+                            { className: 'transition_group' },
+                            this.props.is_posts_fetching || this.props.is_users_fetching || this.props.is_post_likes_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
+                                _reactTransitionGroup.CSSTransition,
+                                { timeout: 1000,
+                                    classNames: 'appearance' },
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    top_views_posts
+                                )
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'aside',
+                        { className: 'content__top_post_aside' },
+                        _react2.default.createElement(
+                            'h2',
+                            { className: 'content__top_post_h2' },
+                            '\u0422\u043E\u043F 5 \u043E\u0442\u043C\u0435\u0447\u0435\u043D\u043D\u044B\u0445 \u0437\u0430\u043F\u0438\u0441\u0435\u0439'
+                        ),
+                        _react2.default.createElement(
+                            _reactTransitionGroup.TransitionGroup,
+                            { className: 'transition_group' },
+                            this.props.is_posts_fetching || this.props.is_users_fetching || this.props.is_post_likes_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
+                                _reactTransitionGroup.CSSTransition,
+                                { timeout: 1000,
+                                    classNames: 'appearance' },
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    top_likes_posts
+                                )
+                            )
+                        )
+                    )
                 )
             );
         }
     }]);
 
-    return AvatarForm;
-}(_react2.default.Component);
-
-exports.default = AvatarForm;
+    return Ratings;
+}(_react2.default.Component)) || _class);
+exports.default = Ratings;
 
 /***/ })
 /******/ ]);

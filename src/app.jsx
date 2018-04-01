@@ -10,6 +10,7 @@ import Layout  from './app/layouts/Layout';
 import Main from './app/pages/Main';
 import Posts from './app/pages/Posts';
 import Blogs from './app/pages/Blogs';
+import Ratings from './app/pages/Ratings';
 import About from './app/pages/About';
 import User from './app/pages/User';
 import Post from './app/pages/Post';
@@ -29,6 +30,7 @@ ReactDOM.render(
                     <Route exact path="/" component={Main}/>
                     <Route path="/posts" component={Posts}/>
                     <Route path="/blogs" component={Blogs}/>
+                    <Route path="/ratings" component={Ratings}/>
                     <Route path="/about" component={About}/>
                     <Route path="/user/:user_id" component={User}/>
                     <Route path="/post/:post_id" component={Post}/>

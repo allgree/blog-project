@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 export default class UserItem extends React.Component {
     render() {
         return (
-            <Link to={`/user/${this.props.user.id}`} className="user_item">
+            <Link to={`/user/${this.props.user.id}`} className="user_item block_item">
                 <div className="user_item__ava">
                     <img src={this.props.user.avatar_path} className="user_item__ava__img"/>
                 </div>

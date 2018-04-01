@@ -10,6 +10,7 @@ export default class Nav extends React.Component {
             '/': 'Добро пожаловать',
             '/posts': 'Все записи',
             '/blogs': 'Авторы блогов',
+            '/ratings': 'Рейтинги',
             '/about': 'О проекте',
             '/user': 'О авторе блога',
             '/post': 'Запись',
@@ -38,6 +39,7 @@ export default class Nav extends React.Component {
                     <NavLink exact to="/" className={`nav_menu__link ${this.isActive('/')}`}>Главная</NavLink>
                     <NavLink to="/posts" className={`nav_menu__link ${this.isActive('/posts')}`}>Записи</NavLink>
                     <NavLink to='/blogs' className={`nav_menu__link ${this.isActive('/blogs')}`}>Авторы</NavLink>
+                    <NavLink to='/ratings' className={`nav_menu__link ${this.isActive('/ratings')}`}>Рейтинги</NavLink>
                     <NavLink to='/about' className={`nav_menu__link ${this.isActive('/about')}`}>О&nbsp;проекте</NavLink>
                 </div>
                 <NavLink to="/">

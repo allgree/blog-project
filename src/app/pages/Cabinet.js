@@ -99,7 +99,7 @@ export default class Cabinet extends React.Component {
         incorrect_caution.style.display = 'none';
         mismatch_caution.style.display = 'none';
         if (values.pass1 === values.pass2) {
-            axios.post('/api/users/pass',
+            axios.post('/api/login/pass',
                 {
                     user_id: this.props.login.id,
                     password: values.password,

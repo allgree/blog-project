@@ -1270,7 +1270,7 @@ function fetchUsers() {
 function registerUser(user) {
     return {
         type: 'REGISTER_USER',
-        payload: _axios2.default.post('api/users/register', user)
+        payload: _axios2.default.post('api/login/register', user)
     };
 }
 
@@ -4415,21 +4415,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function fetchLogin(login) {
     return {
         type: 'FETCH_LOGIN',
-        payload: _axios2.default.post('/api/users/login', login)
+        payload: _axios2.default.post('/api/login/login', login)
     };
 }
 
 function unlogged(login) {
     return {
         type: 'UNLOGGED',
-        payload: _axios2.default.post('api/users/unlogged', { user_id: login.id })
+        payload: _axios2.default.post('api/login/unlogged', { user_id: login.id })
     };
 }
 
 function editUser(login) {
     return {
         type: 'EDIT_USER',
-        payload: _axios2.default.post('api/users/edit', login)
+        payload: _axios2.default.post('api/login/edit', login)
     };
 }
 
@@ -4437,7 +4437,7 @@ function changeAvatar(login_id, data) {
     var config = { headers: { 'content-type': 'multipart/form-data' } };
     return {
         type: 'CHANGE_AVATAR',
-        payload: _axios2.default.post('api/users/avatar', data, config)
+        payload: _axios2.default.post('api/login/avatar', data, config)
     };
 }
 
@@ -45311,7 +45311,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
             incorrect_caution.style.display = 'none';
             mismatch_caution.style.display = 'none';
             if (values.pass1 === values.pass2) {
-                _axios2.default.post('/api/users/pass', {
+                _axios2.default.post('/api/login/pass', {
                     user_id: this.props.login.id,
                     password: values.password,
                     new_pass: values.pass1

@@ -22,6 +22,16 @@ let Posts = {
                  callback(result);
              })
     },
+
+    findSample: (limit, offset, callback) => {
+          model.findAll({
+              offset: offset,
+              limit: limit
+          })
+              .then(result => {
+                  callback(result);
+              })
+    },
     findById: (post_id, callback) => {
         model.findOne({
             where: {

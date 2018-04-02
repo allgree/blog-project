@@ -4,7 +4,7 @@ export default class Loader extends React.Component {
     render() {
         return (
             <p className="content_loader">
-                <img src="../../img/25.gif"/>
+                <img src="/../../img/25.gif"/>
             </p>
         )
     }

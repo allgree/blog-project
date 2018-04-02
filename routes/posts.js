@@ -12,6 +12,12 @@ router.get('/', (req, res, next) => {
     })
 });
 
+router.get('/sample/', (req, res, next) => {
+    Posts.findSample(5, +req.query.offset, (result) => {
+        res.json(result);
+    });
+});
+
 // все посты по id пользователя
 router.get('/user/:user_id', (req, res, next) => {
     Posts.findByUserId(req.params.user_id, (result_posts) => {

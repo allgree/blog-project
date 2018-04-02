@@ -7,6 +7,13 @@ export function fetchPostsList() {
     }
 }
 
+export function fetchPostsSample(offset) {
+    return {
+        type: 'FETCH_POSTS_SAMPLE',
+        payload: axios.get(`/api/posts/sample/?offset=${offset}`)
+    }
+}
+
 export function deletePost(post_id) {
     return {
         type: 'DELETE_POST',

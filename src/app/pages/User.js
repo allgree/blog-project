@@ -7,7 +7,7 @@ import PostItem from '../components/Content/PostItem';
 import Loader from '../components/Content/Loader';
 
 import {fetchUser} from "../actions/userActions";
-import {fetchUserPosts} from "../actions/userPostsActions";
+import {fetchUserPosts, fetchUserPostsSample} from "../actions/userPostsActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 
@@ -15,12 +15,17 @@ import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesA
     return {
         users: store.usersList.users,
         is_users_fetching: store.usersList.is_fetching,
+
         user: store.user.user,
         is_user_fetching: store.user.is_fetching,
+
         user_posts: store.userPosts.posts,
         is_user_posts_fetching: store.userPosts.is_fetching,
+        user_posts_empty: store.userPosts.empty,
+
         post_likes: store.postLikes.likes,
         is_post_likes_fetching: store.postLikes.is_fetching,
+
         login: store.login.login
     }
 })
@@ -31,7 +36,8 @@ export default class User extends React.Component {
         this.props.dispatch(fetchUsers());
         this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchUser(this.props.match.params.user_id));
-        this.props.dispatch(fetchUserPosts(this.props.match.params.user_id));
+        //this.props.dispatch(fetchUserPosts(this.props.match.params.user_id));
+        this.props.dispatch(fetchUserPostsSample(this.props.match.params.user_id, 0));
         this.triggerPostLike = this.triggerPostLike.bind(this);
     }
 
@@ -103,17 +109,32 @@ export default class User extends React.Component {
                 </aside>
                 <aside className="content__user_aside user_posts">
                     <TransitionGroup className="transition_group">
-                {
-                    this.props.is_user_posts_fetching || this.props.is_users_fetching || this.props.is_post_likes_fetching
-                    ? <Loader/>
-                    : <CSSTransition timeout={1000}
-                                     classNames="appearance">
-                         <div>{posts}</div>
-                      </CSSTransition>
-                }
+                        {this.props.user_posts.length !== 0 &&
+                            <CSSTransition timeout={1000}
+                                             classNames="appearance">
+                                 <div>{posts}</div>
+                              </CSSTransition>
+                        }
                     </TransitionGroup>
+                    <span className="point"/>
+                    {this.props.is_user_posts_fetching &&
+                    <Loader/>}
                 </aside>
             </div>
         )
+    }
+
+    componentDidMount() {
+        $(document).off();
+        $(document).on('scroll', () => {
+            let $point = $('.point');
+            let point = $point.offset().top;
+            let scroll_top = $(document).scrollTop();
+            let height = $(window).height();
+            let load_flag = scroll_top + height >= point;
+            if (load_flag && !this.props.is_user_posts_fetching && !this.props.user_posts_empty) {
+                this.props.dispatch(fetchUserPostsSample(this.props.match.params.user_id, this.props.user_posts.length));
+            }
+        })
     }
 }

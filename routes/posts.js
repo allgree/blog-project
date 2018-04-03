@@ -3,7 +3,6 @@ const express = require('express');
 const router = express.Router();
 
 const Posts = require('../models/posts');
-const PostsLikes = require('../models/posts_likes');
 
 // все посты
 router.get('/', (req, res, next) => {
@@ -23,19 +22,17 @@ router.get('/sample/', (req, res, next) => {
 // все посты по id пользователя
 router.get('/user/:user_id', (req, res, next) => {
     Posts.findByUserId(req.params.user_id, (result_posts) => {
-        PostsLikes.findAll((result_posts_likes) => {
-            for (let i = 0; i < result_posts.length; i++) {
-                result_posts[i].dataValues.likes = 0;
-                for (let j = 0; j < result_posts_likes.length; j++) {
-                    if (result_posts[i].id === result_posts_likes[j].post_id) {
-                        result_posts[i].dataValues.likes++;
-                    }
-                }
-            }
-            res.json(result_posts);
-        });
+        res.json(result_posts);
     })
 });
+
+// выборка пяти постов пользователя для автоподгрузки
+router.get('/sample/user/', (req, res, next) => {
+    Posts.findByUserIdSample(5, +req.query.offset, +req.query.user_id, (result_posts) => {
+        res.json(result_posts);
+    })
+});
+
 
 // один пост по id
 router.get('/:post_id', (req, res, next) => {

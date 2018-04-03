@@ -33,16 +33,6 @@ let Comments = {
                 callback(result);
             })
     },
-    findByPostId: (post_id, callback) => {
-        model.findAll({
-            where: {
-                post_id: post_id
-            }
-        })
-            .then(result => {
-                callback(result);
-            })
-    },
     add: (post_id, user_id, body, callback) => {
         model.create({
             post_id: post_id,

@@ -53,6 +53,19 @@ let Posts = {
             }
         )
     },
+
+    findByUserIdSample: (limit, offset, user_id, callback) => {
+        model.findAll({
+            where: {
+                user_id: user_id
+            },
+            offset: offset,
+            limit: limit
+        })
+            .then(result => {
+                callback(result);
+            })
+    },
     add: (user_id, title, body, callback) => {
         model.create({
             user_id: user_id,

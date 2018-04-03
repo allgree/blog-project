@@ -7,6 +7,13 @@ export function fetchUserPosts(user_id) {
     }
 }
 
+export function fetchUserPostsSample(user_id, offset) {
+    return {
+        type: 'FETCH_USER_POSTS_SAMPLE',
+        payload: axios.get(`/api/posts/sample/user/?user_id=${user_id}&offset=${offset}`)
+    }
+}
+
 export function addUserPost(user_id, title, body) {
     return {
         type: 'ADD_USER_POST',

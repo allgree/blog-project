@@ -54879,7 +54879,6 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.props.dispatch((0, _usersListActions.fetchUsers)());
         _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
         _this.props.dispatch((0, _userActions.fetchUser)(_this.props.match.params.user_id));
-        //this.props.dispatch(fetchUserPosts(this.props.match.params.user_id));
         _this.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(_this.props.match.params.user_id, 0));
         _this.triggerPostLike = _this.triggerPostLike.bind(_this);
         return _this;
@@ -55958,7 +55957,7 @@ exports.default = Unlogged;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -56036,6 +56035,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
 
         user_posts: store.userPosts.posts,
         is_user_posts_fetching: store.userPosts.is_fetching,
+        user_posts_empty: store.userPosts.empty,
 
         post_likes: store.postLikes.likes,
         is_post_likes_fetching: store.postLikes.is_fetching
@@ -56049,7 +56049,8 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         var _this = _possibleConstructorReturn(this, (Cabinet.__proto__ || Object.getPrototypeOf(Cabinet)).apply(this, arguments));
 
         _this.props.dispatch((0, _usersListActions.fetchUsers)());
-        _this.props.dispatch((0, _userPostsActions.fetchUserPosts)(_this.props.login.id));
+        //this.props.dispatch(fetchUserPosts(this.props.login.id));
+        _this.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(_this.props.login.id, 0));
         _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
         _this.triggerPostLike = _this.triggerPostLike.bind(_this);
         _this.addPost = _this.addPost.bind(_this);
@@ -56216,7 +56217,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                     _react2.default.createElement(
                         _reactTransitionGroup.TransitionGroup,
                         null,
-                        this.props.is_user_posts_fetching || this.props.is_users_fetching || this.props.is_post_likes_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
+                        this.props.user_posts.length !== 0 && _react2.default.createElement(
                             _reactTransitionGroup.CSSTransition,
                             { timeout: 1000,
                                 classNames: 'appearance' },
@@ -56227,15 +56228,35 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                             )
                         )
                     ),
+                    _react2.default.createElement('span', { className: 'point' }),
+                    this.props.is_user_posts_fetching && _react2.default.createElement(_Loader2.default, null),
                     _react2.default.createElement(_PostForm2.default, { onSubmit: this.addPost })
                 )
             );
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this5 = this;
+
+            $(document).off();
+            $(document).on('scroll', function () {
+                var $point = $('.point');
+                var point = $point.offset().top;
+                var scroll_top = $(document).scrollTop();
+                var height = $(window).height();
+                var load_flag = scroll_top + height >= point;
+                if (load_flag && !_this5.props.is_user_posts_fetching && !_this5.props.user_posts_empty) {
+                    _this5.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(_this5.props.login.id, _this5.props.user_posts.length));
+                }
+            });
         }
     }]);
 
     return Cabinet;
 }(_react2.default.Component)) || _class);
 exports.default = Cabinet;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(423)))
 
 /***/ }),
 /* 460 */

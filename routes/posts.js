@@ -28,7 +28,7 @@ router.get('/user/:user_id', (req, res, next) => {
 
 // выборка пяти постов пользователя для автоподгрузки
 router.get('/sample/user/', (req, res, next) => {
-    Posts.findByUserIdSample(5, +req.query.offset, +req.query.user_id, (result_posts) => {
+    Posts.findByUserIdSample(3, +req.query.offset, +req.query.user_id, (result_posts) => {
         res.json(result_posts);
     })
 });

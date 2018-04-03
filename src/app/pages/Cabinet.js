@@ -13,7 +13,7 @@ import UserProfile from '../components/Content/UserProfile';
 import EditUserForm from '../components/Content/forms/EditUserForm';
 import EditPassForm from '../components/Content/forms/EditPassForm';
 
-import {fetchUserPosts, addUserPost, deleteUserPost} from "../actions/userPostsActions";
+import {fetchUserPosts, fetchUserPostsSample, addUserPost, deleteUserPost} from "../actions/userPostsActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 import {editUser, changeAvatar} from "../actions/loginActions";
@@ -27,6 +27,7 @@ import {editUser, changeAvatar} from "../actions/loginActions";
 
         user_posts: store.userPosts.posts,
         is_user_posts_fetching: store.userPosts.is_fetching,
+        user_posts_empty: store.userPosts.empty,
 
         post_likes: store.postLikes.likes,
         is_post_likes_fetching: store.postLikes.is_fetching,
@@ -36,7 +37,8 @@ export default class Cabinet extends React.Component {
     constructor() {
         super(...arguments);
         this.props.dispatch(fetchUsers());
-        this.props.dispatch(fetchUserPosts(this.props.login.id));
+        //this.props.dispatch(fetchUserPosts(this.props.login.id));
+        this.props.dispatch(fetchUserPostsSample(this.props.login.id, 0));
         this.props.dispatch(fetchPostLikes());
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.addPost = this.addPost.bind(this);
@@ -177,19 +179,34 @@ export default class Cabinet extends React.Component {
                 </div>
                 <div className="content__cabinet__posts">
                     <TransitionGroup>
-                        {
-                            this.props.is_user_posts_fetching || this.props.is_users_fetching || this.props.is_post_likes_fetching
-                            ? <Loader/>
-                            : <CSSTransition timeout={1000}
-                                             classNames="appearance">
-                                    <div>{posts}</div>
-                              </CSSTransition>
+                        {this.props.user_posts.length !== 0 &&
+                            <CSSTransition timeout={1000}
+                                           classNames="appearance">
+                                  <div>{posts}</div>
+                            </CSSTransition>
                         }
                     </TransitionGroup>
+                    <span className="point"/>
+                    {this.props.is_user_posts_fetching &&
+                    <Loader/>}
                     <PostForm onSubmit={this.addPost}/>
                 </div>
             </div>
         )
 
+    }
+
+    componentDidMount() {
+        $(document).off();
+        $(document).on('scroll', () => {
+            let $point = $('.point');
+            let point = $point.offset().top;
+            let scroll_top = $(document).scrollTop();
+            let height = $(window).height();
+            let load_flag = scroll_top + height >= point;
+            if (load_flag && !this.props.is_user_posts_fetching && !this.props.user_posts_empty) {
+                this.props.dispatch(fetchUserPostsSample(this.props.login.id, this.props.user_posts.length));
+            }
+        })
     }
 }

@@ -36,7 +36,6 @@ export default class User extends React.Component {
         this.props.dispatch(fetchUsers());
         this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchUser(this.props.match.params.user_id));
-        //this.props.dispatch(fetchUserPosts(this.props.match.params.user_id));
         this.props.dispatch(fetchUserPostsSample(this.props.match.params.user_id, 0));
         this.triggerPostLike = this.triggerPostLike.bind(this);
     }

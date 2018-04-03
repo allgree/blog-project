@@ -1,7 +1,6 @@
 import * as Posts from '../constants/postsListConstants';
 
 export function postsListReducer(state = {posts: [], is_fetching: false, empty: false}, action) {
-    //console.log(action.type);
     switch (action.type) {
         case Posts.FETCH_POSTS_PENDING: {
             state = {...state, is_fetching: true};
@@ -21,7 +20,6 @@ export function postsListReducer(state = {posts: [], is_fetching: false, empty: 
             break;
         }
         case Posts.FETCH_POSTS_SAMPLE_FULFILLED: {
-            //console.log('reducer');
             let posts = [...state.posts];
             let empty = state.empty;
             let url_arr = action.payload.config.url.split('=');
@@ -64,7 +62,6 @@ export function postsListReducer(state = {posts: [], is_fetching: false, empty: 
             state = {...state, is_fetching: false, error_message: action.payload.message};
             break;
         }
-
     }
     return state;
 }

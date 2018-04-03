@@ -6,7 +6,7 @@ import PostItem from '../components/Content/PostItem';
 
 import {connect} from 'react-redux';
 
-import {fetchPostsList, fetchPostsSample, deletePost} from "../actions/postsListActions";
+import {fetchPostsSample, deletePost} from "../actions/postsListActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 
@@ -29,12 +29,9 @@ import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesA
 export default class Posts extends React.Component {
     constructor() {
         super(...arguments);
-        //console.log('constructor');
-        //if (this.props.posts.length === 0) {
-            this.props.dispatch(fetchUsers());
-            this.props.dispatch(fetchPostLikes());
-            this.props.dispatch(fetchPostsSample(0));
-        //}
+        this.props.dispatch(fetchUsers());
+        this.props.dispatch(fetchPostLikes());
+        this.props.dispatch(fetchPostsSample(0));
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.deletePost = this.deletePost.bind(this);
     }
@@ -55,7 +52,6 @@ export default class Posts extends React.Component {
     }
 
     render() {
-        //console.log('render');
         let posts = this.props.posts.map((post, index) => {
             let user = this.props.users.find(item => item.id === post.user_id);
             let likes = this.props.post_likes.filter(item => item.post_id === post.id);
@@ -94,22 +90,14 @@ export default class Posts extends React.Component {
         $(document).off();
         $(document).on('scroll', () => {
             let $point = $('.point');
-            if (!$point[0]) {
-                return;
-            }
-            let point = $point.offset().top;// точка где заканчиваются новые записи
-            let scroll_top = $(document).scrollTop();//Насколько прокручена страница сверху (без учета высоты окна)
-            let height = $(window).height();// Высота окна
-            let load_flag = scroll_top + height >= point;// Флаг подгружаем ли данные
+            let point = $point.offset().top;          // точка где заканчиваются новые записи
+            let scroll_top = $(document).scrollTop(); //Насколько прокручена страница сверху (без учета высоты окна)
+            let height = $(window).height();   // Высота окна
+            let load_flag = scroll_top + height >= point;   // Флаг подгружаем ли данные
             if (load_flag && !this.props.is_posts_fetching && !this.props.posts_empty) {
-                //this.props.dispatch(fetchPostsSample(this.props.posts.length));
-                this.rqst(this.props.posts.length);
+                this.props.dispatch(fetchPostsSample(this.props.posts.length));
             }
         });
     }
 
-    rqst(offset) {
-        //console.log(offset);
-        this.props.dispatch(fetchPostsSample(offset));
-    }
 }

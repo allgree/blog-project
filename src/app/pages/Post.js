@@ -1,12 +1,11 @@
 import React from 'react';
-//import {Link} from 'react-router';
 import {Link} from 'react-router-dom';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
 import {connect} from 'react-redux';
 
 import {fetchPost} from "../actions/postActions";
-import {fetchPostComments, addPostComment, deletePostComment} from "../actions/postCommentsActions";
+import {fetchPostCommentsSample, addPostComment, deletePostComment} from "../actions/postCommentsActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 import {fetchCommentLikes, addCommentLike, deleteCommentLike} from "../actions/commentLikesActions";
@@ -20,14 +19,20 @@ import CommentForm from '../components/Content/forms/CommentForm';
     return {
         post: store.post.post,
         is_post_fetching: store.post.is_fetching,
+
         comments: store.postComments.comments,
         is_post_comments_fetching: store.postComments.is_fetching,
+        comments_empty: store.postComments.empty,
+
         users: store.usersList.users,
         is_users_fetching: store.usersList.is_fetching,
+
         post_likes: store.postLikes.likes,
         is_post_likes_fetching: store.postLikes.is_fetching,
+
         comment_likes: store.commentLikes.likes,
         comment_likes_fetching: store.commentLikes.is_fetching,
+
         login: store.login.login
     }
 })
@@ -35,10 +40,9 @@ export default class Post extends React.Component {
     constructor() {
         super(...arguments);
         this.props.dispatch(fetchPost(this.props.match.params.post_id));
-
         this.props.dispatch(fetchUsers());
         this.props.dispatch(fetchPostLikes());
-        this.props.dispatch(fetchPostComments(this.props.match.params.post_id));
+        this.props.dispatch(fetchPostCommentsSample(this.props.match.params.post_id, 0));
         this.props.dispatch(fetchCommentLikes());
         this.timeout = 0;
         this.time = 500;
@@ -161,18 +165,34 @@ export default class Post extends React.Component {
                 <div className="content__post_comments">
                     <h3 className="content__post_comments_header">Комментарии</h3>
                     <TransitionGroup className="transition_group">
-                    {this.props.is_users_fetching || this.props.is_post_comments_fetching
-                        ? <Loader/>
-                        : <CSSTransition timeout={1000}
+                    {this.props.comments.length !== 0 &&
+                         <CSSTransition timeout={1000}
                                          classNames="appearance">
                             <div>{comments}</div>
                           </CSSTransition>
                     }
                     </TransitionGroup>
+                    <span className="point"/>
+                    {this.props.is_post_comments_fetching &&
+                    <Loader/>}
                     {Object.keys(this.props.login).length !== 0 &&
                         <CommentForm onSubmit={this.addComment}/>}
                 </div>
             </div>
         )
+    }
+
+    componentDidMount() {
+        $(document).off();
+        $(document).on('scroll', () => {
+            let $point = $('.point');
+            let point = $point.offset().top;
+            let scroll_top = $(document).scrollTop();
+            let height = $(window).height();
+            let load_flag = scroll_top + height >= point;
+            if (load_flag && !this.props.is_post_comments_fetching && !this.props.comments_empty) {
+                this.props.dispatch(fetchPostCommentsSample(this.props.match.params.post_id, this.props.comments.length));
+            }
+        })
     }
 }

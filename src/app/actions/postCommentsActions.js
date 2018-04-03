@@ -7,6 +7,13 @@ export function fetchPostComments(post_id) {
     }
 }
 
+export function fetchPostCommentsSample(post_id, offset) {
+    return {
+        type: 'FETCH_POST_COMMENTS_SAMPLE',
+        payload: axios.get(`/api/comments/sample/post/?post_id=${post_id}&offset=${offset}`)
+    }
+}
+
 export function addPostComment(post_id, user_id, body) {
     return {
         type: 'ADD_POST_COMMENT',

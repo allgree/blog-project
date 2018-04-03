@@ -12,6 +12,8 @@ router.get('/', (req, res, next) => {
     })
 });
 
+
+//выборка пяти постов для автоподгрузки
 router.get('/sample/', (req, res, next) => {
     Posts.findSample(5, +req.query.offset, (result) => {
         res.json(result);

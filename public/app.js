@@ -40507,11 +40507,10 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function postCommentsReducer() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { comments: [], is_fetching: false };
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { comments: [], is_fetching: false, empty: false };
     var action = arguments[1];
 
     switch (action.type) {
-
         case PostComments.FETCH_POST_COMMENTS_PENDING:
             {
                 state = _extends({}, state, { is_fetching: true });
@@ -40528,6 +40527,34 @@ function postCommentsReducer() {
                 break;
             }
 
+        case PostComments.FETCH_POST_COMMENTS_SAMPLE_PENDING:
+            {
+                state = _extends({}, state, { is_fetching: true });
+                break;
+            }
+        case PostComments.FETCH_POST_COMMENTS_SAMPLE_FULFILLED:
+            {
+                var comments = [].concat(_toConsumableArray(state.comments));
+                var empty = state.empty;
+                var url_arr = action.payload.config.url.split('=');
+                var offset = +url_arr[url_arr.length - 1];
+                if (action.payload.data.length === 0) {
+                    empty = true;
+                } else if (offset === 0) {
+                    comments = action.payload.data;
+                    empty = false;
+                } else {
+                    comments = comments.concat(action.payload.data);
+                }
+                state = _extends({}, state, { is_fetching: false, comments: comments, empty: empty });
+                break;
+            }
+        case PostComments.FETCH_POST_COMMENTS_SAMPLE_REJECTED:
+            {
+                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
+                break;
+            }
+
         case PostComments.ADD_POST_COMMENT_PENDING:
             {
                 state = _extends({}, state, { is_fetching: true });
@@ -40535,8 +40562,8 @@ function postCommentsReducer() {
             }
         case PostComments.ADD_POST_COMMENT_FULFILLED:
             {
-                var comments = state.comments.concat(action.payload.data);
-                state = _extends({}, state, { is_fetching: false, comments: comments });
+                var _comments = state.comments.concat(action.payload.data);
+                state = _extends({}, state, { is_fetching: false, comments: _comments });
                 break;
             }
         case PostComments.ADD_POST_COMMENT_REJECTED:
@@ -40552,16 +40579,16 @@ function postCommentsReducer() {
             }
         case PostComments.DELETE_POST_COMMENT_FULFILLED:
             {
-                var _comments = [].concat(_toConsumableArray(state.comments));
+                var _comments2 = [].concat(_toConsumableArray(state.comments));
                 if (action.payload.data === 1) {
                     var deleted_comment_id = JSON.parse(action.payload.config.data).comment_id;
-                    _comments.find(function (comment, index) {
+                    _comments2.find(function (comment, index) {
                         if (comment.id === deleted_comment_id) {
-                            return _comments.splice(index, 1);
+                            return _comments2.splice(index, 1);
                         }
                     });
                 }
-                state = _extends({}, state, { is_fetching: false, comments: _comments });
+                state = _extends({}, state, { is_fetching: false, comments: _comments2 });
                 break;
             }
         case PostComments.DELETE_POST_COMMENT_REJECTED:
@@ -40586,9 +40613,15 @@ Object.defineProperty(exports, "__esModule", {
 var FETCH_POST_COMMENTS_PENDING = exports.FETCH_POST_COMMENTS_PENDING = 'FETCH_POST_COMMENTS_PENDING';
 var FETCH_POST_COMMENTS_FULFILLED = exports.FETCH_POST_COMMENTS_FULFILLED = 'FETCH_POST_COMMENTS_FULFILLED';
 var FETCH_POST_COMMENTS_REJECTED = exports.FETCH_POST_COMMENTS_REJECTED = 'FETCH_POST_COMMENTS_REJECTED';
+
+var FETCH_POST_COMMENTS_SAMPLE_PENDING = exports.FETCH_POST_COMMENTS_SAMPLE_PENDING = 'FETCH_POST_COMMENTS_SAMPLE_PENDING';
+var FETCH_POST_COMMENTS_SAMPLE_FULFILLED = exports.FETCH_POST_COMMENTS_SAMPLE_FULFILLED = 'FETCH_POST_COMMENTS_SAMPLE_FULFILLED';
+var FETCH_POST_COMMENTS_SAMPLE_REJECTED = exports.FETCH_POST_COMMENTS_SAMPLE_REJECTED = 'FETCH_POST_COMMENTS_SAMPLE_REJECTED';
+
 var ADD_POST_COMMENT_PENDING = exports.ADD_POST_COMMENT_PENDING = 'ADD_POST_COMMENT_PENDING';
 var ADD_POST_COMMENT_FULFILLED = exports.ADD_POST_COMMENT_FULFILLED = 'ADD_POST_COMMENT_FULFILLED';
 var ADD_POST_COMMENT_REJECTED = exports.ADD_POST_COMMENT_REJECTED = 'ADD_POST_COMMENT_REJECTED';
+
 var DELETE_POST_COMMENT_PENDING = exports.DELETE_POST_COMMENT_PENDING = 'DELETE_POST_COMMENT_PENDING';
 var DELETE_POST_COMMENT_FULFILLED = exports.DELETE_POST_COMMENT_FULFILLED = 'DELETE_POST_COMMENT_FULFILLED';
 var DELETE_POST_COMMENT_REJECTED = exports.DELETE_POST_COMMENT_REJECTED = 'DELETE_POST_COMMENT_REJECTED';
@@ -40923,7 +40956,6 @@ function postsListReducer() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { posts: [], is_fetching: false, empty: false };
     var action = arguments[1];
 
-    //console.log(action.type);
     switch (action.type) {
         case Posts.FETCH_POSTS_PENDING:
             {
@@ -40948,7 +40980,6 @@ function postsListReducer() {
             }
         case Posts.FETCH_POSTS_SAMPLE_FULFILLED:
             {
-                //console.log('reducer');
                 var posts = [].concat(_toConsumableArray(state.posts));
                 var empty = state.empty;
                 var url_arr = action.payload.config.url.split('=');
@@ -40995,7 +41026,6 @@ function postsListReducer() {
                 state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
                 break;
             }
-
     }
     return state;
 }
@@ -42818,14 +42848,11 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
     function Posts() {
         _classCallCheck(this, Posts);
 
-        //console.log('constructor');
-        //if (this.props.posts.length === 0) {
         var _this = _possibleConstructorReturn(this, (Posts.__proto__ || Object.getPrototypeOf(Posts)).apply(this, arguments));
 
         _this.props.dispatch((0, _usersListActions.fetchUsers)());
         _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
         _this.props.dispatch((0, _postsListActions.fetchPostsSample)(0));
-        //}
         _this.triggerPostLike = _this.triggerPostLike.bind(_this);
         _this.deletePost = _this.deletePost.bind(_this);
         return _this;
@@ -42856,7 +42883,6 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
         value: function render() {
             var _this3 = this;
 
-            //console.log('render');
             var posts = this.props.posts.map(function (post, index) {
                 var user = _this3.props.users.find(function (item) {
                     return item.id === post.user_id;
@@ -42907,24 +42933,14 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
             $(document).off();
             $(document).on('scroll', function () {
                 var $point = $('.point');
-                if (!$point[0]) {
-                    return;
-                }
                 var point = $point.offset().top; // точка где заканчиваются новые записи
                 var scroll_top = $(document).scrollTop(); //Насколько прокручена страница сверху (без учета высоты окна)
                 var height = $(window).height(); // Высота окна
                 var load_flag = scroll_top + height >= point; // Флаг подгружаем ли данные
                 if (load_flag && !_this4.props.is_posts_fetching && !_this4.props.posts_empty) {
-                    //this.props.dispatch(fetchPostsSample(this.props.posts.length));
-                    _this4.rqst(_this4.props.posts.length);
+                    _this4.props.dispatch((0, _postsListActions.fetchPostsSample)(_this4.props.posts.length));
                 }
             });
-        }
-    }, {
-        key: 'rqst',
-        value: function rqst(offset) {
-            //console.log(offset);
-            this.props.dispatch((0, _postsListActions.fetchPostsSample)(offset));
         }
     }]);
 
@@ -54996,7 +55012,7 @@ function fetchUser(user_id) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -55006,8 +55022,6 @@ exports.default = undefined;
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _dec, _class;
-//import {Link} from 'react-router';
-
 
 var _react = __webpack_require__(0);
 
@@ -55057,14 +55071,20 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
     return {
         post: store.post.post,
         is_post_fetching: store.post.is_fetching,
+
         comments: store.postComments.comments,
         is_post_comments_fetching: store.postComments.is_fetching,
+        comments_empty: store.postComments.empty,
+
         users: store.usersList.users,
         is_users_fetching: store.usersList.is_fetching,
+
         post_likes: store.postLikes.likes,
         is_post_likes_fetching: store.postLikes.is_fetching,
+
         comment_likes: store.commentLikes.likes,
         comment_likes_fetching: store.commentLikes.is_fetching,
+
         login: store.login.login
     };
 }), _dec(_class = function (_React$Component) {
@@ -55076,10 +55096,9 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
         var _this = _possibleConstructorReturn(this, (Post.__proto__ || Object.getPrototypeOf(Post)).apply(this, arguments));
 
         _this.props.dispatch((0, _postActions.fetchPost)(_this.props.match.params.post_id));
-
         _this.props.dispatch((0, _usersListActions.fetchUsers)());
         _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
-        _this.props.dispatch((0, _postCommentsActions.fetchPostComments)(_this.props.match.params.post_id));
+        _this.props.dispatch((0, _postCommentsActions.fetchPostCommentsSample)(_this.props.match.params.post_id, 0));
         _this.props.dispatch((0, _commentLikesActions.fetchCommentLikes)());
         _this.timeout = 0;
         _this.time = 500;
@@ -55286,7 +55305,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                     _react2.default.createElement(
                         _reactTransitionGroup.TransitionGroup,
                         { className: 'transition_group' },
-                        this.props.is_users_fetching || this.props.is_post_comments_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
+                        this.props.comments.length !== 0 && _react2.default.createElement(
                             _reactTransitionGroup.CSSTransition,
                             { timeout: 1000,
                                 classNames: 'appearance' },
@@ -55297,15 +55316,35 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                             )
                         )
                     ),
+                    _react2.default.createElement('span', { className: 'point' }),
+                    this.props.is_post_comments_fetching && _react2.default.createElement(_Loader2.default, null),
                     Object.keys(this.props.login).length !== 0 && _react2.default.createElement(_CommentForm2.default, { onSubmit: this.addComment })
                 )
             );
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this6 = this;
+
+            $(document).off();
+            $(document).on('scroll', function () {
+                var $point = $('.point');
+                var point = $point.offset().top;
+                var scroll_top = $(document).scrollTop();
+                var height = $(window).height();
+                var load_flag = scroll_top + height >= point;
+                if (load_flag && !_this6.props.is_post_comments_fetching && !_this6.props.comments_empty) {
+                    _this6.props.dispatch((0, _postCommentsActions.fetchPostCommentsSample)(_this6.props.match.params.post_id, _this6.props.comments.length));
+                }
+            });
         }
     }]);
 
     return Post;
 }(_react2.default.Component)) || _class);
 exports.default = Post;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(423)))
 
 /***/ }),
 /* 451 */
@@ -55343,6 +55382,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.fetchPostComments = fetchPostComments;
+exports.fetchPostCommentsSample = fetchPostCommentsSample;
 exports.addPostComment = addPostComment;
 exports.deletePostComment = deletePostComment;
 
@@ -55356,6 +55396,13 @@ function fetchPostComments(post_id) {
     return {
         type: 'FETCH_POST_COMMENTS',
         payload: _axios2.default.get('/api/comments/post/' + post_id)
+    };
+}
+
+function fetchPostCommentsSample(post_id, offset) {
+    return {
+        type: 'FETCH_POST_COMMENTS_SAMPLE',
+        payload: _axios2.default.get('/api/comments/sample/post/?post_id=' + post_id + '&offset=' + offset)
     };
 }
 

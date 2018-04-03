@@ -21,6 +21,18 @@ let Comments = {
                  callback(result);
              })
     },
+    findByPostIdSample: (limit, offset, post_id, callback) => {
+        model.findAll({
+            where: {
+                post_id: post_id
+            },
+            offset: offset,
+            limit: limit
+        })
+            .then(result => {
+                callback(result);
+            })
+    },
     findByPostId: (post_id, callback) => {
         model.findAll({
             where: {

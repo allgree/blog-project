@@ -7,7 +7,7 @@ import PostItem from '../components/Content/PostItem';
 import Loader from '../components/Content/Loader';
 
 import {fetchUser} from "../actions/userActions";
-import {fetchUserPosts, fetchUserPostsSample} from "../actions/userPostsActions";
+import {fetchUserPostsSample} from "../actions/userPostsActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 

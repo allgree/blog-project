@@ -27,7 +27,8 @@ let Comments = {
                 post_id: post_id
             },
             offset: offset,
-            limit: limit
+            limit: limit,
+            order: [['createdAt', 'DESC']]
         })
             .then(result => {
                 callback(result);

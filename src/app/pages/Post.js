@@ -105,6 +105,13 @@ export default class Post extends React.Component {
     }
 
     render() {
+        let timestamp = Date.parse(this.props.post.createdAt);
+        let date = new Date();
+        date.setTime(timestamp);
+        let day = ('0' + date.getDate()).slice(-2);
+        let month = ('0' + (date.getMonth() + 1)).slice(-2);
+        let created_date = `${day}.${month}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+
         this.post_likes = this.props.post_likes.filter(like => like.post_id === this.props.post.id);
         this.users_like = this.post_likes.map((like, index) => {
            return this.props.users.find(item => item.id === like.user_id);
@@ -144,9 +151,14 @@ export default class Post extends React.Component {
                                         </Link>
                                     </p>
                                     <div className="content__post_info">
+                                        <span>
+                                            {created_date}
+                                        </span>
+                                        &nbsp;
                                         <span className="post_view">
                                             <i className="fa fa-eye" aria-hidden="true"/> {this.props.post.views}
-                                        </span>&nbsp;
+                                        </span>
+                                        &nbsp;
                                         <div className="tooltip" id={`tooltip_${this.props.post.id}`}>
                                             {this.state.tooltip}
                                         </div>
@@ -164,6 +176,8 @@ export default class Post extends React.Component {
                 </div>
                 <div className="content__post_comments">
                     <h3 className="content__post_comments_header">Комментарии</h3>
+                    {Object.keys(this.props.login).length !== 0 &&
+                    <CommentForm onSubmit={this.addComment}/>}
                     <TransitionGroup className="transition_group">
                     {this.props.comments.length !== 0 &&
                          <CSSTransition timeout={1000}
@@ -175,8 +189,6 @@ export default class Post extends React.Component {
                     <span className="point"/>
                     {this.props.is_post_comments_fetching &&
                     <Loader/>}
-                    {Object.keys(this.props.login).length !== 0 &&
-                        <CommentForm onSubmit={this.addComment}/>}
                 </div>
             </div>
         )

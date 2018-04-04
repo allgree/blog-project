@@ -19,12 +19,6 @@ router.get('/sample/', (req, res, next) => {
     });
 });
 
-// все посты по id пользователя
-router.get('/user/:user_id', (req, res, next) => {
-    Posts.findByUserId(req.params.user_id, (result_posts) => {
-        res.json(result_posts);
-    })
-});
 
 // выборка пяти постов пользователя для автоподгрузки
 router.get('/sample/user/', (req, res, next) => {

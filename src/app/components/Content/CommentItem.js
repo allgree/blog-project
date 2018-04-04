@@ -32,6 +32,12 @@ export default class CommentItem extends React.Component {
     }
 
     render() {
+        let timestamp = Date.parse(this.props.comment.createdAt);
+        let date = new Date();
+        date.setTime(timestamp);
+        let day = ('0' + date.getDate()).slice(-2);
+        let month = ('0' + (date.getMonth() + 1)).slice(-2);
+        let created_date = `${day}.${month}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
         return (
             <div className="content__post_comment">
                 <p className="content__post_comment_body">
@@ -44,16 +50,20 @@ export default class CommentItem extends React.Component {
                     </Link>
                 </p>
                 {Object.keys(this.props.login).length !== 0 && this.props.comment.user_id === this.props.login.id &&
-            <div className="content__post_comment_delete"
-                 onClick={() => {this.props.delete(this.props.comment.id)}}>
-                <i className="fa fa-trash-o" aria-hidden="true"/>
-            </div>
-            }
-                <div className="content__post_comment_likes post_like"
-                    id={`comment_id_${this.props.comment.id}`}
-                    onMouseEnter={() => {this.tooltipShow()}}
-                    onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}
-                    onClick={() => {this.props.triggerLike(this.props.comment.id)}}>
+                    <div className="content__post_comment_delete"
+                         onClick={() => {this.props.delete(this.props.comment.id)}}>
+                        <i className="fa fa-trash-o" aria-hidden="true"/>
+                    </div>
+                }
+
+                <div className="content__post_comment_info">
+                    <span className="comment_date">{created_date}</span>
+                    &nbsp;
+                    <span className="content__post_comment_likes post_like"
+                         id={`comment_id_${this.props.comment.id}`}
+                         onMouseEnter={() => {this.tooltipShow()}}
+                         onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}
+                         onClick={() => {this.props.triggerLike(this.props.comment.id)}}>
                         <div className="tooltip tooltip_comment" id={`tooltip_${this.props.comment.id}`}>
                             {this.state.tooltip}
                         </div>
@@ -61,7 +71,9 @@ export default class CommentItem extends React.Component {
                             <i className="fa fa-heart" aria-hidden="true"/>
                             {this.props.likes.length === 0 ? '' : this.props.likes.length}
                         </span>
+                    </span>
                 </div>
+
             </div>
         )
     }

@@ -13,7 +13,7 @@ import UserProfile from '../components/Content/UserProfile';
 import EditUserForm from '../components/Content/forms/EditUserForm';
 import EditPassForm from '../components/Content/forms/EditPassForm';
 
-import {fetchUserPosts, fetchUserPostsSample, addUserPost, deleteUserPost} from "../actions/userPostsActions";
+import {fetchUserPostsSample, addUserPost, deleteUserPost} from "../actions/userPostsActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 import {editUser, changeAvatar} from "../actions/loginActions";
@@ -178,6 +178,7 @@ export default class Cabinet extends React.Component {
 
                 </div>
                 <div className="content__cabinet__posts">
+                    <PostForm onSubmit={this.addPost}/>
                     <TransitionGroup>
                         {this.props.user_posts.length !== 0 &&
                             <CSSTransition timeout={1000}
@@ -189,7 +190,6 @@ export default class Cabinet extends React.Component {
                     <span className="point"/>
                     {this.props.is_user_posts_fetching &&
                     <Loader/>}
-                    <PostForm onSubmit={this.addPost}/>
                 </div>
             </div>
         )

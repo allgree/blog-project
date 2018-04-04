@@ -43,6 +43,12 @@ export default class PostItem extends React.Component {
     }
 
     render() {
+        let timestamp = Date.parse(this.props.post.createdAt);
+        let date = new Date();
+        date.setTime(timestamp);
+        let day = ('0' + date.getDate()).slice(-2);
+        let month = ('0' + (date.getMonth() + 1)).slice(-2);
+        let created_date = `${day}.${month}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
         return (
             <div className="content__post_top block_item">
                 <Link to={`/post/${this.props.post.id}`}
@@ -69,9 +75,12 @@ export default class PostItem extends React.Component {
                 </div>
                 }
                 <div className="content__post_top_info">
+                    <span>{created_date}</span>
+                    &nbsp;
                     <span className="post_view">
                         <i className="fa fa-eye" aria-hidden="true"/> {this.props.post.views}
-                    </span>&nbsp;
+                    </span>
+                    &nbsp;
                     <div className="tooltip" id={`tooltip_${this.props.post.id}`}>
                          {this.state.tooltip}
                     </div>

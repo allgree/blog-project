@@ -26,7 +26,8 @@ let Posts = {
     findSample: (limit, offset, callback) => {
           model.findAll({
               offset: offset,
-              limit: limit
+              limit: limit,
+              order: [['createdAt', 'DESC']]
           })
               .then(result => {
                   callback(result);
@@ -42,17 +43,6 @@ let Posts = {
                 callback(result);
             })
     },
-    findByUserId: (user_id, callback) => {
-        model.findAll({
-            where: {
-                user_id: user_id
-            }
-        })
-            .then(result => {
-                callback(result);
-            }
-        )
-    },
 
     findByUserIdSample: (limit, offset, user_id, callback) => {
         model.findAll({
@@ -60,7 +50,8 @@ let Posts = {
                 user_id: user_id
             },
             offset: offset,
-            limit: limit
+            limit: limit,
+            order: [['createdAt', 'DESC']]
         })
             .then(result => {
                 callback(result);

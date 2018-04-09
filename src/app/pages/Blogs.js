@@ -7,16 +7,21 @@ import UserItem from '../components/Content/UserItem';
 import {connect} from 'react-redux';
 
 import {fetchUsers} from "../actions/usersListActions";
+import {fetchLoginData} from "../actions/loginActions";
 
 @connect((store) => {
     return {
         users: store.usersList.users,
-        is_users_fetching: store.usersList.is_fetching
+        is_users_fetching: store.usersList.is_fetching,
+
+        login: store.login.login,
+        is_login_fetching: store.login.is_fetching
     }
 })
 export default class Blogs extends React.Component {
     constructor() {
         super(...arguments);
+        this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchUsers());
     }
     render() {

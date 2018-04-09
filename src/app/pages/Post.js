@@ -9,6 +9,7 @@ import {fetchPostCommentsSample, addPostComment, deletePostComment} from "../act
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 import {fetchCommentLikes, addCommentLike, deleteCommentLike} from "../actions/commentLikesActions";
+import {fetchLoginData} from "../actions/loginActions";
 
 import CommentItem from '../components/Content/CommentItem';
 import Loader from '../components/Content/Loader';
@@ -33,12 +34,14 @@ import CommentForm from '../components/Content/forms/CommentForm';
         comment_likes: store.commentLikes.likes,
         comment_likes_fetching: store.commentLikes.is_fetching,
 
-        login: store.login.login
+        login: store.login.login,
+        is_login_fetching: store.login.is_fetching
     }
 })
 export default class Post extends React.Component {
     constructor() {
         super(...arguments);
+        this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchPost(this.props.match.params.post_id));
         this.props.dispatch(fetchUsers());
         this.props.dispatch(fetchPostLikes());

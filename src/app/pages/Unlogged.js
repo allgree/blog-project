@@ -1,9 +1,12 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
 
+
+import Loader from '../components/Content/Loader';
+
 import {connect} from 'react-redux';
 
-import {unlogged} from "../actions/loginActions";
+import {fetchLoginData, unlogged} from "../actions/loginActions";
 
 @connect((store) => {
     return {
@@ -15,6 +18,7 @@ import {unlogged} from "../actions/loginActions";
 export default class Unlogged extends React.Component {
     constructor() {
         super(...arguments);
+        this.props.dispatch(fetchLoginData());
         this.props.dispatch(unlogged(this.props.login));
     }
 
@@ -23,7 +27,7 @@ export default class Unlogged extends React.Component {
             return <Redirect to="/"/>
         }
         return (
-            <h2>Error!</h2>
+            <h2><Loader/>Выход...</h2>
         )
     }
 }

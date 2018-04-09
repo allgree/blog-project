@@ -16,11 +16,12 @@ import EditPassForm from '../components/Content/forms/EditPassForm';
 import {fetchUserPostsSample, addUserPost, deleteUserPost} from "../actions/userPostsActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
-import {editUser, changeAvatar} from "../actions/loginActions";
+import {editUser, changeAvatar, fetchLoginData} from "../actions/loginActions";
 
 @connect((store) => {
     return {
         login: store.login.login,
+        is_login_fetching: store.login.is_fetching,
 
         users: store.usersList.users,
         is_users_fetching: store.usersList.is_fetching,
@@ -36,10 +37,11 @@ import {editUser, changeAvatar} from "../actions/loginActions";
 export default class Cabinet extends React.Component {
     constructor() {
         super(...arguments);
+        this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchUsers());
-        //this.props.dispatch(fetchUserPosts(this.props.login.id));
         this.props.dispatch(fetchUserPostsSample(this.props.login.id, 0));
         this.props.dispatch(fetchPostLikes());
+
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.addPost = this.addPost.bind(this);
         this.deletePost = this.deletePost.bind(this);
@@ -48,10 +50,12 @@ export default class Cabinet extends React.Component {
         this.editUser = this.editUser.bind(this);
         this.editPass = this.editPass.bind(this);
         this.changeAvatar = this.changeAvatar.bind(this);
+
         this.state = {
             show: 'info',
             avatar: 'button',
         };
+
         this.extensions = ['jpeg', 'jpg'];
     }
 

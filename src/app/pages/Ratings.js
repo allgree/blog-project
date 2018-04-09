@@ -7,6 +7,7 @@ import Loader from '../components/Content/Loader';
 
 import {connect} from 'react-redux';
 
+import {fetchLoginData} from "../actions/loginActions";
 import {fetchPostsList, deletePost} from "../actions/postsListActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {fetchBloger} from "../actions/blogerActions";
@@ -31,13 +32,15 @@ import {fetchPostLikes, addPostLike, deletePostLike} from "../actions/postLikesA
         post_likes: store.postLikes.likes,
         is_post_likes_fetching: store.postLikes.is_fetching,
 
-        login: store.login.login
+        login: store.login.login,
+        is_login_fetching: store.login.is_fetching
     }
 })
 
 export default class Ratings extends React.Component {
     constructor() {
         super(...arguments);
+        this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchUsers());
         this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchPostsList());

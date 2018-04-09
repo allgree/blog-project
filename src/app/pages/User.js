@@ -10,6 +10,7 @@ import {fetchUser} from "../actions/userActions";
 import {fetchUserPostsSample} from "../actions/userPostsActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
+import {fetchLoginData} from "../actions/loginActions";
 
 @connect((store) => {
     return {
@@ -26,13 +27,15 @@ import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesA
         post_likes: store.postLikes.likes,
         is_post_likes_fetching: store.postLikes.is_fetching,
 
-        login: store.login.login
+        login: store.login.login,
+        is_login_fetching: store.login.is_fetching
     }
 })
 
 export default class User extends React.Component {
     constructor() {
         super(...arguments);
+        this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchUsers());
         this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchUser(this.props.match.params.user_id));

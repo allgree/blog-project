@@ -6,6 +6,15 @@ $content_width: 800px
 $footer_height: 40px
 $big_avatar_size: 350px
 
+@keyframes offset_top
+  0%
+    margin-top: -500px
+
+  100%
+    margin-top: 0
+
+
+
 *
   padding: 0
   margin: 0
@@ -140,6 +149,8 @@ nav
 
 .content__welcome
   text-align: center
+  animation: offset_top 0.5s 1
+  animation-fill-mode: forwards
 
 .content__welcome:hover
   box-shadow: 0 0 30px #a19a98
@@ -398,10 +409,9 @@ footer
 .switch-wrapper
   position: relative
 
-
 .switch-wrapper > div
   position: absolute
-
+  width: 100%
 
 
 

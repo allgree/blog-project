@@ -24,6 +24,16 @@ let Tokens = {
               callback(result);
       })
   },
+  findByToken: (token, callback) => {
+        model.findOne({
+            where: {
+                token: token
+            }
+        })
+            .then(result => {
+                callback(result);
+            })
+  },
   updateByUserId: (user_id, token, callback) => {
       model.update({
           token: token

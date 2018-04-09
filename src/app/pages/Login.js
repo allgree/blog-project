@@ -4,7 +4,7 @@ import LoginForm from '../components/Content/forms/LoginForm';
 
 import {connect} from 'react-redux';
 
-import {fetchLogin} from "../actions/loginActions";
+import {fetchLogin, fetchLoginData} from "../actions/loginActions";
 
 @connect((store) => {
     return {
@@ -15,6 +15,7 @@ import {fetchLogin} from "../actions/loginActions";
 export default class Login extends React.Component {
     constructor() {
         super(...arguments);
+        this.props.dispatch(fetchLoginData());
         this.login = this.login.bind(this);
     }
 
@@ -24,8 +25,9 @@ export default class Login extends React.Component {
 
     render() {
         if (Object.keys(this.props.login).length !== 0) {
-            return <Redirect to="/cabinet"/>
+            return <Redirect to="/"/>
         }
+
         return (
             <div className="content__login">
                 <LoginForm onSubmit={this.login}/>

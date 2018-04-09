@@ -1,17 +1,23 @@
 import React from 'react';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 
+import {fetchLoginData} from "../actions/loginActions";
 
+@connect((store) => {
+    return {
+        login: store.login.login,
+        is_login_fetching: store.login.is_fetching
+    }
+})
 export default class Main extends React.Component {
     constructor() {
         super(...arguments);
-
+        this.props.dispatch(fetchLoginData());
     }
 
-
     render() {
-
         return (
             <div className="content__main">
                 <div className="content__welcome block_item">

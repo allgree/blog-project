@@ -40,17 +40,38 @@ router.post('/login', (req, res, next) => {
                 //console.log(result);
             });
             result.dataValues.token = token;
+            req.sessionOptions.maxAge = 1000 * 60 *60;
+            req.session.token = token;
             res.json(result);
         }
     })
 });
 
+router.get('/token', (req, res, next) => {
+    if (req.session.token) {
+        res.json(req.session.token)
+    } else {
+        res.json(0);
+    }
+});
+
+router.get('/login-data', (req, res, next) => {
+    if (req.session.token) {
+        Tokens.findByToken(req.session.token, (result_token) => {
+            Users.findById(result_token.user_id, (result_user) => {
+                res.json(result_user);
+            })
+        })
+    } else {
+        res.json(0);
+    }
+});
+
 // выход из аккаунта
 router.post('/unlogged', (req, res, next) => {
     Tokens.updateByUserId(req.body.user_id, null, (result) => {
-        console.log('RESULT UNLOGGED TOKEN ');
-        console.log(result);
         if (result[0] === 1) {
+            delete req.session.token;
             res.json({result: 1})
         }
     })

@@ -2328,6 +2328,12 @@
   overflow: visible;
   clip: auto; }
 
+@keyframes offset_top {
+  0% {
+    margin-top: -500px; }
+  100% {
+    margin-top: 0; } }
+
 * {
   padding: 0;
   margin: 0; }
@@ -2449,7 +2455,9 @@ nav {
 
 /*Main*/
 .content__welcome {
-  text-align: center; }
+  text-align: center;
+  animation: offset_top 0.5s 1;
+  animation-fill-mode: forwards; }
 
 .content__welcome:hover {
   box-shadow: 0 0 30px #a19a98; }
@@ -2695,7 +2703,8 @@ footer {
   position: relative; }
 
 .switch-wrapper > div {
-  position: absolute; }
+  position: absolute;
+  width: 100%; }
 
 .appearance-enter {
   opacity: 0.01; }

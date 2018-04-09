@@ -15,6 +15,26 @@ export function loginReducer(state = {login: {}, is_fetching: false}, action) {
             state = {...state, is_fetching: false, error_message: action.payload};
             break;
         }
+
+        // проверка залогинен ли пользователь
+        case Login.FETCH_LOGIN_DATA_PENDING: {
+            state = {...state, is_fetching: true};
+            break;
+        }
+        case Login.FETCH_LOGIN_DATA_FULFILLED: {
+            if (action.payload.data === 0) {
+                state = {...state, is_fetching: false, login: {}};
+            } else {
+                state = {...state, is_fetching: false, login: action.payload.data};
+            }
+            break;
+        }
+        case Login.FETCH_LOGIN_DATA_REJECTED: {
+            state = {...state, is_fetching: false, error_message: action.payload};
+            break;
+        }
+
+
         // выход из логина
         case Login.UNLOGGED_PENDING: {
             state = {...state, is_fetching: true};

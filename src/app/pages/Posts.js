@@ -9,6 +9,7 @@ import {connect} from 'react-redux';
 import {fetchPostsSample, deletePost} from "../actions/postsListActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
+import {fetchLoginData} from "../actions/loginActions";
 
 
 @connect((store) => {
@@ -23,12 +24,14 @@ import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesA
         post_likes: store.postLikes.likes,
         is_post_likes_fetching: store.postLikes.is_fetching,
 
-        login: store.login.login
+        login: store.login.login,
+        is_login_fetching: store.login.is_fetching
     }
 })
 export default class Posts extends React.Component {
     constructor() {
         super(...arguments);
+        this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchUsers());
         this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchPostsSample(0));

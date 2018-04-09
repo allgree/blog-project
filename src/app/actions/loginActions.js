@@ -7,6 +7,13 @@ export function fetchLogin(login) {
     }
 }
 
+export function fetchLoginData() {
+    return {
+        type: 'FETCH_LOGIN_DATA',
+        payload: axios.get('/api/login/login-data')
+    }
+}
+
 export function unlogged(login) {
     return {
         type: 'UNLOGGED',

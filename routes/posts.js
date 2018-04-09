@@ -12,15 +12,15 @@ router.get('/', (req, res, next) => {
 });
 
 
-//выборка пяти постов для автоподгрузки
+//выборка постов для автоподгрузки
 router.get('/sample/', (req, res, next) => {
-    Posts.findSample(5, +req.query.offset, (result) => {
+    Posts.findSample(6, +req.query.offset, (result) => {
         res.json(result);
     });
 });
 
 
-// выборка пяти постов пользователя для автоподгрузки
+// выборка постов пользователя для автоподгрузки
 router.get('/sample/user/', (req, res, next) => {
     Posts.findByUserIdSample(3, +req.query.offset, +req.query.user_id, (result_posts) => {
         res.json(result_posts);

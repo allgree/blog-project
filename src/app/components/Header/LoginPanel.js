@@ -20,6 +20,7 @@ export default class LoginPanel extends React.Component {
             </div>
         } else {
             return <div className="login__links">
+                <span>{this.props.login.login}</span>
                 <NavLink to='/cabinet' className={`nav_menu__link login__link`}>Личный кабинет</NavLink>
                 <NavLink to='/unlogged' className={`nav_menu__link login__link`}>Выход</NavLink>
             </div>

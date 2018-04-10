@@ -39,8 +39,9 @@ router.post('/login', (req, res, next) => {
             Tokens.updateByUserId(result.id, token, (result) => {
                 //console.log(result);
             });
-            result.dataValues.token = token;
-            req.sessionOptions.maxAge = 1000 * 60 *60;
+            if (req.body.remember_me) {
+                req.sessionOptions.maxAge = 1000 * 60 *60 * 24 * 7;
+            }
             req.session.token = token;
             res.json(result);
         }

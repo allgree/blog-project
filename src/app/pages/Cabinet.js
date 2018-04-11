@@ -204,6 +204,9 @@ export default class Cabinet extends React.Component {
         $(document).off();
         $(document).on('scroll', () => {
             let $point = $('.point');
+            if (!$point[0]) {
+                return;
+            }
             let point = $point.offset().top;
             let scroll_top = $(document).scrollTop();
             let height = $(window).height();

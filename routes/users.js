@@ -19,6 +19,14 @@ router.get('/', (req, res, next) => {
    })
 });
 
+// выборка пользователей для автоподгрузки
+router.get('/sample/', (req, res, next) => {
+   Users.findSample(10, +req.query.offset, (result) => {
+       res.json(result);
+   })
+});
+
+
 // самый активный блогер
 router.get('/bloger', (req, res, next) => {
     Users.findAll((result_users) => {

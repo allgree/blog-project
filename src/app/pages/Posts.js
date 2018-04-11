@@ -1,6 +1,7 @@
 import React from 'react';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
+
 import Loader from '../components/Content/Loader';
 import PostItem from '../components/Content/PostItem';
 
@@ -93,6 +94,9 @@ export default class Posts extends React.Component {
         $(document).off();
         $(document).on('scroll', () => {
             let $point = $('.point');
+            if (!$point[0]) {
+                return;
+            }
             let point = $point.offset().top;          // точка где заканчиваются новые записи
             let scroll_top = $(document).scrollTop(); //Насколько прокручена страница сверху (без учета высоты окна)
             let height = $(window).height();   // Высота окна

@@ -25,26 +25,26 @@ const app = document.getElementById('app');
 class App extends React.Component {
     render() {
         return (
-            <Provider store={store}>
-                <BrowserRouter>
-                    <Layout>
-                        <Switch>
-                            <Route exact path="/" component={Main}/>
-                            <Route path="/posts" component={Posts}/>
-                            <Route path="/blogs" component={Blogs}/>
-                            <Route path="/ratings" component={Ratings}/>
-                            <Route path="/about" component={About}/>
-                            <Route path="/user/:user_id" component={User}/>
-                            <Route path="/post/:post_id" component={Post}/>
-                            <Route path="/login" component={Login}/>
-                            <Route path="/unlogged" component={Unlogged}/>
-                            <Route path="/cabinet" component={Cabinet}/>
-                            <Route path="/register" component={Register}/>
-                            <Route path="*" component={PageNotFound}/>
-                        </Switch>
-                    </Layout>
-                </BrowserRouter>
-            </Provider>
+                <Provider store={store}>
+                    <BrowserRouter>
+                        <Layout>
+                            <Switch>
+                                <Route exact path="/" component={Main}/>
+                                <Route path="/posts" component={Posts}/>
+                                <Route path="/blogs" component={Blogs}/>
+                                <Route path="/ratings" component={Ratings}/>
+                                <Route path="/about" component={About}/>
+                                <Route path="/user/:user_id" component={User}/>
+                                <Route path="/post/:post_id" component={Post}/>
+                                <Route path="/login" component={Login}/>
+                                <Route path="/unlogged" component={Unlogged}/>
+                                <Route path="/cabinet" component={Cabinet}/>
+                                <Route path="/register" component={Register}/>
+                                <Route path="*" component={PageNotFound}/>
+                            </Switch>
+                        </Layout>
+                    </BrowserRouter>
+                </Provider>
         )
     }
 }

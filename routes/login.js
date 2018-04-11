@@ -48,13 +48,6 @@ router.post('/login', (req, res, next) => {
     })
 });
 
-router.get('/token', (req, res, next) => {
-    if (req.session.token) {
-        res.json(req.session.token)
-    } else {
-        res.json(0);
-    }
-});
 
 router.get('/login-data', (req, res, next) => {
     if (req.session.token) {

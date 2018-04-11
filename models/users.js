@@ -27,6 +27,15 @@ let Users = {
                 callback(result);
             })
     },
+    findSample: (limit, offset, callback) => {
+        model.findAll({
+            offset: offset,
+            limit: limit
+        })
+            .then(result => {
+                callback(result)
+            })
+    },
     findById: (user_id, callback) => {
         model.findOne({
             where: {

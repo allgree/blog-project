@@ -45,7 +45,6 @@ app.use('/api/comment-likes', routeCommentLikes);
 
 
 app.use((req, res) => {
-    console.log(req.session);
     return res.sendFile('/public/index.html', {root: __dirname})
 });
 

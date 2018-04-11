@@ -28,7 +28,6 @@ export function postsListReducer(state = {posts: [], is_fetching: false, empty: 
                 empty = true;
             } else if (offset === 0) {
                 posts = action.payload.data;
-                empty = false;
             } else {
                 posts = posts.concat(action.payload.data);
             }

@@ -52398,6 +52398,8 @@ var _loginActions = __webpack_require__(8);
 
 var _autoload = __webpack_require__(481);
 
+var _like = __webpack_require__(482);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -52441,16 +52443,7 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(Posts, [{
         key: 'triggerPostLike',
         value: function triggerPostLike(post_id) {
-            var _this2 = this;
-
-            if (Object.keys(this.props.login).length === 0) return;
-            if (this.props.post_likes.find(function (item) {
-                return item.post_id === post_id && item.user_id === _this2.props.login.id;
-            })) {
-                this.props.dispatch((0, _postLikesActions.deletePostLike)(post_id, this.props.login.id));
-            } else {
-                this.props.dispatch((0, _postLikesActions.addPostLike)(post_id, this.props.login.id));
-            }
+            (0, _like.like)(post_id, this.props.login, this.props.post_likes, this.props.dispatch, _postLikesActions.deletePostLike, _postLikesActions.addPostLike);
         }
     }, {
         key: 'deletePost',
@@ -52461,17 +52454,17 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this2 = this;
 
             var posts = this.props.posts.map(function (post, index) {
-                var user = _this3.props.users.find(function (item) {
+                var user = _this2.props.users.find(function (item) {
                     return item.id === post.user_id;
                 });
-                var likes = _this3.props.post_likes.filter(function (item) {
+                var likes = _this2.props.post_likes.filter(function (item) {
                     return item.post_id === post.id;
                 });
                 var users = likes.map(function (like, index) {
-                    return _this3.props.users.find(function (item) {
+                    return _this2.props.users.find(function (item) {
                         return item.id === like.user_id;
                     });
                 });
@@ -52480,9 +52473,9 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
                     user: user,
                     likes: likes,
                     users: users,
-                    triggerLike: _this3.triggerPostLike,
-                    'delete': _this3.deletePost,
-                    login: _this3.props.login });
+                    triggerLike: _this2.triggerPostLike,
+                    'delete': _this2.deletePost,
+                    login: _this2.props.login });
             });
             return _react2.default.createElement(
                 'div',
@@ -52508,11 +52501,11 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _this4 = this;
+            var _this3 = this;
 
             $(document).off();
             $(document).on('scroll', function () {
-                (0, _autoload.autoload)(_this4.props.is_posts_fetching, _this4.props.posts_empty, _this4.props.dispatch, _postsListActions.fetchPostsSample, _this4.props.posts.length);
+                (0, _autoload.autoload)(_this3.props.is_posts_fetching, _this3.props.posts_empty, _this3.props.dispatch, _postsListActions.fetchPostsSample, _this3.props.posts.length);
             });
         }
     }]);
@@ -53229,6 +53222,8 @@ var _loginActions = __webpack_require__(8);
 
 var _autoload = __webpack_require__(481);
 
+var _like = __webpack_require__(482);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -53275,31 +53270,22 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(User, [{
         key: 'triggerPostLike',
         value: function triggerPostLike(post_id) {
-            var _this2 = this;
-
-            if (Object.keys(this.props.login).length === 0) return;
-            if (this.props.post_likes.find(function (item) {
-                return item.post_id === post_id && item.user_id === _this2.props.login.id;
-            })) {
-                this.props.dispatch((0, _postLikesActions.deletePostLike)(post_id, this.props.login.id));
-            } else {
-                this.props.dispatch((0, _postLikesActions.addPostLike)(post_id, this.props.login.id));
-            }
+            (0, _like.like)(post_id, this.props.login, this.props.post_likes, this.props.dispatch, _postLikesActions.deletePostLike, _postLikesActions.addPostLike);
         }
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this2 = this;
 
             if (Object.keys(this.props.login).length !== 0 && this.props.login.id === +this.props.match.params.user_id) {
                 return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/cabinet' });
             }
             var posts = this.props.user_posts.map(function (post, index) {
-                var likes = _this3.props.post_likes.filter(function (item) {
+                var likes = _this2.props.post_likes.filter(function (item) {
                     return item.post_id === post.id;
                 });
                 var users = likes.map(function (like, index) {
-                    return _this3.props.users.find(function (item) {
+                    return _this2.props.users.find(function (item) {
                         return item.id === like.user_id;
                     });
                 });
@@ -53307,7 +53293,7 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                     post: post,
                     likes: likes,
                     users: users,
-                    triggerLike: _this3.triggerPostLike });
+                    triggerLike: _this2.triggerPostLike });
             });
             return _react2.default.createElement(
                 'div',
@@ -53398,11 +53384,11 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _this4 = this;
+            var _this3 = this;
 
             $(document).off();
             $(document).on('scroll', function () {
-                (0, _autoload.autoload)(_this4.props.is_user_posts_fetching, _this4.props.user_posts_empty, _this4.props.dispatch, _userPostsActions.fetchUserPostsSample, _this4.props.user_posts.length, _this4.props.match.params.user_id);
+                (0, _autoload.autoload)(_this3.props.is_user_posts_fetching, _this3.props.user_posts_empty, _this3.props.dispatch, _userPostsActions.fetchUserPostsSample, _this3.props.user_posts.length, _this3.props.match.params.user_id);
             });
         }
     }]);
@@ -53476,6 +53462,8 @@ var _commentLikesActions = __webpack_require__(453);
 var _loginActions = __webpack_require__(8);
 
 var _autoload = __webpack_require__(481);
+
+var _like = __webpack_require__(482);
 
 var _CommentItem = __webpack_require__(454);
 
@@ -53556,30 +53544,12 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(Post, [{
         key: 'triggerPostLike',
         value: function triggerPostLike(post_id) {
-            var _this2 = this;
-
-            if (Object.keys(this.props.login).length === 0) return;
-            if (this.props.post_likes.find(function (item) {
-                return item.post_id === post_id && item.user_id === _this2.props.login.id;
-            })) {
-                this.props.dispatch((0, _postLikesActions.deletePostLike)(post_id, this.props.login.id));
-            } else {
-                this.props.dispatch((0, _postLikesActions.addPostLike)(post_id, this.props.login.id));
-            }
+            (0, _like.like)(post_id, this.props.login, this.props.post_likes, this.props.dispatch, _postLikesActions.deletePostLike, _postLikesActions.addPostLike);
         }
     }, {
         key: 'triggerCommentLike',
         value: function triggerCommentLike(comment_id) {
-            var _this3 = this;
-
-            if (Object.keys(this.props.login).length === 0) return;
-            if (this.props.comment_likes.find(function (item) {
-                return item.comment_id === comment_id && item.user_id === _this3.props.login.id;
-            })) {
-                this.props.dispatch((0, _commentLikesActions.deleteCommentLike)(comment_id, this.props.login.id));
-            } else {
-                this.props.dispatch((0, _commentLikesActions.addCommentLike)(comment_id, this.props.login.id));
-            }
+            (0, _like.like)(comment_id, this.props.login, this.props.comment_likes, this.props.dispatch, _commentLikesActions.deleteCommentLike, _commentLikesActions.addCommentLike);
         }
     }, {
         key: 'triggerCommentForm',
@@ -53591,17 +53561,17 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'tooltipShow',
         value: function tooltipShow() {
-            var _this4 = this;
+            var _this2 = this;
 
             if (this.users_like.length === 0) return;
             this.setState({
                 tooltip: _react2.default.createElement(
                     'div',
                     { onMouseEnter: function onMouseEnter() {
-                            clearTimeout(_this4.timeout);
+                            clearTimeout(_this2.timeout);
                         },
                         onMouseLeave: function onMouseLeave() {
-                            _this4.timeout = setTimeout(_this4.tooltipHide, _this4.time);
+                            _this2.timeout = setTimeout(_this2.tooltipHide, _this2.time);
                         } },
                     _react2.default.createElement(_TooltipLikes2.default, { users: this.users_like })
                 )
@@ -53632,7 +53602,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'render',
         value: function render() {
-            var _this5 = this;
+            var _this3 = this;
 
             var timestamp = Date.parse(this.props.post.createdAt);
             var date = new Date();
@@ -53642,25 +53612,25 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
             var created_date = day + '.' + month + '.' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
 
             this.post_likes = this.props.post_likes.filter(function (like) {
-                return like.post_id === _this5.props.post.id;
+                return like.post_id === _this3.props.post.id;
             });
             this.users_like = this.post_likes.map(function (like, index) {
-                return _this5.props.users.find(function (item) {
+                return _this3.props.users.find(function (item) {
                     return item.id === like.user_id;
                 });
             });
             var post_author = this.props.users.find(function (item) {
-                return item.id === _this5.props.post.user_id;
+                return item.id === _this3.props.post.user_id;
             });
             var comments = this.props.comments.map(function (comment, index) {
-                var user = _this5.props.users.find(function (item) {
+                var user = _this3.props.users.find(function (item) {
                     return item.id === comment.user_id;
                 });
-                var likes = _this5.props.comment_likes.filter(function (item) {
+                var likes = _this3.props.comment_likes.filter(function (item) {
                     return item.comment_id === comment.id;
                 });
                 var users = likes.map(function (like, index) {
-                    return _this5.props.users.find(function (item) {
+                    return _this3.props.users.find(function (item) {
                         return item.id === like.user_id;
                     });
                 });
@@ -53669,9 +53639,9 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                     user: user,
                     likes: likes,
                     users: users,
-                    triggerLike: _this5.triggerCommentLike,
-                    'delete': _this5.deleteComment,
-                    login: _this5.props.login });
+                    triggerLike: _this3.triggerCommentLike,
+                    'delete': _this3.deleteComment,
+                    login: _this3.props.login });
             });
             return _react2.default.createElement(
                 'div',
@@ -53738,13 +53708,13 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                                         'span',
                                         { className: 'post_like',
                                             onMouseEnter: function onMouseEnter() {
-                                                _this5.tooltipShow();
+                                                _this3.tooltipShow();
                                             },
                                             onMouseLeave: function onMouseLeave() {
-                                                _this5.timeout = setTimeout(_this5.tooltipHide, _this5.time);
+                                                _this3.timeout = setTimeout(_this3.tooltipHide, _this3.time);
                                             },
                                             onClick: function onClick() {
-                                                _this5.triggerPostLike(_this5.props.post.id);
+                                                _this3.triggerPostLike(_this3.props.post.id);
                                             } },
                                         _react2.default.createElement('i', { className: 'fa fa-heart', 'aria-hidden': 'true' }),
                                         ' ',
@@ -53766,7 +53736,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                     Object.keys(this.props.login).length !== 0 && this.state.comment === 'button' && _react2.default.createElement(
                         'button',
                         { onClick: function onClick() {
-                                _this5.triggerCommentForm('form');
+                                _this3.triggerCommentForm('form');
                             } },
                         '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439'
                     ),
@@ -53794,11 +53764,11 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _this6 = this;
+            var _this4 = this;
 
             $(document).off();
             $(document).on('scroll', function () {
-                (0, _autoload.autoload)(_this6.props.is_post_comments_fetching, _this6.props.comments_empty, _this6.props.dispatch, _postCommentsActions.fetchPostCommentsSample, _this6.props.comments.length, _this6.props.match.params.post_id);
+                (0, _autoload.autoload)(_this4.props.is_post_comments_fetching, _this4.props.comments_empty, _this4.props.dispatch, _postCommentsActions.fetchPostCommentsSample, _this4.props.comments.length, _this4.props.match.params.post_id);
             });
         }
     }]);
@@ -54471,6 +54441,8 @@ var _loginActions = __webpack_require__(8);
 
 var _autoload = __webpack_require__(481);
 
+var _like = __webpack_require__(482);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -54530,16 +54502,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(Cabinet, [{
         key: 'triggerPostLike',
         value: function triggerPostLike(post_id) {
-            var _this2 = this;
-
-            if (Object.keys(this.props.login).length === 0) return;
-            if (this.props.post_likes.find(function (item) {
-                return item.post_id === post_id && item.user_id === _this2.props.login.id;
-            })) {
-                this.props.dispatch((0, _postLikesActions.deletePostLike)(post_id, this.props.login.id));
-            } else {
-                this.props.dispatch((0, _postLikesActions.addPostLike)(post_id, this.props.login.id));
-            }
+            (0, _like.like)(post_id, this.props.login, this.props.post_likes, this.props.dispatch, _postLikesActions.deletePostLike, _postLikesActions.addPostLike);
         }
     }, {
         key: 'addPost',
@@ -54587,7 +54550,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'editPass',
         value: function editPass(values) {
-            var _this3 = this;
+            var _this2 = this;
 
             var incorrect_caution = document.querySelector('.pass_incorrect');
             var mismatch_caution = document.querySelector('.pass_mismatch');
@@ -54600,7 +54563,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                     new_pass: values.pass1
                 }).then(function (responce) {
                     if (responce.data[0] === 1) {
-                        _this3.setState({
+                        _this2.setState({
                             info: 'info'
                         });
                     } else {
@@ -54630,17 +54593,17 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'render',
         value: function render() {
-            var _this4 = this;
+            var _this3 = this;
 
             if (Object.keys(this.props.login).length === 0) {
                 return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/login' });
             }
             var posts = this.props.user_posts.map(function (post, index) {
-                var likes = _this4.props.post_likes.filter(function (item) {
+                var likes = _this3.props.post_likes.filter(function (item) {
                     return item.post_id === post.id;
                 });
                 var users = likes.map(function (like, index) {
-                    return _this4.props.users.find(function (item) {
+                    return _this3.props.users.find(function (item) {
                         return item.id === like.user_id;
                     });
                 });
@@ -54648,9 +54611,9 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                     post: post,
                     likes: likes,
                     users: users,
-                    triggerLike: _this4.triggerPostLike,
-                    'delete': _this4.deletePost,
-                    login: _this4.props.login });
+                    triggerLike: _this3.triggerPostLike,
+                    'delete': _this3.deletePost,
+                    login: _this3.props.login });
             });
             return _react2.default.createElement(
                 'div',
@@ -54665,7 +54628,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                         this.state.avatar === 'button' && _react2.default.createElement(
                             'button',
                             { onClick: function onClick() {
-                                    _this4.triggerAvatarButton('form');
+                                    _this3.triggerAvatarButton('form');
                                 } },
                             '\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u0430\u0432\u0430\u0442\u0430\u0440'
                         ),
@@ -54687,7 +54650,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                     this.state.post === 'button' && _react2.default.createElement(
                         'button',
                         { onClick: function onClick() {
-                                _this4.triggerFormPost('form');
+                                _this3.triggerFormPost('form');
                             } },
                         '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043F\u043E\u0441\u0442'
                     ),
@@ -54715,11 +54678,11 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _this5 = this;
+            var _this4 = this;
 
             $(document).off();
             $(document).on('scroll', function () {
-                (0, _autoload.autoload)(_this5.props.is_user_posts_fetching, _this5.props.user_posts_empty, _this5.props.dispatch, _userPostsActions.fetchUserPostsSample, _this5.props.user_posts.length, _this5.props.login.id);
+                (0, _autoload.autoload)(_this4.props.is_user_posts_fetching, _this4.props.user_posts_empty, _this4.props.dispatch, _userPostsActions.fetchUserPostsSample, _this4.props.user_posts.length, _this4.props.login.id);
             });
         }
     }]);
@@ -55674,6 +55637,30 @@ function autoload(is_fetching, is_empty, dispatch, fetch, lenght) {
     }
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
+
+/***/ }),
+/* 482 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.like = like;
+function like(content_id, login, likes, dispatch, del, add) {
+    if (Object.keys(login).length === 0) return;
+    if (likes.find(function (item) {
+        return item.post_id === content_id && item.user_id === login.id;
+    }) || likes.find(function (item) {
+        return item.comment_id === content_id && item.user_id === login.id;
+    })) {
+        dispatch(del(content_id, login.id));
+    } else {
+        dispatch(add(content_id, login.id));
+    }
+}
 
 /***/ })
 /******/ ]);

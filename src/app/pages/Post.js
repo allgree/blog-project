@@ -11,6 +11,7 @@ import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesA
 import {fetchCommentLikes, addCommentLike, deleteCommentLike} from "../actions/commentLikesActions";
 import {fetchLoginData} from "../actions/loginActions";
 import {autoload} from '../functions/autoload';
+import {like} from '../functions/like';
 
 import CommentItem from '../components/Content/CommentItem';
 import Loader from '../components/Content/Loader';
@@ -65,23 +66,11 @@ export default class Post extends React.Component {
     }
 
     triggerPostLike(post_id) {
-        if (Object.keys(this.props.login).length === 0) return;
-        if (this.props.post_likes.find(item =>
-                item.post_id === post_id && item.user_id === this.props.login.id)) {
-            this.props.dispatch(deletePostLike(post_id, this.props.login.id));
-        } else {
-            this.props.dispatch(addPostLike(post_id, this.props.login.id));
-        }
+        like(post_id, this.props.login, this.props.post_likes, this.props.dispatch, deletePostLike, addPostLike);
     }
 
     triggerCommentLike(comment_id) {
-        if (Object.keys(this.props.login).length === 0) return;
-        if (this.props.comment_likes.find(item =>
-                item.comment_id === comment_id && item.user_id === this.props.login.id)) {
-            this.props.dispatch(deleteCommentLike(comment_id, this.props.login.id));
-        } else {
-            this.props.dispatch(addCommentLike(comment_id, this.props.login.id));
-        }
+        like(comment_id, this.props.login, this.props.comment_likes, this.props.dispatch, deleteCommentLike, addCommentLike);
     }
 
     triggerCommentForm(param) {

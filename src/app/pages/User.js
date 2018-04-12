@@ -12,6 +12,7 @@ import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 import {fetchLoginData} from "../actions/loginActions";
 import {autoload} from '../functions/autoload';
+import {like} from '../functions/like';
 
 @connect((store) => {
     return {
@@ -45,13 +46,7 @@ export default class User extends React.Component {
     }
 
     triggerPostLike(post_id) {
-        if (Object.keys(this.props.login).length === 0) return;
-        if (this.props.post_likes.find(item =>
-                item.post_id === post_id && item.user_id === this.props.login.id)) {
-            this.props.dispatch(deletePostLike(post_id, this.props.login.id));
-        } else {
-            this.props.dispatch(addPostLike(post_id, this.props.login.id));
-        }
+        like(post_id, this.props.login, this.props.post_likes, this.props.dispatch, deletePostLike, addPostLike);
     }
 
     render() {

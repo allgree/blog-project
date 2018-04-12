@@ -18,8 +18,11 @@ class CommentForm extends React.Component {
                        required/>
                 <br/>
                    <button onClick={() => {this.submit()}}>
-                            Добавить комментарий
+                            Сохранить
                    </button>
+                <button onClick={() => {this.props.click('button')}}>
+                    Отмена
+                </button>
             </form>
         )
     }

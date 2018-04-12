@@ -63,6 +63,7 @@ class EditUserForm extends React.Component {
                        type="email"
                 /><br/>
                 <button type="submit">Сохранить</button>
+                <button onClick={() => {this.props.click('info')}}>Отмена</button>
             </form>
         )
     }

@@ -50,9 +50,11 @@ export default class Post extends React.Component {
         this.timeout = 0;
         this.time = 500;
         this.state = {
-            tooltip: ''
+            tooltip: '',
+            comment: 'button'
         };
         this.tooltipHide = this.tooltipHide.bind(this);
+        this.triggerCommentForm = this.triggerCommentForm.bind(this);
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.triggerCommentLike = this.triggerCommentLike.bind(this);
         this.addComment = this.addComment.bind(this);
@@ -81,6 +83,12 @@ export default class Post extends React.Component {
         }
     }
 
+    triggerCommentForm(param) {
+        this.setState({
+            comment: param
+        })
+    }
+
     tooltipShow() {
         if (this.users_like.length === 0) return;
         this.setState({
@@ -100,6 +108,9 @@ export default class Post extends React.Component {
     addComment(values) {
         if (Object.keys(this.props.login).length === 0 || !values.body) return;
         this.props.dispatch(addPostComment(this.props.post.id, this.props.login.id, values.body));
+        this.setState({
+           comment: 'button'
+        });
     }
 
     deleteComment(comment_id) {
@@ -179,8 +190,11 @@ export default class Post extends React.Component {
                 </div>
                 <div className="content__post_comments">
                     <h3 className="content__post_comments_header">Комментарии</h3>
-                    {Object.keys(this.props.login).length !== 0 &&
-                    <CommentForm onSubmit={this.addComment}/>}
+                    {(Object.keys(this.props.login).length !== 0 && this.state.comment === 'button') &&
+                    <button onClick={() => {this.triggerCommentForm('form')}}>Добавить комментарий</button>}
+                    {(Object.keys(this.props.login).length !== 0 && this.state.comment === 'form') &&
+                    <CommentForm onSubmit={this.addComment}
+                                 click={this.triggerCommentForm}/>}
                     <TransitionGroup className="transition_group">
                     {this.props.comments.length !== 0 &&
                          <CSSTransition timeout={1000}

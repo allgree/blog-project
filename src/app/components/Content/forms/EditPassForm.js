@@ -24,6 +24,7 @@ class EditPassForm extends React.Component {
                        type="password"
                        required/> <span className="pass_mismatch">Пароли не совпадают</span> <br/>
                 <button type="submit">Сохранить</button>
+                <button onClick={() => {this.props.click('info')}}>Отмена</button>
             </form>
         )
     }

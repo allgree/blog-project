@@ -25,6 +25,7 @@ export default class AvatarForm extends React.Component {
             <form onSubmit={this.onFormSubmit}>
                 <input name="avatar" type="file" id="avatar" onChange={this.change}/>
                 <button type="submit">Сохранить</button>
+                <button onClick={() => {this.props.click('button')}}>Отмена</button>
             </form>
         )
     }

@@ -78,7 +78,7 @@ export default class Posts extends React.Component {
                     <CSSTransition timeout={1000}
                                    classNames="appearance">
                         <div>
-                            {posts}
+                                {posts}
                         </div>
                     </CSSTransition>
                     }

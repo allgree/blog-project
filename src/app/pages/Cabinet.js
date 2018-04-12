@@ -47,13 +47,15 @@ export default class Cabinet extends React.Component {
         this.deletePost = this.deletePost.bind(this);
         this.triggerShow = this.triggerShow.bind(this);
         this.triggerAvatarButton = this.triggerAvatarButton.bind(this);
+        this.triggerFormPost = this.triggerFormPost.bind(this);
         this.editUser = this.editUser.bind(this);
         this.editPass = this.editPass.bind(this);
         this.changeAvatar = this.changeAvatar.bind(this);
 
         this.state = {
-            show: 'info',
+            info: 'info',
             avatar: 'button',
+            post: 'button',
         };
 
         this.extensions = ['jpeg', 'jpg'];
@@ -72,6 +74,7 @@ export default class Cabinet extends React.Component {
     addPost(values) {
         if (Object.keys(this.props.login).length === 0 || !values.title || !values.body) return;
         this.props.dispatch(addUserPost(this.props.login.id, values.title, values.body));
+        this.triggerFormPost('button');
     }
 
     deletePost(post_id) {
@@ -81,13 +84,19 @@ export default class Cabinet extends React.Component {
 
     triggerShow(param) {
         this.setState({
-            show: param
+            info: param
         })
     }
 
-    triggerAvatarButton() {
+    triggerAvatarButton(param) {
         this.setState({
-            avatar: 'form'
+            avatar: param
+        })
+    }
+
+    triggerFormPost(param) {
+        this.setState({
+            post: param
         })
     }
 
@@ -95,7 +104,7 @@ export default class Cabinet extends React.Component {
         values.id = this.props.login.id;
         this.props.dispatch(editUser(values));
         this.setState({
-            show: 'info'
+            info: 'info'
         })
     }
 
@@ -113,7 +122,7 @@ export default class Cabinet extends React.Component {
                 }).then((responce) => {
                     if (responce.data[0] === 1) {
                         this.setState({
-                            show: 'info'
+                            info: 'info'
                         })
                     } else {
                         incorrect_caution.style.display = 'inline';
@@ -162,27 +171,36 @@ export default class Cabinet extends React.Component {
                     <div className="content__cabinet__login_ava">
                         <img src={this.props.login.avatar_path} className="big_avatar"/>
                         {this.state.avatar === 'button' &&
-                            <button onClick={() => {this.triggerAvatarButton()}}>
+                            <button onClick={() => {this.triggerAvatarButton('form')}}>
                                 Сменить аватар
                             </button>
                         }
                         {this.state.avatar === 'form' &&
-                            <AvatarForm changeAvatar={this.changeAvatar}/>
+                            <AvatarForm changeAvatar={this.changeAvatar}
+                                        click={this.triggerAvatarButton}/>
                         }
                     </div>
-                    {this.state.show === 'info' &&
+                    {this.state.info === 'info' &&
                     <UserProfile login={this.props.login}
                                  click={this.triggerShow}/>}
-                    {this.state.show === 'form' &&
+                    {this.state.info === 'form' &&
                     <EditUserForm onSubmit={this.editUser}
-                                  login={this.props.login}/>}
-                    {this.state.show === 'pass' &&
+                                  login={this.props.login}
+                                  click={this.triggerShow}/>}
+                    {this.state.info === 'pass' &&
                     <EditPassForm onSubmit={this.editPass}
-                                  login={this.props.login}/>}
+                                  login={this.props.login}
+                                  click={this.triggerShow}/>}
 
                 </div>
                 <div className="content__cabinet__posts">
-                    <PostForm onSubmit={this.addPost}/>
+                    {this.state.post === 'button' &&
+                    <button onClick={() => {this.triggerFormPost('form')}}>
+                        Добавить пост
+                    </button>}
+                    {this.state.post === 'form' &&
+                    <PostForm onSubmit={this.addPost}
+                              click={this.triggerFormPost}/>}
                     <TransitionGroup>
                         {this.props.user_posts.length !== 0 &&
                             <CSSTransition timeout={1000}

@@ -1,5 +1,4 @@
 import React from 'react';
-import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
 import PostItem from '../components/Content/PostItem';
 import UserTop from '../components/Content/UserTop';
@@ -114,60 +113,30 @@ export default class Ratings extends React.Component {
                 <div className="content__top_users">
                     <aside className="content__top_user">
                         <h2 className="content__top_user_h2">Самый активный блогер</h2>
-                        <TransitionGroup className="transition_group">
                             {this.props.is_bloger_fetching || this.props.is_users_fetching
                                 ? <Loader/>
-                                : <CSSTransition timeout={1000}
-                                                 classNames="appearance">
-                                    <UserTop user={this.props.bloger}/>
-                                </CSSTransition>
-                            }
-                        </TransitionGroup>
+                                : <UserTop user={this.props.bloger}/>}
                     </aside>
                     <aside className="content__top_user">
                         <h2 className="content__top_user_h2">Самый активный комментатор</h2>
-                        <TransitionGroup className="transition_group">
-
                             {this.props.is_commentator_fetching || this.props.is_users_fetching
                                 ? <Loader/>
-                                :
-                                <CSSTransition timeout={1000}
-                                               classNames="appearance">
-                                    <UserTop user={this.props.commentator}/>
-                                </CSSTransition>
-                            }
-                        </TransitionGroup>
+                                : <UserTop user={this.props.commentator}/>}
                     </aside>
 
                 </div>
                 <div className="content__top_posts">
                     <aside className="content__top_post_aside">
                         <h2 className="content__top_post_h2">Топ 5 просмотренных записей</h2>
-                        <TransitionGroup className="transition_group">
                             {this.props.is_posts_fetching || this.props.is_users_fetching || this.props.is_post_likes_fetching
                                 ? <Loader/>
-                                : <CSSTransition timeout={1000}
-                                                 classNames="appearance">
-                                    <div>
-                                        {top_views_posts}
-                                    </div>
-                                </CSSTransition>
-                            }
-                        </TransitionGroup>
+                                : <div> {top_views_posts} </div>}
                     </aside>
                     <aside className="content__top_post_aside">
                         <h2 className="content__top_post_h2">Топ 5 отмеченных записей</h2>
-                        <TransitionGroup className="transition_group">
                             {this.props.is_posts_fetching || this.props.is_users_fetching || this.props.is_post_likes_fetching
                                 ? <Loader/>
-                                : <CSSTransition timeout={1000}
-                                                 classNames="appearance">
-                                    <div>
-                                        {top_likes_posts}
-                                    </div>
-                                </CSSTransition>
-                            }
-                        </TransitionGroup>
+                                : <div>{top_likes_posts}</div>}
                     </aside>
                 </div>
 

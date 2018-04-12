@@ -1,6 +1,4 @@
 import React from 'react';
-import {CSSTransition, TransitionGroup} from 'react-transition-group';
-
 
 import Loader from '../components/Content/Loader';
 import PostItem from '../components/Content/PostItem';
@@ -69,16 +67,8 @@ export default class Posts extends React.Component {
         });
         return (
             <div className="content_posts">
-                <TransitionGroup className="transition_group">
                     {this.props.posts.length !== 0 &&
-                    <CSSTransition timeout={1000}
-                                   classNames="appearance">
-                        <div>
-                                {posts}
-                        </div>
-                    </CSSTransition>
-                    }
-                </TransitionGroup>
+                        <div>{posts}</div>}
                 <span className="point"/>
                 {this.props.is_posts_fetching &&
                 <Loader/>}

@@ -1,5 +1,4 @@
 import React from 'react';
-import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
 import Loader from '../components/Content/Loader';
 import UserItem from '../components/Content/UserItem';
@@ -33,16 +32,8 @@ export default class Blogs extends React.Component {
         });
         return (
             <div className="content_blogs">
-                <TransitionGroup className="transition_group">
                     {this.props.users.length !== 0 &&
-                    <CSSTransition timeout={1000}
-                                      classNames="appearance">
-                            <div>
-                                {users}
-                            </div>
-                        </CSSTransition>
-                    }
-                </TransitionGroup>
+                       <div>{users}</div>}
                 <span className="point"/>
                 {this.props.is_users_fetching &&
                 <Loader/>}

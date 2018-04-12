@@ -1,6 +1,5 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
-import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import axios from 'axios';
 
 import {connect} from 'react-redux';
@@ -196,17 +195,13 @@ export default class Cabinet extends React.Component {
                     <button onClick={() => {this.triggerFormPost('form')}}>
                         Добавить пост
                     </button>}
+
                     {this.state.post === 'form' &&
                     <PostForm onSubmit={this.addPost}
                               click={this.triggerFormPost}/>}
-                    <TransitionGroup>
-                        {this.props.user_posts.length !== 0 &&
-                            <CSSTransition timeout={1000}
-                                           classNames="appearance">
-                                  <div>{posts}</div>
-                            </CSSTransition>
-                        }
-                    </TransitionGroup>
+
+                    {this.props.user_posts.length !== 0 &&
+                            <div>{posts}</div>}
                     <span className="point"/>
                     {this.props.is_user_posts_fetching &&
                     <Loader/>}

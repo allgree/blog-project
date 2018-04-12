@@ -1,6 +1,5 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
 import {connect} from 'react-redux';
 
@@ -139,12 +138,9 @@ export default class Post extends React.Component {
         return (
             <div>
                 <div className="content__post">
-                    <TransitionGroup className="transition_group">
                         {!post_author || this.props.is_post_fetching
                         ? <Loader/>
-                        : <CSSTransition timeout={1000}
-                                         classNames="appearance">
-                                <div>
+                        : <div>
                                     <h2 className="content__post_title">{this.props.post.title}</h2>
                                     <p className="content__post_body">{this.props.post.body}</p>
                                     <p className="content__post_author">
@@ -174,9 +170,7 @@ export default class Post extends React.Component {
                                         </span>
                                     </div>
                                 </div>
-                          </CSSTransition>
                         }
-                    </TransitionGroup>
                 </div>
                 <div className="content__post_comments">
                     <h3 className="content__post_comments_header">Комментарии</h3>
@@ -185,14 +179,10 @@ export default class Post extends React.Component {
                     {(Object.keys(this.props.login).length !== 0 && this.state.comment === 'form') &&
                     <CommentForm onSubmit={this.addComment}
                                  click={this.triggerCommentForm}/>}
-                    <TransitionGroup className="transition_group">
+
                     {this.props.comments.length !== 0 &&
-                         <CSSTransition timeout={1000}
-                                         classNames="appearance">
                             <div>{comments}</div>
-                          </CSSTransition>
                     }
-                    </TransitionGroup>
                     <span className="point"/>
                     {this.props.is_post_comments_fetching &&
                     <Loader/>}

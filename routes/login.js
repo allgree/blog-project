@@ -6,7 +6,11 @@ const FirebaseTokenGenerator = require("firebase-token-generator");
 const tokenGenerator = new FirebaseTokenGenerator("<YOUR_FIREBASE_SECRET>");
 const fs = require('fs');
 
-const Salts = require('../salts');
+//const Salts = require('../salts');
+let salts = {
+    salt1: 'lhglkghkhkjn',
+    salt2: 'asdadfasfasfasf'
+};
 
 const Users = require('../models/users');
 const Tokens = require('../models/tokens');
@@ -15,7 +19,7 @@ const Tokens = require('../models/tokens');
 router.post('/register',  (req, res, next) => {
     let avatar = '/img/avatars/default.jpeg';
     let password = crypto.createHash('md5')
-        .update(Salts.salt1 + req.body.pass1 + Salts.salt2)
+        .update(salts.salt1 + req.body.pass1 + salts.salt2)
         .digest('hex');
     Users.register(req.body, avatar, password, (result_users) => {
         Tokens.addUserId(result_users.id, (result_tokens) => {
@@ -29,7 +33,7 @@ router.post('/register',  (req, res, next) => {
 router.post('/login', (req, res, next) => {
     Users.findByLogin(req.body.login, (result) => {
         let hash_pass = crypto.createHash('md5')
-            .update(Salts.salt1 + req.body.password + Salts.salt2)
+            .update(salts.salt1 + req.body.password + salts.salt2)
             .digest('hex');
         if (hash_pass !== result.dataValues.password) {
             return res.json({});
@@ -82,13 +86,13 @@ router.post('/edit', (req, res, next) => {
 router.post('/pass', (req, res, next) => {
     Users.findById(req.body.user_id, (result_user) => {
         let hash_old_pass = crypto.createHash('md5')
-            .update(Salts.salt1 + req.body.password + Salts.salt2)
+            .update(salts.salt1 + req.body.password + salts.salt2)
             .digest('hex');
         if (result_user.password !== hash_old_pass) {
             res.json({result: 0})
         } else {
             let hash_new_pass = crypto.createHash('md5')
-                .update(Salts.salt1 + req.body.new_pass + Salts.salt2)
+                .update(salts.salt1 + req.body.new_pass + salts.salt2)
                 .digest('hex');
             Users.editPass(req.body.user_id, hash_new_pass, (result_pass) => {
                 res.json(result_pass)

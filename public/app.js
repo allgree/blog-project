@@ -19140,7 +19140,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function fetchUserPostsSample(user_id, offset) {
+function fetchUserPostsSample(offset, user_id) {
     return {
         type: 'FETCH_USER_POSTS_SAMPLE',
         payload: _axios2.default.get('/api/posts/sample/user/?user_id=' + user_id + '&offset=' + offset)
@@ -52396,6 +52396,8 @@ var _postLikesActions = __webpack_require__(32);
 
 var _loginActions = __webpack_require__(8);
 
+var _autoload = __webpack_require__(481);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -52510,17 +52512,7 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
 
             $(document).off();
             $(document).on('scroll', function () {
-                var $point = $('.point');
-                if (!$point[0]) {
-                    return;
-                }
-                var point = $point.offset().top; // точка где заканчиваются новые записи
-                var scroll_top = $(document).scrollTop(); //Насколько прокручена страница сверху (без учета высоты окна)
-                var height = $(window).height(); // Высота окна
-                var load_flag = scroll_top + height >= point; // Флаг подгружаем ли данные
-                if (load_flag && !_this4.props.is_posts_fetching && !_this4.props.posts_empty) {
-                    _this4.props.dispatch((0, _postsListActions.fetchPostsSample)(_this4.props.posts.length));
-                }
+                (0, _autoload.autoload)(_this4.props.is_posts_fetching, _this4.props.posts_empty, _this4.props.dispatch, _postsListActions.fetchPostsSample, _this4.props.posts.length);
             });
         }
     }]);
@@ -52566,7 +52558,7 @@ var _usersListActions = __webpack_require__(20);
 
 var _loginActions = __webpack_require__(8);
 
-var _postsListActions = __webpack_require__(80);
+var _autoload = __webpack_require__(481);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -52594,7 +52586,6 @@ var Blogs = (_dec = (0, _reactRedux.connect)(function (store) {
         var _this = _possibleConstructorReturn(this, (Blogs.__proto__ || Object.getPrototypeOf(Blogs)).apply(this, arguments));
 
         _this.props.dispatch((0, _loginActions.fetchLoginData)());
-        // this.props.dispatch(fetchUsers());
         _this.props.dispatch((0, _usersListActions.fetchUsersSample)(0));
         return _this;
     }
@@ -52634,17 +52625,7 @@ var Blogs = (_dec = (0, _reactRedux.connect)(function (store) {
 
             $(document).off();
             $(document).on('scroll', function () {
-                var $point = $('.point');
-                if (!$point[0]) {
-                    return;
-                }
-                var point = $point.offset().top; // точка где заканчиваются новые записи
-                var scroll_top = $(document).scrollTop(); //Насколько прокручена страница сверху (без учета высоты окна)
-                var height = $(window).height(); // Высота окна
-                var load_flag = scroll_top + height >= point; // Флаг подгружаем ли данные
-                if (load_flag && !_this2.props.is_users_fetching && !_this2.props.users_empty) {
-                    _this2.props.dispatch((0, _usersListActions.fetchUsersSample)(_this2.props.users.length));
-                }
+                (0, _autoload.autoload)(_this2.props.is_users_fetching, _this2.props.users_empty, _this2.props.dispatch, _usersListActions.fetchUsersSample, _this2.props.users.length);
             });
         }
     }]);
@@ -53246,6 +53227,8 @@ var _postLikesActions = __webpack_require__(32);
 
 var _loginActions = __webpack_require__(8);
 
+var _autoload = __webpack_require__(481);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -53284,7 +53267,7 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.props.dispatch((0, _usersListActions.fetchUsers)());
         _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
         _this.props.dispatch((0, _userActions.fetchUser)(_this.props.match.params.user_id));
-        _this.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(_this.props.match.params.user_id, 0));
+        _this.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(0, _this.props.match.params.user_id));
         _this.triggerPostLike = _this.triggerPostLike.bind(_this);
         return _this;
     }
@@ -53419,17 +53402,7 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
 
             $(document).off();
             $(document).on('scroll', function () {
-                var $point = $('.point');
-                if (!$point[0]) {
-                    return;
-                }
-                var point = $point.offset().top;
-                var scroll_top = $(document).scrollTop();
-                var height = $(window).height();
-                var load_flag = scroll_top + height >= point;
-                if (load_flag && !_this4.props.is_user_posts_fetching && !_this4.props.user_posts_empty) {
-                    _this4.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(_this4.props.match.params.user_id, _this4.props.user_posts.length));
-                }
+                (0, _autoload.autoload)(_this4.props.is_user_posts_fetching, _this4.props.user_posts_empty, _this4.props.dispatch, _userPostsActions.fetchUserPostsSample, _this4.props.user_posts.length, _this4.props.match.params.user_id);
             });
         }
     }]);
@@ -53502,6 +53475,8 @@ var _commentLikesActions = __webpack_require__(453);
 
 var _loginActions = __webpack_require__(8);
 
+var _autoload = __webpack_require__(481);
+
 var _CommentItem = __webpack_require__(454);
 
 var _CommentItem2 = _interopRequireDefault(_CommentItem);
@@ -53559,7 +53534,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.props.dispatch((0, _postActions.fetchPost)(_this.props.match.params.post_id));
         _this.props.dispatch((0, _usersListActions.fetchUsers)());
         _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
-        _this.props.dispatch((0, _postCommentsActions.fetchPostCommentsSample)(_this.props.match.params.post_id, 0));
+        _this.props.dispatch((0, _postCommentsActions.fetchPostCommentsSample)(0, _this.props.match.params.post_id));
         _this.props.dispatch((0, _commentLikesActions.fetchCommentLikes)());
         _this.timeout = 0;
         _this.time = 500;
@@ -53823,17 +53798,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
 
             $(document).off();
             $(document).on('scroll', function () {
-                var $point = $('.point');
-                if (!$point[0]) {
-                    return;
-                }
-                var point = $point.offset().top;
-                var scroll_top = $(document).scrollTop();
-                var height = $(window).height();
-                var load_flag = scroll_top + height >= point;
-                if (load_flag && !_this6.props.is_post_comments_fetching && !_this6.props.comments_empty) {
-                    _this6.props.dispatch((0, _postCommentsActions.fetchPostCommentsSample)(_this6.props.match.params.post_id, _this6.props.comments.length));
-                }
+                (0, _autoload.autoload)(_this6.props.is_post_comments_fetching, _this6.props.comments_empty, _this6.props.dispatch, _postCommentsActions.fetchPostCommentsSample, _this6.props.comments.length, _this6.props.match.params.post_id);
             });
         }
     }]);
@@ -53888,7 +53853,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function fetchPostCommentsSample(post_id, offset) {
+function fetchPostCommentsSample(offset, post_id) {
     return {
         type: 'FETCH_POST_COMMENTS_SAMPLE',
         payload: _axios2.default.get('/api/comments/sample/post/?post_id=' + post_id + '&offset=' + offset)
@@ -54504,6 +54469,8 @@ var _postLikesActions = __webpack_require__(32);
 
 var _loginActions = __webpack_require__(8);
 
+var _autoload = __webpack_require__(481);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -54537,7 +54504,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
 
         _this.props.dispatch((0, _loginActions.fetchLoginData)());
         _this.props.dispatch((0, _usersListActions.fetchUsers)());
-        _this.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(_this.props.login.id, 0));
+        _this.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(0, _this.props.login.id));
         _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
 
         _this.triggerPostLike = _this.triggerPostLike.bind(_this);
@@ -54752,17 +54719,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
 
             $(document).off();
             $(document).on('scroll', function () {
-                var $point = $('.point');
-                if (!$point[0]) {
-                    return;
-                }
-                var point = $point.offset().top;
-                var scroll_top = $(document).scrollTop();
-                var height = $(window).height();
-                var load_flag = scroll_top + height >= point;
-                if (load_flag && !_this5.props.is_user_posts_fetching && !_this5.props.user_posts_empty) {
-                    _this5.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(_this5.props.login.id, _this5.props.user_posts.length));
-                }
+                (0, _autoload.autoload)(_this5.props.is_user_posts_fetching, _this5.props.user_posts_empty, _this5.props.dispatch, _userPostsActions.fetchUserPostsSample, _this5.props.user_posts.length, _this5.props.login.id);
             });
         }
     }]);
@@ -55677,6 +55634,46 @@ exports.default = Main;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 469 */,
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */,
+/* 478 */,
+/* 479 */,
+/* 480 */,
+/* 481 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.autoload = autoload;
+function autoload(is_fetching, is_empty, dispatch, fetch, lenght) {
+    var id = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
+
+    var $point = $('.point');
+    if (!$point[0]) {
+        return;
+    }
+    var point = $point.offset().top; // точка где заканчиваются новые записи
+    var scroll_top = $(document).scrollTop(); //Насколько прокручена страница сверху (без учета высоты окна)
+    var height = $(window).height(); // Высота окна
+    var load_flag = scroll_top + height >= point; // Флаг подгружаем ли данные
+    if (load_flag && !is_fetching && !is_empty) {
+        dispatch(fetch(lenght, id));
+    }
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ })
 /******/ ]);

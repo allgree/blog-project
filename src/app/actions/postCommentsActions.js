@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export function fetchPostCommentsSample(post_id, offset) {
+export function fetchPostCommentsSample(offset, post_id) {
     return {
         type: 'FETCH_POST_COMMENTS_SAMPLE',
         payload: axios.get(`/api/comments/sample/post/?post_id=${post_id}&offset=${offset}`)

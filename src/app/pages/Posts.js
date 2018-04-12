@@ -11,6 +11,7 @@ import {fetchPostsSample, deletePost} from "../actions/postsListActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 import {fetchLoginData} from "../actions/loginActions";
+import {autoload} from '../functions/autoload';
 
 
 @connect((store) => {
@@ -93,17 +94,11 @@ export default class Posts extends React.Component {
     componentDidMount() {
         $(document).off();
         $(document).on('scroll', () => {
-            let $point = $('.point');
-            if (!$point[0]) {
-                return;
-            }
-            let point = $point.offset().top;          // точка где заканчиваются новые записи
-            let scroll_top = $(document).scrollTop(); //Насколько прокручена страница сверху (без учета высоты окна)
-            let height = $(window).height();   // Высота окна
-            let load_flag = scroll_top + height >= point;   // Флаг подгружаем ли данные
-            if (load_flag && !this.props.is_posts_fetching && !this.props.posts_empty) {
-                this.props.dispatch(fetchPostsSample(this.props.posts.length));
-            }
+            autoload(this.props.is_posts_fetching,
+                     this.props.posts_empty,
+                     this.props.dispatch,
+                     fetchPostsSample,
+                     this.props.posts.length)
         });
     }
 

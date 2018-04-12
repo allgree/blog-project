@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export function fetchUserPostsSample(user_id, offset) {
+export function fetchUserPostsSample(offset, user_id) {
     return {
         type: 'FETCH_USER_POSTS_SAMPLE',
         payload: axios.get(`/api/posts/sample/user/?user_id=${user_id}&offset=${offset}`)

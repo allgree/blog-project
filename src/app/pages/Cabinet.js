@@ -17,6 +17,7 @@ import {fetchUserPostsSample, addUserPost, deleteUserPost} from "../actions/user
 import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 import {editUser, changeAvatar, fetchLoginData} from "../actions/loginActions";
+import {autoload} from "../functions/autoload";
 
 @connect((store) => {
     return {
@@ -39,8 +40,10 @@ export default class Cabinet extends React.Component {
         super(...arguments);
         this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchUsers());
-        this.props.dispatch(fetchUserPostsSample(this.props.login.id, 0));
+        this.props.dispatch(fetchUserPostsSample(0, this.props.login.id));
         this.props.dispatch(fetchPostLikes());
+
+
 
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.addPost = this.addPost.bind(this);
@@ -221,17 +224,12 @@ export default class Cabinet extends React.Component {
     componentDidMount() {
         $(document).off();
         $(document).on('scroll', () => {
-            let $point = $('.point');
-            if (!$point[0]) {
-                return;
-            }
-            let point = $point.offset().top;
-            let scroll_top = $(document).scrollTop();
-            let height = $(window).height();
-            let load_flag = scroll_top + height >= point;
-            if (load_flag && !this.props.is_user_posts_fetching && !this.props.user_posts_empty) {
-                this.props.dispatch(fetchUserPostsSample(this.props.login.id, this.props.user_posts.length));
-            }
+            autoload(this.props.is_user_posts_fetching,
+                     this.props.user_posts_empty,
+                     this.props.dispatch,
+                     fetchUserPostsSample,
+                     this.props.user_posts.length,
+                     this.props.login.id)
         })
     }
 }

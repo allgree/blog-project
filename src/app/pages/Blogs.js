@@ -6,9 +6,9 @@ import UserItem from '../components/Content/UserItem';
 
 import {connect} from 'react-redux';
 
-import {fetchUsers, fetchUsersSample} from "../actions/usersListActions";
+import {fetchUsersSample} from "../actions/usersListActions";
 import {fetchLoginData} from "../actions/loginActions";
-import {fetchPostsSample} from "../actions/postsListActions";
+import {autoload} from '../functions/autoload';
 
 @connect((store) => {
     return {
@@ -24,7 +24,6 @@ export default class Blogs extends React.Component {
     constructor() {
         super(...arguments);
         this.props.dispatch(fetchLoginData());
-       // this.props.dispatch(fetchUsers());
         this.props.dispatch(fetchUsersSample(0));
     }
     render() {
@@ -54,17 +53,11 @@ export default class Blogs extends React.Component {
     componentDidMount() {
         $(document).off();
         $(document).on('scroll', () => {
-            let $point = $('.point');
-            if (!$point[0]) {
-                return;
-            }
-            let point = $point.offset().top;          // точка где заканчиваются новые записи
-            let scroll_top = $(document).scrollTop(); //Насколько прокручена страница сверху (без учета высоты окна)
-            let height = $(window).height();   // Высота окна
-            let load_flag = scroll_top + height >= point;   // Флаг подгружаем ли данные
-            if (load_flag && !this.props.is_users_fetching && !this.props.users_empty) {
-                this.props.dispatch(fetchUsersSample(this.props.users.length));
-            }
+            autoload(this.props.is_users_fetching,
+                     this.props.users_empty,
+                     this.props.dispatch,
+                     fetchUsersSample,
+                     this.props.users.length)
         });
     }
 }

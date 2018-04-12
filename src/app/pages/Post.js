@@ -10,6 +10,7 @@ import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 import {fetchCommentLikes, addCommentLike, deleteCommentLike} from "../actions/commentLikesActions";
 import {fetchLoginData} from "../actions/loginActions";
+import {autoload} from '../functions/autoload';
 
 import CommentItem from '../components/Content/CommentItem';
 import Loader from '../components/Content/Loader';
@@ -45,7 +46,7 @@ export default class Post extends React.Component {
         this.props.dispatch(fetchPost(this.props.match.params.post_id));
         this.props.dispatch(fetchUsers());
         this.props.dispatch(fetchPostLikes());
-        this.props.dispatch(fetchPostCommentsSample(this.props.match.params.post_id, 0));
+        this.props.dispatch(fetchPostCommentsSample(0, this.props.match.params.post_id));
         this.props.dispatch(fetchCommentLikes());
         this.timeout = 0;
         this.time = 500;
@@ -214,17 +215,13 @@ export default class Post extends React.Component {
     componentDidMount() {
         $(document).off();
         $(document).on('scroll', () => {
-            let $point = $('.point');
-            if (!$point[0]) {
-                return;
-            }
-            let point = $point.offset().top;
-            let scroll_top = $(document).scrollTop();
-            let height = $(window).height();
-            let load_flag = scroll_top + height >= point;
-            if (load_flag && !this.props.is_post_comments_fetching && !this.props.comments_empty) {
-                this.props.dispatch(fetchPostCommentsSample(this.props.match.params.post_id, this.props.comments.length));
-            }
-        })
+            autoload(this.props.is_post_comments_fetching,
+                this.props.comments_empty,
+                this.props.dispatch,
+                fetchPostCommentsSample,
+                this.props.comments.length,
+                this.props.match.params.post_id)
+        });
+
     }
 }

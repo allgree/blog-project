@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import {fetchUsersSample} from "../actions/usersListActions";
 import {fetchLoginData} from "../actions/loginActions";
 import {autoload} from '../functions/autoload';
+import {moveUp} from "../functions/move_up";
 
 @connect((store) => {
     return {
@@ -32,11 +33,13 @@ export default class Blogs extends React.Component {
         });
         return (
             <div className="content_blogs">
+                <a name="label_up"/>
                     {this.props.users.length !== 0 &&
                        <div>{users}</div>}
                 <span className="point"/>
                 {this.props.is_users_fetching &&
                 <Loader/>}
+                <div className="link_to_up"><a href="#label_up"/></div>
             </div>
         )
     }
@@ -44,6 +47,7 @@ export default class Blogs extends React.Component {
     componentDidMount() {
         $(document).off();
         $(document).on('scroll', () => {
+            moveUp();
             autoload(this.props.is_users_fetching,
                      this.props.users_empty,
                      this.props.dispatch,

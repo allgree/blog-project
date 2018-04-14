@@ -18,6 +18,7 @@ import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesA
 import {editUser, changeAvatar, fetchLoginData} from "../actions/loginActions";
 import {autoload} from "../functions/autoload";
 import {like} from '../functions/like';
+import {moveUp} from "../functions/move_up";
 
 @connect((store) => {
     return {
@@ -164,6 +165,7 @@ export default class Cabinet extends React.Component {
         });
         return (
             <div className="content__cabinet">
+                <a name="label_up"/>
                 <div className="content__cabinet__login">
                     <div className="content__cabinet__login_ava">
                         <img src={this.props.login.avatar_path} className="big_avatar"/>
@@ -206,6 +208,7 @@ export default class Cabinet extends React.Component {
                     {this.props.is_user_posts_fetching &&
                     <Loader/>}
                 </div>
+                <div className="link_to_up"><a href="#label_up"/></div>
             </div>
         )
 
@@ -214,6 +217,7 @@ export default class Cabinet extends React.Component {
     componentDidMount() {
         $(document).off();
         $(document).on('scroll', () => {
+            moveUp();
             autoload(this.props.is_user_posts_fetching,
                      this.props.user_posts_empty,
                      this.props.dispatch,

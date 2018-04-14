@@ -2401,7 +2401,7 @@ nav {
   margin: 20px 0 0 30%; }
 
 .nav_menu {
-  background: rgba(250, 235, 215, 0.8);
+  background: rgba(154, 77, 44, 0.8);
   width: 0;
   min-height: 100%;
   position: fixed;
@@ -2412,17 +2412,17 @@ nav {
 
 .nav_menu__link {
   text-decoration: none;
-  color: #614343;
+  color: #fffbfd;
   display: block;
   padding: 3px;
-  border: 1px solid antiquewhite;
+  border: 1px solid rgba(154, 77, 44, 0.8);
   border-radius: 3px;
   margin: 10px 10px 0 20px;
   font-size: 20px;
   transition: all 0.3s linear; }
 
 .nav_menu__link:hover {
-  border: 1px solid #614343; }
+  border: 1px solid #FAEBD7; }
 
 .login__links {
   float: right; }
@@ -2463,9 +2463,9 @@ nav {
   box-shadow: 0 0 80px 20px #463131, 0 0 80px 20px #463131 inset; }
 
 .back_ratings {
-  background: url(../backgrounds/pyatna_fon_temnyy_svet_51801_5120x1600.jpg) repeat;
-  background-size: 100%;
-  box-shadow: 0 0 80px 20px #27234f, 0 0 80px 20px #27234f inset; }
+  background: url(../backgrounds/pyatna_svet_temnyy_fon_46838_2560x1600.jpg) no-repeat;
+  background-size: cover;
+  box-shadow: 0 0 80px 20px #132a40, 0 0 80px 20px #132a40 inset; }
 
 .back_about {
   background: url(../backgrounds/parallax1.jpg) repeat;
@@ -2499,6 +2499,26 @@ nav {
 
 .content_loader {
   text-align: center; }
+
+.link_to_up {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none;
+  width: 100px;
+  height: 100px;
+  background: url(../backgrounds/depositphotos_105546490-stock-illustration-arrow-pointing-up-icon.jpg) no-repeat;
+  background-size: cover;
+  border-radius: 10px;
+  box-shadow: 0 0 20px 5px #be7600; }
+
+.link_to_up > a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: white;
+  font-size: 20px;
+  text-decoration: none; }
 
 .block_item {
   padding: 10px 10px 10px;
@@ -2761,7 +2781,7 @@ footer {
   height: 40px;
   text-align: center;
   clear: both;
-  background-color: rgba(166, 31, 32, 0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   color: white;
   position: relative;
   line-height: 40px;

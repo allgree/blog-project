@@ -16,6 +16,7 @@ import CommentItem from '../components/Content/CommentItem';
 import Loader from '../components/Content/Loader';
 import TooltipLikes from '../components/Content/TooltipLikes';
 import CommentForm from '../components/Content/forms/CommentForm';
+import {moveUp} from "../functions/move_up";
 
 @connect((store) => {
     return {
@@ -137,6 +138,7 @@ export default class Post extends React.Component {
         });
         return (
             <div>
+                <a name="label_up"/>
                 <div className="content__post">
                         {!post_author || this.props.is_post_fetching
                         ? <Loader/>
@@ -187,6 +189,7 @@ export default class Post extends React.Component {
                     {this.props.is_post_comments_fetching &&
                     <Loader/>}
                 </div>
+                <div className="link_to_up"><a href="#label_up"/></div>
             </div>
         )
     }
@@ -194,6 +197,7 @@ export default class Post extends React.Component {
     componentDidMount() {
         $(document).off();
         $(document).on('scroll', () => {
+            moveUp();
             autoload(this.props.is_post_comments_fetching,
                 this.props.comments_empty,
                 this.props.dispatch,

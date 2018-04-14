@@ -51026,6 +51026,8 @@ var _autoload = __webpack_require__(32);
 
 var _like = __webpack_require__(52);
 
+var _move_up = __webpack_require__(456);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -51106,13 +51108,19 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
             return _react2.default.createElement(
                 'div',
                 { className: 'content_posts' },
+                _react2.default.createElement('a', { name: 'label_up' }),
                 this.props.posts.length !== 0 && _react2.default.createElement(
                     'div',
                     null,
                     posts
                 ),
                 _react2.default.createElement('span', { className: 'point' }),
-                this.props.is_posts_fetching && _react2.default.createElement(_Loader2.default, null)
+                this.props.is_posts_fetching && _react2.default.createElement(_Loader2.default, null),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'link_to_up' },
+                    _react2.default.createElement('a', { href: '#label_up' })
+                )
             );
         }
     }, {
@@ -51122,6 +51130,7 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
 
             $(document).off();
             $(document).on('scroll', function () {
+                (0, _move_up.moveUp)();
                 (0, _autoload.autoload)(_this3.props.is_posts_fetching, _this3.props.posts_empty, _this3.props.dispatch, _postsListActions.fetchPostsSample, _this3.props.posts.length);
             });
         }
@@ -51168,6 +51177,8 @@ var _loginActions = __webpack_require__(8);
 
 var _autoload = __webpack_require__(32);
 
+var _move_up = __webpack_require__(456);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -51208,13 +51219,19 @@ var Blogs = (_dec = (0, _reactRedux.connect)(function (store) {
             return _react2.default.createElement(
                 'div',
                 { className: 'content_blogs' },
+                _react2.default.createElement('a', { name: 'label_up' }),
                 this.props.users.length !== 0 && _react2.default.createElement(
                     'div',
                     null,
                     users
                 ),
                 _react2.default.createElement('span', { className: 'point' }),
-                this.props.is_users_fetching && _react2.default.createElement(_Loader2.default, null)
+                this.props.is_users_fetching && _react2.default.createElement(_Loader2.default, null),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'link_to_up' },
+                    _react2.default.createElement('a', { href: '#label_up' })
+                )
             );
         }
     }, {
@@ -51224,6 +51241,7 @@ var Blogs = (_dec = (0, _reactRedux.connect)(function (store) {
 
             $(document).off();
             $(document).on('scroll', function () {
+                (0, _move_up.moveUp)();
                 (0, _autoload.autoload)(_this2.props.is_users_fetching, _this2.props.users_empty, _this2.props.dispatch, _usersListActions.fetchUsersSample, _this2.props.users.length);
             });
         }
@@ -51315,7 +51333,7 @@ exports.default = UserItem;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -51357,6 +51375,8 @@ var _blogerActions = __webpack_require__(415);
 var _commentatorActions = __webpack_require__(416);
 
 var _postLikesActions = __webpack_require__(31);
+
+var _move_up = __webpack_require__(456);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51489,6 +51509,7 @@ var Ratings = (_dec = (0, _reactRedux.connect)(function (store) {
             return _react2.default.createElement(
                 'div',
                 { className: 'content__ratings' },
+                _react2.default.createElement('a', { name: 'label_up' }),
                 _react2.default.createElement(
                     'div',
                     { className: 'content__top_users' },
@@ -51546,14 +51567,28 @@ var Ratings = (_dec = (0, _reactRedux.connect)(function (store) {
                             top_likes_posts
                         )
                     )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'link_to_up' },
+                    _react2.default.createElement('a', { href: '#label_up' })
                 )
             );
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            $(document).off();
+            $(document).on('scroll', function () {
+                (0, _move_up.moveUp)();
+            });
         }
     }]);
 
     return Ratings;
 }(_react2.default.Component)) || _class);
 exports.default = Ratings;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
 
 /***/ }),
 /* 414 */
@@ -51792,6 +51827,8 @@ var _autoload = __webpack_require__(32);
 
 var _like = __webpack_require__(52);
 
+var _move_up = __webpack_require__(456);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -51918,6 +51955,7 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                         )
                     )
                 ),
+                _react2.default.createElement('a', { name: 'label_up' }),
                 _react2.default.createElement(
                     'aside',
                     { className: 'content__user_aside user_posts' },
@@ -51928,6 +51966,11 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                     ),
                     _react2.default.createElement('span', { className: 'point' }),
                     this.props.is_user_posts_fetching && _react2.default.createElement(_Loader2.default, null)
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'link_to_up' },
+                    _react2.default.createElement('a', { href: '#label_up' })
                 )
             );
         }
@@ -51938,6 +51981,7 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
 
             $(document).off();
             $(document).on('scroll', function () {
+                (0, _move_up.moveUp)();
                 (0, _autoload.autoload)(_this3.props.is_user_posts_fetching, _this3.props.user_posts_empty, _this3.props.dispatch, _userPostsActions.fetchUserPostsSample, _this3.props.user_posts.length, _this3.props.match.params.user_id);
             });
         }
@@ -52028,6 +52072,8 @@ var _TooltipLikes2 = _interopRequireDefault(_TooltipLikes);
 var _CommentForm = __webpack_require__(425);
 
 var _CommentForm2 = _interopRequireDefault(_CommentForm);
+
+var _move_up = __webpack_require__(456);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -52194,6 +52240,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
             return _react2.default.createElement(
                 'div',
                 null,
+                _react2.default.createElement('a', { name: 'label_up' }),
                 _react2.default.createElement(
                     'div',
                     { className: 'content__post' },
@@ -52288,6 +52335,11 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                     ),
                     _react2.default.createElement('span', { className: 'point' }),
                     this.props.is_post_comments_fetching && _react2.default.createElement(_Loader2.default, null)
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'link_to_up' },
+                    _react2.default.createElement('a', { href: '#label_up' })
                 )
             );
         }
@@ -52298,6 +52350,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
 
             $(document).off();
             $(document).on('scroll', function () {
+                (0, _move_up.moveUp)();
                 (0, _autoload.autoload)(_this4.props.is_post_comments_fetching, _this4.props.comments_empty, _this4.props.dispatch, _postCommentsActions.fetchPostCommentsSample, _this4.props.comments.length, _this4.props.match.params.post_id);
             });
         }
@@ -52971,6 +53024,8 @@ var _autoload = __webpack_require__(32);
 
 var _like = __webpack_require__(52);
 
+var _move_up = __webpack_require__(456);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -53146,6 +53201,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
             return _react2.default.createElement(
                 'div',
                 { className: 'content__cabinet' },
+                _react2.default.createElement('a', { name: 'label_up' }),
                 _react2.default.createElement(
                     'div',
                     { className: 'content__cabinet__login' },
@@ -53191,6 +53247,11 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                     ),
                     _react2.default.createElement('span', { className: 'point' }),
                     this.props.is_user_posts_fetching && _react2.default.createElement(_Loader2.default, null)
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'link_to_up' },
+                    _react2.default.createElement('a', { href: '#label_up' })
                 )
             );
         }
@@ -53201,6 +53262,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
 
             $(document).off();
             $(document).on('scroll', function () {
+                (0, _move_up.moveUp)();
                 (0, _autoload.autoload)(_this4.props.is_user_posts_fetching, _this4.props.user_posts_empty, _this4.props.dispatch, _userPostsActions.fetchUserPostsSample, _this4.props.user_posts.length, _this4.props.login.id);
             });
         }
@@ -54116,6 +54178,43 @@ exports.default = Main;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 439 */,
+/* 440 */,
+/* 441 */,
+/* 442 */,
+/* 443 */,
+/* 444 */,
+/* 445 */,
+/* 446 */,
+/* 447 */,
+/* 448 */,
+/* 449 */,
+/* 450 */,
+/* 451 */,
+/* 452 */,
+/* 453 */,
+/* 454 */,
+/* 455 */,
+/* 456 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.moveUp = moveUp;
+function moveUp() {
+    if ($(document).scrollTop() > 200) {
+        $('.link_to_up').fadeIn(300);
+    } else {
+        $('.link_to_up').fadeOut(300);
+    }
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
 
 /***/ })
 /******/ ]);

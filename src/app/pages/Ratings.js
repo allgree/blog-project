@@ -12,6 +12,7 @@ import {fetchUsers} from "../actions/usersListActions";
 import {fetchBloger} from "../actions/blogerActions";
 import {fetchCommentator} from "../actions/commentatorActions";
 import {fetchPostLikes, addPostLike, deletePostLike} from "../actions/postLikesActions";
+import {moveUp} from "../functions/move_up";
 
 
 @connect((store) => {
@@ -110,6 +111,7 @@ export default class Ratings extends React.Component {
         });
         return (
             <div className="content__ratings">
+                <a name="label_up"/>
                 <div className="content__top_users">
                     <aside className="content__top_user">
                         <h2 className="content__top_user_h2">Самый активный блогер</h2>
@@ -139,8 +141,15 @@ export default class Ratings extends React.Component {
                                 : <div>{top_likes_posts}</div>}
                     </aside>
                 </div>
-
+                <div className="link_to_up"><a href="#label_up"/></div>
             </div>
         )
+    }
+
+    componentDidMount() {
+        $(document).off();
+        $(document).on('scroll', () => {
+            moveUp();
+        });
     }
 }

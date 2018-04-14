@@ -2355,7 +2355,7 @@ html {
   z-index: -5;
   width: 100%;
   height: 100%;
-  background: url(../backgrounds/main_background.jpg) no-repeat;
+  background: url(../backgrounds/setwalls.ru-41151.jpg) no-repeat;
   background-size: cover; }
 
 .skrollable {
@@ -2435,7 +2435,7 @@ nav {
 .login__link:hover {
   border: 1px solid #FAEBD7; }
 
-.nav_menu__link_active, .active {
+.active {
   color: #ff8787; }
 
 /*Content Main*/
@@ -2445,8 +2445,57 @@ nav {
   min-height: 100%;
   margin: 0 auto;
   padding: 100px 20px 20px;
-  background-color: rgba(255, 255, 255, 0.5);
   box-sizing: border-box; }
+
+.back_main {
+  background: url(../backgrounds/1568.jpg) repeat;
+  background-size: cover;
+  box-shadow: 0 0 80px 20px #6e7123, 0 0 80px 20px #6e7123 inset; }
+
+.back_posts {
+  background: url(../backgrounds/blyur-razmytie-prirodnye-tona.jpg) repeat;
+  background-size: 100%;
+  box-shadow: 0 0 80px 20px #463131, 0 0 80px 20px #463131 inset; }
+
+.back_blogs {
+  background: url(../backgrounds/SDfsfSD.jpg) repeat;
+  background-size: 100%;
+  box-shadow: 0 0 80px 20px #463131, 0 0 80px 20px #463131 inset; }
+
+.back_ratings {
+  background: url(../backgrounds/pyatna_fon_temnyy_svet_51801_5120x1600.jpg) repeat;
+  background-size: 100%;
+  box-shadow: 0 0 80px 20px #27234f, 0 0 80px 20px #27234f inset; }
+
+.back_about {
+  background: url(../backgrounds/parallax1.jpg) repeat;
+  background-size: 100%;
+  box-shadow: 0 0 80px 20px #191646, 0 0 80px 20px #191646 inset; }
+
+.back_user {
+  background: url(../backgrounds/sdqads.jpg) repeat;
+  background-size: 100%;
+  box-shadow: 0 0 80px 20px #463131, 0 0 80px 20px #463131 inset; }
+
+.back_post {
+  background: url(../backgrounds/sdfafsafas.jpg) repeat;
+  background-size: 100%;
+  box-shadow: 0 0 80px 20px #9a924d, 0 0 80px 20px #9a924d inset; }
+
+.back_login {
+  background: url(../backgrounds/abstrakcii-blyur-razmytie-gradient.jpg) no-repeat;
+  background-size: cover;
+  box-shadow: 0 0 80px 20px #463131, 0 0 80px 20px #463131 inset; }
+
+.back_cabinet {
+  background: url(../backgrounds/DFFASDFA.jpg) repeat;
+  background-size: 100%;
+  box-shadow: 0 0 80px 20px #463131, 0 0 80px 20px #463131 inset; }
+
+.back_register {
+  background: url(../backgrounds/blur-background10.jpg) no-repeat;
+  background-size: cover;
+  box-shadow: 0 0 80px 20px #463131, 0 0 80px 20px #463131 inset; }
 
 .content_loader {
   text-align: center; }
@@ -2512,8 +2561,7 @@ nav {
 
 .content__post {
   padding-bottom: 30px;
-  animation: opacity 1s 1;
-  animation-fill-mode: forwards; }
+  animation: opacity 1s 1; }
 
 .content__post_link {
   text-decoration: none;
@@ -2683,11 +2731,12 @@ nav {
   width: 200px;
   max-height: 100px;
   overflow: auto;
-  margin-left: -190px;
+  margin-left: -70px;
   margin-top: -30px;
   padding: 10px;
   border-radius: 5px;
-  box-shadow: 0 0 30px #a19a98; }
+  box-shadow: 0 0 30px #a19a98;
+  animation: opacity 0.3s 1; }
 
 .tooltip_comment {
   margin-left: -30px; }
@@ -2718,27 +2767,5 @@ footer {
   line-height: 40px;
   z-index: 1;
   margin-top: -40px; }
-
-/*react transitions*/
-.switch-wrapper {
-  position: relative; }
-
-.switch-wrapper > div {
-  position: absolute;
-  width: 100%; }
-
-.appearance-enter {
-  opacity: 0.01; }
-
-.appearance-enter.appearance-enter-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in; }
-
-.appearance-exit {
-  opacity: 1; }
-
-.appearance-exit.appearance-exit-active {
-  opacity: 0.01;
-  transition: opacity 300ms ease-in; }
 
 /*# sourceMappingURL=app.css.map*/

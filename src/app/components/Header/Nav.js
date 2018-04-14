@@ -20,10 +20,6 @@ export default class Nav extends React.Component {
         }
     }
 
-    isActive(href) {
-        return window.location.pathname === href ? 'nav_menu__link_active' : '';
-    }
-
     render() {
         let location = window.location.pathname;
         let arr_path = location.split('/');
@@ -36,11 +32,11 @@ export default class Nav extends React.Component {
                 <label htmlFor="nav_input" className="nav_header_label"><i className="fa fa-bars" aria-hidden="true"/></label>
                 <input type="checkbox" id="nav_input"/>
                 <div className="nav_menu">
-                    <NavLink exact to="/" className={`nav_menu__link ${this.isActive('/')}`}>Главная</NavLink>
-                    <NavLink to="/posts" className={`nav_menu__link ${this.isActive('/posts')}`}>Записи</NavLink>
-                    <NavLink to='/blogs' className={`nav_menu__link ${this.isActive('/blogs')}`}>Авторы</NavLink>
-                    <NavLink to='/ratings' className={`nav_menu__link ${this.isActive('/ratings')}`}>Рейтинги</NavLink>
-                    <NavLink to='/about' className={`nav_menu__link ${this.isActive('/about')}`}>О&nbsp;проекте</NavLink>
+                    <NavLink exact to="/" className={`nav_menu__link`}>Главная</NavLink>
+                    <NavLink to="/posts" className={`nav_menu__link`}>Записи</NavLink>
+                    <NavLink to='/blogs' className={`nav_menu__link`}>Авторы</NavLink>
+                    <NavLink to='/ratings' className={`nav_menu__link`}>Рейтинги</NavLink>
+                    <NavLink to='/about' className={`nav_menu__link`}>О&nbsp;проекте</NavLink>
                 </div>
                 <NavLink to="/">
                     <h2 className="nav_header">Personal Blog</h2>

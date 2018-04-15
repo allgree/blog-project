@@ -44,8 +44,6 @@ export default class Cabinet extends React.Component {
         this.props.dispatch(fetchUserPostsSample(0, this.props.login.id));
         this.props.dispatch(fetchPostLikes());
 
-
-
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.addPost = this.addPost.bind(this);
         this.deletePost = this.deletePost.bind(this);

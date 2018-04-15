@@ -3,6 +3,7 @@ import React from 'react';
 import Loader from '../components/Content/Loader';
 import PostItem from '../components/Content/PostItem';
 
+
 import {connect} from 'react-redux';
 
 import {fetchPostsSample, deletePost} from "../actions/postsListActions";
@@ -69,11 +70,11 @@ export default class Posts extends React.Component {
         return (
             <div className="content_posts">
                 <a name="label_up"/>
-                    {this.props.posts.length !== 0 &&
-                        <div>{posts}</div>}
-                <span className="point"/>
-                {this.props.is_posts_fetching &&
-                <Loader/>}
+                        {this.props.posts.length !== 0 &&
+                            <div>{posts}</div>}
+                    <span className="point"/>
+                    {this.props.is_posts_fetching &&
+                    <Loader/>}
                 <div className="link_to_up"><a href="#label_up"/></div>
             </div>
         )

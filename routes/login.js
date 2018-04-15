@@ -6,7 +6,6 @@ const FirebaseTokenGenerator = require("firebase-token-generator");
 const tokenGenerator = new FirebaseTokenGenerator("<YOUR_FIREBASE_SECRET>");
 const fs = require('fs');
 
-//const Salts = require('../salts');
 let salts = {
     salt1: 'lhglkghkhkjn',
     salt2: 'asdadfasfasfasf'
@@ -56,7 +55,7 @@ router.post('/login', (req, res, next) => {
 router.get('/login-data', (req, res, next) => {
     if (req.session.token) {
         Tokens.findByToken(req.session.token, (result_token) => {
-            Users.findById(result_token.user_id, (result_user) => {
+            Users.findById(+result_token.user_id, (result_user) => {
                 res.json(result_user);
             })
         })
@@ -104,30 +103,33 @@ router.post('/pass', (req, res, next) => {
 // смена аватара
 router.post('/avatar', (req, res, next) => {
     let form = new multiparty.Form();
-    form.parse(req, function(err, fields, files) {
+    form.parse(req, (err, fields, files) => {
         let user_id = +fields.user_id[0];
         let temp_path = files.avatar[0].path;
         let file_name = files.avatar[0].originalFilename;
         let new_base_path = `/img/avatars/${file_name}`;
-        fs.readFile(temp_path , function(err, data) {
+        fs.readFile(temp_path , (err, data) => {
             Users.findById(user_id, (result_user) => {
                 let old_base_path = result_user.dataValues.avatar_path;
                 let arr_old_path = old_base_path.split('/');
                 let name_avatar = arr_old_path[arr_old_path.length - 1];
                 if (name_avatar !== 'default.jpeg') {
-                    fs.unlink(`./src${old_base_path}`, function(){if(err) throw err});
-                    fs.unlink(`./public${old_base_path}`, function(){if(err) throw err});
+                    fs.unlink(`./src${old_base_path}`, (err) => {if(err) console.log(err);});
+                    fs.unlink(`./public${old_base_path}`, (err) => {if(err) console.log(err);});
                 }
-            });
-            fs.writeFile(`./src${new_base_path}`, data, function(err) {if(err) throw err;});
-            fs.writeFile(`./public${new_base_path}`, data, function(err) {
-                Users.editAvatar(user_id, new_base_path, (result) => {
-                    fs.unlink(temp_path, function(){
-                        if(err) throw err;
+                fs.writeFile(`./src${new_base_path}`, data, (err) => {if(err) throw err;});
+                fs.writeFile(`./public${new_base_path}`, data, (err) => {
+                    if(err) throw err;
+                    Users.editAvatar(user_id, new_base_path, (result) => {
+                        fs.unlink(temp_path, (err) => {
+                            if(err) throw err;
+                        });
+                        res.json({result: result[0], avatar_path: new_base_path});
+
                     });
-                    res.json({result: result[0], avatar_path: new_base_path});
                 });
             });
+
         });
     });
 });

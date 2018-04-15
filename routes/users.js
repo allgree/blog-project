@@ -105,6 +105,7 @@ router.get('/like-comment/:comment_id', (req, res, next) => {
 
 // один пользователь по id
 router.get('/:user_id', (req, res, next) => {
+    console.log('!!!!!!!! API USERS  id');
    Users.findById(req.params.user_id, (result) => {
        delete result.dataValues.password;
        delete result.dataValues.login;

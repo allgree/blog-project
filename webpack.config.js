@@ -7,7 +7,8 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
+const ImageminPlugin = require('imagemin-webpack-plugin').default;
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
@@ -122,6 +123,21 @@ module.exports = {
         //    server: {
         //        baseDir: ['public']
         //    }
-        //})
+        //}),
+
+
+        // Image optimizer
+        new ImageminPlugin({
+            test: /\.(jpe?g|png|gif|svg)$/i
+        }),
+
+        new UglifyJSPlugin({
+            sourceMap: true
+        }),
+
+        new webpack.LoaderOptionsPlugin({
+            minimize: true
+        }),
     ]
 };
+

@@ -127,17 +127,17 @@ module.exports = {
 
 
         // Image optimizer
-        new ImageminPlugin({
-            test: /\.(jpe?g|png|gif|svg)$/i
-        }),
-
-        new UglifyJSPlugin({
-            sourceMap: true
-        }),
-
-        new webpack.LoaderOptionsPlugin({
-            minimize: true
-        }),
+        //new ImageminPlugin({
+    //    test: /\.(jpe?g|png|gif|svg)$/i
+    //}),
+//
+        //new UglifyJSPlugin({
+    //    sourceMap: true
+    //}),
+//
+        //new webpack.LoaderOptionsPlugin({
+    //    minimize: true
+    //}),
     ]
 };
 

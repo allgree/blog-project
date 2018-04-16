@@ -13,6 +13,7 @@ import {fetchLoginData} from "../actions/loginActions";
 import {autoload} from '../functions/autoload';
 import {like} from '../functions/like';
 import {moveUp} from "../functions/move_up";
+import {scrollTop} from "../functions/scrollTop";
 
 @connect((store) => {
     return {
@@ -100,7 +101,6 @@ export default class User extends React.Component {
 
                 }
                 </aside>
-                <a name="label_up"/>
                 <aside className="content__user_aside user_posts">
                      {this.props.user_posts.length !== 0 &&
                                  <div>{posts}</div>}
@@ -108,12 +108,13 @@ export default class User extends React.Component {
                     {this.props.is_user_posts_fetching &&
                     <Loader/>}
                 </aside>
-                <div className="link_to_up"><a href="#label_up"/></div>
+                <div className="link_to_up" onClick={() => {scrollTop()}}/>
             </div>
         )
     }
 
     componentDidMount() {
+        scrollTop();
         $(document).off();
         $(document).on('scroll', () => {
             moveUp();

@@ -1,0 +1,580 @@
+$nav_height: 80px
+$nav_background_color: rgba(0, 0, 0, 0.8)
+$content_width: 800px
+$footer_height: 40px
+$big_avatar_size: 350px
+
+*
+  padding: 0
+  margin: 0
+
+body
+  height: 100%
+
+html
+  height: 100%
+
+#app
+  min-height: 100%
+  height: 1px
+
+/*block item*/
+
+.block_item
+  padding: 10px 10px 10px
+  border-radius: 10px
+  background-color: rgba(255, 255, 255, 0.5)
+  margin-bottom: 10px
+  box-shadow: 0 0 30px #a19a98
+  transition: all 0.2s linear
+
+.block_item:hover
+  box-shadow: 0 0 30px #fc9097
+
+/*end block item*/
+
+
+
+
+/*link to up*/
+
+.link_to_up
+  position: fixed
+  bottom: 20px
+  right: 20px
+  display: none
+  width: 100px
+  height: 100px
+  background: url("../backgrounds/depositphotos_105546490-stock-illustration-arrow-pointing-up-icon.jpg") no-repeat
+  background-size: cover
+  border-radius: 10px
+  box-shadow: 0 0 20px 5px rgb(190, 118, 0)
+
+.link_to_up > a
+  display: block
+  width: 100%
+  height: 100%
+  color: white
+  font-size: 20px
+  text-decoration: none
+
+/*end link to up*/
+
+
+
+/*Layout*/
+
+main
+  height: 100%
+
+.main_background
+  position: fixed
+  z-index: -5
+  width: 100%
+  height: 100%
+  background: url("../backgrounds/setwalls.ru-41151.jpg") no-repeat
+  background-size: cover
+
+.content
+  min-width: $content_width
+  width: $content_width+40px
+  min-height: 100%
+  margin: 0 auto
+  padding: 20px+$nav_height 20px 20px
+  box-sizing: border-box
+
+.back_main
+  background: url("../backgrounds/1568.jpg") repeat
+  background-size: cover
+  box-shadow: 0 0 80px 20px #6e7123, 0 0 80px 20px #6e7123 inset
+
+.back_posts
+  background: url("../backgrounds/blyur-razmytie-prirodnye-tona.jpg") repeat
+  background-size: 100%
+  box-shadow: 0 0 80px 20px #463131, 0 0 80px 20px #463131 inset
+
+.back_blogs
+  background: url("../backgrounds/SDfsfSD.jpg") repeat
+  background-size: 100%
+  box-shadow: 0 0 80px 20px #463131, 0 0 80px 20px #463131 inset
+
+.back_ratings
+  background: url("../backgrounds/pyatna_svet_temnyy_fon_46838_2560x1600.jpg") no-repeat
+  background-size: cover
+  box-shadow: 0 0 80px 20px #132a40, 0 0 80px 20px #132a40 inset
+
+.back_about
+  background: url("../backgrounds/parallax1.jpg") repeat
+  background-size: 100%
+  box-shadow: 0 0 80px 20px #191646, 0 0 80px 20px #191646 inset
+
+.back_user
+  background: url("../backgrounds/sdqads.jpg") repeat
+  background-size: 100%
+  box-shadow: 0 0 80px 20px #463131, 0 0 80px 20px #463131 inset
+
+.back_post
+  background: url("../backgrounds/sdfafsafas.jpg") repeat
+  background-size: 100%
+  box-shadow: 0 0 80px 20px #9a924d, 0 0 80px 20px #9a924d inset
+
+.back_login
+  background: url("../backgrounds/abstrakcii-blyur-razmytie-gradient.jpg") no-repeat
+  background-size: cover
+  box-shadow: 0 0 80px 20px #463131, 0 0 80px 20px #463131 inset
+
+.back_cabinet
+  background: url("../backgrounds/DFFASDFA.jpg") repeat
+  background-size: 100%
+  box-shadow: 0 0 80px 20px #463131, 0 0 80px 20px #463131 inset
+
+.back_register
+  background: url("../backgrounds/blur-background10.jpg") no-repeat
+  background-size: cover
+  box-shadow: 0 0 80px 20px #463131, 0 0 80px 20px #463131 inset
+
+.empty_down
+  height: $footer_height
+
+footer
+  height: $footer_height
+  text-align: center
+  clear: both
+  background-color: rgba(0, 0, 0, 0.8)
+  color: white
+  position: relative
+  line-height: $footer_height
+  z-index: 1
+  margin-top: -$footer_height
+
+/*end Layout*/
+
+
+
+/*Nav*/
+
+nav
+  width: 100%
+  height: $nav_height
+  position: fixed
+  background: $nav_background_color
+  box-sizing: border-box
+  z-index: 1
+
+.nav_header_label
+  color: white
+  font-size: 30px
+  float: left
+  cursor: pointer
+  margin: 20px 0 0 20px
+
+#nav_input
+  display: none
+
+#nav_input:checked ~.nav_menu
+  width: 150px
+
+.nav_menu
+  background: rgba(154, 77, 44, 0.8)
+  width: 0
+  min-height: 100%
+  position: fixed
+  margin-top: $nav_height
+  overflow: hidden
+  padding-top: 20px
+  transition: width 0.2s ease
+
+.nav_menu__link
+  text-decoration: none
+  color: #fffbfd
+  display: block
+  padding: 3px
+  border: 1px solid rgba(154, 77, 44, 0.8)
+  border-radius: 3px
+  margin: 10px 10px 0 20px
+  font-size: 20px
+  transition: all 0.3s linear
+
+.nav_menu__link:hover
+  border: 1px solid #FAEBD7
+
+.nav_header
+  color: white
+  float: left
+  margin: 20px 0 0 50px
+
+.nav_page_header
+  color: white
+  float: left
+  margin: 20px 0 0 30%
+
+.active
+  color: #ff8787
+
+/*end Nav*/
+
+
+
+/*LoginPanel*/
+
+.login__links
+  float: right
+
+.login__link
+  display: inline-block
+  color: #faebd7
+  border: 1px solid rgba(0, 0, 0, 0)
+
+.login__link:hover
+  border: 1px solid #FAEBD7
+
+/*end LoginPanel*/
+
+
+
+/*Main*/
+
+.content__welcome
+  text-align: center
+  animation: offset_top 0.5s 1
+  animation-fill-mode: forwards
+
+.content__welcome:hover
+  box-shadow: 0 0 30px #a19a98
+
+.content__main__link
+  font-size: 20px
+  text-decoration: none
+  color: black
+  display: block
+  text-align: center
+
+/*end Main*/
+
+
+
+/*Blogs*/
+
+.content_blogs
+  padding: 10px
+
+/*end Blogs*/
+
+
+
+
+/*Ratings*/
+
+.content__top_users
+  display: flex
+  justify-content: space-around
+
+.content__top_user
+  width: ($content_width - 20)/2
+  margin: 0 10px 10px 0
+  animation: opacity 1s 1
+  animation-fill-mode: forwards
+
+.content__top_user_h2
+  text-align: center
+  margin-bottom: 10px
+
+.content__top_posts
+  display: flex
+  justify-content: space-around
+
+.content__top_post_aside
+  width: ($content_width - 20)/2
+  margin-right: 10px
+
+.content__top_post_h2
+  margin-bottom: 20px
+  text-align: center
+
+/*end Ratings*/
+
+
+
+
+/*Post*/
+
+.content__post
+  padding-bottom: 30px
+  animation: opacity 1s 1
+
+.content__post_title
+  margin-bottom: 10px
+
+.content__post_body
+  margin-bottom: 10px
+
+.content__post_author
+  float: left
+
+.content__post_author_link
+  margin-bottom: 10px
+  text-decoration: none
+  color: #5f5f5f
+
+.content__post_info
+  float: right
+
+.post_view
+  color: blue
+
+.tooltip
+  position: absolute
+
+.post_like
+  color: red
+  cursor: pointer
+
+.content__post_comments_header
+  margin-bottom: 10px
+
+/*end Post*/
+
+
+
+
+
+
+/*User*/
+
+.content__user
+  animation: opacity 1s 1
+  animation-fill-mode: forwards
+
+
+.content__user_aside
+  width: ($content_width - 40px)/2
+
+.user_info_fixed
+  width: 380px
+  padding: 10px
+  background-color: rgba(255, 255, 255, 0.5)
+  border-radius: 10px
+  box-shadow: 0 0 30px #a19a98
+  position: fixed
+  top: $nav_height + 20px
+
+.big_avatar
+  width: $big_avatar_size
+  height: $big_avatar_size
+
+.content__user_name
+  margin: 10px 0
+
+.user_posts
+  margin-left: $content_width/2 + 20px
+
+/*end User*/
+
+
+
+
+
+/*Cabinet*/
+
+.content__cabinet__login
+  box-sizing: border-box
+  padding: 10px
+  height: $big_avatar_size + 100px
+
+.content__cabinet__login_ava
+  width: 360px
+  height: $big_avatar_size + 40px
+  float: left
+  margin-right: 10px
+
+.content__cabinet__posts
+  clear: both
+
+/*end Cabinet*/
+
+
+
+
+
+/*PostItem*/
+
+.content__post
+  margin-bottom: 20px
+  padding: 10px 10px 25px
+  background-color: rgba(255, 255, 255, 0.5)
+  border-radius: 10px
+  box-shadow: 0 0 30px #a19a98
+
+.content__post_link
+  text-decoration: none
+  color: black
+  transition: all 0.2s linear
+
+.content__post_link:hover
+  color: #91231f
+
+.content__post_head
+  margin-bottom: 10px
+  text-align: center
+
+.content__post_body
+  margin-bottom: 10px
+
+.content__post_author
+  float: left
+
+.content__post_author_link
+  text-decoration: none
+  color: #5f5f5f
+
+.content__post_delete
+  cursor: pointer
+  float: left
+  margin-left: 20px
+
+.content__post_info
+  float: right
+
+/*end PostItem*/
+
+
+
+
+
+/*CommentItem*/
+
+.content__post_comment
+  padding: 10px 10px 35px
+  background-color: rgba(255, 255, 255, 0.5)
+  border-radius: 10px
+  box-shadow: 0 0 30px #a19a98
+  margin-bottom: 10px
+  animation: opacity 1s 1
+  animation-fill-mode: forwards
+
+.content__post_comment_author
+  float: left
+  margin-top: 10px
+
+.content__post_comment_author_link
+  text-decoration: none
+  color: #5f5f5f
+
+.content__post_comment_delete
+  cursor: pointer
+  float: left
+  margin-top: 10px
+  margin-left: 20px
+
+.content__post_comment_info
+  float: right
+
+.tooltip_comment
+  margin-left: -30px
+
+/*end CommentItem*/
+
+
+
+
+
+/*UserItem*/
+
+.user_item
+  text-decoration: none
+  color: black
+  display: block
+  min-height: 100px
+  animation: opacity 1s 1
+  animation-fill-mode: forwards
+
+.user_item__ava
+  float: left
+  margin-right: 20px
+
+.user_item__ava__img
+  width: 100px
+  height: 100px
+
+/*end UserItem*/
+
+
+
+
+/*UserTop*/
+
+.content__top_user_item
+  display: block
+  text-decoration: none
+  color: black
+
+/*end UserTop*/
+
+
+
+/*TooltipLikes*/
+
+.tooltip_content
+  background-color: antiquewhite
+  width: 200px
+  max-height: 100px
+  overflow: auto
+  margin-left: -70px
+  margin-top: -30px
+  padding: 10px
+  border-radius: 5px
+  box-shadow: 0 0 30px #a19a98
+  animation: opacity 0.3s 1
+
+
+.tooltip_user
+  margin-bottom: 5px
+
+
+.tooltip_user_link
+  text-decoration: none
+  color: #636363
+
+.ava_tooltip
+  height: 20px
+  display: inline-block
+  vertical-align: middl
+
+/*end TooltipLikes*/
+
+
+
+/*Loader*/
+
+.content_loader
+  text-align: center
+
+/*end Loader*/
+
+
+
+
+/*EditPass*/
+
+.pass_incorrect
+  color: red
+  display: none
+
+.pass_mismatch
+  color: red
+  display: none
+
+/*end EditPass*/
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -13,6 +13,7 @@ import {fetchLoginData} from "../actions/loginActions";
 import {autoload} from '../functions/autoload';
 import {like} from '../functions/like';
 import {moveUp} from "../functions/move_up";
+import {scrollTop} from "../functions/scrollTop";
 
 
 @connect((store) => {
@@ -69,18 +70,18 @@ export default class Posts extends React.Component {
         });
         return (
             <div className="content_posts">
-                <a name="label_up"/>
                         {this.props.posts.length !== 0 &&
                             <div>{posts}</div>}
                     <span className="point"/>
                     {this.props.is_posts_fetching &&
                     <Loader/>}
-                <div className="link_to_up"><a href="#label_up"/></div>
+                <div className="link_to_up" onClick={() => {scrollTop()}}/>
             </div>
         )
     }
 
     componentDidMount() {
+        scrollTop();
         $(document).off();
         $(document).on('scroll', () => {
             moveUp();

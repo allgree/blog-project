@@ -9,6 +9,7 @@ import {fetchUsersSample} from "../actions/usersListActions";
 import {fetchLoginData} from "../actions/loginActions";
 import {autoload} from '../functions/autoload';
 import {moveUp} from "../functions/move_up";
+import {scrollTop} from "../functions/scrollTop";
 
 @connect((store) => {
     return {
@@ -33,18 +34,18 @@ export default class Blogs extends React.Component {
         });
         return (
             <div className="content_blogs">
-                <a name="label_up"/>
                     {this.props.users.length !== 0 &&
                        <div>{users}</div>}
                 <span className="point"/>
                 {this.props.is_users_fetching &&
                 <Loader/>}
-                <div className="link_to_up"><a href="#label_up"/></div>
+                <div className="link_to_up" onClick={() => {scrollTop()}}/>
             </div>
         )
     }
 
     componentDidMount() {
+        scrollTop();
         $(document).off();
         $(document).on('scroll', () => {
             moveUp();

@@ -19,6 +19,7 @@ import {editUser, changeAvatar, fetchLoginData} from "../actions/loginActions";
 import {autoload} from "../functions/autoload";
 import {like} from '../functions/like';
 import {moveUp} from "../functions/move_up";
+import {scrollTop} from "../functions/scrollTop";
 
 @connect((store) => {
     return {
@@ -163,7 +164,6 @@ export default class Cabinet extends React.Component {
         });
         return (
             <div className="content__cabinet">
-                <a name="label_up"/>
                 <div className="content__cabinet__login">
                     <div className="content__cabinet__login_ava">
                         <img src={this.props.login.avatar_path} className="big_avatar"/>
@@ -206,13 +206,14 @@ export default class Cabinet extends React.Component {
                     {this.props.is_user_posts_fetching &&
                     <Loader/>}
                 </div>
-                <div className="link_to_up"><a href="#label_up"/></div>
+                <div className="link_to_up" onClick={() => {scrollTop()}}/>
             </div>
         )
 
     }
 
     componentDidMount() {
+        scrollTop();
         $(document).off();
         $(document).on('scroll', () => {
             moveUp();

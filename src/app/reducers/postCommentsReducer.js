@@ -11,14 +11,17 @@ export function postCommentsReducer(state = {comments: [], is_fetching: false, e
             let empty = state.empty;
             let url_arr = action.payload.config.url.split('=');
             let offset = +url_arr[url_arr.length - 1];
-            if (action.payload.data.length === 0) {
+
+            if (action.payload.data.length === 0 && offset === 0) {
+                comments = [];
                 empty = true;
-            } else if (offset === 0) {
-                comments = action.payload.data;
-                empty = false;
+            } else if (action.payload.data.length === 0) {
+                empty = true;
             } else {
                 comments = comments.concat(action.payload.data);
+                empty = false;
             }
+
             state = {...state, is_fetching: false, comments: comments, empty: empty};
             break;
         }

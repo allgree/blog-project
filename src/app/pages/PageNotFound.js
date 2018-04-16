@@ -18,7 +18,7 @@ export default class Main extends React.Component {
 
     render() {
         return (
-            <div className="content">
+            <div className="content__not_found">
                 <h1>Page Not Found</h1>
             </div>
         )

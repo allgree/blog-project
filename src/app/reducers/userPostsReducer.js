@@ -11,13 +11,15 @@ export function userPostsReducer(state = {posts: [], is_fetching: false, empty: 
             let empty = state.empty;
             let url_arr = action.payload.config.url.split('=');
             let offset = +url_arr[url_arr.length - 1];
-            if (action.payload.data.length === 0) {
+
+            if (action.payload.data.length === 0 && offset === 0) {
+                posts = [];
                 empty = true;
-            } else if (offset === 0) {
-                posts = action.payload.data;
-                empty = false;
+            } else if (action.payload.data.length === 0) {
+                empty = true;
             } else {
                 posts = posts.concat(action.payload.data);
+                empty = false;
             }
             state = {...state, is_fetching: false, posts: posts, empty: empty};
             break;

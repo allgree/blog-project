@@ -48616,6 +48616,9 @@ function postCommentsReducer() {
                     empty = true;
                 } else if (action.payload.data.length === 0) {
                     empty = true;
+                } else if (offset === 0) {
+                    comments = action.payload.data;
+                    empty = false;
                 } else {
                     comments = comments.concat(action.payload.data);
                     empty = false;
@@ -48970,12 +48973,15 @@ function userPostsReducer() {
                 var empty = state.empty;
                 var url_arr = action.payload.config.url.split('=');
                 var offset = +url_arr[url_arr.length - 1];
-
                 if (action.payload.data.length === 0 && offset === 0) {
                     posts = [];
                     empty = true;
                 } else if (action.payload.data.length === 0) {
                     empty = true;
+                } else if (offset === 0) {
+                    //
+                    posts = action.payload.data; //
+                    empty = false; //
                 } else {
                     posts = posts.concat(action.payload.data);
                     empty = false;
@@ -48998,7 +49004,6 @@ function userPostsReducer() {
             {
                 var _posts = [].concat(_toConsumableArray(state.posts));
                 _posts.unshift(action.payload.data);
-                //let posts = state.posts.concat(action.payload.data);
                 state = _extends({}, state, { is_fetching: false, posts: _posts });
                 break;
             }

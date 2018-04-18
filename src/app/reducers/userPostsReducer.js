@@ -11,12 +11,14 @@ export function userPostsReducer(state = {posts: [], is_fetching: false, empty: 
             let empty = state.empty;
             let url_arr = action.payload.config.url.split('=');
             let offset = +url_arr[url_arr.length - 1];
-
             if (action.payload.data.length === 0 && offset === 0) {
                 posts = [];
                 empty = true;
             } else if (action.payload.data.length === 0) {
                 empty = true;
+            } else if(offset === 0) {         //
+                posts = action.payload.data;  //
+                empty = false;                //
             } else {
                 posts = posts.concat(action.payload.data);
                 empty = false;
@@ -36,7 +38,6 @@ export function userPostsReducer(state = {posts: [], is_fetching: false, empty: 
         case UserPosts.ADD_USER_POST_FULFILLED: {
             let posts = [...state.posts];
             posts.unshift(action.payload.data);
-            //let posts = state.posts.concat(action.payload.data);
             state = {...state, is_fetching: false, posts: posts};
             break;
         }

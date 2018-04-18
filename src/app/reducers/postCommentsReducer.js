@@ -17,6 +17,9 @@ export function postCommentsReducer(state = {comments: [], is_fetching: false, e
                 empty = true;
             } else if (action.payload.data.length === 0) {
                 empty = true;
+            } else if (offset === 0) {
+                comments = action.payload.data;
+                empty = false;
             } else {
                 comments = comments.concat(action.payload.data);
                 empty = false;

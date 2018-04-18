@@ -48,6 +48,7 @@ export default class Nav extends React.Component {
     }
 
     componentDidMount() {
+        console.log(document.body.offsetWidth);
         document.querySelector('#nav_input').checked = true;
     }
 }

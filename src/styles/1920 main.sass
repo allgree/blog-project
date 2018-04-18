@@ -146,6 +146,7 @@ footer
   line-height: $footer_height
   z-index: 1
   margin-top: -$footer_height
+  font-family: "Roboto Regular", sans-serif
 
 /*end Layout*/
 
@@ -182,31 +183,37 @@ nav
   margin-top: $nav_height
   overflow: hidden
   padding-top: 20px
-  transition: width 0.2s ease
+  transition: width 0.1s ease
 
 .nav_menu__link
+  font-family: "PT Sans", sans-serif
   text-decoration: none
   color: #fffbfd
   display: block
   padding: 3px
-  border: 1px solid rgba(154, 77, 44, 0.8)
   border-radius: 3px
   margin: 10px 10px 0 20px
   font-size: 20px
   transition: all 0.3s linear
 
 .nav_menu__link:hover
-  border: 1px solid #FAEBD7
+  background: rgb(142, 84, 18)
+
+.nav_menu__link:active
+  background: #703a11
+
 
 .nav_header
   color: white
   float: left
   margin: 20px 0 0 50px
+  font-family: "Roboto Regular", sans-serif
 
 .nav_page_header
   color: white
   float: left
   margin: 20px 0 0 30%
+  font-family: "Roboto Regular", sans-serif
 
 .active
   color: #ff8787
@@ -223,10 +230,13 @@ nav
 .login__link
   display: inline-block
   color: #faebd7
-  border: 1px solid rgba(0, 0, 0, 0)
+  //background: #000000
 
 .login__link:hover
-  border: 1px solid #FAEBD7
+  background: #3c3c3c
+
+.login__link:active
+  background: #2d2d2d
 
 /*end LoginPanel*/
 
@@ -236,8 +246,12 @@ nav
 
 .content__welcome
   text-align: center
-  animation: offset_top 0.5s 1
-  animation-fill-mode: forwards
+  animation: fadeInDown 0.5s 1
+  height: 50px
+  line-height: 50px
+
+.content__welcome > h2
+  font-family: "Arial Cyr Bold", sans-serif
 
 .content__welcome:hover
   box-shadow: 0 0 30px #a19a98
@@ -248,8 +262,19 @@ nav
   color: black
   display: block
   text-align: center
+  font-family: "Calibri Regular", sans-serif
+
+.content__main__link:first-of-type, .content__main__link:nth-of-type(3)
+  animation: fadeInLeft 0.5s 1
+
+.content__main__link:nth-of-type(2), .content__main__link:nth-of-type(4)
+  animation: fadeInRight 0.5s 1
+
 
 /*end Main*/
+
+
+
 
 
 
@@ -275,9 +300,16 @@ nav
   animation: opacity 1s 1
   animation-fill-mode: forwards
 
+.content__top_user:first-of-type, .content__top_post_aside:first-of-type
+  animation: fadeInLeft 0.5s 1
+
+.content__top_user:nth-of-type(2), .content__top_post_aside:nth-of-type(2)
+  animation: fadeInRight 0.5s 1
+
 .content__top_user_h2
   text-align: center
   margin-bottom: 10px
+  font-family: "Arial Cyr Bold", sans-serif
 
 .content__top_posts
   display: flex
@@ -290,6 +322,7 @@ nav
 .content__top_post_h2
   margin-bottom: 20px
   text-align: center
+  font-family: "Arial Cyr Bold", sans-serif
 
 /*end Ratings*/
 
@@ -299,22 +332,30 @@ nav
 /*Post*/
 
 .content__post
-  padding-bottom: 30px
+  padding: 10px 10px 30px
   animation: opacity 1s 1
+  background-color: rgba(255, 255, 255, 0.5)
+  border-radius: 10px
+  margin-bottom: 20px
 
 .content__post_title
   margin-bottom: 10px
+  text-align: center
+  font-family: "Arial Cyr Bold", sans-serif
 
 .content__post_body
   margin-bottom: 10px
+  font-family: "Quant Antiqua Plain", sans-serif
 
 .content__post_author
   float: left
+  font-family: "Quant Antiqua Plain", sans-serif
 
 .content__post_author_link
   margin-bottom: 10px
   text-decoration: none
   color: #5f5f5f
+  font-family: "Trebuchet", sans-serif
 
 .content__post_info
   float: right
@@ -398,42 +439,49 @@ nav
 
 /*PostItem*/
 
-.content__post
+.content__post_item
   margin-bottom: 20px
-  padding: 10px 10px 25px
+  padding: 10px 10px 35px
   background-color: rgba(255, 255, 255, 0.5)
   border-radius: 10px
   box-shadow: 0 0 30px #a19a98
 
-.content__post_link
+.content__post_item_link
   text-decoration: none
   color: black
   transition: all 0.2s linear
 
-.content__post_link:hover
+.content__post_item_link:hover
   color: #91231f
 
-.content__post_head
+.content__post_item_head
   margin-bottom: 10px
   text-align: center
+  font-family: "Calibri Regular", sans-serif
 
-.content__post_body
+.content__post_item_body
   margin-bottom: 10px
+  font-family: "Quant Antiqua Plain", sans-serif
 
-.content__post_author
-  float: left
+.content__post_item__author
+  clear: both
 
-.content__post_author_link
+.content__post_item_author_link
   text-decoration: none
-  color: #5f5f5f
+  color: #505050
+  font-family: "Trebuchet", sans-serif
 
-.content__post_delete
+.content__post_item_delete
   cursor: pointer
   float: left
   margin-left: 20px
 
-.content__post_info
-  float: right
+.content__post_item_info
+  margin-top: 8px
+  float: left
+  font-family: "Europe Regular", sans-serif
+  font-size: 12px
+  position: relative
 
 /*end PostItem*/
 
@@ -485,7 +533,7 @@ nav
   color: black
   display: block
   min-height: 100px
-  animation: opacity 1s 1
+  animation: zoomIn 0.3s 1
   animation-fill-mode: forwards
 
 .user_item__ava
@@ -495,6 +543,12 @@ nav
 .user_item__ava__img
   width: 100px
   height: 100px
+
+.user_item__name
+  font-family: "Calibri Regular", sans-serif
+
+.user_item__info
+  font-family: "Quant Antiqua Plain", sans-serif
 
 /*end UserItem*/
 
@@ -508,6 +562,14 @@ nav
   text-decoration: none
   color: black
 
+.user_top__item__author
+  font-family: "Calibri Regular", sans-serif
+  margin-bottom: 10px
+
+.user_top__item__city, .user_top__item__info
+  font-family: "Quant Antiqua Plain", sans-serif
+
+
 /*end UserTop*/
 
 
@@ -515,11 +577,13 @@ nav
 /*TooltipLikes*/
 
 .tooltip_content
-  background-color: antiquewhite
+  //background-color: #e2b47d
+  //background-color: #2d394f
+  background: linear-gradient(to bottom, #2d394f, #8f6430) /*Standard*/
   width: 200px
   max-height: 100px
   overflow: auto
-  margin-left: -70px
+  margin-left: -45px
   margin-top: -30px
   padding: 10px
   border-radius: 5px
@@ -528,17 +592,27 @@ nav
 
 
 .tooltip_user
-  margin-bottom: 5px
-
+  margin-bottom: 10px
 
 .tooltip_user_link
   text-decoration: none
-  color: #636363
+  //color: #636363
+  color: white
+  font-family: "Trebuchet", sans-serif
+  font-size: 15px
+  border-radius: 3px
+  padding: 5px
+  transition: all 0.1s linear
+
+
+.tooltip_user_link:hover
+  border: 1px solid #89ceee
 
 .ava_tooltip
   height: 20px
+  width: 20px
   display: inline-block
-  vertical-align: middl
+  vertical-align: middle
 
 /*end TooltipLikes*/
 

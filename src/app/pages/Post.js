@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 
 import {connect} from 'react-redux';
 
@@ -9,6 +10,7 @@ import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 import {fetchCommentLikes, addCommentLike, deleteCommentLike} from "../actions/commentLikesActions";
 import {fetchLoginData} from "../actions/loginActions";
+import {deletePost} from "../actions/postsListActions";
 import {autoload} from '../functions/autoload';
 import {like} from '../functions/like';
 
@@ -44,8 +46,8 @@ import {scrollTop} from "../functions/scrollTop";
 export default class Post extends React.Component {
     constructor() {
         super(...arguments);
-        this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchPost(this.props.match.params.post_id));
+        this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchUsers());
         this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchPostCommentsSample(0, this.props.match.params.post_id));
@@ -54,12 +56,14 @@ export default class Post extends React.Component {
         this.time = 500;
         this.state = {
             tooltip: '',
-            comment: 'button'
+            comment: 'button',
+            redirect_after_delete: false
         };
         this.tooltipHide = this.tooltipHide.bind(this);
         this.triggerCommentForm = this.triggerCommentForm.bind(this);
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.triggerCommentLike = this.triggerCommentLike.bind(this);
+        this.deletePost = this.deletePost.bind(this);
         this.addComment = this.addComment.bind(this);
         this.deleteComment = this.deleteComment.bind(this);
         this.post_likes = [];
@@ -96,6 +100,14 @@ export default class Post extends React.Component {
         });
     }
 
+    deletePost(post_id) {
+        if (Object.keys(this.props.login).length === 0) return;
+        this.props.dispatch(deletePost(post_id));
+        this.setState({
+            redirect_after_delete: true
+        });
+    }
+
     addComment(values) {
         if (Object.keys(this.props.login).length === 0 || !values.body) return;
         this.props.dispatch(addPostComment(this.props.post.id, this.props.login.id, values.body));
@@ -110,6 +122,8 @@ export default class Post extends React.Component {
     }
 
     render() {
+        if (this.state.redirect_after_delete) return <Redirect to="/cabinet"/>;
+
         let timestamp = Date.parse(this.props.post.createdAt);
         let date = new Date();
         date.setTime(timestamp);
@@ -152,6 +166,11 @@ export default class Post extends React.Component {
                                             {post_author.name} {post_author.surname}
                                         </Link>
                                     </p>
+                                    {Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id &&
+                                    <div className="content__post_item_delete"
+                                         onClick={() => {this.deletePost(this.props.post.id)}}>
+                                        <i className="fa fa-trash-o" aria-hidden="true"/>
+                                    </div>}
                                     <div className="content__post_info">
                                         <span>
                                             {created_date}

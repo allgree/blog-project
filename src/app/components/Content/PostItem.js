@@ -48,20 +48,24 @@ export default class PostItem extends React.Component {
         date.setTime(timestamp);
         let day = ('0' + date.getDate()).slice(-2);
         let month = ('0' + (date.getMonth() + 1)).slice(-2);
-        let created_date = `${day}.${month}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+        let created_date = `${day}.${month}.${date.getFullYear()}`;
+        let created_time = `${date.getHours()}:${date.getMinutes()}`;
+
+
+
         return (
-                <div className="content__post block_item">
+                <div className="content__post_item block_item">
                     <Link to={`/post/${this.props.post.id}`}
-                          className="content__post_link">
-                        <h3 className="content__post_head">{this.props.post.title}</h3>
-                        <div className="content__post_body">{this.props.post.body}</div>
+                          className="content__post_item_link">
+                        <h3 className="content__post_item_head">{this.props.post.title}</h3>
+                        <div className="content__post_item_body">{this.props.post.body}</div>
                     </Link>
                     {
                         this.props.user
                             ?
-                            <p className="content__post_author">
+                            <p className="content__post_item__author">
                                 <Link to={`/user/${this.props.user.id}`}
-                                      className="content__post_author_link">
+                                      className="content__post_item_author_link">
                                     {this.props.user.name} {this.props.user.surname}
                                 </Link>
                             </p>
@@ -69,14 +73,16 @@ export default class PostItem extends React.Component {
                             ''
                     }
                     {Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id &&
-                    <div className="content__post_delete"
+                    <div className="content__post_item_delete"
                          onClick={() => {this.props.delete(this.props.post.id)}}>
                         <i className="fa fa-trash-o" aria-hidden="true"/>
                     </div>
                     }
-                    <div className="content__post_info">
-                        <span>{created_date}</span>
-                        &nbsp;
+                    <div className="content__post_item_info">
+                        <i className="fa fa-calendar" aria-hidden="true"/>&nbsp;<span>{created_date}</span>
+                        &nbsp;&nbsp;
+                        <i className="fa fa-clock-o" aria-hidden="true"/>&nbsp;<span>{created_time}</span>
+                        &nbsp;&nbsp;
                         <span className="post_view">
                         <i className="fa fa-eye" aria-hidden="true"/> {this.props.post.views}
                     </span>

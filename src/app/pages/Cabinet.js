@@ -131,6 +131,7 @@ export default class Cabinet extends React.Component {
     }
 
     changeAvatar(files) {
+        if (!files[0]) return;
         let name_arr = files[0].name.split('.');
         let extension = name_arr[name_arr.length - 1];
         if (this.extensions.indexOf(extension) === -1) {
@@ -168,9 +169,11 @@ export default class Cabinet extends React.Component {
                     <div className="content__cabinet__login_ava">
                         <img src={this.props.login.avatar_path} className="big_avatar"/>
                         {this.state.avatar === 'button' &&
-                            <button onClick={() => {this.triggerAvatarButton('form')}}>
-                                Сменить аватар
-                            </button>
+                            <div className="change_avatar__div">
+                                <button onClick={() => {this.triggerAvatarButton('form')}} className="button_custom button_edit_avatar">
+                                    Сменить аватар
+                                </button>
+                            </div>
                         }
                         {this.state.avatar === 'form' &&
                             <AvatarForm changeAvatar={this.changeAvatar}
@@ -192,9 +195,12 @@ export default class Cabinet extends React.Component {
                 </div>
                 <div className="content__cabinet__posts">
                     {this.state.post === 'button' &&
-                    <button onClick={() => {this.triggerFormPost('form')}}>
-                        Добавить пост
-                    </button>}
+                        <div className="add_post__div">
+                            <button onClick={() => {this.triggerFormPost('form')}} className="button_custom button_add_post">
+                                Добавить пост
+                            </button>
+                        </div>
+                    }
 
                     {this.state.post === 'form' &&
                     <PostForm onSubmit={this.addPost}
@@ -213,6 +219,8 @@ export default class Cabinet extends React.Component {
     }
 
     componentDidMount() {
+        let login__panel_input = document.querySelector('#login__panel_input');
+        if (login__panel_input) login__panel_input.checked = false;
         scrollTop();
         $(document).off();
         $(document).on('scroll', () => {

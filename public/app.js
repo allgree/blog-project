@@ -53249,6 +53249,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'changeAvatar',
         value: function changeAvatar(files) {
+            if (!files[0]) return;
             var name_arr = files[0].name.split('.');
             var extension = name_arr[name_arr.length - 1];
             if (this.extensions.indexOf(extension) === -1) {
@@ -53298,11 +53299,15 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                         { className: 'content__cabinet__login_ava' },
                         _react2.default.createElement('img', { src: this.props.login.avatar_path, className: 'big_avatar' }),
                         this.state.avatar === 'button' && _react2.default.createElement(
-                            'button',
-                            { onClick: function onClick() {
-                                    _this3.triggerAvatarButton('form');
-                                } },
-                            '\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u0430\u0432\u0430\u0442\u0430\u0440'
+                            'div',
+                            { className: 'change_avatar__div' },
+                            _react2.default.createElement(
+                                'button',
+                                { onClick: function onClick() {
+                                        _this3.triggerAvatarButton('form');
+                                    }, className: 'button_custom button_edit_avatar' },
+                                '\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u0430\u0432\u0430\u0442\u0430\u0440'
+                            )
                         ),
                         this.state.avatar === 'form' && _react2.default.createElement(_AvatarForm2.default, { changeAvatar: this.changeAvatar,
                             click: this.triggerAvatarButton })
@@ -53320,11 +53325,15 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                     'div',
                     { className: 'content__cabinet__posts' },
                     this.state.post === 'button' && _react2.default.createElement(
-                        'button',
-                        { onClick: function onClick() {
-                                _this3.triggerFormPost('form');
-                            } },
-                        '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043F\u043E\u0441\u0442'
+                        'div',
+                        { className: 'add_post__div' },
+                        _react2.default.createElement(
+                            'button',
+                            { onClick: function onClick() {
+                                    _this3.triggerFormPost('form');
+                                }, className: 'button_custom button_add_post' },
+                            '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043F\u043E\u0441\u0442'
+                        )
                     ),
                     this.state.post === 'form' && _react2.default.createElement(_PostForm2.default, { onSubmit: this.addPost,
                         click: this.triggerFormPost }),
@@ -53346,6 +53355,8 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         value: function componentDidMount() {
             var _this4 = this;
 
+            var login__panel_input = document.querySelector('#login__panel_input');
+            if (login__panel_input) login__panel_input.checked = false;
             (0, _scrollTop.scrollTop)();
             $(document).off();
             $(document).on('scroll', function () {
@@ -53406,35 +53417,39 @@ var PostForm = function (_React$Component) {
                 null,
                 _react2.default.createElement(
                     'form',
-                    { onSubmit: this.props.handleSubmit },
+                    { onSubmit: this.props.handleSubmit, className: 'post_form' },
                     _react2.default.createElement(
                         'label',
-                        { htmlFor: 'post_title' },
+                        { htmlFor: 'post_title', className: 'label_custom' },
                         '\u0422\u0435\u043C\u0430: '
                     ),
                     _react2.default.createElement(_reduxForm.Field, { component: 'input',
                         name: 'title',
                         type: 'text',
                         id: 'post_title',
+                        className: 'input_custom',
                         required: true }),
                     _react2.default.createElement('br', null),
                     _react2.default.createElement(_reduxForm.Field, { component: 'textarea',
                         name: 'body',
                         id: 'post_body',
+                        className: 'input_custom',
                         cols: '110',
                         rows: '10',
                         required: true }),
                     _react2.default.createElement('br', null),
                     _react2.default.createElement(
                         'button',
-                        { type: 'submit' },
+                        { type: 'submit',
+                            className: 'button_custom button_custom__save' },
                         '\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C \u0437\u0430\u043F\u0438\u0441\u044C'
                     ),
                     _react2.default.createElement(
                         'button',
                         { onClick: function onClick() {
                                 _this2.props.click('button');
-                            } },
+                            },
+                            className: 'button_custom button_custom__cansel' },
                         '\u041E\u0442\u043C\u0435\u043D\u0430'
                     )
                 )
@@ -53510,18 +53525,29 @@ var AvatarForm = function (_React$Component) {
 
             return _react2.default.createElement(
                 "form",
-                { onSubmit: this.onFormSubmit },
-                _react2.default.createElement("input", { name: "avatar", type: "file", id: "avatar", onChange: this.change }),
+                { onSubmit: this.onFormSubmit, className: "avatar_form" },
+                _react2.default.createElement(
+                    "label",
+                    { htmlFor: "avatar", className: "button_custom label_upload_avatar" },
+                    "\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044C \u0438\u0437\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u0438\u0435"
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { className: "div_for_input_avatar" },
+                    _react2.default.createElement("input", { name: "avatar", type: "file", id: "avatar", onChange: this.change })
+                ),
                 _react2.default.createElement(
                     "button",
-                    { type: "submit" },
+                    { type: "submit",
+                        className: "button_custom button_custom__save" },
                     "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"
                 ),
                 _react2.default.createElement(
                     "button",
                     { onClick: function onClick() {
                             _this2.props.click('button');
-                        } },
+                        },
+                        className: "button_custom button_custom__cansel" },
                     "\u041E\u0442\u043C\u0435\u043D\u0430"
                 )
             );
@@ -53575,7 +53601,7 @@ var UserProfile = function (_React$Component) {
 
             return _react2.default.createElement(
                 "div",
-                null,
+                { className: "user_profile" },
                 _react2.default.createElement(
                     "h2",
                     { className: "content__cabinet__login_name" },
@@ -53601,7 +53627,7 @@ var UserProfile = function (_React$Component) {
                     "Email: ",
                     _react2.default.createElement(
                         "a",
-                        { href: "mailto:" + this.props.login.email },
+                        { href: "mailto:" + this.props.login.email, className: "login_info_link" },
                         this.props.login.email
                     )
                 ),
@@ -53611,13 +53637,13 @@ var UserProfile = function (_React$Component) {
                     "\u0412\u0435\u0431-\u0441\u0430\u0439\u0442: ",
                     _react2.default.createElement(
                         "a",
-                        { href: "http://" + this.props.login.site, target: "_blank" },
+                        { href: "http://" + this.props.login.site, target: "_blank", className: "login_info_link" },
                         this.props.login.site
                     )
                 ),
                 _react2.default.createElement(
                     "button",
-                    { className: "button_edit_profile",
+                    { className: "button_custom button_edit_profile",
                         onClick: function onClick() {
                             _this2.props.click('form');
                         } },
@@ -53626,7 +53652,7 @@ var UserProfile = function (_React$Component) {
                 _react2.default.createElement("br", null),
                 _react2.default.createElement(
                     "button",
-                    { className: "button_edit_profile",
+                    { className: " button_custom button_edit_password",
                         onClick: function onClick() {
                             _this2.props.click('pass');
                         } },
@@ -53697,104 +53723,113 @@ var EditUserForm = function (_React$Component) {
 
             return _react2.default.createElement(
                 'form',
-                { onSubmit: this.props.handleSubmit },
+                { onSubmit: this.props.handleSubmit, className: 'edit_user_form' },
                 _react2.default.createElement(
                     'label',
-                    { htmlFor: 'login' },
+                    { htmlFor: 'login', className: 'label_custom' },
                     '\u041B\u043E\u0433\u0438\u043D'
                 ),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(_reduxForm.Field, { component: 'input',
                     name: 'login',
                     id: 'login',
+                    className: 'input_custom',
                     type: 'text',
                     required: true
                 }),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     'label',
-                    { htmlFor: 'name' },
+                    { htmlFor: 'name', className: 'label_custom' },
                     '\u0418\u043C\u044F'
                 ),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(_reduxForm.Field, { component: 'input',
                     name: 'name',
                     id: 'name',
+                    className: 'input_custom',
                     type: 'text',
                     required: true
                 }),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     'label',
-                    { htmlFor: 'surname' },
+                    { htmlFor: 'surname', className: 'label_custom' },
                     '\u0424\u0430\u043C\u0438\u043B\u0438\u044F'
                 ),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(_reduxForm.Field, { component: 'input',
                     name: 'surname',
                     id: 'surname',
+                    className: 'input_custom',
                     type: 'text',
                     required: true
                 }),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     'label',
-                    { htmlFor: 'city' },
+                    { htmlFor: 'city', className: 'label_custom' },
                     '\u0413\u043E\u0440\u043E\u0434'
                 ),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(_reduxForm.Field, { component: 'input',
                     name: 'city',
                     id: 'city',
+                    className: 'input_custom',
                     type: 'text'
                 }),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     'label',
-                    { htmlFor: 'age' },
+                    { htmlFor: 'age', className: 'label_custom' },
                     '\u0412\u043E\u0437\u0440\u0430\u0441\u0442'
                 ),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(_reduxForm.Field, { component: 'input',
                     name: 'age',
                     id: 'age',
+                    className: 'input_custom',
                     type: 'text'
                 }),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     'label',
-                    { htmlFor: 'site' },
+                    { htmlFor: 'site', className: 'label_custom' },
                     '\u0412\u0435\u0431-\u0441\u0430\u0439\u0442'
                 ),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(_reduxForm.Field, { component: 'input',
                     name: 'site',
                     id: 'site',
+                    className: 'input_custom',
                     type: 'text'
                 }),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     'label',
-                    { htmlFor: 'email' },
+                    { htmlFor: 'email', className: 'label_custom' },
                     '\u042D\u043B\u0435\u043A\u0442\u0440\u043E\u043D\u043D\u0430\u044F \u043F\u043E\u0447\u0442\u0430'
                 ),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(_reduxForm.Field, { component: 'input',
                     name: 'email',
                     id: 'email',
+                    className: 'input_custom',
                     type: 'email'
                 }),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     'button',
-                    { type: 'submit' },
+                    { type: 'submit',
+                        className: 'button_custom button_custom__save' },
                     '\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C'
                 ),
                 _react2.default.createElement(
                     'button',
                     { onClick: function onClick() {
                             _this2.props.click('info');
-                        } },
+                        },
+                        className: 'button_custom button_custom__cansel' },
                     '\u041E\u0442\u043C\u0435\u043D\u0430'
                 )
             );
@@ -53853,16 +53888,17 @@ var EditPassForm = function (_React$Component) {
 
             return _react2.default.createElement(
                 'form',
-                { onSubmit: this.props.handleSubmit },
+                { onSubmit: this.props.handleSubmit, className: 'edit_pass_form' },
                 _react2.default.createElement(
                     'label',
-                    { htmlFor: 'password' },
+                    { htmlFor: 'password', className: 'label_custom' },
                     '\u0421\u0442\u0430\u0440\u044B\u0439 \u043F\u0430\u0440\u043E\u043B\u044C'
                 ),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(_reduxForm.Field, { component: 'input',
                     name: 'password',
                     id: 'password',
+                    className: 'input_custom',
                     type: 'password',
                     required: true }),
                 ' ',
@@ -53874,25 +53910,27 @@ var EditPassForm = function (_React$Component) {
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     'label',
-                    { htmlFor: 'pass1' },
+                    { htmlFor: 'pass1', className: 'label_custom' },
                     '\u041D\u043E\u0432\u044B\u0439 \u043F\u0430\u0440\u043E\u043B\u044C'
                 ),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(_reduxForm.Field, { component: 'input',
                     name: 'pass1',
                     id: 'pass1',
+                    className: 'input_custom',
                     type: 'password',
                     required: true }),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     'label',
-                    { htmlFor: 'pass2' },
+                    { htmlFor: 'pass2', className: 'label_custom' },
                     '\u041F\u043E\u0432\u0442\u043E\u0440 \u043D\u043E\u0432\u043E\u0433\u043E \u043F\u0430\u0440\u043E\u043B\u044F'
                 ),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(_reduxForm.Field, { component: 'input',
                     name: 'pass2',
                     id: 'pass2',
+                    className: 'input_custom',
                     type: 'password',
                     required: true }),
                 ' ',
@@ -53905,14 +53943,16 @@ var EditPassForm = function (_React$Component) {
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     'button',
-                    { type: 'submit' },
+                    { type: 'submit',
+                        className: 'button_custom button_custom__save' },
                     '\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C'
                 ),
                 _react2.default.createElement(
                     'button',
                     { onClick: function onClick() {
                             _this2.props.click('info');
-                        } },
+                        },
+                        className: 'button_custom button_custom__cansel' },
                     '\u041E\u0442\u043C\u0435\u043D\u0430'
                 )
             );

@@ -22,10 +22,21 @@ export default class AvatarForm extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.onFormSubmit}>
-                <input name="avatar" type="file" id="avatar" onChange={this.change}/>
-                <button type="submit">Сохранить</button>
-                <button onClick={() => {this.props.click('button')}}>Отмена</button>
+            <form onSubmit={this.onFormSubmit} className="avatar_form">
+                <label htmlFor="avatar" className="button_custom label_upload_avatar">
+                    Загрузить изображение
+                </label>
+                <div className="div_for_input_avatar">
+                    <input name="avatar" type="file" id="avatar" onChange={this.change}/>
+                </div>
+                <button type="submit"
+                        className="button_custom button_custom__save">
+                    Сохранить
+                </button>
+                <button onClick={() => {this.props.click('button')}}
+                        className="button_custom button_custom__cansel">
+                    Отмена
+                </button>
             </form>
         )
     }

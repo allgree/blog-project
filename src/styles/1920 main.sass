@@ -36,6 +36,55 @@ html
 
 
 
+/*buttons*/
+
+.button_custom
+  outline: none
+  border-radius: 10px
+  padding: 5px
+  cursor: pointer
+  font-family: "Quant Antiqua Plain", sans-serif
+  font-size: 14px
+  transition: all 0.1s linear
+
+.button_custom:hover
+  background-color: #ffad74
+  border-color: #ffad74
+
+.button_custom:active
+  background-color: #cc8864
+  border-color: #cc8864
+
+.button_custom__save
+  background-color: #7ac280
+  border: 1px solid #7ac280
+
+.button_custom__cansel
+  background-color: #ff8473
+  border: 1px solid #ff8473
+
+
+/*end buttons*/
+
+
+/*form*/
+
+.label_custom
+  font-family: "Calibri Regular", sans-serif
+  font-size: 18px
+  color: #faebd7
+
+.input_custom
+  margin-bottom: 10px
+  background-color: rgba(255, 255, 255, 0.5)
+  padding: 5px
+  outline: none
+  border: none
+  border-radius: 5px
+
+/*end form*/
+
+
 /*link to up*/
 
 .link_to_up
@@ -267,7 +316,7 @@ nav
   height: 0
   position: fixed
   margin-top: $nav_height/2 - 6px
-  margin-left: -122px
+  right: 0
   overflow: hidden
   transition: height 0.1s ease
 
@@ -451,6 +500,8 @@ nav
 .big_avatar
   width: $big_avatar_size
   height: $big_avatar_size
+  display: inline-block
+  border-radius: 10px
 
 .content__user_name
   margin: 10px 0
@@ -473,15 +524,57 @@ nav
 
 .content__cabinet__login_ava
   width: 360px
-  height: $big_avatar_size + 40px
+  height: $big_avatar_size + 67px
   float: left
-  margin-right: 10px
+  margin: 0 10px 30px 0
+  overflow: hidden
+
+.change_avatar__div, .add_post__div
+  animation: opacity 1s 1
 
 .content__cabinet__posts
   clear: both
 
+.button_edit_avatar, .button_add_post
+  background-color: #c27900
+  border: 1px solid #c27900
+  margin-top: 10px
+
+
+.button_add_post
+  margin: 0 0 20px 10px
+
 /*end Cabinet*/
 
+
+
+
+/*UserProfile*/
+
+.user_profile
+  animation: opacity 1s 1
+
+.content__cabinet__login_name
+  font-family: "Arial Cyr Bold", sans-serif
+  color: #faebd7
+
+.content__cabinet__login_info
+  font-family: "Calibri Regular", sans-serif
+  font-size: 20px
+  color: #faebd7
+
+.login_info_link
+  color: #c1b29f
+
+.login_info_link:hover
+  color: #faebd7
+
+.button_edit_profile, .button_edit_password
+  background-color: #c27900
+  border: 1px solid #c27900
+  margin-top: 20px
+
+/*end UserProfile*/
 
 
 
@@ -626,8 +719,6 @@ nav
 /*TooltipLikes*/
 
 .tooltip_content
-  //background-color: #e2b47d
-  //background-color: #2d394f
   background: linear-gradient(to bottom, #2d394f, #8f6430) /*Standard*/
   width: 200px
   max-height: 100px
@@ -645,7 +736,6 @@ nav
 
 .tooltip_user_link
   text-decoration: none
-  //color: #636363
   color: white
   font-family: "Trebuchet", sans-serif
   font-size: 15px
@@ -677,7 +767,27 @@ nav
 
 
 
-/*EditPass*/
+
+/*EditUserForm*/
+
+.edit_user_form
+  animation: opacity 1s 1
+
+.edit_user_form > .button_custom__save
+  margin-right: 20px
+
+
+/*end EditUserForm*/
+
+
+
+/*EditPassForm*/
+
+.edit_pass_form
+  animation: opacity 1s 1
+
+.edit_pass_form > .button_custom__save
+  margin-right: 20px
 
 .pass_incorrect
   color: red
@@ -687,13 +797,42 @@ nav
   color: red
   display: none
 
-/*end EditPass*/
+/*end EditPassForm*/
 
 
 
 
+/*AvatarForm*/
+
+.avatar_form
+  animation: opacity 1s 1
+
+.div_for_input_avatar
+  float: left
+  width: 0
+  height: 0
+  overflow: hidden
+
+.label_upload_avatar
+  background-color: #c27900
+  margin-right: 10px
+
+.avatar_form > .button_custom__save
+  margin-right: 10px
+
+/*end AvatarForm*/
 
 
+/*PostForm*/
+
+.post_form
+  animation: opacity 1s 1
+  margin-bottom: 20px
+
+.post_form > .button_custom__save
+  margin-right: 20px
+
+/*end PostForm*/
 
 
 

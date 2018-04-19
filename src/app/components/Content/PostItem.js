@@ -60,24 +60,20 @@ export default class PostItem extends React.Component {
                         <h3 className="content__post_item_head">{this.props.post.title}</h3>
                         <div className="content__post_item_body">{this.props.post.body}</div>
                     </Link>
-                    {
-                        this.props.user
-                            ?
+                    {this.props.user
+                            &&
                             <p className="content__post_item__author">
                                 <Link to={`/user/${this.props.user.id}`}
                                       className="content__post_item_author_link">
                                     {this.props.user.name} {this.props.user.surname}
                                 </Link>
-                            </p>
-                            :
-                            ''
-                    }
-                    {Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id &&
-                    <div className="content__post_item_delete"
-                         onClick={() => {this.props.delete(this.props.post.id)}}>
-                        <i className="fa fa-trash-o" aria-hidden="true"/>
-                    </div>
-                    }
+                                {Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id &&
+                                <span className="content__post_item_delete"
+                                      onClick={() => {this.props.delete(this.props.post.id)}}>
+                                      <i className="fa fa-trash-o" aria-hidden="true"/>
+                                </span>}
+                            </p>}
+
                     <div className="content__post_item_info">
                         <i className="fa fa-calendar" aria-hidden="true"/>&nbsp;<span>{created_date}</span>
                         &nbsp;&nbsp;

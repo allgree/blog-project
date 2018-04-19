@@ -42,10 +42,20 @@ let Comments = {
         })
             .then(result => {callback(result)})
     },
-    delete: (comment_id, callback) => {
+    deleteById: (comment_id, callback) => {
         model.destroy({
             where: {
                 id: comment_id
+            }
+        })
+            .then(result => {
+                callback(result);
+            })
+    },
+    deleteByPostId: (post_id, callback) => {
+        model.destroy({
+            where: {
+                post_id: post_id
             }
         })
             .then(result => {

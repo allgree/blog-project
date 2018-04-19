@@ -2551,6 +2551,12 @@ nav {
   cursor: pointer;
   margin: 20px 0 0 20px; }
 
+.nav_header_label:hover {
+  color: #9c9c9c; }
+
+.nav_header_label:active {
+  color: #9A4D2C; }
+
 #nav_input {
   display: none; }
 
@@ -2602,7 +2608,8 @@ nav {
 /*end Nav*/
 /*LoginPanel*/
 .login__links {
-  float: right; }
+  float: right;
+  margin-top: 10px; }
 
 .login__link {
   display: inline-block;
@@ -2613,6 +2620,39 @@ nav {
 
 .login__link:active {
   background: #2d2d2d; }
+
+.login__panel_menu {
+  float: right;
+  margin: 20px 20px 0 0; }
+
+.login__panel__label {
+  color: white;
+  font-family: "PT Sans", sans-serif;
+  font-size: 20px;
+  margin-top: 100px;
+  cursor: pointer; }
+
+.login__panel__label:hover {
+  color: #9c9c9c; }
+
+.login__panel__label:active {
+  color: #727272; }
+
+.login__menu {
+  background: rgba(0, 0, 0, 0.8);
+  width: 200px;
+  height: 0;
+  position: fixed;
+  margin-top: 34px;
+  margin-left: -122px;
+  overflow: hidden;
+  transition: height 0.1s ease; }
+
+#login__panel_input {
+  display: none; }
+
+#login__panel_input:checked ~ .login__menu {
+  height: 100px; }
 
 /*end LoginPanel*/
 /*Main*/
@@ -2702,7 +2742,7 @@ nav {
   font-family: "Quant Antiqua Plain", sans-serif; }
 
 .content__post_author {
-  float: left;
+  clear: both;
   font-family: "Quant Antiqua Plain", sans-serif; }
 
 .content__post_author_link {
@@ -2711,8 +2751,16 @@ nav {
   color: #5f5f5f;
   font-family: "Trebuchet", sans-serif; }
 
+.content__post_delete {
+  cursor: pointer;
+  margin-left: 20px; }
+
 .content__post_info {
-  float: right; }
+  margin-top: 10px;
+  float: left;
+  font-family: "Europe Regular", sans-serif;
+  font-size: 12px;
+  position: relative; }
 
 .post_view {
   color: blue; }
@@ -2725,7 +2773,8 @@ nav {
   cursor: pointer; }
 
 .content__post_comments_header {
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+  font-family: "Calibri Regular", sans-serif; }
 
 /*end Post*/
 /*User*/
@@ -2778,7 +2827,8 @@ nav {
   padding: 10px 10px 35px;
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 10px;
-  box-shadow: 0 0 30px #a19a98; }
+  box-shadow: 0 0 30px #a19a98;
+  animation: opacity 1s 1; }
 
 .content__post_item_link {
   text-decoration: none;
@@ -2807,7 +2857,6 @@ nav {
 
 .content__post_item_delete {
   cursor: pointer;
-  float: left;
   margin-left: 20px; }
 
 .content__post_item_info {

@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const  Comments = require('../models/comments');
+const Comments = require('../models/comments');
 
 // выборка пяти комментариев к посту для автоподгрузки
 router.get('/sample/post/', (req, res, next) => {
@@ -21,7 +21,7 @@ router.post('/add/', (req, res, next) => {
 
 // удалить комментарий
 router.post('/delete/', (req, res, next) => {
-    Comments.delete(req.body.comment_id, (result) => {
+    Comments.deleteById(req.body.comment_id, (result) => {
         res.json(result);
     })
 });

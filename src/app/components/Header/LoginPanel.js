@@ -19,10 +19,19 @@ export default class LoginPanel extends React.Component {
                 <NavLink to='/register' className={`nav_menu__link login__link`}>Регистрация</NavLink>
             </div>
         } else {
-            return <div className="login__links">
-                <span>{this.props.login.login}</span>
-                <NavLink to='/cabinet' className={`nav_menu__link login__link`}>Личный кабинет</NavLink>
-                <NavLink to='/unlogged' className={`nav_menu__link login__link`}>Выход</NavLink>
+            return <div className="login__panel_menu">
+                <label htmlFor="login__panel_input" className="login__panel__label">
+                    <i className="fa fa-user-o" aria-hidden="true"/>&nbsp;{this.props.login.login}
+                </label>
+                <input type="checkbox" id="login__panel_input"/>
+                <div className="login__menu">
+                    <NavLink to='/cabinet' className={`nav_menu__link login__link`}>
+                        Личный кабинет
+                    </NavLink>
+                    <NavLink to='/unlogged' className={`nav_menu__link login__link`}>
+                        Выход
+                    </NavLink>
+                </div>
             </div>
         }
     }

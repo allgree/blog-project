@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const Posts = require('../models/posts');
+const Comments = require('../models/comments');
 
 // все посты
 router.get('/', (req, res, next) => {
@@ -38,21 +39,26 @@ router.get('/:post_id', (req, res, next) => {
     })
 });
 
+//добавить просмотр
 router.post('/addView/', (req, res, next) => {
     Posts.updateViews(req.body.post_id, req.body.views, (result) => {
         res.json(result);
     })
 });
 
+// добавить пост
 router.post('/add/', (req, res, next) => {
    Posts.add(req.body.user_id, req.body.title, req.body.body, (result) => {
        res.json(result.dataValues);
    })
 });
 
+// удалить пост
 router.post('/delete/', (req, res, next) => {
-   Posts.delete(req.body.post_id, (result) => {
-       res.json(result);
+   Posts.delete(req.body.post_id, (result_delete_post) => {
+       Comments.deleteByPostId(req.body.post_id, (result_delete_comments) => {
+           res.json(result_delete_post);
+       });
    })
 });
 

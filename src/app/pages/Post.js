@@ -165,12 +165,13 @@ export default class Post extends React.Component {
                                               className="content__post_author_link">
                                             {post_author.name} {post_author.surname}
                                         </Link>
+                                        {Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id &&
+                                        <span className="content__post_delete"
+                                             onClick={() => {this.deletePost(this.props.post.id)}}>
+                                            <i className="fa fa-trash-o" aria-hidden="true"/>
+                                        </span>}
                                     </p>
-                                    {Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id &&
-                                    <div className="content__post_item_delete"
-                                         onClick={() => {this.deletePost(this.props.post.id)}}>
-                                        <i className="fa fa-trash-o" aria-hidden="true"/>
-                                    </div>}
+
                                     <div className="content__post_info">
                                         <span>
                                             {created_date}

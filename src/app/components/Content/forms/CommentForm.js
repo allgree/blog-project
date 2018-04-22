@@ -9,18 +9,21 @@ class CommentForm extends React.Component {
 
     render() {
         return (
-            <form>
+            <form className="comment_form">
                 <Field component="textarea"
                        name="body"
                        cols="110"
                        rows="10"
                        id="comment_body"
+                       className="input_custom"
                        required/>
                 <br/>
-                   <button onClick={() => {this.submit()}}>
-                            Сохранить
-                   </button>
-                <button onClick={() => {this.props.click('button')}}>
+                <button onClick={() => {this.submit()}}
+                        className="button_custom button_custom__save">
+                         Сохранить
+                </button>
+                <button onClick={() => {this.props.click('button')}}
+                        className="button_custom button_custom__cansel">
                     Отмена
                 </button>
             </form>

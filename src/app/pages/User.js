@@ -87,13 +87,16 @@ export default class User extends React.Component {
                            </p>}
                            {this.props.user.email &&
                            <p className="content__user_info">
-                               Email: <a href={`mailto:${this.props.user.email}`}>
+                               Email: <a href={`mailto:${this.props.user.email}`}
+                                         className="user_info__link">
                                    {this.props.user.email}
                                </a>
                            </p>}
                            {this.props.user.site &&
                            <p className="content__user_info">
-                               Веб-сайт: <a href={`http://${this.props.user.site}`} target="_blank">
+                               Веб-сайт: <a href={`http://${this.props.user.site}`}
+                                            target="_blank"
+                                            className="user_info__link">
                                    {this.props.user.site}
                                </a>
                            </p>}

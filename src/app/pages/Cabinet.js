@@ -170,7 +170,8 @@ export default class Cabinet extends React.Component {
                         <img src={this.props.login.avatar_path} className="big_avatar"/>
                         {this.state.avatar === 'button' &&
                             <div className="change_avatar__div">
-                                <button onClick={() => {this.triggerAvatarButton('form')}} className="button_custom button_edit_avatar">
+                                <button onClick={() => {this.triggerAvatarButton('form')}}
+                                        className="button_custom button_edit_avatar">
                                     Сменить аватар
                                 </button>
                             </div>
@@ -196,7 +197,8 @@ export default class Cabinet extends React.Component {
                 <div className="content__cabinet__posts">
                     {this.state.post === 'button' &&
                         <div className="add_post__div">
-                            <button onClick={() => {this.triggerFormPost('form')}} className="button_custom button_add_post">
+                            <button onClick={() => {this.triggerFormPost('form')}}
+                                    className="button_custom button_add_post">
                                 Добавить пост
                             </button>
                         </div>

@@ -197,7 +197,10 @@ export default class Post extends React.Component {
                 <div className="content__post_comments">
                     <h3 className="content__post_comments_header">Комментарии</h3>
                     {(Object.keys(this.props.login).length !== 0 && this.state.comment === 'button') &&
-                    <button onClick={() => {this.triggerCommentForm('form')}}>Добавить комментарий</button>}
+                    <button onClick={() => {this.triggerCommentForm('form')}}
+                            className="button_custom button_add_comment">
+                        Добавить комментарий
+                    </button>}
                     {(Object.keys(this.props.login).length !== 0 && this.state.comment === 'form') &&
                     <CommentForm onSubmit={this.addComment}
                                  click={this.triggerCommentForm}/>}

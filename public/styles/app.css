@@ -2818,6 +2818,12 @@ nav {
   margin-bottom: 10px;
   font-family: "Calibri Regular", sans-serif; }
 
+.button_add_comment {
+  background-color: #ee9e00;
+  border: 1px solid #ee9e00;
+  margin: 0 0 20px 10px;
+  animation: opacity 0.5s 1; }
+
 /*end Post*/
 /*User*/
 .content__user {
@@ -2843,7 +2849,20 @@ nav {
   border-radius: 10px; }
 
 .content__user_name {
-  margin: 10px 0; }
+  margin: 10px 0;
+  font-family: "Arial Cyr Bold", sans-serif;
+  color: #7b4520; }
+
+.content__user_info {
+  font-family: "Calibri Regular", sans-serif;
+  font-size: 20px;
+  color: #592d18; }
+
+.user_info__link {
+  color: #542b21; }
+
+.user_info__link:hover {
+  color: #faebd7; }
 
 .user_posts {
   margin-left: 420px; }
@@ -3108,5 +3127,28 @@ nav {
   margin-right: 20px; }
 
 /*end PostForm*/
+/*CommentForm*/
+.comment_form {
+  animation: opacity 1s 1;
+  margin-bottom: 20px; }
+
+.comment_form > .button_custom__save {
+  margin-right: 20px; }
+
+/*end CommentForm*/
+/*LoginForm*/
+.button__enter_login {
+  background-color: #c27900;
+  border: 1px solid #c27900;
+  margin-top: 10px; }
+
+/*end LoginForm*/
+/*RegisterForm*/
+.button__register {
+  background-color: #c27900;
+  border: 1px solid #c27900;
+  margin-top: 10px; }
+
+/*end RegisterForm*/
 
 /*# sourceMappingURL=app.css.map*/

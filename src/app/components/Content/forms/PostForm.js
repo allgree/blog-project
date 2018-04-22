@@ -6,7 +6,9 @@ class PostForm extends React.Component {
         return (
             <div>
                 <form onSubmit={this.props.handleSubmit} className="post_form">
-                    <label htmlFor="post_title" className="label_custom">Тема: </label>
+                    <label htmlFor="post_title"
+                           className="label_custom">
+                        Тема: </label>
                     <Field component="input"
                            name="title"
                            type="text"

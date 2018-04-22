@@ -52005,7 +52005,8 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                             'Email: ',
                             _react2.default.createElement(
                                 'a',
-                                { href: 'mailto:' + this.props.user.email },
+                                { href: 'mailto:' + this.props.user.email,
+                                    className: 'user_info__link' },
                                 this.props.user.email
                             )
                         ),
@@ -52015,7 +52016,9 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                             '\u0412\u0435\u0431-\u0441\u0430\u0439\u0442: ',
                             _react2.default.createElement(
                                 'a',
-                                { href: 'http://' + this.props.user.site, target: '_blank' },
+                                { href: 'http://' + this.props.user.site,
+                                    target: '_blank',
+                                    className: 'user_info__link' },
                                 this.props.user.site
                             )
                         )
@@ -52411,7 +52414,8 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                         'button',
                         { onClick: function onClick() {
                                 _this3.triggerCommentForm('form');
-                            } },
+                            },
+                            className: 'button_custom button_add_comment' },
                         '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439'
                     ),
                     Object.keys(this.props.login).length !== 0 && this.state.comment === 'form' && _react2.default.createElement(_CommentForm2.default, { onSubmit: this.addComment,
@@ -52770,26 +52774,29 @@ var CommentForm = function (_React$Component) {
 
             return _react2.default.createElement(
                 'form',
-                null,
+                { className: 'comment_form' },
                 _react2.default.createElement(_reduxForm.Field, { component: 'textarea',
                     name: 'body',
                     cols: '110',
                     rows: '10',
                     id: 'comment_body',
+                    className: 'input_custom',
                     required: true }),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     'button',
                     { onClick: function onClick() {
                             _this2.submit();
-                        } },
+                        },
+                        className: 'button_custom button_custom__save' },
                     '\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C'
                 ),
                 _react2.default.createElement(
                     'button',
                     { onClick: function onClick() {
                             _this2.props.click('button');
-                        } },
+                        },
+                        className: 'button_custom button_custom__cansel' },
                     '\u041E\u0442\u043C\u0435\u043D\u0430'
                 )
             );
@@ -52929,30 +52936,48 @@ var LoginForm = function (_React$Component) {
                 { onSubmit: this.props.handleSubmit },
                 _react2.default.createElement(
                     'label',
-                    { htmlFor: 'login' },
+                    { htmlFor: 'login',
+                        className: 'label_custom' },
                     '\u041B\u043E\u0433\u0438\u043D\xA0'
                 ),
                 _react2.default.createElement('br', null),
-                _react2.default.createElement(_reduxForm.Field, { component: 'input', name: 'login', id: 'login', type: 'text', required: true }),
+                _react2.default.createElement(_reduxForm.Field, { component: 'input',
+                    name: 'login',
+                    id: 'login',
+                    className: 'input_custom',
+                    type: 'text',
+                    required: true }),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     'label',
-                    { htmlFor: 'password' },
+                    { htmlFor: 'password',
+                        className: 'label_custom' },
                     '\u041F\u0430\u0440\u043E\u043B\u044C\xA0\xA0'
                 ),
                 _react2.default.createElement('br', null),
-                _react2.default.createElement(_reduxForm.Field, { component: 'input', name: 'password', id: 'password', type: 'password', required: true }),
+                _react2.default.createElement(_reduxForm.Field, { component: 'input',
+                    name: 'password',
+                    id: 'password',
+                    className: 'input_custom',
+                    type: 'password',
+                    required: true }),
                 _react2.default.createElement('br', null),
-                _react2.default.createElement(_reduxForm.Field, { component: 'input', type: 'checkbox', id: 'remember_me', name: 'remember_me' }),
+                _react2.default.createElement(_reduxForm.Field, { component: 'input',
+                    type: 'checkbox',
+                    id: 'remember_me',
+                    name: 'remember_me' }),
+                '\xA0',
                 _react2.default.createElement(
                     'label',
-                    { htmlFor: 'remember_me' },
+                    { htmlFor: 'remember_me',
+                        className: 'label_custom' },
                     '\u0417\u0430\u043F\u043E\u043C\u043D\u0438\u0442\u044C \u043C\u0435\u043D\u044F'
                 ),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     'button',
-                    { type: 'submit' },
+                    { type: 'submit',
+                        className: 'button_custom button__enter_login' },
                     '\u0412\u043E\u0439\u0442\u0438'
                 )
             );
@@ -53305,7 +53330,8 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                                 'button',
                                 { onClick: function onClick() {
                                         _this3.triggerAvatarButton('form');
-                                    }, className: 'button_custom button_edit_avatar' },
+                                    },
+                                    className: 'button_custom button_edit_avatar' },
                                 '\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u0430\u0432\u0430\u0442\u0430\u0440'
                             )
                         ),
@@ -53331,7 +53357,8 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                             'button',
                             { onClick: function onClick() {
                                     _this3.triggerFormPost('form');
-                                }, className: 'button_custom button_add_post' },
+                                },
+                                className: 'button_custom button_add_post' },
                             '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043F\u043E\u0441\u0442'
                         )
                     ),
@@ -53420,7 +53447,8 @@ var PostForm = function (_React$Component) {
                     { onSubmit: this.props.handleSubmit, className: 'post_form' },
                     _react2.default.createElement(
                         'label',
-                        { htmlFor: 'post_title', className: 'label_custom' },
+                        { htmlFor: 'post_title',
+                            className: 'label_custom' },
                         '\u0422\u0435\u043C\u0430: '
                     ),
                     _react2.default.createElement(_reduxForm.Field, { component: 'input',
@@ -53627,7 +53655,8 @@ var UserProfile = function (_React$Component) {
                     "Email: ",
                     _react2.default.createElement(
                         "a",
-                        { href: "mailto:" + this.props.login.email, className: "login_info_link" },
+                        { href: "mailto:" + this.props.login.email,
+                            className: "login_info_link" },
                         this.props.login.email
                     )
                 ),
@@ -53637,7 +53666,9 @@ var UserProfile = function (_React$Component) {
                     "\u0412\u0435\u0431-\u0441\u0430\u0439\u0442: ",
                     _react2.default.createElement(
                         "a",
-                        { href: "http://" + this.props.login.site, target: "_blank", className: "login_info_link" },
+                        { href: "http://" + this.props.login.site,
+                            target: "_blank",
+                            className: "login_info_link" },
                         this.props.login.site
                     )
                 ),
@@ -54103,120 +54134,139 @@ var RegisterForm = function (_React$Component) {
                             { onSubmit: this.props.handleSubmit, encType: 'multipart/form-data' },
                             _react2.default.createElement(
                                    'label',
-                                   { htmlFor: 'login' },
+                                   { htmlFor: 'login',
+                                          className: 'label_custom' },
                                    '\u041B\u043E\u0433\u0438\u043D'
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(_reduxForm.Field, { component: 'input',
                                    name: 'login',
                                    id: 'login',
+                                   className: 'input_custom',
                                    type: 'text',
                                    required: true
                             }),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(
                                    'label',
-                                   { htmlFor: 'name' },
+                                   { htmlFor: 'name',
+                                          className: 'label_custom' },
                                    '\u0418\u043C\u044F'
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(_reduxForm.Field, { component: 'input',
                                    name: 'name',
                                    id: 'name',
+                                   className: 'input_custom',
                                    type: 'text',
                                    required: true
                             }),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(
                                    'label',
-                                   { htmlFor: 'surname' },
+                                   { htmlFor: 'surname',
+                                          className: 'label_custom' },
                                    '\u0424\u0430\u043C\u0438\u043B\u0438\u044F'
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(_reduxForm.Field, { component: 'input',
                                    name: 'surname',
                                    id: 'surname',
+                                   className: 'input_custom',
                                    type: 'text',
                                    required: true
                             }),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(
                                    'label',
-                                   { htmlFor: 'city' },
+                                   { htmlFor: 'city',
+                                          className: 'label_custom' },
                                    '\u0413\u043E\u0440\u043E\u0434'
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(_reduxForm.Field, { component: 'input',
                                    name: 'city',
                                    id: 'city',
+                                   className: 'input_custom',
                                    type: 'text'
                             }),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(
                                    'label',
-                                   { htmlFor: 'age' },
+                                   { htmlFor: 'age',
+                                          className: 'label_custom' },
                                    '\u0412\u043E\u0437\u0440\u0430\u0441\u0442'
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(_reduxForm.Field, { component: 'input',
                                    name: 'age',
                                    id: 'age',
+                                   className: 'input_custom',
                                    type: 'text'
                             }),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(
                                    'label',
-                                   { htmlFor: 'site' },
+                                   { htmlFor: 'site',
+                                          className: 'label_custom' },
                                    '\u0412\u0435\u0431-\u0441\u0430\u0439\u0442'
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(_reduxForm.Field, { component: 'input',
                                    name: 'site',
                                    id: 'site',
+                                   className: 'input_custom',
                                    type: 'text'
                             }),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(
                                    'label',
-                                   { htmlFor: 'email' },
+                                   { htmlFor: 'email',
+                                          className: 'label_custom' },
                                    '\u042D\u043B\u0435\u043A\u0442\u0440\u043E\u043D\u043D\u0430\u044F \u043F\u043E\u0447\u0442\u0430'
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(_reduxForm.Field, { component: 'input',
                                    name: 'email',
                                    id: 'email',
+                                   className: 'input_custom',
                                    type: 'email'
                             }),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(
                                    'label',
-                                   { htmlFor: 'pass1' },
+                                   { htmlFor: 'pass1',
+                                          className: 'label_custom' },
                                    '\u041F\u0430\u0440\u043E\u043B\u044C'
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(_reduxForm.Field, { component: 'input',
                                    name: 'pass1',
                                    id: 'pass1',
+                                   className: 'input_custom',
                                    type: 'password',
                                    required: true
                             }),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(
                                    'label',
-                                   { htmlFor: 'pass2' },
+                                   { htmlFor: 'pass2',
+                                          className: 'label_custom' },
                                    '\u041F\u043E\u0432\u0442\u043E\u0440 \u043F\u0430\u0440\u043E\u043B\u044F'
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(_reduxForm.Field, { component: 'input',
                                    name: 'pass2',
                                    id: 'pass2',
+                                   className: 'input_custom',
                                    type: 'password',
                                    required: true
                             }),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(
                                    'button',
-                                   { type: 'submit' },
+                                   { type: 'submit',
+                                          className: 'button_custom button__register' },
                                    '\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u0442\u044C\u0441\u044F'
                             )
                      );

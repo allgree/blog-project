@@ -11,13 +11,16 @@ export default class UserProfile extends React.Component {
                 <p className="content__cabinet__login_info">Возраст: {this.props.login.age}</p>}
                 {this.props.login.email &&
                 <p className="content__cabinet__login_info">
-                    Email: <a href={`mailto:${this.props.login.email}`} className="login_info_link">
+                    Email: <a href={`mailto:${this.props.login.email}`}
+                              className="login_info_link">
                                 {this.props.login.email}
                             </a>
                 </p>}
                 {this.props.login.site &&
                 <p className="content__cabinet__login_info">
-                    Веб-сайт: <a href={`http://${this.props.login.site}`} target="_blank" className="login_info_link">
+                    Веб-сайт: <a href={`http://${this.props.login.site}`}
+                                 target="_blank"
+                                 className="login_info_link">
                                     {this.props.login.site}
                               </a>
                 </p>}

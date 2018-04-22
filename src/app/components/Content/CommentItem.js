@@ -37,7 +37,8 @@ export default class CommentItem extends React.Component {
         date.setTime(timestamp);
         let day = ('0' + date.getDate()).slice(-2);
         let month = ('0' + (date.getMonth() + 1)).slice(-2);
-        let created_date = `${day}.${month}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+        let created_date = `${day}.${month}.${date.getFullYear()}`;
+        let created_time = `${date.getHours()}:${date.getMinutes()}`;
         return (
             <div className="content__post_comment">
                 <p className="content__post_comment_body">
@@ -49,16 +50,12 @@ export default class CommentItem extends React.Component {
                         {this.props.user.name} {this.props.user.surname}
                     </Link>
                 </p>
-                {Object.keys(this.props.login).length !== 0 && this.props.comment.user_id === this.props.login.id &&
-                    <div className="content__post_comment_delete"
-                         onClick={() => {this.props.delete(this.props.comment.id)}}>
-                        <i className="fa fa-trash-o" aria-hidden="true"/>
-                    </div>
-                }
 
                 <div className="content__post_comment_info">
-                    <span className="comment_date">{created_date}</span>
-                    &nbsp;
+                    <i className="fa fa-calendar" aria-hidden="true"/>&nbsp;<span>{created_date}</span>
+                    &nbsp;&nbsp;
+                    <i className="fa fa-clock-o" aria-hidden="true"/>&nbsp;<span>{created_time}</span>
+                    &nbsp;&nbsp;
                     <span className="content__post_comment_likes post_like"
                          id={`comment_id_${this.props.comment.id}`}
                          onMouseEnter={() => {this.tooltipShow()}}
@@ -72,6 +69,12 @@ export default class CommentItem extends React.Component {
                             {this.props.likes.length === 0 ? '' : this.props.likes.length}
                         </span>
                     </span>
+                    {Object.keys(this.props.login).length !== 0 && this.props.comment.user_id === this.props.login.id &&
+                        <span className="content__post_comment_delete"
+                              onClick={() => {this.props.delete(this.props.comment.id)}}>
+                        <i className="fa fa-trash-o" aria-hidden="true"/>
+                        </span>
+                    }
                 </div>
 
             </div>

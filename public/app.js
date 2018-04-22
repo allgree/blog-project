@@ -52652,7 +52652,8 @@ var CommentItem = function (_React$Component) {
             date.setTime(timestamp);
             var day = ('0' + date.getDate()).slice(-2);
             var month = ('0' + (date.getMonth() + 1)).slice(-2);
-            var created_date = day + '.' + month + '.' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
+            var created_date = day + '.' + month + '.' + date.getFullYear();
+            var created_time = date.getHours() + ':' + date.getMinutes();
             return _react2.default.createElement(
                 'div',
                 { className: 'content__post_comment' },
@@ -52673,23 +52674,25 @@ var CommentItem = function (_React$Component) {
                         this.props.user.surname
                     )
                 ),
-                Object.keys(this.props.login).length !== 0 && this.props.comment.user_id === this.props.login.id && _react2.default.createElement(
-                    'div',
-                    { className: 'content__post_comment_delete',
-                        onClick: function onClick() {
-                            _this3.props.delete(_this3.props.comment.id);
-                        } },
-                    _react2.default.createElement('i', { className: 'fa fa-trash-o', 'aria-hidden': 'true' })
-                ),
                 _react2.default.createElement(
                     'div',
                     { className: 'content__post_comment_info' },
+                    _react2.default.createElement('i', { className: 'fa fa-calendar', 'aria-hidden': 'true' }),
+                    '\xA0',
                     _react2.default.createElement(
                         'span',
-                        { className: 'comment_date' },
+                        null,
                         created_date
                     ),
+                    '\xA0\xA0',
+                    _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
                     '\xA0',
+                    _react2.default.createElement(
+                        'span',
+                        null,
+                        created_time
+                    ),
+                    '\xA0\xA0',
                     _react2.default.createElement(
                         'span',
                         { className: 'content__post_comment_likes post_like',
@@ -52714,6 +52717,14 @@ var CommentItem = function (_React$Component) {
                             _react2.default.createElement('i', { className: 'fa fa-heart', 'aria-hidden': 'true' }),
                             this.props.likes.length === 0 ? '' : this.props.likes.length
                         )
+                    ),
+                    Object.keys(this.props.login).length !== 0 && this.props.comment.user_id === this.props.login.id && _react2.default.createElement(
+                        'span',
+                        { className: 'content__post_comment_delete',
+                            onClick: function onClick() {
+                                _this3.props.delete(_this3.props.comment.id);
+                            } },
+                        _react2.default.createElement('i', { className: 'fa fa-trash-o', 'aria-hidden': 'true' })
                     )
                 )
             );

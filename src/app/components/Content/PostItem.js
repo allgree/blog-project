@@ -67,11 +67,7 @@ export default class PostItem extends React.Component {
                                       className="content__post_item_author_link">
                                     {this.props.user.name} {this.props.user.surname}
                                 </Link>
-                                {Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id &&
-                                <span className="content__post_item_delete"
-                                      onClick={() => {this.props.delete(this.props.post.id)}}>
-                                      <i className="fa fa-trash-o" aria-hidden="true"/>
-                                </span>}
+
                             </p>}
 
                     <div className="content__post_item_info">
@@ -80,8 +76,8 @@ export default class PostItem extends React.Component {
                         <i className="fa fa-clock-o" aria-hidden="true"/>&nbsp;<span>{created_time}</span>
                         &nbsp;&nbsp;
                         <span className="post_view">
-                        <i className="fa fa-eye" aria-hidden="true"/> {this.props.post.views}
-                    </span>
+                            <i className="fa fa-eye" aria-hidden="true"/> {this.props.post.views}
+                        </span>
                         &nbsp;
                         <div className="tooltip" id={`tooltip_${this.props.post.id}`}>
                             {this.state.tooltip}
@@ -93,7 +89,12 @@ export default class PostItem extends React.Component {
                               onClick={() => {this.props.triggerLike(this.props.post.id)}}>
                              <i className="fa fa-heart" aria-hidden="true"/>&nbsp;
                             {this.props.likes.length === 0 ? '' : this.props.likes.length}
-                    </span>
+                        </span>
+                        {Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id &&
+                        <span className="content__post_item_delete"
+                              onClick={() => {this.props.delete(this.props.post.id)}}>
+                                      <i className="fa fa-trash-o" aria-hidden="true"/>
+                                </span>}
                     </div>
                 </div>
         )

@@ -13210,14 +13210,6 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
                         this.props.user.name,
                         ' ',
                         this.props.user.surname
-                    ),
-                    Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id && _react2.default.createElement(
-                        'span',
-                        { className: 'content__post_item_delete',
-                            onClick: function onClick() {
-                                _this3.props.delete(_this3.props.post.id);
-                            } },
-                        _react2.default.createElement('i', { className: 'fa fa-trash-o', 'aria-hidden': 'true' })
                     )
                 ),
                 _react2.default.createElement(
@@ -13268,6 +13260,14 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
                         _react2.default.createElement('i', { className: 'fa fa-heart', 'aria-hidden': 'true' }),
                         '\xA0',
                         this.props.likes.length === 0 ? '' : this.props.likes.length
+                    ),
+                    Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id && _react2.default.createElement(
+                        'span',
+                        { className: 'content__post_item_delete',
+                            onClick: function onClick() {
+                                _this3.props.delete(_this3.props.post.id);
+                            } },
+                        _react2.default.createElement('i', { className: 'fa fa-trash-o', 'aria-hidden': 'true' })
                     )
                 )
             );
@@ -52351,14 +52351,6 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                                 post_author.name,
                                 ' ',
                                 post_author.surname
-                            ),
-                            Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id && _react2.default.createElement(
-                                'span',
-                                { className: 'content__post_delete',
-                                    onClick: function onClick() {
-                                        _this3.deletePost(_this3.props.post.id);
-                                    } },
-                                _react2.default.createElement('i', { className: 'fa fa-trash-o', 'aria-hidden': 'true' })
                             )
                         ),
                         _react2.default.createElement(
@@ -52398,6 +52390,14 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                                 _react2.default.createElement('i', { className: 'fa fa-heart', 'aria-hidden': 'true' }),
                                 ' ',
                                 this.post_likes.length === 0 ? '' : this.post_likes.length
+                            ),
+                            Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id && _react2.default.createElement(
+                                'span',
+                                { className: 'content__post_delete',
+                                    onClick: function onClick() {
+                                        _this3.deletePost(_this3.props.post.id);
+                                    } },
+                                _react2.default.createElement('i', { className: 'fa fa-trash-o', 'aria-hidden': 'true' })
                             )
                         )
                     )

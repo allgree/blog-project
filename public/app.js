@@ -40149,6 +40149,8 @@ var _postLikesReducer = __webpack_require__(384);
 
 var _commentLikesReducer = __webpack_require__(386);
 
+var _subsReducer = __webpack_require__(471);
+
 var _reduxPromiseMiddleware = __webpack_require__(388);
 
 var _reduxPromiseMiddleware2 = _interopRequireDefault(_reduxPromiseMiddleware);
@@ -40169,6 +40171,7 @@ var reducers = (0, _redux.combineReducers)({
     login: _loginReducer.loginReducer,
     postLikes: _postLikesReducer.postLikesReducer,
     commentLikes: _commentLikesReducer.commentLikesReducer,
+    subs: _subsReducer.subsReducer,
     form: _reduxForm.reducer
 });
 
@@ -51873,6 +51876,10 @@ var _PostItem = __webpack_require__(53);
 
 var _PostItem2 = _interopRequireDefault(_PostItem);
 
+var _UserItem = __webpack_require__(414);
+
+var _UserItem2 = _interopRequireDefault(_UserItem);
+
 var _Loader = __webpack_require__(19);
 
 var _Loader2 = _interopRequireDefault(_Loader);
@@ -51886,6 +51893,8 @@ var _usersListActions = __webpack_require__(20);
 var _postLikesActions = __webpack_require__(33);
 
 var _loginActions = __webpack_require__(8);
+
+var _subsActions = __webpack_require__(473);
 
 var _autoload = __webpack_require__(34);
 
@@ -51919,7 +51928,11 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
         is_post_likes_fetching: store.postLikes.is_fetching,
 
         login: store.login.login,
-        is_login_fetching: store.login.is_fetching
+        is_login_fetching: store.login.is_fetching,
+
+        subs: store.subs.subs,
+        is_subs_fetching: store.subs.is_fetching,
+        subs_empty: store.subs.empty
     };
 }), _dec(_class = function (_React$Component) {
     _inherits(User, _React$Component);
@@ -51934,7 +51947,11 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
         _this.props.dispatch((0, _userActions.fetchUser)(_this.props.match.params.user_id));
         _this.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(0, _this.props.match.params.user_id));
+        _this.props.dispatch((0, _subsActions.fetchUserSubsSample)(0, _this.props.match.params.user_id));
         _this.triggerPostLike = _this.triggerPostLike.bind(_this);
+        _this.state = {
+            content: 'posts'
+        };
         return _this;
     }
 
@@ -51942,6 +51959,11 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
         key: 'triggerPostLike',
         value: function triggerPostLike(post_id) {
             (0, _like.like)(post_id, this.props.login, this.props.post_likes, this.props.dispatch, _postLikesActions.deletePostLike, _postLikesActions.addPostLike);
+        }
+    }, {
+        key: 'triggerContent',
+        value: function triggerContent() {
+            this.state.content === 'posts' ? this.setState({ content: 'subscriptions' }) : this.setState({ content: 'posts' });
         }
     }, {
         key: 'render',
@@ -51966,15 +51988,23 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                     users: users,
                     triggerLike: _this2.triggerPostLike });
             });
+
+            var subs = this.props.subs.map(function (sub, index) {
+                var user = _this2.props.users.find(function (item) {
+                    return item.id === sub.sub_user_id;
+                });
+                return _react2.default.createElement(_UserItem2.default, { key: index,
+                    user: user });
+            });
             return _react2.default.createElement(
                 'div',
                 { className: 'content__user' },
                 _react2.default.createElement(
                     'aside',
-                    { className: 'content__user_aside user_info_fixed' },
+                    { className: 'content__user_aside fixed' },
                     this.props.is_user_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
                         'div',
-                        null,
+                        { className: 'user_info' },
                         _react2.default.createElement(
                             'div',
                             { className: 'content__user_ava_div' },
@@ -52022,9 +52052,26 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                                 this.props.user.site
                             )
                         )
+                    ),
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: function onClick() {
+                                _this2.triggerContent();
+                            },
+                            className: 'button_custom change_user_info' },
+                        this.state.content === 'posts' && _react2.default.createElement(
+                            'span',
+                            null,
+                            '\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u043F\u043E\u0434\u043F\u0438\u0441\u043A\u0438'
+                        ),
+                        this.state.content === 'subscriptions' && _react2.default.createElement(
+                            'span',
+                            null,
+                            '\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0437\u0430\u043F\u0438\u0441\u0438'
+                        )
                     )
                 ),
-                _react2.default.createElement(
+                this.state.content === 'posts' && _react2.default.createElement(
                     'aside',
                     { className: 'content__user_aside user_posts' },
                     this.props.user_posts.length !== 0 && _react2.default.createElement(
@@ -52035,6 +52082,17 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                     _react2.default.createElement('span', { className: 'point' }),
                     this.props.is_user_posts_fetching && _react2.default.createElement(_Loader2.default, null)
                 ),
+                this.state.content === 'subscriptions' && _react2.default.createElement(
+                    'aside',
+                    { className: 'content__user_aside user_posts' },
+                    this.props.subs.length !== 0 && _react2.default.createElement(
+                        'div',
+                        null,
+                        subs
+                    ),
+                    _react2.default.createElement('span', { className: 'point' }),
+                    this.props.is_subs_fetching && _react2.default.createElement(_Loader2.default, null)
+                ),
                 _react2.default.createElement('div', { className: 'link_to_up', onClick: function onClick() {
                         (0, _scrollTop.scrollTop)();
                     } })
@@ -52043,13 +52101,17 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
+            (0, _scrollTop.scrollTop)();
+        }
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {
             var _this3 = this;
 
-            (0, _scrollTop.scrollTop)();
             $(document).off();
             $(document).on('scroll', function () {
                 (0, _move_up.moveUp)();
-                (0, _autoload.autoload)(_this3.props.is_user_posts_fetching, _this3.props.user_posts_empty, _this3.props.dispatch, _userPostsActions.fetchUserPostsSample, _this3.props.user_posts.length, _this3.props.match.params.user_id);
+                _this3.state.content === 'posts' ? (0, _autoload.autoload)(_this3.props.is_user_posts_fetching, _this3.props.user_posts_empty, _this3.props.dispatch, _userPostsActions.fetchUserPostsSample, _this3.props.user_posts.length, _this3.props.match.params.user_id) : (0, _autoload.autoload)(_this3.props.is_subs_fetching, _this3.props.subs_empty, _this3.props.dispatch, _subsActions.fetchUserSubsSample, _this3.props.subs.length, _this3.props.match.params.user_id);
             });
         }
     }]);
@@ -54366,6 +54428,138 @@ exports.default = Main;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 441 */,
+/* 442 */,
+/* 443 */,
+/* 444 */,
+/* 445 */,
+/* 446 */,
+/* 447 */,
+/* 448 */,
+/* 449 */,
+/* 450 */,
+/* 451 */,
+/* 452 */,
+/* 453 */,
+/* 454 */,
+/* 455 */,
+/* 456 */,
+/* 457 */,
+/* 458 */,
+/* 459 */,
+/* 460 */,
+/* 461 */,
+/* 462 */,
+/* 463 */,
+/* 464 */,
+/* 465 */,
+/* 466 */,
+/* 467 */,
+/* 468 */,
+/* 469 */,
+/* 470 */,
+/* 471 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.subsReducer = subsReducer;
+
+var _subsConstants = __webpack_require__(472);
+
+var Subs = _interopRequireWildcard(_subsConstants);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function subsReducer() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { subs: [], is_fetching: false, empty: false };
+    var action = arguments[1];
+
+    switch (action.type) {
+        case Subs.FETCH_USER_SUBS_SAMPLE_PENDING:
+            {
+                state = _extends({}, state, { is_fetching: true });
+                break;
+            }
+        case Subs.FETCH_USER_SUBS_SAMPLE_FULFILLED:
+            {
+                var subs = [].concat(_toConsumableArray(state.subs));
+                var empty = state.empty;
+                var url_arr = action.payload.config.url.split('=');
+                var offset = +url_arr[url_arr.length - 1];
+                if (action.payload.data.length === 0 && offset === 0) {
+                    subs = [];
+                    empty = true;
+                } else if (action.payload.data.length === 0) {
+                    empty = true;
+                } else if (offset === 0) {
+                    subs = action.payload.data;
+                    empty = false;
+                } else {
+                    subs = subs.concat(action.payload.data);
+                    empty = false;
+                }
+                state = _extends({}, state, { is_fetching: false, subs: subs, empty: empty });
+                break;
+            }
+        case Subs.FETCH_USER_SUBS_SAMPLE_REJECTED:
+            {
+                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
+                break;
+            }
+    }
+    return state;
+}
+
+/***/ }),
+/* 472 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var FETCH_USER_SUBS_SAMPLE_PENDING = exports.FETCH_USER_SUBS_SAMPLE_PENDING = 'FETCH_USER_SUBS_SAMPLE_PENDING';
+var FETCH_USER_SUBS_SAMPLE_FULFILLED = exports.FETCH_USER_SUBS_SAMPLE_FULFILLED = 'FETCH_USER_SUBS_SAMPLE_FULFILLED';
+var FETCH_USER_SUBS_SAMPLE_REJECTED = exports.FETCH_USER_SUBS_SAMPLE_REJECTED = 'FETCH_USER_SUBS_SAMPLE_REJECTED';
+
+/***/ }),
+/* 473 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.fetchUserSubsSample = fetchUserSubsSample;
+
+var _axios = __webpack_require__(9);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function fetchUserSubsSample(offset, user_id) {
+    return {
+        type: 'FETCH_USER_SUBS_SAMPLE',
+        payload: _axios2.default.get('/api/subs/sample/?user_id=' + user_id + '&offset=' + offset)
+    };
+}
 
 /***/ })
 /******/ ]);

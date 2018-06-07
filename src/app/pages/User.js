@@ -66,6 +66,7 @@ export default class User extends React.Component {
             ? this.setState({content: 'subscriptions'})
             : this.setState({content: 'posts'});
     }
+
     render() {
         if (Object.keys(this.props.login).length !== 0 && this.props.login.id === +this.props.match.params.user_id) {
             return <Redirect to="/cabinet"/>
@@ -141,13 +142,13 @@ export default class User extends React.Component {
                     </aside>
                 }
                 {this.state.content === 'subscriptions' &&
-                <aside className="content__user_aside user_posts">
-                    {this.props.subs.length !== 0 &&
-                    <div>{subs}</div>}
-                    <span className="point"/>
-                    {this.props.is_subs_fetching &&
-                    <Loader/>}
-                </aside>
+                    <aside className="content__user_aside user_posts">
+                        {this.props.subs.length !== 0 &&
+                        <div>{subs}</div>}
+                        <span className="point"/>
+                        {this.props.is_subs_fetching &&
+                        <Loader/>}
+                    </aside>
                 }
                 <div className="link_to_up" onClick={() => {scrollTop()}}/>
             </div>

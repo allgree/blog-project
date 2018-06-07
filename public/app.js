@@ -52039,8 +52039,8 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
         }
     }, {
         key: 'triggerContent',
-        value: function triggerContent() {
-            this.state.content === 'posts' ? this.setState({ content: 'subscriptions' }) : this.setState({ content: 'posts' });
+        value: function triggerContent(content) {
+            this.setState({ content: content });
         }
     }, {
         key: 'render',
@@ -52132,20 +52132,21 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                     ),
                     _react2.default.createElement(
                         'button',
-                        { onClick: function onClick() {
-                                _this2.triggerContent();
+                        { disabled: this.state.content === 'posts',
+                            onClick: function onClick() {
+                                _this2.triggerContent('posts');
                             },
                             className: 'button_custom change_user_info' },
-                        this.state.content === 'posts' && _react2.default.createElement(
-                            'span',
-                            null,
-                            '\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u043F\u043E\u0434\u043F\u0438\u0441\u043A\u0438'
-                        ),
-                        this.state.content === 'subscriptions' && _react2.default.createElement(
-                            'span',
-                            null,
-                            '\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0437\u0430\u043F\u0438\u0441\u0438'
-                        )
+                        '\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0437\u0430\u043F\u0438\u0441\u0438'
+                    ),
+                    _react2.default.createElement(
+                        'button',
+                        { disabled: this.state.content === 'subscriptions',
+                            onClick: function onClick() {
+                                _this2.triggerContent('subscriptions');
+                            },
+                            className: 'button_custom change_user_info' },
+                        '\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u043F\u043E\u0434\u043F\u0438\u0441\u043A\u0438'
                     )
                 ),
                 this.state.content === 'posts' && _react2.default.createElement(
@@ -53477,8 +53478,8 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         }
     }, {
         key: 'triggerContent',
-        value: function triggerContent() {
-            this.state.content === 'posts' ? this.setState({ content: 'subscriptions' }) : this.setState({ content: 'posts' });
+        value: function triggerContent(content) {
+            this.setState({ content: content });
         }
     }, {
         key: 'render',
@@ -53552,20 +53553,21 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                     { className: 'buttons' },
                     _react2.default.createElement(
                         'button',
-                        { onClick: function onClick() {
-                                _this3.triggerContent();
+                        { disabled: this.state.content === 'posts',
+                            onClick: function onClick() {
+                                _this3.triggerContent('posts');
                             },
                             className: 'button_custom button_show_content' },
-                        this.state.content === 'posts' && _react2.default.createElement(
-                            'span',
-                            null,
-                            '\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u043F\u043E\u0434\u043F\u0438\u0441\u043A\u0438'
-                        ),
-                        this.state.content === 'subscriptions' && _react2.default.createElement(
-                            'span',
-                            null,
-                            '\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0437\u0430\u043F\u0438\u0441\u0438'
-                        )
+                        '\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0437\u0430\u043F\u0438\u0441\u0438'
+                    ),
+                    _react2.default.createElement(
+                        'button',
+                        { disabled: this.state.content === 'subscriptions',
+                            onClick: function onClick() {
+                                _this3.triggerContent('subscriptions');
+                            },
+                            className: 'button_custom button_show_content' },
+                        '\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u043F\u043E\u0434\u043F\u0438\u0441\u043A\u0438'
                     )
                 ),
                 this.state.content === 'posts' && _react2.default.createElement(

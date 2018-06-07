@@ -61,10 +61,8 @@ export default class User extends React.Component {
     }
 
 
-    triggerContent() {
-        this.state.content === 'posts'
-            ? this.setState({content: 'subscriptions'})
-            : this.setState({content: 'posts'});
+    triggerContent(content) {
+        this.setState({content: content});
     }
 
     render() {
@@ -126,11 +124,17 @@ export default class User extends React.Component {
                           </div>
 
                     }
-                    <button onClick={() => {this.triggerContent()}}
+                    <button disabled={this.state.content === 'posts'}
+                            onClick={() => {this.triggerContent('posts')}}
                             className="button_custom change_user_info">
-                        {this.state.content === 'posts' && <span>Показать подписки</span>}
-                        {this.state.content === 'subscriptions' && <span>Показать записи</span>}
+                        Показать записи
                     </button>
+                    <button disabled={this.state.content === 'subscriptions'}
+                            onClick={() => {this.triggerContent('subscriptions')}}
+                            className="button_custom change_user_info">
+                        Показать подписки
+                    </button>
+
                 </aside>
                 {this.state.content === 'posts' &&
                     <aside className="content__user_aside user_posts">

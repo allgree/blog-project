@@ -154,10 +154,8 @@ export default class Cabinet extends React.Component {
         })
     }
 
-    triggerContent() {
-        this.state.content === 'posts'
-            ? this.setState({content: 'subscriptions'})
-            : this.setState({content: 'posts'});
+    triggerContent(content) {
+        this.setState({content: content});
     }
 
     render() {
@@ -216,10 +214,15 @@ export default class Cabinet extends React.Component {
                 </div>
 
                 <div className="buttons">
-                    <button onClick={() => {this.triggerContent()}}
+                    <button disabled={this.state.content === 'posts'}
+                            onClick={() => {this.triggerContent('posts')}}
                             className="button_custom button_show_content">
-                        {this.state.content === 'posts' && <span>Показать подписки</span>}
-                        {this.state.content === 'subscriptions' && <span>Показать записи</span>}
+                        Показать записи
+                    </button>
+                    <button disabled={this.state.content === 'subscriptions'}
+                            onClick={() => {this.triggerContent('subscriptions')}}
+                            className="button_custom button_show_content">
+                        Показать подписки
                     </button>
                 </div>
                 {this.state.content === 'posts' &&

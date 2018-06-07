@@ -226,7 +226,7 @@ export default class Cabinet extends React.Component {
                     </button>
                 </div>
                 {this.state.content === 'posts' &&
-                <div className="content__cabinet__posts">
+                <div className="content__cabinet__content">
                     {this.state.post === 'button' &&
                     <div className="add_post__div">
                         <button onClick={() => {this.triggerFormPost('form')}}
@@ -246,7 +246,7 @@ export default class Cabinet extends React.Component {
                 </div>
                 }
                 {this.state.content === 'subscriptions' &&
-                <div className="content__cabinet__posts">
+                <div className="content__cabinet__content">
                     {this.props.subs.length !== 0 &&
                     <div>{subs}</div>}
                     <span className="point"/>

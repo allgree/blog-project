@@ -52136,7 +52136,7 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                             onClick: function onClick() {
                                 _this2.triggerContent('posts');
                             },
-                            className: 'button_custom change_user_info' },
+                            className: 'button_custom button_show_user_content' },
                         '\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0437\u0430\u043F\u0438\u0441\u0438'
                     ),
                     _react2.default.createElement(
@@ -52145,13 +52145,13 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                             onClick: function onClick() {
                                 _this2.triggerContent('subscriptions');
                             },
-                            className: 'button_custom change_user_info' },
+                            className: 'button_custom button_show_user_content' },
                         '\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u043F\u043E\u0434\u043F\u0438\u0441\u043A\u0438'
                     )
                 ),
                 this.state.content === 'posts' && _react2.default.createElement(
                     'aside',
-                    { className: 'content__user_aside user_posts' },
+                    { className: 'content__user_aside user_content' },
                     this.props.user_posts.length !== 0 && _react2.default.createElement(
                         'div',
                         null,
@@ -52162,7 +52162,7 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                 ),
                 this.state.content === 'subscriptions' && _react2.default.createElement(
                     'aside',
-                    { className: 'content__user_aside user_posts' },
+                    { className: 'content__user_aside user_content' },
                     this.props.subs.length !== 0 && _react2.default.createElement(
                         'div',
                         null,
@@ -53572,7 +53572,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                 ),
                 this.state.content === 'posts' && _react2.default.createElement(
                     'div',
-                    { className: 'content__cabinet__posts' },
+                    { className: 'content__cabinet__content' },
                     this.state.post === 'button' && _react2.default.createElement(
                         'div',
                         { className: 'add_post__div' },
@@ -53597,7 +53597,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                 ),
                 this.state.content === 'subscriptions' && _react2.default.createElement(
                     'div',
-                    { className: 'content__cabinet__posts' },
+                    { className: 'content__cabinet__content' },
                     this.props.subs.length !== 0 && _react2.default.createElement(
                         'div',
                         null,

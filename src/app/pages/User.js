@@ -126,18 +126,18 @@ export default class User extends React.Component {
                     }
                     <button disabled={this.state.content === 'posts'}
                             onClick={() => {this.triggerContent('posts')}}
-                            className="button_custom change_user_info">
+                            className="button_custom button_show_user_content">
                         Показать записи
                     </button>
                     <button disabled={this.state.content === 'subscriptions'}
                             onClick={() => {this.triggerContent('subscriptions')}}
-                            className="button_custom change_user_info">
+                            className="button_custom button_show_user_content">
                         Показать подписки
                     </button>
 
                 </aside>
                 {this.state.content === 'posts' &&
-                    <aside className="content__user_aside user_posts">
+                    <aside className="content__user_aside user_content">
                         {this.props.user_posts.length !== 0 &&
                         <div>{posts}</div>}
                         <span className="point"/>
@@ -146,7 +146,7 @@ export default class User extends React.Component {
                     </aside>
                 }
                 {this.state.content === 'subscriptions' &&
-                    <aside className="content__user_aside user_posts">
+                    <aside className="content__user_aside user_content">
                         {this.props.subs.length !== 0 &&
                         <div>{subs}</div>}
                         <span className="point"/>

@@ -13,6 +13,7 @@ import {loginReducer} from "./reducers/loginReducer";
 import {postLikesReducer} from "./reducers/postLikesReducer";
 import {commentLikesReducer} from "./reducers/commentLikesReducer";
 import {subsReducer} from "./reducers/subsReducer";
+import {subscribesReducer} from "./reducers/subscribesReducer";
 
 import promise from 'redux-promise-middleware';
 
@@ -31,6 +32,7 @@ const reducers = combineReducers({
     postLikes: postLikesReducer,
     commentLikes: commentLikesReducer,
     subs: subsReducer,
+    subscribes: subscribesReducer,
     form: formReducer
 });
 

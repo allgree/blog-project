@@ -16,6 +16,7 @@ import EditPassForm from '../components/Content/forms/EditPassForm';
 import {fetchUserPostsSample, addUserPost, deleteUserPost} from "../actions/userPostsActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {fetchUserSubsSample} from "../actions/subsActions";
+import {fetchUserSubscribesSample} from "../actions/subscribesActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 import {editUser, changeAvatar, fetchLoginData} from "../actions/loginActions";
 import {autoload} from "../functions/autoload";
@@ -40,7 +41,11 @@ import {scrollTop} from "../functions/scrollTop";
 
         subs: store.subs.subs,
         is_subs_fetching: store.subs.is_fetching,
-        subs_empty: store.subs.empty
+        subs_empty: store.subs.empty,
+
+        subscribes: store.subscribes.subscribes,
+        is_subscribes_fetching: store.subscribes.is_fetching,
+        subscribes_empty: store.subscribes.empty
     }
 })
 export default class Cabinet extends React.Component {
@@ -51,6 +56,7 @@ export default class Cabinet extends React.Component {
         this.props.dispatch(fetchUserPostsSample(0, this.props.login.id));
         this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchUserSubsSample(0, this.props.login.id));
+        this.props.dispatch(fetchUserSubscribesSample(0, this.props.login.id));
 
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.addPost = this.addPost.bind(this);
@@ -182,6 +188,12 @@ export default class Cabinet extends React.Component {
             return <UserItem key={index}
                              user={user}/>;
         });
+
+        let subscribes = this.props.subscribes.map((subscribe, index) =>{
+            let user = this.props.users.find(item => item.id === subscribe.user_id);
+            return <UserItem key={index}
+                             user={user}/>;
+        });
         return (
             <div className="content__cabinet">
                 <div className="content__cabinet__login">
@@ -217,12 +229,17 @@ export default class Cabinet extends React.Component {
                     <button disabled={this.state.content === 'posts'}
                             onClick={() => {this.triggerContent('posts')}}
                             className="button_custom button_show_content">
-                        Показать записи
+                        Записи
                     </button>
                     <button disabled={this.state.content === 'subscriptions'}
                             onClick={() => {this.triggerContent('subscriptions')}}
                             className="button_custom button_show_content">
-                        Показать подписки
+                        Подписки
+                    </button>
+                    <button disabled={this.state.content === 'subscribes'}
+                            onClick={() => {this.triggerContent('subscribes')}}
+                            className="button_custom button_show_content">
+                        Подписчики
                     </button>
                 </div>
                 {this.state.content === 'posts' &&
@@ -254,6 +271,15 @@ export default class Cabinet extends React.Component {
                     <Loader/>}
                 </div>
                 }
+                {this.state.content === 'subscribes' &&
+                <div className="content__cabinet__content">
+                    {this.props.subscribes.length !== 0 &&
+                    <div>{subscribes}</div>}
+                    <span className="point"/>
+                    {this.props.is_subscribes_fetching &&
+                    <Loader/>}
+                </div>
+                }
                 <div className="link_to_up" onClick={() => {scrollTop()}}/>
             </div>
         )
@@ -271,19 +297,35 @@ export default class Cabinet extends React.Component {
         $(document).off();
         $(document).on('scroll', () => {
             moveUp();
-            this.state.content === 'posts'
-            ? autoload(this.props.is_user_posts_fetching,
-                this.props.user_posts_empty,
-                this.props.dispatch,
-                fetchUserPostsSample,
-                this.props.user_posts.length,
-                this.props.login.id)
-            : autoload(this.props.is_subs_fetching,
-                this.props.subs_empty,
-                this.props.dispatch,
-                fetchUserSubsSample,
-                this.props.subs.length,
-                this.props.login.id);
+            switch (this.state.content) {
+                case 'posts': {
+                    autoload(this.props.is_user_posts_fetching,
+                             this.props.user_posts_empty,
+                             this.props.dispatch,
+                             fetchUserPostsSample,
+                             this.props.user_posts.length,
+                             this.props.login.id);
+                    break;
+                }
+                case 'subscriptions': {
+                    autoload(this.props.is_subs_fetching,
+                             this.props.subs_empty,
+                             this.props.dispatch,
+                             fetchUserSubsSample,
+                             this.props.subs.length,
+                             this.props.login.id);
+                    break;
+                }
+                case 'subscribes': {
+                    autoload(this.props.is_subscribes_fetching,
+                        this.props.subscribes_empty,
+                        this.props.dispatch,
+                        fetchUserSubscribesSample,
+                        this.props.subscribes.length,
+                        this.props.login.id);
+                    break;
+                }
+            }
         })
     }
 }

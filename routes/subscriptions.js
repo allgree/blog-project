@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Subscriptons = require('../models/subscriptions');
 
-router.get('/sample/', (req, res, next) => {
+router.get('/sample/subs/', (req, res, next) => {
     Subscriptons.findSampleSubs(10, +req.query.offset, +req.query.user_id, (result) => {
         res.json(result);
     })
@@ -20,4 +20,11 @@ router.post('/delete/', (req, res, next) => {
        res.json(result);
    })
 });
+
+router.get('/sample/subscribes/', (req, res, next) => {
+    Subscriptons.findSampleSubscribes(10, +req.query.offset, +req.query.sub_user_id, (result) => {
+        res.json(result);
+    })
+});
+
 module.exports = router;

@@ -12,6 +12,7 @@ import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 import {fetchLoginData} from "../actions/loginActions";
 import {fetchUserSubsSample} from "../actions/subsActions";
+import {fetchUserSubscribesSample} from "../actions/subscribesActions";
 import {autoload} from '../functions/autoload';
 import {like} from '../functions/like';
 import {moveUp} from "../functions/move_up";
@@ -37,7 +38,11 @@ import {scrollTop} from "../functions/scrollTop";
 
         subs: store.subs.subs,
         is_subs_fetching: store.subs.is_fetching,
-        subs_empty: store.subs.empty
+        subs_empty: store.subs.empty,
+
+        subscribes: store.subscribes.subscribes,
+        is_subscribes_fetching: store.subscribes.is_fetching,
+        subscribes_empty: store.subscribes.empty,
     }
 })
 
@@ -50,6 +55,7 @@ export default class User extends React.Component {
         this.props.dispatch(fetchUser(this.props.match.params.user_id));
         this.props.dispatch(fetchUserPostsSample(0, this.props.match.params.user_id));
         this.props.dispatch(fetchUserSubsSample(0, this.props.match.params.user_id));
+        this.props.dispatch(fetchUserSubscribesSample(0, this.props.match.params.user_id));
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.state = {
             content: 'posts'
@@ -69,6 +75,7 @@ export default class User extends React.Component {
         if (Object.keys(this.props.login).length !== 0 && this.props.login.id === +this.props.match.params.user_id) {
             return <Redirect to="/cabinet"/>
         }
+
         let posts = this.props.user_posts.map((post, index) => {
             let likes = this.props.post_likes.filter(item => item.post_id === post.id);
             let users = likes.map((like, index) => {
@@ -85,6 +92,12 @@ export default class User extends React.Component {
             let user = this.props.users.find(item => item.id === sub.sub_user_id);
             return <UserItem key={index}
                              user={user}/>;
+        });
+
+        let subscribes = this.props.subscribes.map((subscribe, index) => {
+           let user = this.props.users.find(item => item.id === subscribe.user_id);
+           return <UserItem key={index}
+                            user={user}/>
         });
         return (
             <div className="content__user">
@@ -127,12 +140,17 @@ export default class User extends React.Component {
                     <button disabled={this.state.content === 'posts'}
                             onClick={() => {this.triggerContent('posts')}}
                             className="button_custom button_show_user_content">
-                        Показать записи
+                        Записи
                     </button>
                     <button disabled={this.state.content === 'subscriptions'}
                             onClick={() => {this.triggerContent('subscriptions')}}
                             className="button_custom button_show_user_content">
-                        Показать подписки
+                        Подписки
+                    </button>
+                    <button disabled={this.state.content === 'subscribes'}
+                            onClick={() => {this.triggerContent('subscribes')}}
+                            className="button_custom button_show_user_content">
+                        Подписчики
                     </button>
 
                 </aside>
@@ -154,6 +172,15 @@ export default class User extends React.Component {
                         <Loader/>}
                     </aside>
                 }
+                {this.state.content === 'subscribes' &&
+                <aside className="content__user_aside user_content">
+                    {this.props.subs.length !== 0 &&
+                    <div>{subscribes}</div>}
+                    <span className="point"/>
+                    {this.props.is_subscribes_fetching &&
+                    <Loader/>}
+                </aside>
+                }
                 <div className="link_to_up" onClick={() => {scrollTop()}}/>
             </div>
         )
@@ -168,20 +195,35 @@ export default class User extends React.Component {
         $(document).off();
         $(document).on('scroll', () => {
             moveUp();
-            this.state.content === 'posts'
-            ? autoload(this.props.is_user_posts_fetching,
-                       this.props.user_posts_empty,
-                       this.props.dispatch,
-                       fetchUserPostsSample,
-                       this.props.user_posts.length,
-                       this.props.match.params.user_id)
-            : autoload(this.props.is_subs_fetching,
-                       this.props.subs_empty,
-                       this.props.dispatch,
-                       fetchUserSubsSample,
-                       this.props.subs.length,
-                       this.props.match.params.user_id);
-
+            switch (this.state.content) {
+                case 'posts': {
+                    autoload(this.props.is_user_posts_fetching,
+                             this.props.user_posts_empty,
+                             this.props.dispatch,
+                             fetchUserPostsSample,
+                             this.props.user_posts.length,
+                             this.props.match.params.user_id);
+                    break;
+                }
+                case 'subscriptions': {
+                    autoload(this.props.is_subs_fetching,
+                        this.props.subs_empty,
+                        this.props.dispatch,
+                        fetchUserSubsSample,
+                        this.props.subs.length,
+                        this.props.match.params.user_id);
+                    break;
+                }
+                case 'subscribes': {
+                    autoload(this.props.is_subscribes_fetching,
+                             this.props.subscribes_empty,
+                             this.props.dispatch,
+                             fetchUserSubscribesSample,
+                             this.props.subscribes.length,
+                             this.props.match.params.user_id);
+                    break;
+                }
+            }
         });
     }
 }

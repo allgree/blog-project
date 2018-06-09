@@ -46,6 +46,20 @@ let Subscriptions = {
           .then(result => {
               callback(result);
           })
+  },
+
+  findSampleSubscribes: (limit, offset, sub_user_id, callback) => {
+      model.findAll({
+          where: {
+              sub_user_id: sub_user_id
+          },
+          offset: offset,
+          limit: limit,
+          order: [['createdAt', 'DESC']]
+      })
+          .then(result => {
+              callback(result);
+          })
   }
 };
 

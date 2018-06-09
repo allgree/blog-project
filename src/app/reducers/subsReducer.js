@@ -1,6 +1,6 @@
 import * as Subs from '../constants/subsConstants';
 
-export function subsReducer(state = {subs: [], is_fetching: false, empty: false}, action) {
+export function subsReducer(state = {subs: [], is_fetching: false, empty_subs: false}, action) {
     switch (action.type) {
         case Subs.FETCH_USER_SUBS_SAMPLE_PENDING: {
             state = {...state, is_fetching: true};
@@ -30,6 +30,8 @@ export function subsReducer(state = {subs: [], is_fetching: false, empty: false}
             state = {...state, is_fetching: false, error_message: action.payload.message};
             break;
         }
+
+
     }
     return state;
 }

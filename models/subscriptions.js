@@ -27,6 +27,19 @@ let Subscriptions = {
               callback(result);
           })
   },
+
+  findSub: (user_id, sub_user_id, callback) => {
+        model.findAll({
+            where: {
+                user_id: user_id,
+                sub_user_id: sub_user_id
+            }
+        })
+            .then(result => {
+                callback(result);
+            })
+  },
+
   addSub: (user_id, sub_user_id, callback) => {
       model.create({
           user_id: user_id,

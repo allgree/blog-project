@@ -12,7 +12,7 @@ import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 import {fetchLoginData} from "../actions/loginActions";
 import {fetchUserSubsSample} from "../actions/subsActions";
-import {fetchUserSubscribesSample} from "../actions/subscribesActions";
+import {fetchUserSubscribesSample, addSubcribe, deleteSubscribe} from "../actions/subscribesActions";
 import {autoload} from '../functions/autoload';
 import {like} from '../functions/like';
 import {moveUp} from "../functions/move_up";
@@ -69,6 +69,14 @@ export default class User extends React.Component {
 
     triggerContent(content) {
         this.setState({content: content});
+    }
+
+    subscript() {
+        this.props.dispatch(addSubcribe(this.props.login.id, this.props.user.id));
+    }
+
+    unsubscript() {
+        this.props.dispatch(deleteSubscribe(this.props.login.id, this.props.user.id));
     }
 
     render() {
@@ -134,6 +142,17 @@ export default class User extends React.Component {
                                        {this.props.user.site}
                                    </a>
                                </p>}
+                            {this.props.subscribes.find(item => item.user_id === this.props.login.id)
+                                ? <button className="button_custom button_subscribing"
+                                          onClick={() => {this.unsubscript()}}>
+                                        Отписаться
+                                  </button>
+                                : this.props.login.id &&
+                                  <button className="button_custom button_subscribing"
+                                          onClick={() => {this.subscript()}}>
+                                        Подписаться
+                                  </button>}
+
                           </div>
 
                     }

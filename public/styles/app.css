@@ -2856,6 +2856,19 @@ nav {
   border-radius: 10px;
   box-shadow: 0 0 30px #a19a98; }
 
+.button_subscribing {
+  background-color: #7b4520;
+  padding: 5px 20px;
+  margin-top: 10px;
+  border: none;
+  font-family: "Calibri Regular", sans-serif;
+  font-size: 20px;
+  color: white; }
+
+.button_subscribing:hover {
+  background-color: rgba(255, 222, 133, 0.5);
+  color: #7b4520; }
+
 .button_show_user_content {
   display: block;
   margin-top: 20px;

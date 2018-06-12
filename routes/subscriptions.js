@@ -10,12 +10,18 @@ router.get('/sample/subs/', (req, res, next) => {
 });
 
 router.post('/add/', (req, res, next) => {
-    Subscriptons.addSub(req.body.user_id, req.body.sub_user_id, (result) => {
-        res.json(result);
+    Subscriptons.findSub(req.body.user_id, req.body.sub_user_id, (result_find) => {
+        result_find.length
+            ? res.json(0)
+            : Subscriptons.addSub(req.body.user_id, req.body.sub_user_id, (result) => {
+                res.json(result);
+            })
     })
+
 });
 
 router.post('/delete/', (req, res, next) => {
+    console.log('!!!  ROUTER !!!');
    Subscriptons.deleteSub(req.body.user_id, req.body.sub_user_id, (result) => {
        res.json(result);
    })

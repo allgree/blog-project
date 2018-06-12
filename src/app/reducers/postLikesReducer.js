@@ -14,6 +14,8 @@ export function postLikesReducer(state = {likes: [], is_fetching: false}, action
             state = {...state, is_fetching: false, error_message: action.payload.message};
             break;
         }
+
+
         case PostLikes.ADD_POST_LIKE_PENDING: {
             state = {...state, is_fetching: true};
             break;
@@ -27,6 +29,8 @@ export function postLikesReducer(state = {likes: [], is_fetching: false}, action
             state = {...state, is_fetching: false, error_message: action.payload.message};
             break;
         }
+
+
         case PostLikes.DELETE_POST_LIKE_PENDING: {
             state = {...state, is_fetching: true};
             break;

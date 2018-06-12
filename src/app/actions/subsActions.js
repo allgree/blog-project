@@ -6,4 +6,3 @@ export function fetchUserSubsSample(offset, user_id) {
         payload: axios.get(`/api/subs/sample/subs/?user_id=${user_id}&offset=${offset}`)
     }
 }
-

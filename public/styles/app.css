@@ -2435,7 +2435,7 @@ html {
   cursor: pointer;
   font-family: "Quant Antiqua Plain", sans-serif;
   font-size: 14px;
-  transition: all 0.1s linear; }
+  transition: all 0.05s linear; }
 
 .button_custom:hover {
   background-color: #ffad74;
@@ -2793,18 +2793,6 @@ nav {
   color: #5f5f5f;
   font-family: "Trebuchet", sans-serif; }
 
-.content__post_delete {
-  cursor: pointer;
-  margin-left: 200px;
-  font-size: 16px;
-  animation: opacity 1s 1;
-  position: absolute;
-  bottom: -1px;
-  display: none; }
-
-.content__post:hover .content__post_info > .content__post_delete {
-  display: inline; }
-
 .content__post_info {
   margin-top: 10px;
   float: left;
@@ -2825,6 +2813,18 @@ nav {
 .post_like {
   color: red;
   cursor: pointer; }
+
+.content__post_delete {
+  cursor: pointer;
+  margin-left: 20px;
+  font-size: 16px;
+  animation: opacity 1s 1;
+  position: absolute;
+  bottom: -1px;
+  display: none; }
+
+.content__post:hover .content__post_info > .content__post_delete {
+  display: inline; }
 
 .content__post_comments_header {
   margin-bottom: 10px;
@@ -2867,6 +2867,11 @@ nav {
 
 .button_subscribing:hover {
   background-color: rgba(255, 222, 133, 0.5);
+  color: #7b4520; }
+
+.button_subscribing:active {
+  background-color: rgba(255, 215, 167, 0.5);
+  box-shadow: inset 0 0 10px #000000;
   color: #7b4520; }
 
 .button_show_user_content {
@@ -3035,8 +3040,7 @@ nav {
   border-radius: 10px;
   box-shadow: 0 0 30px #a19a98;
   margin-bottom: 10px;
-  animation: opacity 1s 1;
-  animation-fill-mode: forwards; }
+  animation: opacity 1s 1; }
 
 .content__post_comment_body {
   margin-bottom: 10px;
@@ -3075,12 +3079,8 @@ nav {
 /*end CommentItem*/
 /*UserItem*/
 .user_item {
-  text-decoration: none;
-  color: black;
-  display: block;
   min-height: 100px;
-  animation: zoomIn 0.3s 1;
-  animation-fill-mode: forwards; }
+  animation: zoomIn 0.3s 1; }
 
 .user_item__ava {
   float: left;
@@ -3091,7 +3091,13 @@ nav {
   height: 100px; }
 
 .user_item__name {
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
   font-family: "Calibri Regular", sans-serif; }
+
+.user_item__name:hover {
+  color: #7b4520; }
 
 .user_item__info {
   font-family: "Quant Antiqua Plain", sans-serif; }
@@ -3242,8 +3248,9 @@ nav {
 .dialog_window {
   background-color: white;
   border-radius: 10px;
-  width: 200px;
-  height: 100px;
+  min-width: 200px;
+  min-height: 100px;
+  padding: 10px;
   margin: auto;
   vertical-align: middle;
   text-align: center; }
@@ -3259,7 +3266,5 @@ nav {
   margin-right: 20px; }
 
 /*end Delete Window*/
-.display_none {
-  display: none; }
 
 /*# sourceMappingURL=app.css.map*/

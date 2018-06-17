@@ -13200,7 +13200,8 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
                 { className: 'content__post_item block_item' },
                 this.state.delete && _react2.default.createElement(_DeleteWindow2.default, { id: this.props.post.id,
                     method: this.props.delete,
-                    hide: this.deleteWindowHide }),
+                    hide: this.deleteWindowHide,
+                    question: 'Удалить запись?' }),
                 _react2.default.createElement(
                     _reactRouterDom.Link,
                     { to: '/post/' + this.props.post.id,
@@ -14735,6 +14736,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(7);
 
+var _DeleteWindow = __webpack_require__(144);
+
+var _DeleteWindow2 = _interopRequireDefault(_DeleteWindow);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -14749,27 +14754,47 @@ var UserItem = function (_React$Component) {
     function UserItem() {
         _classCallCheck(this, UserItem);
 
-        return _possibleConstructorReturn(this, (UserItem.__proto__ || Object.getPrototypeOf(UserItem)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (UserItem.__proto__ || Object.getPrototypeOf(UserItem)).apply(this, arguments));
+
+        _this.state = {
+            window: false
+        };
+        _this.deleteWindowHide = _this.deleteWindowHide.bind(_this);
+        return _this;
     }
 
     _createClass(UserItem, [{
+        key: 'deleteWindowHide',
+        value: function deleteWindowHide() {
+            this.setState({
+                window: false
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/user/' + this.props.user.id, className: 'user_item block_item' },
+                'div',
+                { className: 'user_item block_item' },
+                this.state.window && _react2.default.createElement(_DeleteWindow2.default, { id: this.props.user.id,
+                    method: this.props.unsub,
+                    hide: this.deleteWindowHide,
+                    question: this.props.flag ? 'Отписаться от пользователя?' : 'Отписать пользователя?' }),
                 _react2.default.createElement(
-                    'div',
-                    { className: 'user_item__ava' },
+                    _reactRouterDom.Link,
+                    { to: '/user/' + this.props.user.id, className: 'user_item__ava' },
                     _react2.default.createElement('img', { src: this.props.user.avatar_path, className: 'user_item__ava__img' })
                 ),
                 _react2.default.createElement(
-                    'h3',
-                    { className: 'user_item__name' },
+                    _reactRouterDom.Link,
+                    { to: '/user/' + this.props.user.id, className: 'user_item__name' },
                     this.props.user.name,
                     ' ',
                     this.props.user.surname
                 ),
+                _react2.default.createElement('br', null),
                 this.props.user.city && _react2.default.createElement(
                     'p',
                     { className: 'user_item__info' },
@@ -14781,6 +14806,22 @@ var UserItem = function (_React$Component) {
                     { className: 'user_item__info' },
                     '\u0412\u043E\u0437\u0440\u0430\u0441\u0442: ',
                     this.props.user.age
+                ),
+                this.props.button === 'subs' && _react2.default.createElement(
+                    'button',
+                    { className: 'button_custom button_subscribing',
+                        onClick: function onClick() {
+                            _this2.setState({ window: true });
+                        } },
+                    '\u041E\u0442\u043F\u0438\u0441\u0430\u0442\u044C\u0441\u044F'
+                ),
+                this.props.button === 'subscribes' && _react2.default.createElement(
+                    'button',
+                    { className: 'button_custom button_subscribing',
+                        onClick: function onClick() {
+                            _this2.setState({ window: true });
+                        } },
+                    '\u041E\u0442\u043F\u0438\u0441\u0430\u0442\u044C'
                 )
             );
         }
@@ -18229,14 +18270,15 @@ var DeleteWindow = function (_React$Component) {
                     _react2.default.createElement(
                         "p",
                         { className: "dialog_question" },
-                        "\u0423\u0434\u0430\u043B\u0438\u0442\u044C?"
+                        this.props.question
                     ),
                     _react2.default.createElement(
                         "button",
                         { type: "submit",
                             className: "button_custom button_custom__save dialog_button",
                             onClick: function onClick() {
-                                _this2.props.method(_this2.props.id);_this2.props.hide();
+                                _this2.props.method(_this2.props.id);
+                                _this2.props.hide();
                             } },
                         "\u0414\u0430"
                     ),
@@ -18314,6 +18356,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.fetchUserSubsSample = fetchUserSubsSample;
+exports.deleteSub = deleteSub;
 
 var _axios = __webpack_require__(8);
 
@@ -18325,6 +18368,16 @@ function fetchUserSubsSample(offset, user_id) {
     return {
         type: 'FETCH_USER_SUBS_SAMPLE',
         payload: _axios2.default.get('/api/subs/sample/subs/?user_id=' + user_id + '&offset=' + offset)
+    };
+}
+
+function deleteSub(user_id, sub_user_id) {
+    return {
+        type: 'DELETE_USER_SUB',
+        payload: _axios2.default.post('/api/subs/delete', {
+            user_id: user_id,
+            sub_user_id: sub_user_id
+        })
     };
 }
 
@@ -49874,6 +49927,32 @@ function subsReducer() {
                 break;
             }
 
+        case Subs.DELETE_USER_SUB_PENDING:
+            {
+                state = _extends({}, state, { is_fetching: true });
+                break;
+            }
+
+        case Subs.DELETE_USER_SUB_FULFILLED:
+            {
+                var _subs = [].concat(_toConsumableArray(state.subs));
+                if (action.payload.data === 1) {
+                    var deleted_sub = JSON.parse(action.payload.config.data);
+                    _subs.find(function (sub, index) {
+                        if (sub.user_id === deleted_sub.user_id && sub.sub_user_id === deleted_sub.sub_user_id) {
+                            return _subs.splice(index, 1);
+                        }
+                    });
+                }
+                state = _extends({}, state, { is_fetching: false, subs: _subs });
+                break;
+            }
+
+        case Subs.DELETE_USER_SUB_REJECTED:
+            {
+                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
+                break;
+            }
     }
     return state;
 }
@@ -49891,6 +49970,10 @@ Object.defineProperty(exports, "__esModule", {
 var FETCH_USER_SUBS_SAMPLE_PENDING = exports.FETCH_USER_SUBS_SAMPLE_PENDING = 'FETCH_USER_SUBS_SAMPLE_PENDING';
 var FETCH_USER_SUBS_SAMPLE_FULFILLED = exports.FETCH_USER_SUBS_SAMPLE_FULFILLED = 'FETCH_USER_SUBS_SAMPLE_FULFILLED';
 var FETCH_USER_SUBS_SAMPLE_REJECTED = exports.FETCH_USER_SUBS_SAMPLE_REJECTED = 'FETCH_USER_SUBS_SAMPLE_REJECTED';
+
+var DELETE_USER_SUB_PENDING = exports.DELETE_USER_SUB_PENDING = 'DELETE_USER_SUB_PENDING';
+var DELETE_USER_SUB_FULFILLED = exports.DELETE_USER_SUB_FULFILLED = 'DELETE_USER_SUB_FULFILLED';
+var DELETE_USER_SUB_REJECTED = exports.DELETE_USER_SUB_REJECTED = 'DELETE_USER_SUB_REJECTED';
 
 /***/ }),
 /* 394 */
@@ -51747,7 +51830,8 @@ var Blogs = (_dec = (0, _reactRedux.connect)(function (store) {
         value: function render() {
             var users = this.props.users.map(function (user, index) {
                 return _react2.default.createElement(_UserItem2.default, { key: index,
-                    user: user });
+                    user: user,
+                    button: false });
             });
             return _react2.default.createElement(
                 'div',
@@ -52398,7 +52482,8 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                     return item.id === sub.sub_user_id;
                 });
                 return _react2.default.createElement(_UserItem2.default, { key: index,
-                    user: user });
+                    user: user,
+                    button: false });
             });
 
             var subscribes = this.props.subscribes.map(function (subscribe, index) {
@@ -52406,7 +52491,8 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                     return item.id === subscribe.user_id;
                 });
                 return _react2.default.createElement(_UserItem2.default, { key: index,
-                    user: user });
+                    user: user,
+                    button: false });
             });
             return _react2.default.createElement(
                 'div',
@@ -52870,7 +52956,8 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                     { className: 'content__post' },
                     this.state.delete && _react2.default.createElement(_DeleteWindow2.default, { id: this.props.post.id,
                         method: this.deletePost,
-                        hide: this.deleteWindowHide }),
+                        hide: this.deleteWindowHide,
+                        question: 'Удалить запись?' }),
                     !post_author || this.props.is_post_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
                         'div',
                         null,
@@ -52935,6 +53022,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                                 ' ',
                                 this.post_likes.length === 0 ? '' : this.post_likes.length
                             ),
+                            '\xA0',
                             Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id && _react2.default.createElement(
                                 'span',
                                 { className: 'content__post_delete',
@@ -53215,7 +53303,8 @@ var CommentItem = function (_React$Component) {
                 { className: 'content__post_comment' },
                 this.state.delete && _react2.default.createElement(_DeleteWindow2.default, { id: this.props.comment.id,
                     method: this.props.delete,
-                    hide: this.deleteWindowHide }),
+                    hide: this.deleteWindowHide,
+                    question: 'Удалить комментарий?' }),
                 _react2.default.createElement(
                     'p',
                     { className: 'content__post_comment_body' },
@@ -53773,6 +53862,8 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.editUser = _this.editUser.bind(_this);
         _this.editPass = _this.editPass.bind(_this);
         _this.changeAvatar = _this.changeAvatar.bind(_this);
+        _this.unsub = _this.unsub.bind(_this);
+        _this.unsubscribe = _this.unsubscribe.bind(_this);
 
         _this.state = {
             info: 'info',
@@ -53822,6 +53913,13 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         value: function triggerFormPost(param) {
             this.setState({
                 post: param
+            });
+        }
+    }, {
+        key: 'triggerContent',
+        value: function triggerContent(content) {
+            this.setState({
+                content: content
             });
         }
     }, {
@@ -53878,9 +53976,14 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
             });
         }
     }, {
-        key: 'triggerContent',
-        value: function triggerContent(content) {
-            this.setState({ content: content });
+        key: 'unsub',
+        value: function unsub(sub_user_id) {
+            this.props.dispatch((0, _subsActions.deleteSub)(this.props.login.id, sub_user_id));
+        }
+    }, {
+        key: 'unsubscribe',
+        value: function unsubscribe(user_id) {
+            this.props.dispatch((0, _subscribesActions.deleteSubscribe)(user_id, this.props.login.id));
         }
     }, {
         key: 'render',
@@ -53913,7 +54016,10 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                     return item.id === sub.sub_user_id;
                 });
                 return _react2.default.createElement(_UserItem2.default, { key: index,
-                    user: user });
+                    user: user,
+                    button: 'subs',
+                    unsub: _this3.unsub,
+                    flag: true });
             });
 
             var subscribes = this.props.subscribes.map(function (subscribe, index) {
@@ -53921,7 +54027,10 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                     return item.id === subscribe.user_id;
                 });
                 return _react2.default.createElement(_UserItem2.default, { key: index,
-                    user: user });
+                    user: user,
+                    button: 'subscribes',
+                    unsub: _this3.unsubscribe,
+                    flag: false });
             });
             return _react2.default.createElement(
                 'div',

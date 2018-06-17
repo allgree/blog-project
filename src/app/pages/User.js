@@ -99,13 +99,15 @@ export default class User extends React.Component {
         let subs = this.props.subs.map((sub, index) =>{
             let user = this.props.users.find(item => item.id === sub.sub_user_id);
             return <UserItem key={index}
-                             user={user}/>;
+                             user={user}
+                             button={false}/>;
         });
 
         let subscribes = this.props.subscribes.map((subscribe, index) => {
            let user = this.props.users.find(item => item.id === subscribe.user_id);
            return <UserItem key={index}
-                            user={user}/>
+                            user={user}
+                            button={false}/>
         });
         return (
             <div className="content__user">

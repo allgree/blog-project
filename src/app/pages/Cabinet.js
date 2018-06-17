@@ -16,8 +16,8 @@ import EditPassForm from '../components/Content/forms/EditPassForm';
 
 import {fetchUserPostsSample, addUserPost, deleteUserPost} from "../actions/userPostsActions";
 import {fetchUsers} from "../actions/usersListActions";
-import {fetchUserSubsSample} from "../actions/subsActions";
-import {fetchUserSubscribesSample} from "../actions/subscribesActions";
+import {fetchUserSubsSample, deleteSub} from "../actions/subsActions";
+import {fetchUserSubscribesSample, deleteSubscribe} from "../actions/subscribesActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 import {editUser, changeAvatar, fetchLoginData} from "../actions/loginActions";
 import {autoload} from "../functions/autoload";
@@ -68,6 +68,8 @@ export default class Cabinet extends React.Component {
         this.editUser = this.editUser.bind(this);
         this.editPass = this.editPass.bind(this);
         this.changeAvatar = this.changeAvatar.bind(this);
+        this.unsub = this.unsub.bind(this);
+        this.unsubscribe = this.unsubscribe.bind(this);
 
         this.state = {
             info: 'info',
@@ -110,6 +112,12 @@ export default class Cabinet extends React.Component {
         this.setState({
             post: param
         })
+    }
+
+    triggerContent(content) {
+        this.setState({
+            content: content
+        });
     }
 
     editUser(values) {
@@ -161,8 +169,12 @@ export default class Cabinet extends React.Component {
         })
     }
 
-    triggerContent(content) {
-        this.setState({content: content});
+    unsub(sub_user_id) {
+        this.props.dispatch(deleteSub(this.props.login.id, sub_user_id))
+    }
+
+    unsubscribe(user_id) {
+        this.props.dispatch(deleteSubscribe(user_id, this.props.login.id))
     }
 
     render() {
@@ -187,13 +199,19 @@ export default class Cabinet extends React.Component {
         let subs = this.props.subs.map((sub, index) =>{
             let user = this.props.users.find(item => item.id === sub.sub_user_id);
             return <UserItem key={index}
-                             user={user}/>;
+                             user={user}
+                             button={'subs'}
+                             unsub={this.unsub}
+                             flag={true}/>;
         });
 
         let subscribes = this.props.subscribes.map((subscribe, index) =>{
             let user = this.props.users.find(item => item.id === subscribe.user_id);
             return <UserItem key={index}
-                             user={user}/>;
+                             user={user}
+                             button={'subscribes'}
+                             unsub={this.unsubscribe}
+                             flag={false}/>;
         });
         return (
             <div className="content__cabinet">

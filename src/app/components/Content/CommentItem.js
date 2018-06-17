@@ -54,7 +54,8 @@ export default class CommentItem extends React.Component {
                 {this.state.delete &&
                 <DeleteWindow id={this.props.comment.id}
                               method={this.props.delete}
-                              hide={this.deleteWindowHide}/>}
+                              hide={this.deleteWindowHide}
+                              question={'Удалить комментарий?'}/>}
                 <p className="content__post_comment_body">
                     {this.props.comment.body}
                 </p>

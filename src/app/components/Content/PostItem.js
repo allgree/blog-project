@@ -67,7 +67,8 @@ export default class PostItem extends React.Component {
                     {this.state.delete &&
                     <DeleteWindow id={this.props.post.id}
                                   method={this.props.delete}
-                                  hide={this.deleteWindowHide}/>}
+                                  hide={this.deleteWindowHide}
+                                  question={'Удалить запись?'}/>}
                     <Link to={`/post/${this.props.post.id}`}
                           className="content__post_item_link">
                         <h3 className="content__post_item_head">{this.props.post.title}</h3>

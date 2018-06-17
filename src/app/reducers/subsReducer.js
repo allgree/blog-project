@@ -32,6 +32,29 @@ export function subsReducer(state = {subs: [], is_fetching: false, empty_subs: f
         }
 
 
+        case Subs.DELETE_USER_SUB_PENDING: {
+            state = {...state, is_fetching: true};
+            break;
+        }
+
+        case Subs.DELETE_USER_SUB_FULFILLED: {
+            let subs = [...state.subs];
+            if (action.payload.data === 1) {
+                let deleted_sub = JSON.parse(action.payload.config.data);
+                subs.find((sub, index) => {
+                    if(sub.user_id === deleted_sub.user_id && sub.sub_user_id === deleted_sub.sub_user_id) {
+                        return subs.splice(index, 1);
+                    }
+                })
+            }
+            state = {...state, is_fetching: false, subs: subs};
+            break;
+        }
+
+        case Subs.DELETE_USER_SUB_REJECTED: {
+            state = {...state, is_fetching: false, error_message: action.payload.message};
+            break;
+        }
     }
     return state;
 }

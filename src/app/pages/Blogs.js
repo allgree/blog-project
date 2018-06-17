@@ -30,7 +30,8 @@ export default class Blogs extends React.Component {
     render() {
         let users = this.props.users.map((user, index) => {
            return <UserItem key={index}
-                            user={user}/>
+                            user={user}
+                            button={false}/>
         });
         return (
             <div className="content_blogs">

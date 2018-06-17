@@ -166,7 +166,8 @@ export default class Post extends React.Component {
                     {this.state.delete &&
                     <DeleteWindow id={this.props.post.id}
                                   method={this.deletePost}
-                                  hide={this.deleteWindowHide}/>}
+                                  hide={this.deleteWindowHide}
+                                  question={'Удалить запись?'}/>}
                         {!post_author || this.props.is_post_fetching
                         ? <Loader/>
                         : <div>
@@ -199,6 +200,7 @@ export default class Post extends React.Component {
                                               onClick={() => {this.triggerPostLike(this.props.post.id)}}>
                                             <i className="fa fa-heart" aria-hidden="true"/> {this.post_likes.length === 0 ? '' : this.post_likes.length}
                                         </span>
+                                        &nbsp;
                                         {Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id &&
                                         <span className="content__post_delete"
                                               onClick={() => {this.setState({delete: true})}}>

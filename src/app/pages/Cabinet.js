@@ -13,6 +13,7 @@ import UserProfile from '../components/Content/UserProfile';
 import EditUserForm from '../components/Content/forms/EditUserForm';
 import EditPassForm from '../components/Content/forms/EditPassForm';
 
+
 import {fetchUserPostsSample, addUserPost, deleteUserPost} from "../actions/userPostsActions";
 import {fetchUsers} from "../actions/usersListActions";
 import {fetchUserSubsSample} from "../actions/subsActions";
@@ -51,8 +52,8 @@ import {scrollTop} from "../functions/scrollTop";
 export default class Cabinet extends React.Component {
     constructor() {
         super(...arguments);
-        this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchUsers());
+        this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchUserPostsSample(0, this.props.login.id));
         this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchUserSubsSample(0, this.props.login.id));
@@ -196,6 +197,7 @@ export default class Cabinet extends React.Component {
         });
         return (
             <div className="content__cabinet">
+
                 <div className="content__cabinet__login">
                     <div className="content__cabinet__login_ava">
                         <img src={this.props.login.avatar_path} className="big_avatar"/>
@@ -281,6 +283,7 @@ export default class Cabinet extends React.Component {
                 </div>
                 }
                 <div className="link_to_up" onClick={() => {scrollTop()}}/>
+
             </div>
         )
 

@@ -448,7 +448,7 @@ nav
 
 .content__post_delete
   cursor: pointer
-  margin-left: 20px
+  margin-left: 200px
   font-size: 16px
   animation: opacity 1s 1
   position: absolute
@@ -964,3 +964,43 @@ nav
   margin-top: 10px
 
 /*end RegisterForm*/
+
+
+/*DeleteWindow*/
+
+.dialog_conteiner
+  position: fixed
+  display: flex
+  left: 0
+  right: 0
+  top: 0
+  bottom: 0
+  z-index: 20
+  width: 100%
+  height: 100%
+  background-color: rgba(0, 0, 0, 0.5)
+  animation: opacity 0.3s 1
+
+.dialog_window
+  background-color: white
+  border-radius: 10px
+  width: 200px
+  height: 100px
+  margin: auto
+  vertical-align: middle
+  text-align: center
+
+.dialog_question
+  margin-top: 10px
+  font-family: "Arial Cyr Bold", sans-serif
+
+.dialog_button
+  margin-top: 30px
+
+.dialog_button:first-of-type
+  margin-right: 20px
+
+/*end Delete Window*/
+
+.display_none
+  display: none

@@ -18,6 +18,7 @@ import CommentItem from '../components/Content/CommentItem';
 import Loader from '../components/Content/Loader';
 import TooltipLikes from '../components/Content/TooltipLikes';
 import CommentForm from '../components/Content/forms/CommentForm';
+import DeleteWindow from '../components/Content/DeleteWindow';
 import {moveUp} from "../functions/move_up";
 import {scrollTop} from "../functions/scrollTop";
 
@@ -57,7 +58,8 @@ export default class Post extends React.Component {
         this.state = {
             tooltip: '',
             comment: 'button',
-            redirect_after_delete: false
+            redirect_after_delete: false,
+            delete: false
         };
         this.tooltipHide = this.tooltipHide.bind(this);
         this.triggerCommentForm = this.triggerCommentForm.bind(this);
@@ -66,6 +68,7 @@ export default class Post extends React.Component {
         this.deletePost = this.deletePost.bind(this);
         this.addComment = this.addComment.bind(this);
         this.deleteComment = this.deleteComment.bind(this);
+        this.deleteWindowHide = this.deleteWindowHide.bind(this);
         this.post_likes = [];
         this.users_like = [];
     }
@@ -121,6 +124,12 @@ export default class Post extends React.Component {
         this.props.dispatch(deletePostComment(comment_id));
     }
 
+    deleteWindowHide() {
+        this.setState({
+            delete: false
+        })
+    }
+
     render() {
         if (this.state.redirect_after_delete) return <Redirect to="/cabinet"/>;
 
@@ -154,6 +163,10 @@ export default class Post extends React.Component {
         return (
             <div>
                 <div className="content__post">
+                    {this.state.delete &&
+                    <DeleteWindow id={this.props.post.id}
+                                  method={this.deletePost}
+                                  hide={this.deleteWindowHide}/>}
                         {!post_author || this.props.is_post_fetching
                         ? <Loader/>
                         : <div>
@@ -188,7 +201,7 @@ export default class Post extends React.Component {
                                         </span>
                                         {Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id &&
                                         <span className="content__post_delete"
-                                              onClick={() => {this.deletePost(this.props.post.id)}}>
+                                              onClick={() => {this.setState({delete: true})}}>
                                             <i className="fa fa-trash-o" aria-hidden="true"/>
                                         </span>}
                                     </div>

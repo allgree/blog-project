@@ -1,8 +1,8 @@
 import React from 'react';
-//import {Link} from 'react-router';
 import {Link} from 'react-router-dom';
 
 import TooltipLikes from './TooltipLikes';
+import DeleteWindow from './DeleteWindow';
 
 export default class CommentItem extends React.Component {
     constructor() {
@@ -13,6 +13,7 @@ export default class CommentItem extends React.Component {
             tooltip: ''
         };
         this.tooltipHide = this.tooltipHide.bind(this);
+        this.deleteWindowHide = this.deleteWindowHide.bind(this);
     }
 
     tooltipShow() {
@@ -27,8 +28,15 @@ export default class CommentItem extends React.Component {
 
     tooltipHide() {
         this.setState({
-            tooltip: ''
+            tooltip: '',
+            delete: false
         });
+    }
+
+    deleteWindowHide() {
+        this.setState({
+            delete: false
+        })
     }
 
     render() {
@@ -39,8 +47,14 @@ export default class CommentItem extends React.Component {
         let month = ('0' + (date.getMonth() + 1)).slice(-2);
         let created_date = `${day}.${month}.${date.getFullYear()}`;
         let created_time = `${date.getHours()}:${date.getMinutes()}`;
+
+
         return (
             <div className="content__post_comment">
+                {this.state.delete &&
+                <DeleteWindow id={this.props.comment.id}
+                              method={this.props.delete}
+                              hide={this.deleteWindowHide}/>}
                 <p className="content__post_comment_body">
                     {this.props.comment.body}
                 </p>
@@ -71,7 +85,7 @@ export default class CommentItem extends React.Component {
                     </span>
                     {Object.keys(this.props.login).length !== 0 && this.props.comment.user_id === this.props.login.id &&
                         <span className="content__post_comment_delete"
-                              onClick={() => {this.props.delete(this.props.comment.id)}}>
+                              onClick={() => {this.setState({delete: true})}}>
                         <i className="fa fa-trash-o" aria-hidden="true"/>
                         </span>
                     }

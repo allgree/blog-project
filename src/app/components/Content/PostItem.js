@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import TooltipLikes from './TooltipLikes';
+import DeleteWindow from './DeleteWindow';
 
 @connect((store) => {
     return {
@@ -20,10 +21,12 @@ export default class PostItem extends React.Component {
         this.time = 500;
         this.state = {
             users: [],
-            tooltip: ''
+            tooltip: '',
+            delete: false
         };
         this.tooltipShow = this.tooltipShow.bind(this);
         this.tooltipHide = this.tooltipHide.bind(this);
+        this.deleteWindowHide = this.deleteWindowHide.bind(this);
     }
 
     tooltipShow() {
@@ -42,6 +45,12 @@ export default class PostItem extends React.Component {
         });
     }
 
+    deleteWindowHide() {
+        this.setState({
+            delete: false
+        })
+    }
+
     render() {
         let timestamp = Date.parse(this.props.post.createdAt);
         let date = new Date();
@@ -55,20 +64,22 @@ export default class PostItem extends React.Component {
 
         return (
                 <div className="content__post_item block_item">
+                    {this.state.delete &&
+                    <DeleteWindow id={this.props.post.id}
+                                  method={this.props.delete}
+                                  hide={this.deleteWindowHide}/>}
                     <Link to={`/post/${this.props.post.id}`}
                           className="content__post_item_link">
                         <h3 className="content__post_item_head">{this.props.post.title}</h3>
                         <div className="content__post_item_body">{this.props.post.body}</div>
                     </Link>
-                    {this.props.user
-                            &&
-                            <p className="content__post_item__author">
-                                <Link to={`/user/${this.props.user.id}`}
-                                      className="content__post_item_author_link">
-                                    {this.props.user.name} {this.props.user.surname}
-                                </Link>
-
-                            </p>}
+                    {this.props.user &&
+                    <p className="content__post_item__author">
+                        <Link to={`/user/${this.props.user.id}`}
+                              className="content__post_item_author_link">
+                            {this.props.user.name} {this.props.user.surname}
+                        </Link>
+                    </p>}
 
                     <div className="content__post_item_info">
                         <i className="fa fa-calendar" aria-hidden="true"/>&nbsp;<span>{created_date}</span>
@@ -92,9 +103,9 @@ export default class PostItem extends React.Component {
                         </span>
                         {Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id &&
                         <span className="content__post_item_delete"
-                              onClick={() => {this.props.delete(this.props.post.id)}}>
+                              onClick={() => {this.setState({delete: true})}}>
                                       <i className="fa fa-trash-o" aria-hidden="true"/>
-                                </span>}
+                        </span>}
                     </div>
                 </div>
         )

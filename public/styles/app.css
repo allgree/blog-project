@@ -2509,7 +2509,8 @@ main {
   min-height: 100%;
   margin: 0 auto;
   padding: 100px 20px 20px;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  transition: width 0.3s linear; }
 
 .back_main {
   background: url(../backgrounds/1568.jpg) repeat;
@@ -2642,7 +2643,8 @@ nav {
   color: white;
   float: left;
   margin: 20px 0 0 30%;
-  font-family: "Roboto Regular", sans-serif; }
+  font-family: "Roboto Regular", sans-serif;
+  transition: margin 0.3s linear; }
 
 .active {
   color: #ff8787; }
@@ -3271,5 +3273,11 @@ nav {
   margin-right: 20px; }
 
 /*end Delete Window*/
+@media screen and (max-width: 1280px) and (min-width: 1024px) {
+  .content {
+    min-width: 800px;
+    width: 840px; }
+  .nav_page_header {
+    margin: 20px 0 0 20%; } }
 
 /*# sourceMappingURL=app.css.map*/

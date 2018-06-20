@@ -2504,8 +2504,8 @@ main {
   background-size: cover; }
 
 .content {
-  min-width: 800px;
-  width: 840px;
+  min-width: 1000px;
+  width: 1040px;
   min-height: 100%;
   margin: 0 auto;
   padding: 100px 20px 20px;
@@ -2736,7 +2736,7 @@ nav {
   justify-content: space-around; }
 
 .content__top_user {
-  width: 390px;
+  width: 490px;
   margin: 0 10px 10px 0;
   animation: opacity 1s 1;
   animation-fill-mode: forwards; }
@@ -2757,7 +2757,7 @@ nav {
   justify-content: space-around; }
 
 .content__top_post_aside {
-  width: 390px;
+  width: 490px;
   margin-right: 10px; }
 
 .content__top_post_h2 {
@@ -2843,7 +2843,7 @@ nav {
   animation-fill-mode: forwards; }
 
 .content__user_aside {
-  width: 380px; }
+  width: 480px; }
 
 .fixed {
   position: fixed;
@@ -2911,7 +2911,8 @@ nav {
   color: #faebd7; }
 
 .user_content {
-  margin-left: 420px; }
+  margin-left: 420px;
+  width: auto; }
 
 /*end User*/
 /*Cabinet*/
@@ -3090,16 +3091,20 @@ nav {
   width: 100px;
   height: 100px; }
 
+.user_item__link {
+  text-decoration: none; }
+
 .user_item__name {
-  text-decoration: none;
-  color: black;
+  color: #472313;
   font-size: 20px;
+  line-height: 24px;
   font-family: "Calibri Regular", sans-serif; }
 
-.user_item__name:hover {
+.user_item__link:hover .user_item__name {
   color: #7b4520; }
 
 .user_item__info {
+  color: black;
   font-family: "Quant Antiqua Plain", sans-serif; }
 
 /*end UserItem*/

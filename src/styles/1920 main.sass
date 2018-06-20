@@ -1,6 +1,6 @@
 $nav_height: 80px
 $nav_background_color: rgba(0, 0, 0, 0.8)
-$content_width: 800px
+$content_width: 1000px
 $footer_height: 40px
 $big_avatar_size: 350px
 
@@ -573,7 +573,8 @@ nav
   color: #faebd7
 
 .user_content
-  margin-left: $content_width/2 + 20px
+  margin-left: $content_width/2 - 80px
+  width: auto
 
 /*end User*/
 
@@ -778,16 +779,20 @@ nav
   width: 100px
   height: 100px
 
-.user_item__name
+.user_item__link
   text-decoration: none
-  color: black
+
+.user_item__name
+  color: #472313
   font-size: 20px
+  line-height: 24px
   font-family: "Calibri Regular", sans-serif
 
-.user_item__name:hover
+.user_item__link:hover .user_item__name
   color: #7b4520
 
 .user_item__info
+  color: black
   font-family: "Quant Antiqua Plain", sans-serif
 
 /*end UserItem*/

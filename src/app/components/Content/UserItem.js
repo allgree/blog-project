@@ -26,20 +26,22 @@ export default class UserItem extends React.Component {
                                method={this.props.unsub}
                                hide={this.deleteWindowHide}
                                question={this.props.flag ? 'Отписаться от пользователя?' : 'Отписать пользователя?'}/>}
-                <Link to={`/user/${this.props.user.id}`} className="user_item__ava">
-                    <img src={this.props.user.avatar_path} className="user_item__ava__img"/>
+                <Link to={`/user/${this.props.user.id}`} className="user_item__link">
+                    <p className="user_item__ava">
+                        <img src={this.props.user.avatar_path} className="user_item__ava__img"/>
+                    </p>
+                    <p className="user_item__name">
+                        {this.props.user.name} {this.props.user.surname}
+                    </p>
+                    {this.props.user.city &&
+                    <p className="user_item__info">
+                        Город: {this.props.user.city}
+                    </p>}
+                    {this.props.user.age &&
+                    <p className="user_item__info">
+                        Возраст: {this.props.user.age}
+                    </p>}
                 </Link>
-                <Link to={`/user/${this.props.user.id}`} className="user_item__name">
-                    {this.props.user.name} {this.props.user.surname}
-                </Link><br/>
-                {this.props.user.city &&
-                <p className="user_item__info">
-                    Город: {this.props.user.city}
-                </p>}
-                {this.props.user.age &&
-                <p className="user_item__info">
-                    Возраст: {this.props.user.age}
-                </p>}
                 {this.props.button === 'subs' &&
                 <button className="button_custom button_subscribing"
                         onClick={() => {this.setState({window: true})}}>

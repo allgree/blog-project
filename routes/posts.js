@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
 
 //выборка постов для автоподгрузки
 router.get('/sample/', (req, res, next) => {
-    Posts.findSample(6, +req.query.offset, (result) => {
+    Posts.findSample(10, +req.query.offset, (result) => {
         res.json(result);
     });
 });
@@ -23,7 +23,7 @@ router.get('/sample/', (req, res, next) => {
 
 // выборка постов пользователя для автоподгрузки
 router.get('/sample/user/', (req, res, next) => {
-    Posts.findByUserIdSample(3, +req.query.offset, +req.query.user_id, (result_posts) => {
+    Posts.findByUserIdSample(10, +req.query.offset, +req.query.user_id, (result_posts) => {
         res.json(result_posts);
     })
 });

@@ -507,6 +507,7 @@ nav
 
 .content__user_aside
   width: ($content_width - 40px)/2
+  transition: width 0.3s linear
 
 .fixed
   position: fixed
@@ -518,6 +519,7 @@ nav
   background-color: rgba(255, 255, 255, 0.5)
   border-radius: 10px
   box-shadow: 0 0 30px #a19a98
+  transition: width 0.3s linear
 
 .button_subscribing
   background-color: #7b4520
@@ -548,6 +550,7 @@ nav
   font-size: 20px
   color: #592d18
   box-shadow: 0 0 30px #a19a98
+  transition: width 0.3s linear
 
 .button_show_user_content[disabled]
   background-color: rgba(255, 222, 133, 0.5)
@@ -557,16 +560,19 @@ nav
   height: $big_avatar_size
   display: inline-block
   border-radius: 10px
+  transition: width 0.3s linear
 
 .content__user_name
   margin: 10px 0
   font-family: "Arial Cyr Bold", sans-serif
   color: #7b4520
+  transition: font-size 0.3s linear
 
 .content__user_info
   font-family: "Calibri Regular", sans-serif
   font-size: 20px
   color: #592d18
+  transition: font-size 0.3s linear
 
 .user_info__link
   color: #542b21
@@ -577,6 +583,7 @@ nav
 .user_content
   margin-left: $content_width/2 - 80px
   width: auto
+  transition: margin 0.3s linear
 
 /*end User*/
 

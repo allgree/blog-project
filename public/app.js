@@ -50513,7 +50513,6 @@ var Nav = function (_React$Component) {
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
-            console.log(document.body.offsetWidth);
             document.querySelector('#nav_input').checked = true;
         }
     }]);

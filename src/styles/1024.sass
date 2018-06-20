@@ -1,0 +1,69 @@
+@media screen and (max-width: 1024px)
+  $content_width: 600px
+  $big_avatar_size: 200px
+
+  .content
+    min-width: $content_width
+    width: $content_width+40px
+
+
+  /*Nav*/
+
+  #nav_input:checked ~.nav_menu
+    width: 110px
+
+  .nav_menu > .nav_menu__link
+    margin: 10px 10px 0 10px
+    font-size: 18px
+
+  .nav_page_header
+    margin: 20px 0 0 10%
+
+  /*end Nav*/
+
+
+
+
+  .big_avatar
+    width: $big_avatar_size
+    height: $big_avatar_size
+
+
+
+  /*User*/
+
+  .content__user_aside:first-of-type
+    width: 240px
+
+  .user_info
+    width: 220px
+
+  .content__user_name
+    font-size: 20px
+
+  .content__user_info
+    font-size: 18px
+
+  .button_show_user_content
+    width: 240px
+
+  .user_content
+    margin-left: $content_width/2 - 40px
+
+  /*end User*/
+
+
+  /*Cabinet*/
+
+  .content__cabinet__login
+    height: $big_avatar_size + 80px
+
+  .content__cabinet__login_ava
+    width: 220px
+    height: $big_avatar_size + 67px
+
+  /*end Cabinet*/
+
+
+  .input_custom
+    max-width: 590px

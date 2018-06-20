@@ -2845,7 +2845,8 @@ nav {
   animation-fill-mode: forwards; }
 
 .content__user_aside {
-  width: 480px; }
+  width: 480px;
+  transition: width 0.3s linear; }
 
 .fixed {
   position: fixed;
@@ -2856,7 +2857,8 @@ nav {
   padding: 10px;
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 10px;
-  box-shadow: 0 0 30px #a19a98; }
+  box-shadow: 0 0 30px #a19a98;
+  transition: width 0.3s linear; }
 
 .button_subscribing {
   background-color: #7b4520;
@@ -2885,7 +2887,8 @@ nav {
   font-family: "Calibri Regular", sans-serif;
   font-size: 20px;
   color: #592d18;
-  box-shadow: 0 0 30px #a19a98; }
+  box-shadow: 0 0 30px #a19a98;
+  transition: width 0.3s linear; }
 
 .button_show_user_content[disabled] {
   background-color: rgba(255, 222, 133, 0.5); }
@@ -2894,17 +2897,20 @@ nav {
   width: 350px;
   height: 350px;
   display: inline-block;
-  border-radius: 10px; }
+  border-radius: 10px;
+  transition: width 0.3s linear; }
 
 .content__user_name {
   margin: 10px 0;
   font-family: "Arial Cyr Bold", sans-serif;
-  color: #7b4520; }
+  color: #7b4520;
+  transition: font-size 0.3s linear; }
 
 .content__user_info {
   font-family: "Calibri Regular", sans-serif;
   font-size: 20px;
-  color: #592d18; }
+  color: #592d18;
+  transition: font-size 0.3s linear; }
 
 .user_info__link {
   color: #542b21; }
@@ -2914,7 +2920,8 @@ nav {
 
 .user_content {
   margin-left: 420px;
-  width: auto; }
+  width: auto;
+  transition: margin 0.3s linear; }
 
 /*end User*/
 /*Cabinet*/
@@ -3277,7 +3284,49 @@ nav {
   .content {
     min-width: 800px;
     width: 840px; }
+  #nav_input:checked ~ .nav_menu {
+    width: 130px; }
   .nav_page_header {
     margin: 20px 0 0 20%; } }
+
+@media screen and (max-width: 1024px) {
+  .content {
+    min-width: 600px;
+    width: 640px; }
+  /*Nav*/
+  #nav_input:checked ~ .nav_menu {
+    width: 110px; }
+  .nav_menu > .nav_menu__link {
+    margin: 10px 10px 0 10px;
+    font-size: 18px; }
+  .nav_page_header {
+    margin: 20px 0 0 10%; }
+  /*end Nav*/
+  .big_avatar {
+    width: 200px;
+    height: 200px; }
+  /*User*/
+  .content__user_aside:first-of-type {
+    width: 240px; }
+  .user_info {
+    width: 220px; }
+  .content__user_name {
+    font-size: 20px; }
+  .content__user_info {
+    font-size: 18px; }
+  .button_show_user_content {
+    width: 240px; }
+  .user_content {
+    margin-left: 260px; }
+  /*end User*/
+  /*Cabinet*/
+  .content__cabinet__login {
+    height: 280px; }
+  .content__cabinet__login_ava {
+    width: 220px;
+    height: 267px; }
+  /*end Cabinet*/
+  .input_custom {
+    max-width: 590px; } }
 
 /*# sourceMappingURL=app.css.map*/

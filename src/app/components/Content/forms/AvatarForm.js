@@ -33,7 +33,7 @@ export default class AvatarForm extends React.Component {
                         className="button_custom button_custom__save">
                     Сохранить
                 </button>
-                <button onClick={() => {this.props.click('button')}}
+                <button onClick={() => {this.props.trigger('avatar', 'button')}}
                         className="button_custom button_custom__cansel">
                     Отмена
                 </button>

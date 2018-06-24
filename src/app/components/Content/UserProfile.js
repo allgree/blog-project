@@ -25,12 +25,12 @@ export default class UserProfile extends React.Component {
                               </a>
                 </p>}
                 <button className="button_custom button_edit_profile"
-                        onClick={() => {this.props.click('form')}}>
+                        onClick={() => {this.props.trigger('info', 'form')}}>
                     Редактировать профиль
                 </button>
                 <br/>
                 <button className=" button_custom button_edit_password"
-                        onClick={() => {this.props.click('pass')}}>
+                        onClick={() => {this.props.trigger('info', 'pass')}}>
                     Сменить пароль
                 </button>
             </div>

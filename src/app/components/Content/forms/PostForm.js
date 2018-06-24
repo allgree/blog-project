@@ -28,7 +28,7 @@ class PostForm extends React.Component {
                             className="button_custom button_custom__save">
                         Сохранить запись
                     </button>
-                    <button onClick={() => {this.props.click('button')}}
+                    <button onClick={() => {this.props.trigger('post', 'button')}}
                             className="button_custom button_custom__cansel">
                         Отмена
                     </button>

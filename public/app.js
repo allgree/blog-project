@@ -13195,6 +13195,9 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
             var created_date = day + '.' + month + '.' + date.getFullYear();
             var created_time = date.getHours() + ':' + date.getMinutes();
 
+            var body = '';
+            this.props.post.body.length > 300 ? body = this.props.post.body.substr(0, 300) + '...' : body = this.props.post.body;
+
             return _react2.default.createElement(
                 'div',
                 { className: 'content__post_item block_item' },
@@ -13214,7 +13217,7 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
                     _react2.default.createElement(
                         'div',
                         { className: 'content__post_item_body' },
-                        this.props.post.body
+                        body
                     )
                 ),
                 this.props.user && _react2.default.createElement(
@@ -53811,6 +53814,8 @@ var _scrollTop = __webpack_require__(23);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -53858,9 +53863,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.triggerPostLike = _this.triggerPostLike.bind(_this);
         _this.addPost = _this.addPost.bind(_this);
         _this.deletePost = _this.deletePost.bind(_this);
-        _this.triggerShow = _this.triggerShow.bind(_this);
-        _this.triggerAvatarButton = _this.triggerAvatarButton.bind(_this);
-        _this.triggerFormPost = _this.triggerFormPost.bind(_this);
+        _this.trigger = _this.trigger.bind(_this);
         _this.editUser = _this.editUser.bind(_this);
         _this.editPass = _this.editPass.bind(_this);
         _this.changeAvatar = _this.changeAvatar.bind(_this);
@@ -53888,7 +53891,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         value: function addPost(values) {
             if (Object.keys(this.props.login).length === 0 || !values.title || !values.body) return;
             this.props.dispatch((0, _userPostsActions.addUserPost)(this.props.login.id, values.title, values.body));
-            this.triggerFormPost('button');
+            this.trigger('post', 'button');
         }
     }, {
         key: 'deletePost',
@@ -53897,32 +53900,9 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
             this.props.dispatch((0, _userPostsActions.deleteUserPost)(post_id));
         }
     }, {
-        key: 'triggerShow',
-        value: function triggerShow(param) {
-            this.setState({
-                info: param
-            });
-        }
-    }, {
-        key: 'triggerAvatarButton',
-        value: function triggerAvatarButton(param) {
-            this.setState({
-                avatar: param
-            });
-        }
-    }, {
-        key: 'triggerFormPost',
-        value: function triggerFormPost(param) {
-            this.setState({
-                post: param
-            });
-        }
-    }, {
-        key: 'triggerContent',
-        value: function triggerContent(content) {
-            this.setState({
-                content: content
-            });
+        key: 'trigger',
+        value: function trigger(param, value) {
+            this.setState(_defineProperty({}, param, value));
         }
     }, {
         key: 'editUser',
@@ -54050,23 +54030,23 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                             _react2.default.createElement(
                                 'button',
                                 { onClick: function onClick() {
-                                        _this3.triggerAvatarButton('form');
+                                        _this3.trigger('avatar', 'form');
                                     },
                                     className: 'button_custom button_edit_avatar' },
                                 '\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u0430\u0432\u0430\u0442\u0430\u0440'
                             )
                         ),
                         this.state.avatar === 'form' && _react2.default.createElement(_AvatarForm2.default, { changeAvatar: this.changeAvatar,
-                            click: this.triggerAvatarButton })
+                            trigger: this.trigger })
                     ),
                     this.state.info === 'info' && _react2.default.createElement(_UserProfile2.default, { login: this.props.login,
-                        click: this.triggerShow }),
+                        trigger: this.trigger }),
                     this.state.info === 'form' && _react2.default.createElement(_EditUserForm2.default, { onSubmit: this.editUser,
                         login: this.props.login,
-                        click: this.triggerShow }),
+                        trigger: this.trigger }),
                     this.state.info === 'pass' && _react2.default.createElement(_EditPassForm2.default, { onSubmit: this.editPass,
                         login: this.props.login,
-                        click: this.triggerShow })
+                        trigger: this.trigger })
                 ),
                 _react2.default.createElement(
                     'div',
@@ -54075,7 +54055,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                         'button',
                         { disabled: this.state.content === 'posts',
                             onClick: function onClick() {
-                                _this3.triggerContent('posts');
+                                _this3.trigger('content', 'posts');
                             },
                             className: 'button_custom button_show_content' },
                         '\u0417\u0430\u043F\u0438\u0441\u0438'
@@ -54084,7 +54064,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                         'button',
                         { disabled: this.state.content === 'subscriptions',
                             onClick: function onClick() {
-                                _this3.triggerContent('subscriptions');
+                                _this3.trigger('content', 'subscriptions');
                             },
                             className: 'button_custom button_show_content' },
                         '\u041F\u043E\u0434\u043F\u0438\u0441\u043A\u0438'
@@ -54093,7 +54073,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                         'button',
                         { disabled: this.state.content === 'subscribes',
                             onClick: function onClick() {
-                                _this3.triggerContent('subscribes');
+                                _this3.trigger('content', 'subscribes');
                             },
                             className: 'button_custom button_show_content' },
                         '\u041F\u043E\u0434\u043F\u0438\u0441\u0447\u0438\u043A\u0438'
@@ -54108,14 +54088,14 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                         _react2.default.createElement(
                             'button',
                             { onClick: function onClick() {
-                                    _this3.triggerFormPost('form');
+                                    _this3.trigger('post', 'form');
                                 },
                                 className: 'button_custom button_add_post' },
                             '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043F\u043E\u0441\u0442'
                         )
                     ),
                     this.state.post === 'form' && _react2.default.createElement(_PostForm2.default, { onSubmit: this.addPost,
-                        click: this.triggerFormPost }),
+                        trigger: this.trigger }),
                     this.props.user_posts.length !== 0 && _react2.default.createElement(
                         'div',
                         null,
@@ -54269,7 +54249,7 @@ var PostForm = function (_React$Component) {
                     _react2.default.createElement(
                         'button',
                         { onClick: function onClick() {
-                                _this2.props.click('button');
+                                _this2.props.trigger('post', 'button');
                             },
                             className: 'button_custom button_custom__cansel' },
                         '\u041E\u0442\u043C\u0435\u043D\u0430'
@@ -54367,7 +54347,7 @@ var AvatarForm = function (_React$Component) {
                 _react2.default.createElement(
                     "button",
                     { onClick: function onClick() {
-                            _this2.props.click('button');
+                            _this2.props.trigger('avatar', 'button');
                         },
                         className: "button_custom button_custom__cansel" },
                     "\u041E\u0442\u043C\u0435\u043D\u0430"
@@ -54470,7 +54450,7 @@ var UserProfile = function (_React$Component) {
                     "button",
                     { className: "button_custom button_edit_profile",
                         onClick: function onClick() {
-                            _this2.props.click('form');
+                            _this2.props.trigger('info', 'form');
                         } },
                     "\u0420\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u0440\u043E\u0444\u0438\u043B\u044C"
                 ),
@@ -54479,7 +54459,7 @@ var UserProfile = function (_React$Component) {
                     "button",
                     { className: " button_custom button_edit_password",
                         onClick: function onClick() {
-                            _this2.props.click('pass');
+                            _this2.props.trigger('info', 'pass');
                         } },
                     "\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u043F\u0430\u0440\u043E\u043B\u044C"
                 )
@@ -54652,7 +54632,7 @@ var EditUserForm = function (_React$Component) {
                 _react2.default.createElement(
                     'button',
                     { onClick: function onClick() {
-                            _this2.props.click('info');
+                            _this2.props.trigger('info', 'info');
                         },
                         className: 'button_custom button_custom__cansel' },
                     '\u041E\u0442\u043C\u0435\u043D\u0430'
@@ -54775,7 +54755,7 @@ var EditPassForm = function (_React$Component) {
                 _react2.default.createElement(
                     'button',
                     { onClick: function onClick() {
-                            _this2.props.click('info');
+                            _this2.props.trigger('info', 'info');
                         },
                         className: 'button_custom button_custom__cansel' },
                     '\u041E\u0442\u043C\u0435\u043D\u0430'

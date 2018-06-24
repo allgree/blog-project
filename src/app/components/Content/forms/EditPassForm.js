@@ -30,7 +30,7 @@ class EditPassForm extends React.Component {
                         className="button_custom button_custom__save">
                     Сохранить
                 </button>
-                <button onClick={() => {this.props.click('info')}}
+                <button onClick={() => {this.props.trigger('info', 'info')}}
                         className="button_custom button_custom__cansel">
                     Отмена
                 </button>

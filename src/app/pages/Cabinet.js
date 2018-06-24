@@ -62,9 +62,7 @@ export default class Cabinet extends React.Component {
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.addPost = this.addPost.bind(this);
         this.deletePost = this.deletePost.bind(this);
-        this.triggerShow = this.triggerShow.bind(this);
-        this.triggerAvatarButton = this.triggerAvatarButton.bind(this);
-        this.triggerFormPost = this.triggerFormPost.bind(this);
+        this.trigger = this.trigger.bind(this);
         this.editUser = this.editUser.bind(this);
         this.editPass = this.editPass.bind(this);
         this.changeAvatar = this.changeAvatar.bind(this);
@@ -88,7 +86,7 @@ export default class Cabinet extends React.Component {
     addPost(values) {
         if (Object.keys(this.props.login).length === 0 || !values.title || !values.body) return;
         this.props.dispatch(addUserPost(this.props.login.id, values.title, values.body));
-        this.triggerFormPost('button');
+        this.trigger('post', 'button');
     }
 
     deletePost(post_id) {
@@ -96,28 +94,10 @@ export default class Cabinet extends React.Component {
         this.props.dispatch(deleteUserPost(post_id));
     }
 
-    triggerShow(param) {
+    trigger(param, value) {
         this.setState({
-            info: param
+            [param]: value
         })
-    }
-
-    triggerAvatarButton(param) {
-        this.setState({
-            avatar: param
-        })
-    }
-
-    triggerFormPost(param) {
-        this.setState({
-            post: param
-        })
-    }
-
-    triggerContent(content) {
-        this.setState({
-            content: content
-        });
     }
 
     editUser(values) {
@@ -221,7 +201,7 @@ export default class Cabinet extends React.Component {
                         <img src={this.props.login.avatar_path} className="big_avatar"/>
                         {this.state.avatar === 'button' &&
                             <div className="change_avatar__div">
-                                <button onClick={() => {this.triggerAvatarButton('form')}}
+                                <button onClick={() => {this.trigger('avatar', 'form')}}
                                         className="button_custom button_edit_avatar">
                                     Сменить аватар
                                 </button>
@@ -229,35 +209,35 @@ export default class Cabinet extends React.Component {
                         }
                         {this.state.avatar === 'form' &&
                             <AvatarForm changeAvatar={this.changeAvatar}
-                                        click={this.triggerAvatarButton}/>
+                                        trigger={this.trigger}/>
                         }
                     </div>
                     {this.state.info === 'info' &&
                     <UserProfile login={this.props.login}
-                                 click={this.triggerShow}/>}
+                                 trigger={this.trigger}/>}
                     {this.state.info === 'form' &&
                     <EditUserForm onSubmit={this.editUser}
                                   login={this.props.login}
-                                  click={this.triggerShow}/>}
+                                  trigger={this.trigger}/>}
                     {this.state.info === 'pass' &&
                     <EditPassForm onSubmit={this.editPass}
                                   login={this.props.login}
-                                  click={this.triggerShow}/>}
+                                  trigger={this.trigger}/>}
                 </div>
 
                 <div className="buttons">
                     <button disabled={this.state.content === 'posts'}
-                            onClick={() => {this.triggerContent('posts')}}
+                            onClick={() => {this.trigger('content', 'posts')}}
                             className="button_custom button_show_content">
                         Записи
                     </button>
                     <button disabled={this.state.content === 'subscriptions'}
-                            onClick={() => {this.triggerContent('subscriptions')}}
+                            onClick={() => {this.trigger('content', 'subscriptions')}}
                             className="button_custom button_show_content">
                         Подписки
                     </button>
                     <button disabled={this.state.content === 'subscribes'}
-                            onClick={() => {this.triggerContent('subscribes')}}
+                            onClick={() => {this.trigger('content', 'subscribes')}}
                             className="button_custom button_show_content">
                         Подписчики
                     </button>
@@ -266,14 +246,14 @@ export default class Cabinet extends React.Component {
                 <div className="content__cabinet__content">
                     {this.state.post === 'button' &&
                     <div className="add_post__div">
-                        <button onClick={() => {this.triggerFormPost('form')}}
+                        <button onClick={() => {this.trigger('post', 'form')}}
                                 className="button_custom button_add_post">
                             Добавить пост
                         </button>
                     </div>}
                     {this.state.post === 'form' &&
                     <PostForm onSubmit={this.addPost}
-                              click={this.triggerFormPost}/>}
+                              trigger={this.trigger}/>}
 
                     {this.props.user_posts.length !== 0 &&
                     <div>{posts}</div>}
@@ -311,7 +291,6 @@ export default class Cabinet extends React.Component {
         let login__panel_input = document.querySelector('#login__panel_input');
         if (login__panel_input) login__panel_input.checked = false;
         scrollTop();
-
     }
 
     componentDidUpdate() {
@@ -339,11 +318,11 @@ export default class Cabinet extends React.Component {
                 }
                 case 'subscribes': {
                     autoload(this.props.is_subscribes_fetching,
-                        this.props.subscribes_empty,
-                        this.props.dispatch,
-                        fetchUserSubscribesSample,
-                        this.props.subscribes.length,
-                        this.props.login.id);
+                             this.props.subscribes_empty,
+                             this.props.dispatch,
+                             fetchUserSubscribesSample,
+                             this.props.subscribes.length,
+                             this.props.login.id);
                     break;
                 }
             }

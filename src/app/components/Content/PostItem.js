@@ -60,7 +60,10 @@ export default class PostItem extends React.Component {
         let created_date = `${day}.${month}.${date.getFullYear()}`;
         let created_time = `${date.getHours()}:${date.getMinutes()}`;
 
-
+        let body = '';
+        this.props.post.body.length > 300
+        ? body = this.props.post.body.substr(0, 300) + '...'
+        : body = this.props.post.body;
 
         return (
                 <div className="content__post_item block_item">
@@ -72,7 +75,7 @@ export default class PostItem extends React.Component {
                     <Link to={`/post/${this.props.post.id}`}
                           className="content__post_item_link">
                         <h3 className="content__post_item_head">{this.props.post.title}</h3>
-                        <div className="content__post_item_body">{this.props.post.body}</div>
+                        <div className="content__post_item_body">{body}</div>
                     </Link>
                     {this.props.user &&
                     <p className="content__post_item__author">

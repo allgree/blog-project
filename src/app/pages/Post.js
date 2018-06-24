@@ -138,7 +138,8 @@ export default class Post extends React.Component {
         date.setTime(timestamp);
         let day = ('0' + date.getDate()).slice(-2);
         let month = ('0' + (date.getMonth() + 1)).slice(-2);
-        let created_date = `${day}.${month}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+        let created_date = `${day}.${month}.${date.getFullYear()}`;
+        let created_time = `${date.getHours()}:${date.getMinutes()}`;
 
         this.post_likes = this.props.post_likes.filter(like => like.post_id === this.props.post.id);
         this.users_like = this.post_likes.map((like, index) => {
@@ -184,7 +185,9 @@ export default class Post extends React.Component {
 
                                     <div className="content__post_info">
                                         <span>
-                                            {created_date}
+                                            <i className="fa fa-calendar" aria-hidden="true"/>&nbsp;{created_date}
+                                            &nbsp;&nbsp;
+                                            <i className="fa fa-clock-o" aria-hidden="true"/>&nbsp;{created_time}
                                         </span>
                                         &nbsp;
                                         <span className="post_view">

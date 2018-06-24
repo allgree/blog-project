@@ -3133,15 +3133,17 @@ nav {
 /*end UserTop*/
 /*TooltipLikes*/
 .tooltip_content {
-  background: linear-gradient(to bottom, #2d394f, #8f6430);
+  background-color: #9A4D2C;
+  box-shadow: inset 0 0 15px #3b3635, 0 0 30px #3b3635;
+  position: relative;
+  z-index: 5;
   width: 200px;
   max-height: 100px;
   overflow: auto;
   margin-left: -45px;
   margin-top: -30px;
-  padding: 10px;
+  padding: 15px;
   border-radius: 5px;
-  box-shadow: 0 0 30px #a19a98;
   animation: opacity 0.3s 1; }
 
 .tooltip_user {
@@ -3149,15 +3151,16 @@ nav {
 
 .tooltip_user_link {
   text-decoration: none;
-  color: white;
+  color: #dbdbdb;
   font-family: "Trebuchet", sans-serif;
   font-size: 15px;
   border-radius: 3px;
   padding: 5px;
-  transition: all 0.1s linear; }
+  transition: all 0.1s linear;
+  border: 1px solid #9A4D2C; }
 
 .tooltip_user_link:hover {
-  border: 1px solid #89ceee; }
+  border: 1px solid #3b3635; }
 
 .ava_tooltip {
   height: 20px;

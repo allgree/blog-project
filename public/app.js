@@ -52919,7 +52919,8 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
             date.setTime(timestamp);
             var day = ('0' + date.getDate()).slice(-2);
             var month = ('0' + (date.getMonth() + 1)).slice(-2);
-            var created_date = day + '.' + month + '.' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
+            var created_date = day + '.' + month + '.' + date.getFullYear();
+            var created_time = date.getHours() + ':' + date.getMinutes();
 
             this.post_likes = this.props.post_likes.filter(function (like) {
                 return like.post_id === _this3.props.post.id;
@@ -52995,7 +52996,13 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                             _react2.default.createElement(
                                 'span',
                                 null,
-                                created_date
+                                _react2.default.createElement('i', { className: 'fa fa-calendar', 'aria-hidden': 'true' }),
+                                '\xA0',
+                                created_date,
+                                '\xA0\xA0',
+                                _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
+                                '\xA0',
+                                created_time
                             ),
                             '\xA0',
                             _react2.default.createElement(

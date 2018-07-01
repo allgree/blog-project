@@ -1,27 +1,14 @@
-const Sequelize = require('sequelize');
-const db = require('../db');
-
-const model = db.define('comments_likes', {
-    id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    comment_id: Sequelize.INTEGER,
-    user_id: Sequelize.INTEGER
-}, {
-    timestamps: false
-});
+const CommentsLikesModel = require('./comments-likesModel');
 
 let CommentsLikes = {
     findAll: (callback) => {
-        model.findAll({})
+        CommentsLikesModel.findAll({})
              .then(result => {
                 callback(result);
             })
     },
     findByCommentId: (comment_id, callback) => {
-        model.findAll({
+        CommentsLikesModel.findAll({
             where: {
                 comment_id: comment_id
             }
@@ -31,14 +18,14 @@ let CommentsLikes = {
             })
     },
     add: (comment_id, user_id, callback) => {
-        model.create({
+        CommentsLikesModel.create({
             comment_id: comment_id,
             user_id: user_id
         })
             .then(result => {callback(result)})
     },
     delete: (comment_id, user_id, callback) => {
-        model.destroy({
+        CommentsLikesModel.destroy({
             where: {
                 comment_id: comment_id,
                 user_id: user_id

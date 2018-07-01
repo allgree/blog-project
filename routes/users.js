@@ -1,18 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
-const Users = require('../models/users');
-const Posts = require('../models/posts');
-const Comments = require('../models/comments');
-const PostLikes = require('../models/posts_likes');
-const CommentLikes = require('../models/comments_likes');
+const Users = require('../models/usersRequests');
+const Posts = require('../models/postsRequests');
+const Comments = require('../models/commentsRequests');
+const PostLikes = require('../models/posts_likesRequests');
+const CommentLikes = require('../models/comments_likesRequests');
 
 // все пользователи
 router.get('/', (req, res, next) => {
    Users.findAll((result) => {
        let modified_users = result.map((user, index) => {
-            delete user.dataValues.password;
-            delete user.dataValues.login;
             return user;
        });
        res.json(modified_users);
@@ -42,12 +40,13 @@ router.get('/bloger', (req, res, next) => {
             result_users.sort((a, b) => {
                 return b.dataValues.count_posts - a.dataValues.count_posts;
             });
-            delete result_users[0].dataValues.password;
-            delete result_users[0].dataValues.login;
             res.json(result_users[0]);
         })
     })
 });
+
+
+
 
 // самый активный комментатор
 router.get('/commentator', (req, res, next) => {
@@ -64,8 +63,6 @@ router.get('/commentator', (req, res, next) => {
             result_users.sort((a, b) => {
                 return b.dataValues.count_comments - a.dataValues.count_comments;
             });
-            delete result_users[0].dataValues.password;
-            delete result_users[0].dataValues.login;
             res.json(result_users[0]);
         })
     })
@@ -76,9 +73,7 @@ router.get('/like-post/:post_id', (req, res, next) => {
     let users = [];
     PostLikes.findByPostId(req.params.post_id, (result_likes) => {
         for (let i = 0; i < result_likes.length; i++) {
-            Users.findById(result_likes[i].user_id, (result_user) => {
-                delete result_user.dataValues.password;
-                delete result_user.dataValues.login;
+            Users.findUserById(result_likes[i].user_id, (result_user) => {
                 users.push(result_user.dataValues);
                 if (i === result_likes.length - 1) res.json(users);
             });
@@ -91,9 +86,7 @@ router.get('/like-comment/:comment_id', (req, res, next) => {
     let users = [];
     CommentLikes.findByCommentId(req.params.comment_id, (result_likes) => {
         for (let i = 0; i < result_likes.length; i++) {
-            Users.findById(result_likes[i].user_id, (result_user) => {
-                delete result_user.dataValues.password;
-                delete result_user.dataValues.login;
+            Users.findUserById(result_likes[i].user_id, (result_user) => {
                 users.push(result_user.dataValues);
                 if (i === result_likes.length - 1) res.json(users);
             })
@@ -106,9 +99,7 @@ router.get('/like-comment/:comment_id', (req, res, next) => {
 // один пользователь по id
 router.get('/:user_id', (req, res, next) => {
     console.log('!!!!!!!! API USERS  id');
-   Users.findById(req.params.user_id, (result) => {
-       delete result.dataValues.password;
-       delete result.dataValues.login;
+   Users.findUserById(req.params.user_id, (result) => {
        res.json(result);
    })
 });

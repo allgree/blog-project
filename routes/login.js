@@ -11,8 +11,8 @@ let salts = {
     salt2: 'asdadfasfasfasf'
 };
 
-const Users = require('../models/users');
-const Tokens = require('../models/tokens');
+const Users = require('../models/usersRequests');
+const Tokens = require('../models/tokensRequests');
 
 // регистрация
 router.post('/register',  (req, res, next) => {

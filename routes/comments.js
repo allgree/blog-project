@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const Comments = require('../models/comments');
+const Comments = require('../models/commentsRequests');
 
 // выборка пяти комментариев к посту для автоподгрузки
 router.get('/sample/post/', (req, res, next) => {

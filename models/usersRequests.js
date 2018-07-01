@@ -1,34 +1,16 @@
-const Sequelize = require('sequelize');
-const db = require('../db');
-
-const model = db.define('users', {
-    id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    login: Sequelize.STRING(255),
-    password: Sequelize.STRING(255),
-    name: Sequelize.STRING(255),
-    surname: Sequelize.STRING(255),
-    city: Sequelize.STRING(255),
-    age: Sequelize.INTEGER,
-    site: Sequelize.STRING(100),
-    email: Sequelize.STRING(100),
-    avatar_path: Sequelize.STRING(100),
-    createdAt: Sequelize.DATE,
-    updatedAt: Sequelize.DATE
-});
+const UsersModel = require('./usersModel');
 
 let Users = {
     findAll: (callback) => {
-        model.findAll({})
+        UsersModel.findAll({
+            attributes: ['id', 'name', 'surname', 'city', 'age', 'site', 'email', 'avatar_path']
+        })
             .then(result => {
                 callback(result);
             })
     },
     findSample: (limit, offset, callback) => {
-        model.findAll({
+        UsersModel.findAll({
             offset: offset,
             limit: limit
         })
@@ -36,8 +18,19 @@ let Users = {
                 callback(result)
             })
     },
+    findUserById: (user_id, callback) => {
+        UsersModel.findOne({
+            attributes: ['id', 'name', 'surname', 'city', 'age', 'site', 'email', 'avatar_path'],
+            where: {
+                id: user_id
+            }
+        })
+            .then(result => {
+                callback(result);
+            })
+    },
     findById: (user_id, callback) => {
-        model.findOne({
+        UsersModel.findOne({
             where: {
                 id: user_id
             }
@@ -47,7 +40,7 @@ let Users = {
             })
     },
     findByLogin: (login, callback) => {
-        model.findOne({
+        UsersModel.findOne({
             where: {
                 login: login
             }
@@ -57,7 +50,7 @@ let Users = {
             })
     },
     register: (user, avatar, password, callback) => {
-        model.create({
+        UsersModel.create({
             login: user.login,
             password: password,
             name: user.name,
@@ -72,7 +65,7 @@ let Users = {
             })
     },
     editProfile: (profile, callback) => {
-        model.update({
+        UsersModel.update({
             login: profile.login,
             name: profile.name,
             surname: profile.surname,
@@ -89,7 +82,7 @@ let Users = {
             })
     },
     editPass: (user_id, password, callback) => {
-        model.update({
+        UsersModel.update({
             password: password
         }, {
             where: {
@@ -101,7 +94,7 @@ let Users = {
             })
     },
     editAvatar: (user_id, avatar_path, callback) => {
-        model.update({
+        UsersModel.update({
             avatar_path: avatar_path
         }, {
             where: {

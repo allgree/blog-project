@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const Subscriptons = require('../models/subscriptions');
+const Subscriptons = require('../models/subscriptionsRequests');
 
 router.get('/sample/subs/', (req, res, next) => {
     Subscriptons.findSampleSubs(10, +req.query.offset, +req.query.user_id, (result) => {

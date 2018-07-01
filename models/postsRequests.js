@@ -1,30 +1,15 @@
-const Sequelize = require('sequelize');
-const db = require('../db');
-
-const model = db.define('posts', {
-    id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    user_id: Sequelize.INTEGER,
-    title: Sequelize.STRING(255),
-    body: Sequelize.TEXT,
-    views: Sequelize.INTEGER,
-    createdAt: Sequelize.DATE,
-    updatedAt: Sequelize.DATE
-});
+const PostsModel = require('./postsModel');
 
 let Posts = {
     findAll: (callback) => {
-        model.findAll({})
+        PostsModel.findAll({})
              .then(result => {
                  callback(result);
              })
     },
 
     findSample: (limit, offset, callback) => {
-          model.findAll({
+        PostsModel.findAll({
               offset: offset,
               limit: limit,
               order: [['createdAt', 'DESC']]
@@ -34,7 +19,7 @@ let Posts = {
               })
     },
     findById: (post_id, callback) => {
-        model.findOne({
+        PostsModel.findOne({
             where: {
                 id: post_id
             }
@@ -45,7 +30,7 @@ let Posts = {
     },
 
     findByUserIdSample: (limit, offset, user_id, callback) => {
-        model.findAll({
+        PostsModel.findAll({
             where: {
                 user_id: user_id
             },
@@ -58,7 +43,7 @@ let Posts = {
             })
     },
     add: (user_id, title, body, callback) => {
-        model.create({
+        PostsModel.create({
             user_id: user_id,
             title: title,
             body: body,
@@ -69,7 +54,7 @@ let Posts = {
             })
     },
     delete: (post_id, callback) => {
-        model.destroy({
+        PostsModel.destroy({
             where: {
                 id: post_id
             }
@@ -79,7 +64,7 @@ let Posts = {
             })
     },
     updateViews: (post_id, views, callback) => {
-        model.update({
+        PostsModel.update({
             views: views
         }, {
             where: {

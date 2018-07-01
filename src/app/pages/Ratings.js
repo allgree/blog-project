@@ -114,7 +114,7 @@ export default class Ratings extends React.Component {
             <div className="content__ratings">
                 <div className="content__top_users">
                     <aside className="content__top_user">
-                        <h2 className="content__top_user_h2">Самый активный блогер</h2>
+                        <h2 className="content__top_user_h2">Самый активный автор</h2>
                             {this.props.is_bloger_fetching || this.props.is_users_fetching
                                 ? <Loader/>
                                 : <UserTop user={this.props.bloger}/>}

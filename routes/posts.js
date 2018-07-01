@@ -2,8 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
-const Posts = require('../models/posts');
-const Comments = require('../models/comments');
+const Posts = require('../models/postsRequests');
+const Comments = require('../models/commentsRequests');
 
 // все посты
 router.get('/', (req, res, next) => {

@@ -1,21 +1,8 @@
-const Sequelize = require('sequelize');
-const db = require('../db');
-
-const model = db.define('tokens', {
-    id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    user_id: Sequelize.INTEGER,
-    token: Sequelize.TEXT
-}, {
-    timestamps: false
-});
+const TokensModel = require('./tokensModel');
 
 let Tokens = {
   findByUserId: (user_id, callback) => {
-      model.findOne({
+      TokensModel.findOne({
           where: {
               user_id: user_id
           }
@@ -25,7 +12,7 @@ let Tokens = {
       })
   },
   findByToken: (token, callback) => {
-        model.findOne({
+      TokensModel.findOne({
             where: {
                 token: token
             }
@@ -35,7 +22,7 @@ let Tokens = {
             })
   },
   updateByUserId: (user_id, token, callback) => {
-      model.update({
+      TokensModel.update({
           token: token
       }, {
           where: {
@@ -45,7 +32,7 @@ let Tokens = {
           .then(result => {callback(result)})
   },
   addUserId: (user_id, callback) => {
-      model.create({
+      TokensModel.create({
           user_id: user_id
       })
           .then(result => {

@@ -1,28 +1,14 @@
-const Sequelize = require('sequelize');
-const db = require('../db');
-
-const model = db.define('comments', {
-    id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    post_id: Sequelize.INTEGER,
-    user_id: Sequelize.INTEGER,
-    body: Sequelize.TEXT,
-    createdAt: Sequelize.DATE,
-    updatedAt: Sequelize.DATE
-});
+const CommentsModel = require('./commentsModel');
 
 let Comments = {
     findAll: (callback) => {
-        model.findAll({})
+        CommentsModel.findAll({})
              .then(result => {
                  callback(result);
              })
     },
     findByPostIdSample: (limit, offset, post_id, callback) => {
-        model.findAll({
+        CommentsModel.findAll({
             where: {
                 post_id: post_id
             },
@@ -35,7 +21,7 @@ let Comments = {
             })
     },
     add: (post_id, user_id, body, callback) => {
-        model.create({
+        CommentsModel.create({
             post_id: post_id,
             user_id: user_id,
             body: body
@@ -43,7 +29,7 @@ let Comments = {
             .then(result => {callback(result)})
     },
     deleteById: (comment_id, callback) => {
-        model.destroy({
+        CommentsModel.destroy({
             where: {
                 id: comment_id
             }
@@ -53,7 +39,7 @@ let Comments = {
             })
     },
     deleteByPostId: (post_id, callback) => {
-        model.destroy({
+        CommentsModel.destroy({
             where: {
                 post_id: post_id
             }

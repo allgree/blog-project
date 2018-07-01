@@ -52069,7 +52069,7 @@ var Ratings = (_dec = (0, _reactRedux.connect)(function (store) {
                         _react2.default.createElement(
                             'h2',
                             { className: 'content__top_user_h2' },
-                            '\u0421\u0430\u043C\u044B\u0439 \u0430\u043A\u0442\u0438\u0432\u043D\u044B\u0439 \u0431\u043B\u043E\u0433\u0435\u0440'
+                            '\u0421\u0430\u043C\u044B\u0439 \u0430\u043A\u0442\u0438\u0432\u043D\u044B\u0439 \u0430\u0432\u0442\u043E\u0440'
                         ),
                         this.props.is_bloger_fetching || this.props.is_users_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(_UserTop2.default, { user: this.props.bloger })
                     ),

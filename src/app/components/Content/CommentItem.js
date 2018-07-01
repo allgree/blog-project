@@ -67,10 +67,12 @@ export default class CommentItem extends React.Component {
                 </p>
 
                 <div className="content__post_comment_info">
-                    <i className="fa fa-calendar" aria-hidden="true"/>&nbsp;<span>{created_date}</span>
-                    &nbsp;&nbsp;
-                    <i className="fa fa-clock-o" aria-hidden="true"/>&nbsp;<span>{created_time}</span>
-                    &nbsp;&nbsp;
+                    <span className="content__post_comment_info_span">
+                        <i className="fa fa-calendar" aria-hidden="true"/>&nbsp;<span>{created_date}</span>
+                    </span>
+                    <span className="content__post_comment_info_span">
+                        <i className="fa fa-clock-o" aria-hidden="true"/>&nbsp;<span>{created_time}</span>
+                    </span>
                     <span className="content__post_comment_likes post_like"
                          id={`comment_id_${this.props.comment.id}`}
                          onMouseEnter={() => {this.tooltipShow()}}
@@ -80,7 +82,7 @@ export default class CommentItem extends React.Component {
                             {this.state.tooltip}
                         </div>
                         <span>
-                            <i className="fa fa-heart" aria-hidden="true"/>
+                            <i className="fa fa-heart" aria-hidden="true"/>&nbsp;
                             {this.props.likes.length === 0 ? '' : this.props.likes.length}
                         </span>
                     </span>

@@ -13235,30 +13235,35 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
                 _react2.default.createElement(
                     'div',
                     { className: 'content__post_item_info' },
-                    _react2.default.createElement('i', { className: 'fa fa-calendar', 'aria-hidden': 'true' }),
-                    '\xA0',
                     _react2.default.createElement(
                         'span',
-                        null,
-                        created_date
+                        { className: 'content__post_item_info_span' },
+                        _react2.default.createElement('i', { className: 'fa fa-calendar', 'aria-hidden': 'true' }),
+                        '\xA0',
+                        _react2.default.createElement(
+                            'span',
+                            null,
+                            created_date
+                        )
                     ),
-                    '\xA0\xA0',
-                    _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
-                    '\xA0',
                     _react2.default.createElement(
                         'span',
-                        null,
-                        created_time
+                        { className: 'content__post_item_info_span' },
+                        _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
+                        '\xA0',
+                        _react2.default.createElement(
+                            'span',
+                            null,
+                            created_time
+                        )
                     ),
-                    '\xA0\xA0',
                     _react2.default.createElement(
                         'span',
-                        { className: 'post_view' },
+                        { className: 'content__post_item_info_span post_view' },
                         _react2.default.createElement('i', { className: 'fa fa-eye', 'aria-hidden': 'true' }),
                         ' ',
                         this.props.post.views
                     ),
-                    '\xA0',
                     _react2.default.createElement(
                         'div',
                         { className: 'tooltip', id: 'tooltip_' + this.props.post.id },
@@ -52996,23 +53001,28 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                             _react2.default.createElement(
                                 'span',
                                 null,
-                                _react2.default.createElement('i', { className: 'fa fa-calendar', 'aria-hidden': 'true' }),
-                                '\xA0',
-                                created_date,
-                                '\xA0\xA0',
-                                _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
-                                '\xA0',
-                                created_time
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'content__post_info_span' },
+                                    _react2.default.createElement('i', { className: 'fa fa-calendar', 'aria-hidden': 'true' }),
+                                    '\xA0',
+                                    created_date
+                                ),
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'content__post_info_span' },
+                                    _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
+                                    '\xA0',
+                                    created_time
+                                )
                             ),
-                            '\xA0',
                             _react2.default.createElement(
                                 'span',
-                                { className: 'post_view' },
+                                { className: 'content__post_info_span post_view' },
                                 _react2.default.createElement('i', { className: 'fa fa-eye', 'aria-hidden': 'true' }),
                                 ' ',
                                 this.props.post.views
                             ),
-                            '\xA0',
                             _react2.default.createElement(
                                 'div',
                                 { className: 'tooltip', id: 'tooltip_' + this.props.post.id },
@@ -53020,7 +53030,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                             ),
                             _react2.default.createElement(
                                 'span',
-                                { className: 'post_like',
+                                { className: 'content__post_info_span post_like',
                                     onMouseEnter: function onMouseEnter() {
                                         _this3.tooltipShow();
                                     },
@@ -53034,7 +53044,6 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                                 ' ',
                                 this.post_likes.length === 0 ? '' : this.post_likes.length
                             ),
-                            '\xA0',
                             Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id && _react2.default.createElement(
                                 'span',
                                 { className: 'content__post_delete',
@@ -53337,22 +53346,28 @@ var CommentItem = function (_React$Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'content__post_comment_info' },
-                    _react2.default.createElement('i', { className: 'fa fa-calendar', 'aria-hidden': 'true' }),
-                    '\xA0',
                     _react2.default.createElement(
                         'span',
-                        null,
-                        created_date
+                        { className: 'content__post_comment_info_span' },
+                        _react2.default.createElement('i', { className: 'fa fa-calendar', 'aria-hidden': 'true' }),
+                        '\xA0',
+                        _react2.default.createElement(
+                            'span',
+                            null,
+                            created_date
+                        )
                     ),
-                    '\xA0\xA0',
-                    _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
-                    '\xA0',
                     _react2.default.createElement(
                         'span',
-                        null,
-                        created_time
+                        { className: 'content__post_comment_info_span' },
+                        _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
+                        '\xA0',
+                        _react2.default.createElement(
+                            'span',
+                            null,
+                            created_time
+                        )
                     ),
-                    '\xA0\xA0',
                     _react2.default.createElement(
                         'span',
                         { className: 'content__post_comment_likes post_like',
@@ -53375,6 +53390,7 @@ var CommentItem = function (_React$Component) {
                             'span',
                             null,
                             _react2.default.createElement('i', { className: 'fa fa-heart', 'aria-hidden': 'true' }),
+                            '\xA0',
                             this.props.likes.length === 0 ? '' : this.props.likes.length
                         )
                     ),

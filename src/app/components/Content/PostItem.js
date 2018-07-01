@@ -86,14 +86,15 @@ export default class PostItem extends React.Component {
                     </p>}
 
                     <div className="content__post_item_info">
-                        <i className="fa fa-calendar" aria-hidden="true"/>&nbsp;<span>{created_date}</span>
-                        &nbsp;&nbsp;
-                        <i className="fa fa-clock-o" aria-hidden="true"/>&nbsp;<span>{created_time}</span>
-                        &nbsp;&nbsp;
-                        <span className="post_view">
+                        <span className="content__post_item_info_span">
+                            <i className="fa fa-calendar" aria-hidden="true"/>&nbsp;<span>{created_date}</span>
+                        </span>
+                        <span className="content__post_item_info_span">
+                            <i className="fa fa-clock-o" aria-hidden="true"/>&nbsp;<span>{created_time}</span>
+                        </span>
+                        <span className="content__post_item_info_span post_view">
                             <i className="fa fa-eye" aria-hidden="true"/> {this.props.post.views}
                         </span>
-                        &nbsp;
                         <div className="tooltip" id={`tooltip_${this.props.post.id}`}>
                             {this.state.tooltip}
                         </div>

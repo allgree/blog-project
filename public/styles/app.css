@@ -2802,6 +2802,10 @@ nav {
   font-size: 12px;
   position: relative; }
 
+.content__post_info_span {
+  display: inline-block;
+  padding-right: 5px; }
+
 .content__post_info > .tooltip {
   position: absolute;
   right: 23px; }
@@ -3042,6 +3046,10 @@ nav {
   font-size: 12px;
   position: relative; }
 
+.content__post_item_info_span {
+  display: inline-block;
+  padding-right: 5px; }
+
 /*end PostItem*/
 /*CommentItem*/
 .content__post_comment {
@@ -3082,6 +3090,10 @@ nav {
   font-family: "Europe Regular", sans-serif;
   font-size: 12px;
   position: relative; }
+
+.content__post_comment_info_span {
+  display: inline-block;
+  padding-right: 5px; }
 
 .tooltip_comment {
   margin-left: -30px; }

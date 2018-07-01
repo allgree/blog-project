@@ -185,25 +185,25 @@ export default class Post extends React.Component {
 
                                     <div className="content__post_info">
                                         <span>
-                                            <i className="fa fa-calendar" aria-hidden="true"/>&nbsp;{created_date}
-                                            &nbsp;&nbsp;
-                                            <i className="fa fa-clock-o" aria-hidden="true"/>&nbsp;{created_time}
+                                            <span className="content__post_info_span">
+                                                <i className="fa fa-calendar" aria-hidden="true"/>&nbsp;{created_date}
+                                            </span>
+                                            <span className="content__post_info_span">
+                                                <i className="fa fa-clock-o" aria-hidden="true"/>&nbsp;{created_time}
+                                            </span>
                                         </span>
-                                        &nbsp;
-                                        <span className="post_view">
+                                        <span className="content__post_info_span post_view">
                                             <i className="fa fa-eye" aria-hidden="true"/> {this.props.post.views}
                                         </span>
-                                        &nbsp;
                                         <div className="tooltip" id={`tooltip_${this.props.post.id}`}>
                                             {this.state.tooltip}
                                         </div>
-                                        <span className="post_like"
+                                        <span className="content__post_info_span post_like"
                                               onMouseEnter={() => {this.tooltipShow()}}
                                               onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}
                                               onClick={() => {this.triggerPostLike(this.props.post.id)}}>
                                             <i className="fa fa-heart" aria-hidden="true"/> {this.post_likes.length === 0 ? '' : this.post_likes.length}
                                         </span>
-                                        &nbsp;
                                         {Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id &&
                                         <span className="content__post_delete"
                                               onClick={() => {this.setState({delete: true})}}>

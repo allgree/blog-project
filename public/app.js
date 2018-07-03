@@ -52183,6 +52183,11 @@ var UserTop = function (_React$Component) {
                 _reactRouterDom.Link,
                 { to: '/user/' + this.props.user.id, className: 'content__top_user_item block_item' },
                 _react2.default.createElement(
+                    'p',
+                    { className: 'user_top_ava' },
+                    _react2.default.createElement('img', { src: this.props.user.avatar_path, className: 'user_item__ava__img' })
+                ),
+                _react2.default.createElement(
                     'h3',
                     { className: 'user_top__item__author' },
                     this.props.user.name,
@@ -52198,8 +52203,7 @@ var UserTop = function (_React$Component) {
                 _react2.default.createElement(
                     'p',
                     { className: 'user_top__item__info' },
-                    '\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E ',
-                    this.props.user.count_posts ? 'постов: ' + this.props.user.count_posts + '.' : 'комментариев: ' + this.props.user.count_comments + '.'
+                    this.props.user.posts_count ? 'Количество постов: ' + this.props.user.posts_count + '.' : 'Количество комментариев: ' + this.props.user.comments_count + '.'
                 )
             );
         }

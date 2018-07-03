@@ -56,9 +56,7 @@ router.post('/add/', (req, res, next) => {
 // удалить пост
 router.post('/delete/', (req, res, next) => {
    Posts.delete(req.body.post_id, (result_delete_post) => {
-       Comments.deleteByPostId(req.body.post_id, (result_delete_comments) => {
            res.json(result_delete_post);
-       });
    })
 });
 

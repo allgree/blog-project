@@ -18,6 +18,15 @@ const model = db.define('users', {
     avatar_path: Sequelize.STRING(100),
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
-});
+}, //{
+   // classMethods: {
+   //     associate: (models) => {
+   //         model.hasMany(models.Chapter, {
+   //             foreignKey: 'fk_users_posts'
+   //         });
+   //     }
+   // }
+//}
+);
 
 module.exports = model;

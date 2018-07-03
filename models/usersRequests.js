@@ -1,6 +1,48 @@
 const UsersModel = require('./usersModel');
+const PostsModel = require('./postsModel');
+const CommentsModel = require('./commentsModel');
+const Sequelize = require('sequelize');
+
+UsersModel.hasMany(PostsModel, {foreignKey: 'user_id'});
+UsersModel.hasMany(CommentsModel, {foreignKey: 'user_id'});
 
 let Users = {
+    findTopBloger: (callback) => {
+        UsersModel.findAll({
+            attributes: ['id', 'name', 'surname', 'city', 'avatar_path', [Sequelize.fn('count', Sequelize.col('posts.id')), 'posts_count']],
+            group: ['users.id'],
+            include: [{
+                model: PostsModel,
+                attributes: [],
+                duplicating: false,
+            }],
+            order: [[Sequelize.fn('count', Sequelize.col('posts.id')), 'DESC']],
+            limit: 1,
+        })
+            .then(result => {
+                callback(result);
+            })
+    },
+
+    findTopCommentator: (callback) => {
+        UsersModel.findAll({
+            attributes: ['id', 'name', 'surname', 'city', 'avatar_path', [Sequelize.fn('count', Sequelize.col('comments.id')), 'comments_count']],
+            group: ['users.id'],
+            include: [{
+                model: CommentsModel,
+                attributes: [],
+                duplicating: false,
+            }],
+            order: [[Sequelize.fn('count', Sequelize.col('comments.id')), 'DESC']],
+            limit: 1,
+        })
+            .then(result => {
+                callback(result);
+            })
+    },
+
+
+
     findAll: (callback) => {
         UsersModel.findAll({
             attributes: ['id', 'name', 'surname', 'city', 'age', 'site', 'email', 'avatar_path']
@@ -9,6 +51,7 @@ let Users = {
                 callback(result);
             })
     },
+
     findSample: (limit, offset, callback) => {
         UsersModel.findAll({
             offset: offset,

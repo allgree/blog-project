@@ -42,11 +42,14 @@ export default class Ratings extends React.Component {
     constructor() {
         super(...arguments);
         this.props.dispatch(fetchLoginData());
+
         this.props.dispatch(fetchUsers());
         this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchPostsList());
+
         this.props.dispatch(fetchBloger());
         this.props.dispatch(fetchCommentator());
+
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.deletePost = this.deletePost.bind(this);
     }

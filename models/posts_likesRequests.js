@@ -1,14 +1,33 @@
-const PostLikesModel = require('./posts-likesModel');
+const PostsLikesModel = require('./posts-likesModel');
+const UsersModel = require('./usersModel');
+
+PostsLikesModel.belongsTo(UsersModel, {foreignKey: 'user_id'});
 
 let PostsLikes = {
+    findPostLikes: (post_id, callback) => {
+        PostsLikesModel.findAll({
+            attributes: [],
+            where: {
+                post_id: post_id
+            },
+            include: [{
+                model: UsersModel,
+                attributes: ['id', 'name', 'surname', 'avatar_path']
+            }]
+        })
+            .then(result => {
+                callback(result);
+            })
+    },
+
     findAll: (callback) => {
-        PostLikesModel.findAll({})
+        PostsLikesModel.findAll({})
              .then(result => {
                  callback(result);
              })
     },
     findByPostId: (post_id, callback) => {
-        PostLikesModel.findAll({
+        PostsLikesModel.findAll({
             where: {
                 post_id: post_id
             }
@@ -18,14 +37,14 @@ let PostsLikes = {
             })
     },
     add: (post_id, user_id, callback) => {
-        PostLikesModel.create({
+        PostsLikesModel.create({
             post_id: post_id,
             user_id: user_id,
         })
             .then(result => callback(result))
     },
     delete: (post_id, user_id, callback) => {
-        PostLikesModel.destroy({
+        PostsLikesModel.destroy({
             where: {
                 post_id: post_id,
                 user_id: user_id

@@ -1,6 +1,65 @@
 const PostsModel = require('./postsModel');
+const UsersModel = require('./usersModel');
+const PostsLikesModel = require('./posts-likesModel');
+
+const Sequelize = require('sequelize');
+
+PostsModel.belongsTo(UsersModel, {as: 'author', foreignKey: 'user_id'});
+PostsModel.hasMany(PostsLikesModel, {as: 'likes', foreignKey: 'post_id'});
+PostsLikesModel.belongsTo(UsersModel, {foreignKey: 'user_id'});
 
 let Posts = {
+    findTopViewsPosts: (callback) => {
+        PostsModel.findAll({
+            attributes: {exclude: ['user_id', 'updatedAt']},
+            include: [{
+                model: UsersModel,
+                as: 'author',
+                attributes: ['id', 'name', 'surname'],
+                duplicating: false,
+            }, {
+                model: PostsLikesModel,
+                as: 'likes',
+                attributes: ['user_id'],
+                duplicating: false,
+                include: [{
+                    model: UsersModel,
+                    attributes: ['id', 'name', 'surname', 'avatar_path']
+                }]
+            }],
+            order: [['views', 'DESC']],
+            limit: 5
+        })
+            .then(result => {
+                callback(result);
+            })
+    },
+
+    findTopLikesPosts: (callback) => {
+        PostsModel.findAll({
+            attributes: ['id', 'title', 'body', 'views', 'createdAt',
+                [Sequelize.fn('count', Sequelize.col('likes.id')), 'likes_count']
+            ],
+            group: ['posts.id'],
+            include: [{
+                model: UsersModel,
+                as: 'author',
+                attributes: ['id', 'name', 'surname'],
+                duplicating: false,
+            },{
+                model: PostsLikesModel,
+                as: 'likes',
+                attributes: [],
+                duplicating: false, group: ['id'],
+            }],
+            order: [[Sequelize.fn('count', Sequelize.col('likes.id')), 'DESC']],
+            limit: 5
+        })
+            .then(result => {
+                callback(result);
+            })
+    },
+
     findAll: (callback) => {
         PostsModel.findAll({})
              .then(result => {

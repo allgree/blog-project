@@ -3,7 +3,35 @@ const express = require('express');
 const router = express.Router();
 
 const Posts = require('../models/postsRequests');
+const PostsLikes = require('../models/posts_likesRequests');
 const Comments = require('../models/commentsRequests');
+
+//топ просмотренных записей
+router.get('/top_views/', (req, res, next) => {
+        Posts.findTopViewsPosts(result => {
+            res.json(result)
+        })
+    }
+);
+
+router.get('/top_likes/', (req, res, next) => {
+        let result = [];
+        Posts.findTopLikesPosts(result_posts => {
+
+            result_posts.forEach((item, i) => {
+
+                result[i] = result_posts[i].dataValues;
+                result[i].likes = {};
+
+                PostsLikes.findPostLikes(item.id, result_likes => {
+                    result[i].likes = result_likes;
+                    (i === (result_posts.length - 1)) && (res.json(result));
+                })
+            });
+        });
+    }
+);
+
 
 // все посты
 router.get('/', (req, res, next) => {

@@ -51966,11 +51966,14 @@ var Ratings = (_dec = (0, _reactRedux.connect)(function (store) {
         var _this = _possibleConstructorReturn(this, (Ratings.__proto__ || Object.getPrototypeOf(Ratings)).apply(this, arguments));
 
         _this.props.dispatch((0, _loginActions.fetchLoginData)());
+
         _this.props.dispatch((0, _usersListActions.fetchUsers)());
         _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
         _this.props.dispatch((0, _postsListActions.fetchPostsList)());
+
         _this.props.dispatch((0, _blogerActions.fetchBloger)());
         _this.props.dispatch((0, _commentatorActions.fetchCommentator)());
+
         _this.triggerPostLike = _this.triggerPostLike.bind(_this);
         _this.deletePost = _this.deletePost.bind(_this);
         return _this;

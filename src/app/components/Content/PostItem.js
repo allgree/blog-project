@@ -21,7 +21,7 @@ export default class PostItem extends React.Component {
         this.time = 500;
         this.state = {
             users: [],
-            tooltip: '',
+            tooltip: false,
             delete: false
         };
         this.tooltipShow = this.tooltipShow.bind(this);
@@ -30,18 +30,15 @@ export default class PostItem extends React.Component {
     }
 
     tooltipShow() {
-        if (this.props.likes.length === 0) return;
+        if (this.props.post.likes.length === 0) return;
         this.setState({
-            tooltip: <div onMouseEnter={() => {clearTimeout(this.timeout)}}
-                          onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}>
-                <TooltipLikes users={this.props.users}/>
-            </div>
+            tooltip: true
         })
     }
 
     tooltipHide() {
         this.setState({
-            tooltip: ''
+            tooltip: false
         });
     }
 
@@ -77,13 +74,12 @@ export default class PostItem extends React.Component {
                         <h3 className="content__post_item_head">{this.props.post.title}</h3>
                         <div className="content__post_item_body">{body}</div>
                     </Link>
-                    {this.props.user &&
                     <p className="content__post_item__author">
-                        <Link to={`/user/${this.props.user.id}`}
+                        <Link to={`/user/${this.props.post.author.id}`}
                               className="content__post_item_author_link">
-                            {this.props.user.name} {this.props.user.surname}
+                            {this.props.post.author.name} {this.props.post.author.surname}
                         </Link>
-                    </p>}
+                    </p>
 
                     <div className="content__post_item_info">
                         <span className="content__post_item_info_span">
@@ -96,7 +92,11 @@ export default class PostItem extends React.Component {
                             <i className="fa fa-eye" aria-hidden="true"/> {this.props.post.views}
                         </span>
                         <div className="tooltip" id={`tooltip_${this.props.post.id}`}>
-                            {this.state.tooltip}
+                            {this.state.tooltip === true &&
+                            <div onMouseEnter={() => {clearTimeout(this.timeout)}}
+                                 onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}>
+                                <TooltipLikes users={this.props.post.likes}/>
+                            </div>}
                         </div>
                         <span className="post_like"
                               id={`post_id_${this.props.post.id}`}
@@ -104,7 +104,7 @@ export default class PostItem extends React.Component {
                               onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}
                               onClick={() => {this.props.triggerLike(this.props.post.id)}}>
                              <i className="fa fa-heart" aria-hidden="true"/>&nbsp;
-                            {this.props.likes.length === 0 ? '' : this.props.likes.length}
+                            {this.props.post.likes.length === 0 ? '' : this.props.post.likes.length}
                         </span>
                         {Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id &&
                         <span className="content__post_item_delete"

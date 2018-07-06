@@ -25,14 +25,14 @@ router.get('/sample/', (req, res, next) => {
 });
 
 // самый активный блогер
-router.get('/bloger', (req, res, next) => {
+router.get('/bloger/', (req, res, next) => {
    Users.findTopBloger(result => {
        res.json(result[0]);
    })
 });
 
 // самый активный комментатор
-router.get('/commentator', (req, res, next) => {
+router.get('/commentator/', (req, res, next) => {
     Users.findTopCommentator(result => {
         res.json(result[0]);
     })

@@ -6,32 +6,30 @@ import Loader from '../components/Content/Loader';
 
 import {connect} from 'react-redux';
 
-import {fetchLoginData} from "../actions/loginActions";
-import {fetchPostsList, deletePost} from "../actions/postsListActions";
-import {fetchUsers} from "../actions/usersListActions";
+import {fetchTopViewsPosts} from "../actions/topViewsPostsActions";
+import {fetchTopLikesPosts} from "../actions/topLikesPostsActions";
 import {fetchBloger} from "../actions/blogerActions";
 import {fetchCommentator} from "../actions/commentatorActions";
-import {fetchPostLikes, addPostLike, deletePostLike} from "../actions/postLikesActions";
+import {addPostLike, deletePostLike} from "../actions/postLikesActions";
+import {fetchLoginData} from "../actions/loginActions";
+
 import {moveUp} from "../functions/move_up";
 import {scrollTop} from "../functions/scrollTop";
 
 
 @connect((store) => {
     return {
-        users: store.usersList.users,
-        is_users_fetching: store.usersList.is_fetching,
+        topViewsPosts: store.topViewsPosts.posts,
+        is_top_views_posts_fetching: store.topViewsPosts.is_fetching,
 
-        posts: store.postsList.posts,
-        is_posts_fetching: store.postsList.is_fetching,
+        topLikesPosts: store.topLikesPosts.posts,
+        is_top_likes_posts_fetching: store.topLikesPosts.is_fetching,
 
         bloger: store.bloger.user,
         is_bloger_fetching: store.bloger.is_fetching,
 
         commentator: store.commentator.user,
         is_commentator_fetching: store.commentator.is_fetching,
-
-        post_likes: store.postLikes.likes,
-        is_post_likes_fetching: store.postLikes.is_fetching,
 
         login: store.login.login,
         is_login_fetching: store.login.is_fetching
@@ -41,78 +39,56 @@ import {scrollTop} from "../functions/scrollTop";
 export default class Ratings extends React.Component {
     constructor() {
         super(...arguments);
-        this.props.dispatch(fetchLoginData());
-
-        this.props.dispatch(fetchUsers());
-        this.props.dispatch(fetchPostLikes());
-        this.props.dispatch(fetchPostsList());
-
+        this.props.dispatch(fetchTopViewsPosts());
+        this.props.dispatch(fetchTopLikesPosts());
         this.props.dispatch(fetchBloger());
         this.props.dispatch(fetchCommentator());
-
-        this.triggerPostLike = this.triggerPostLike.bind(this);
+        this.props.dispatch(fetchLoginData());
+        this.like = this.like.bind(this);
         this.deletePost = this.deletePost.bind(this);
     }
 
-    triggerPostLike(post_id) {
+    like(post_id) {
         if (Object.keys(this.props.login).length === 0) return;
-        if (this.props.post_likes.find(item =>
-                item.post_id === post_id && item.user_id === this.props.login.id)) {
-            this.props.dispatch(deletePostLike(post_id, this.props.login.id));
-        } else {
-            this.props.dispatch(addPostLike(post_id, this.props.login.id));
+        this.triggerLike(this.props.topViewsPosts, post_id);
+        this.triggerLike(this.props.topLikesPosts, post_id);
+    }
+
+    triggerLike(posts, post_id) {
+        let post = posts.find(post => post.id === post_id);
+        if (post) {
+            if (post.likes.find(like => like.user.id === this.props.login.id)) {
+                this.props.dispatch(deletePostLike(post_id, this.props.login.id));
+            } else {
+                this.props.dispatch(addPostLike(post_id, this.props.login.id));
+            }
         }
     }
 
     deletePost(post_id) {
-        if (Object.keys(this.props.login).length === 0) return;
-        this.props.dispatch(deletePost(post_id));
+        console.log('deletePost', post_id);
+        //if (Object.keys(this.props.login).length === 0) return;
+        //this.props.dispatch(deletePost(post_id));
     }
 
     render() {
-        let top_views_posts_info = this.props.posts.sort((a, b) => {
-            return b.views - a.views;
-        }).slice(0, 5);
-        let top_views_posts = top_views_posts_info.map((post, index) => {
-            let user = this.props.users.find(user => user.id === post.user_id);
-            let likes = this.props.post_likes.filter(like => like.post_id === post.id);
-            let users = likes.map((like, index) => {
-                return this.props.users.find(user => user.id === like.user_id);
-            });
-            return <PostItem key={index}
-                             post={post}
-                             user={user}
-                             likes={likes}
-                             users={users}
-                             triggerLike={this.triggerPostLike}
+        let top_views_posts = this.props.topViewsPosts.map((post, index) => {
+            return <PostItem post={post}
+                             key={index}
+                             triggerLike={this.like}
+                             delete={this.deletePost}
+                             login={this.props.login}/>
+        });
+
+        let top_likes_posts = this.props.topLikesPosts.map((post, index) => {
+            return <PostItem post={post}
+                             key={index}
+                             triggerLike={this.like}
                              delete={this.deletePost}
                              login={this.props.login}/>
         });
 
 
-        let likes_posts = this.props.posts.map((post, index) => {
-            let likes = this.props.post_likes.filter(like => like.post_id === post.id);
-            return {...post, likes: likes.length};
-        });
-        let top_likes_posts_info = likes_posts.sort((a, b) => {
-            return b.likes - a.likes;
-        }).slice(0, 5);
-        let top_likes_posts = top_likes_posts_info .map((post, index) => {
-            let user = this.props.users.find(user => user.id === post.user_id);
-            let likes = this.props.post_likes.filter(like => like.post_id === post.id);
-            let users = likes.map((like, index) => {
-                return this.props.users.find(user => user.id === like.user_id);
-            });
-            return <PostItem key={index}
-                             post={post}
-                             user={user}
-                             likes={likes}
-                             users={users}
-                             triggerLike={this.triggerPostLike}
-                             delete={this.deletePost}
-                             login={this.props.login}
-            />
-        });
         return (
             <div className="content__ratings">
                 <div className="content__top_users">

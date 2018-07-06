@@ -6,7 +6,7 @@ PostsLikesModel.belongsTo(UsersModel, {foreignKey: 'user_id'});
 let PostsLikes = {
     findPostLikes: (post_id, callback) => {
         PostsLikesModel.findAll({
-            attributes: [],
+            attributes: ['id'],
             where: {
                 post_id: post_id
             },

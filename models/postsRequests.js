@@ -20,7 +20,7 @@ let Posts = {
             }, {
                 model: PostsLikesModel,
                 as: 'likes',
-                attributes: ['user_id'],
+                attributes: ['id'],
                 duplicating: false,
                 include: [{
                     model: UsersModel,
@@ -37,9 +37,7 @@ let Posts = {
 
     findTopLikesPosts: (callback) => {
         PostsModel.findAll({
-            attributes: ['id', 'title', 'body', 'views', 'createdAt',
-                [Sequelize.fn('count', Sequelize.col('likes.id')), 'likes_count']
-            ],
+            attributes: ['id', 'title', 'body', 'views', 'createdAt'],
             group: ['posts.id'],
             include: [{
                 model: UsersModel,

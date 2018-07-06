@@ -13140,7 +13140,7 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.time = 500;
         _this.state = {
             users: [],
-            tooltip: '',
+            tooltip: false,
             delete: false
         };
         _this.tooltipShow = _this.tooltipShow.bind(_this);
@@ -13152,27 +13152,16 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(PostItem, [{
         key: 'tooltipShow',
         value: function tooltipShow() {
-            var _this2 = this;
-
-            if (this.props.likes.length === 0) return;
+            if (this.props.post.likes.length === 0) return;
             this.setState({
-                tooltip: _react2.default.createElement(
-                    'div',
-                    { onMouseEnter: function onMouseEnter() {
-                            clearTimeout(_this2.timeout);
-                        },
-                        onMouseLeave: function onMouseLeave() {
-                            _this2.timeout = setTimeout(_this2.tooltipHide, _this2.time);
-                        } },
-                    _react2.default.createElement(_TooltipLikes2.default, { users: this.props.users })
-                )
+                tooltip: true
             });
         }
     }, {
         key: 'tooltipHide',
         value: function tooltipHide() {
             this.setState({
-                tooltip: ''
+                tooltip: false
             });
         }
     }, {
@@ -13185,7 +13174,7 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this2 = this;
 
             var timestamp = Date.parse(this.props.post.createdAt);
             var date = new Date();
@@ -13220,16 +13209,16 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
                         body
                     )
                 ),
-                this.props.user && _react2.default.createElement(
+                _react2.default.createElement(
                     'p',
                     { className: 'content__post_item__author' },
                     _react2.default.createElement(
                         _reactRouterDom.Link,
-                        { to: '/user/' + this.props.user.id,
+                        { to: '/user/' + this.props.post.author.id,
                             className: 'content__post_item_author_link' },
-                        this.props.user.name,
+                        this.props.post.author.name,
                         ' ',
-                        this.props.user.surname
+                        this.props.post.author.surname
                     )
                 ),
                 _react2.default.createElement(
@@ -13267,30 +13256,39 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
                     _react2.default.createElement(
                         'div',
                         { className: 'tooltip', id: 'tooltip_' + this.props.post.id },
-                        this.state.tooltip
+                        this.state.tooltip === true && _react2.default.createElement(
+                            'div',
+                            { onMouseEnter: function onMouseEnter() {
+                                    clearTimeout(_this2.timeout);
+                                },
+                                onMouseLeave: function onMouseLeave() {
+                                    _this2.timeout = setTimeout(_this2.tooltipHide, _this2.time);
+                                } },
+                            _react2.default.createElement(_TooltipLikes2.default, { users: this.props.post.likes })
+                        )
                     ),
                     _react2.default.createElement(
                         'span',
                         { className: 'post_like',
                             id: 'post_id_' + this.props.post.id,
                             onMouseEnter: function onMouseEnter() {
-                                _this3.tooltipShow();
+                                _this2.tooltipShow();
                             },
                             onMouseLeave: function onMouseLeave() {
-                                _this3.timeout = setTimeout(_this3.tooltipHide, _this3.time);
+                                _this2.timeout = setTimeout(_this2.tooltipHide, _this2.time);
                             },
                             onClick: function onClick() {
-                                _this3.props.triggerLike(_this3.props.post.id);
+                                _this2.props.triggerLike(_this2.props.post.id);
                             } },
                         _react2.default.createElement('i', { className: 'fa fa-heart', 'aria-hidden': 'true' }),
                         '\xA0',
-                        this.props.likes.length === 0 ? '' : this.props.likes.length
+                        this.props.post.likes.length === 0 ? '' : this.props.post.likes.length
                     ),
                     Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id && _react2.default.createElement(
                         'span',
                         { className: 'content__post_item_delete',
                             onClick: function onClick() {
-                                _this3.setState({ delete: true });
+                                _this2.setState({ delete: true });
                             } },
                         _react2.default.createElement('i', { className: 'fa fa-trash-o', 'aria-hidden': 'true' })
                     )
@@ -14746,10 +14744,10 @@ var TooltipLikes = function (_React$Component) {
                         { className: 'tooltip_user', key: index },
                         _react2.default.createElement(
                             _reactRouterDom.Link,
-                            { to: '/user/' + user.id, className: 'tooltip_user_link' },
-                            _react2.default.createElement('img', { src: '' + user.avatar_path, className: 'ava_tooltip' }),
+                            { to: '/user/' + user.user.id, className: 'tooltip_user_link' },
+                            _react2.default.createElement('img', { src: '' + user.user.avatar_path, className: 'ava_tooltip' }),
                             ' ',
-                            user.name + ' ' + user.surname
+                            user.user.name + ' ' + user.user.surname
                         )
                     );
                 })
@@ -40433,6 +40431,14 @@ var _redux = __webpack_require__(38);
 
 var _reduxForm = __webpack_require__(17);
 
+var _topViewsPostsReducer = __webpack_require__(478);
+
+var _topLikesPostsReducer = __webpack_require__(480);
+
+var _blogerReducer = __webpack_require__(378);
+
+var _commentatorReducer = __webpack_require__(380);
+
 var _userReducer = __webpack_require__(370);
 
 var _postReducer = __webpack_require__(372);
@@ -40440,10 +40446,6 @@ var _postReducer = __webpack_require__(372);
 var _postCommentsReducer = __webpack_require__(374);
 
 var _usersListReducer = __webpack_require__(376);
-
-var _blogerReducer = __webpack_require__(378);
-
-var _commentatorReducer = __webpack_require__(380);
 
 var _userPostsReducer = __webpack_require__(382);
 
@@ -40468,13 +40470,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var middleware = (0, _redux.applyMiddleware)((0, _reduxPromiseMiddleware2.default)());
 
 var reducers = (0, _redux.combineReducers)({
+    topViewsPosts: _topViewsPostsReducer.topViewsPostsReducer,
+    topLikesPosts: _topLikesPostsReducer.topLikesPostsReducer,
+    bloger: _blogerReducer.blogerReducer,
+    commentator: _commentatorReducer.commentatorReducer,
+
     user: _userReducer.userReducer,
     post: _postReducer.postReducer,
     postsList: _postsListReducer.postsListReducer,
     postComments: _postCommentsReducer.postCommentsReducer,
     usersList: _usersListReducer.usersListReducer,
-    bloger: _blogerReducer.blogerReducer,
-    commentator: _commentatorReducer.commentatorReducer,
     userPosts: _userPostsReducer.userPostsReducer,
     login: _loginReducer.loginReducer,
     postLikes: _postLikesReducer.postLikesReducer,
@@ -51889,8 +51894,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _dec, _class;
@@ -51913,17 +51916,17 @@ var _Loader2 = _interopRequireDefault(_Loader);
 
 var _reactRedux = __webpack_require__(4);
 
-var _loginActions = __webpack_require__(9);
+var _topViewsPostsActions = __webpack_require__(482);
 
-var _postsListActions = __webpack_require__(81);
-
-var _usersListActions = __webpack_require__(20);
+var _topLikesPostsActions = __webpack_require__(483);
 
 var _blogerActions = __webpack_require__(424);
 
 var _commentatorActions = __webpack_require__(425);
 
 var _postLikesActions = __webpack_require__(33);
+
+var _loginActions = __webpack_require__(9);
 
 var _move_up = __webpack_require__(22);
 
@@ -51939,20 +51942,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var Ratings = (_dec = (0, _reactRedux.connect)(function (store) {
     return {
-        users: store.usersList.users,
-        is_users_fetching: store.usersList.is_fetching,
+        topViewsPosts: store.topViewsPosts.posts,
+        is_top_views_posts_fetching: store.topViewsPosts.is_fetching,
 
-        posts: store.postsList.posts,
-        is_posts_fetching: store.postsList.is_fetching,
+        topLikesPosts: store.topLikesPosts.posts,
+        is_top_likes_posts_fetching: store.topLikesPosts.is_fetching,
 
         bloger: store.bloger.user,
         is_bloger_fetching: store.bloger.is_fetching,
 
         commentator: store.commentator.user,
         is_commentator_fetching: store.commentator.is_fetching,
-
-        post_likes: store.postLikes.likes,
-        is_post_likes_fetching: store.postLikes.is_fetching,
 
         login: store.login.login,
         is_login_fetching: store.login.is_fetching
@@ -51965,101 +51965,69 @@ var Ratings = (_dec = (0, _reactRedux.connect)(function (store) {
 
         var _this = _possibleConstructorReturn(this, (Ratings.__proto__ || Object.getPrototypeOf(Ratings)).apply(this, arguments));
 
-        _this.props.dispatch((0, _loginActions.fetchLoginData)());
-
-        _this.props.dispatch((0, _usersListActions.fetchUsers)());
-        _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
-        _this.props.dispatch((0, _postsListActions.fetchPostsList)());
-
+        _this.props.dispatch((0, _topViewsPostsActions.fetchTopViewsPosts)());
+        _this.props.dispatch((0, _topLikesPostsActions.fetchTopLikesPosts)());
         _this.props.dispatch((0, _blogerActions.fetchBloger)());
         _this.props.dispatch((0, _commentatorActions.fetchCommentator)());
-
-        _this.triggerPostLike = _this.triggerPostLike.bind(_this);
+        _this.props.dispatch((0, _loginActions.fetchLoginData)());
+        _this.like = _this.like.bind(_this);
         _this.deletePost = _this.deletePost.bind(_this);
         return _this;
     }
 
     _createClass(Ratings, [{
-        key: 'triggerPostLike',
-        value: function triggerPostLike(post_id) {
+        key: 'like',
+        value: function like(post_id) {
+            if (Object.keys(this.props.login).length === 0) return;
+            this.triggerLike(this.props.topViewsPosts, post_id);
+            this.triggerLike(this.props.topLikesPosts, post_id);
+        }
+    }, {
+        key: 'triggerLike',
+        value: function triggerLike(posts, post_id) {
             var _this2 = this;
 
-            if (Object.keys(this.props.login).length === 0) return;
-            if (this.props.post_likes.find(function (item) {
-                return item.post_id === post_id && item.user_id === _this2.props.login.id;
-            })) {
-                this.props.dispatch((0, _postLikesActions.deletePostLike)(post_id, this.props.login.id));
-            } else {
-                this.props.dispatch((0, _postLikesActions.addPostLike)(post_id, this.props.login.id));
+            var post = posts.find(function (post) {
+                return post.id === post_id;
+            });
+            if (post) {
+                if (post.likes.find(function (like) {
+                    return like.user.id === _this2.props.login.id;
+                })) {
+                    this.props.dispatch((0, _postLikesActions.deletePostLike)(post_id, this.props.login.id));
+                } else {
+                    this.props.dispatch((0, _postLikesActions.addPostLike)(post_id, this.props.login.id));
+                }
             }
         }
     }, {
         key: 'deletePost',
         value: function deletePost(post_id) {
-            if (Object.keys(this.props.login).length === 0) return;
-            this.props.dispatch((0, _postsListActions.deletePost)(post_id));
+            console.log('deletePost', post_id);
+            //if (Object.keys(this.props.login).length === 0) return;
+            //this.props.dispatch(deletePost(post_id));
         }
     }, {
         key: 'render',
         value: function render() {
             var _this3 = this;
 
-            var top_views_posts_info = this.props.posts.sort(function (a, b) {
-                return b.views - a.views;
-            }).slice(0, 5);
-            var top_views_posts = top_views_posts_info.map(function (post, index) {
-                var user = _this3.props.users.find(function (user) {
-                    return user.id === post.user_id;
-                });
-                var likes = _this3.props.post_likes.filter(function (like) {
-                    return like.post_id === post.id;
-                });
-                var users = likes.map(function (like, index) {
-                    return _this3.props.users.find(function (user) {
-                        return user.id === like.user_id;
-                    });
-                });
-                return _react2.default.createElement(_PostItem2.default, { key: index,
-                    post: post,
-                    user: user,
-                    likes: likes,
-                    users: users,
-                    triggerLike: _this3.triggerPostLike,
+            var top_views_posts = this.props.topViewsPosts.map(function (post, index) {
+                return _react2.default.createElement(_PostItem2.default, { post: post,
+                    key: index,
+                    triggerLike: _this3.like,
                     'delete': _this3.deletePost,
                     login: _this3.props.login });
             });
 
-            var likes_posts = this.props.posts.map(function (post, index) {
-                var likes = _this3.props.post_likes.filter(function (like) {
-                    return like.post_id === post.id;
-                });
-                return _extends({}, post, { likes: likes.length });
-            });
-            var top_likes_posts_info = likes_posts.sort(function (a, b) {
-                return b.likes - a.likes;
-            }).slice(0, 5);
-            var top_likes_posts = top_likes_posts_info.map(function (post, index) {
-                var user = _this3.props.users.find(function (user) {
-                    return user.id === post.user_id;
-                });
-                var likes = _this3.props.post_likes.filter(function (like) {
-                    return like.post_id === post.id;
-                });
-                var users = likes.map(function (like, index) {
-                    return _this3.props.users.find(function (user) {
-                        return user.id === like.user_id;
-                    });
-                });
-                return _react2.default.createElement(_PostItem2.default, { key: index,
-                    post: post,
-                    user: user,
-                    likes: likes,
-                    users: users,
-                    triggerLike: _this3.triggerPostLike,
+            var top_likes_posts = this.props.topLikesPosts.map(function (post, index) {
+                return _react2.default.createElement(_PostItem2.default, { post: post,
+                    key: index,
+                    triggerLike: _this3.like,
                     'delete': _this3.deletePost,
-                    login: _this3.props.login
-                });
+                    login: _this3.props.login });
             });
+
             return _react2.default.createElement(
                 'div',
                 { className: 'content__ratings' },
@@ -52238,7 +52206,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function fetchBloger() {
     return {
         type: 'FETCH_BLOGER',
-        payload: _axios2.default.get('api/users/bloger')
+        payload: _axios2.default.get('api/users/bloger/')
     };
 }
 
@@ -52263,7 +52231,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function fetchCommentator() {
     return {
         type: 'FETCH_COMMENTATOR',
-        payload: _axios2.default.get('api/users/commentator')
+        payload: _axios2.default.get('api/users/commentator/')
     };
 }
 
@@ -55159,6 +55127,368 @@ exports.default = Main;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 448 */,
+/* 449 */,
+/* 450 */,
+/* 451 */,
+/* 452 */,
+/* 453 */,
+/* 454 */,
+/* 455 */,
+/* 456 */,
+/* 457 */,
+/* 458 */,
+/* 459 */,
+/* 460 */,
+/* 461 */,
+/* 462 */,
+/* 463 */,
+/* 464 */,
+/* 465 */,
+/* 466 */,
+/* 467 */,
+/* 468 */,
+/* 469 */,
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */,
+/* 478 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.topViewsPostsReducer = topViewsPostsReducer;
+
+var _topViewsPostsConstants = __webpack_require__(479);
+
+var TopViewsPosts = _interopRequireWildcard(_topViewsPostsConstants);
+
+var _postLikesConstants = __webpack_require__(389);
+
+var PostLikes = _interopRequireWildcard(_postLikesConstants);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function topViewsPostsReducer() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { posts: [], is_fetching: false };
+    var action = arguments[1];
+
+    switch (action.type) {
+        case TopViewsPosts.FETCH_TOP_VIEWS_POSTS_PENDING:
+            {
+                state = _extends({}, state, {
+                    is_fetching: true });
+                break;
+            }
+        case TopViewsPosts.FETCH_TOP_VIEWS_POSTS_FULFILLED:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false,
+                    posts: action.payload.data
+                });
+                break;
+            }
+        case TopViewsPosts.FETCH_TOP_VIEWS_POSTS_REJECTED:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false,
+                    error_message: action.payload.message });
+                break;
+            }
+
+        case PostLikes.ADD_POST_LIKE_PENDING:
+            {
+                state = _extends({}, state, {
+                    is_fetching: true });
+                break;
+            }
+        case PostLikes.ADD_POST_LIKE_FULFILLED:
+            {
+                var posts = [].concat(_toConsumableArray(state.posts));
+                var like = action.payload.data;
+                posts.find(function (post) {
+                    if (post.id === like.post_id) {
+                        return post.likes.push({ id: like.id, user: like.user });
+                    }
+                });
+                state = _extends({}, state, { posts: posts, is_fetching: false });
+                break;
+            }
+        case PostLikes.ADD_POST_LIKE_REJECTED:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false,
+                    error_message: action.payload.message });
+                break;
+            }
+
+        case PostLikes.DELETE_POST_LIKE_PENDING:
+            {
+                state = _extends({}, state, {
+                    is_fetching: true });
+                break;
+            }
+        case PostLikes.DELETE_POST_LIKE_FULFILLED:
+            {
+                var _like = action.payload.data;
+                var _posts = [].concat(_toConsumableArray(state.posts));
+                if (_like.result === 1) {
+                    _posts.find(function (post) {
+                        if (post.id === _like.post_id) {
+                            return post.likes.find(function (find_like, index) {
+                                if (find_like.user.id === _like.user_id) {
+                                    return post.likes.splice(index, 1);
+                                }
+                            });
+                        }
+                    });
+                }
+                state = _extends({}, state, { posts: _posts, is_fetching: false });
+                break;
+            }
+        case PostLikes.DELETE_POST_LIKE_REJECTED:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false,
+                    error_message: action.payload.message });
+                break;
+            }
+    }
+    return state;
+}
+
+/***/ }),
+/* 479 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var FETCH_TOP_VIEWS_POSTS_PENDING = exports.FETCH_TOP_VIEWS_POSTS_PENDING = 'FETCH_TOP_VIEWS_POSTS_PENDING';
+var FETCH_TOP_VIEWS_POSTS_FULFILLED = exports.FETCH_TOP_VIEWS_POSTS_FULFILLED = 'FETCH_TOP_VIEWS_POSTS_FULFILLED';
+var FETCH_TOP_VIEWS_POSTS_REJECTED = exports.FETCH_TOP_VIEWS_POSTS_REJECTED = 'FETCH_TOP_VIEWS_POSTS_REJECTED';
+
+/***/ }),
+/* 480 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.topLikesPostsReducer = topLikesPostsReducer;
+
+var _topLikesPostsConstants = __webpack_require__(481);
+
+var TopLikesPosts = _interopRequireWildcard(_topLikesPostsConstants);
+
+var _postLikesConstants = __webpack_require__(389);
+
+var PostLikes = _interopRequireWildcard(_postLikesConstants);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function topLikesPostsReducer() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { posts: [], is_fetching: false };
+    var action = arguments[1];
+
+    switch (action.type) {
+        case TopLikesPosts.FETCH_TOP_LIKES_POSTS_PENDING:
+            {
+                state = _extends({}, state, {
+                    is_fetching: true
+                });
+                break;
+            }
+        case TopLikesPosts.FETCH_TOP_LIKES_POSTS_FULFILLED:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false,
+                    posts: action.payload.data
+                });
+                break;
+            }
+        case TopLikesPosts.FETCH_TOP_LIKES_POSTS_REJECTED:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false,
+                    error_message: action.payload.message
+                });
+                break;
+            }
+
+        case PostLikes.ADD_POST_LIKE_PENDING:
+            {
+                state = _extends({}, state, {
+                    is_fetching: true });
+                break;
+            }
+        case PostLikes.ADD_POST_LIKE_FULFILLED:
+            {
+                var posts = [].concat(_toConsumableArray(state.posts));
+                var like = action.payload.data;
+                posts.find(function (post) {
+                    if (post.id === like.post_id) {
+                        return post.likes.push({ id: like.id, user: like.user });
+                    }
+                });
+                state = _extends({}, state, { posts: posts, is_fetching: false });
+                break;
+            }
+        case PostLikes.ADD_POST_LIKE_REJECTED:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false,
+                    error_message: action.payload.message });
+                break;
+            }
+
+        case PostLikes.DELETE_POST_LIKE_PENDING:
+            {
+                state = _extends({}, state, {
+                    is_fetching: true });
+                break;
+            }
+        case PostLikes.DELETE_POST_LIKE_FULFILLED:
+            {
+                var _like = action.payload.data;
+                var _posts = [].concat(_toConsumableArray(state.posts));
+                if (_like.result === 1) {
+                    _posts.find(function (post) {
+                        if (post.id === _like.post_id) {
+                            return post.likes.find(function (find_like, index) {
+                                if (find_like.user.id === _like.user_id) {
+                                    return post.likes.splice(index, 1);
+                                }
+                            });
+                        }
+                    });
+                }
+                state = _extends({}, state, { posts: _posts, is_fetching: false });
+                break;
+            }
+        case PostLikes.DELETE_POST_LIKE_REJECTED:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false,
+                    error_message: action.payload.message });
+                break;
+            }
+    }
+    return state;
+}
+
+/***/ }),
+/* 481 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var FETCH_TOP_LIKES_POSTS_PENDING = exports.FETCH_TOP_LIKES_POSTS_PENDING = 'FETCH_TOP_LIKES_POSTS_PENDING';
+var FETCH_TOP_LIKES_POSTS_FULFILLED = exports.FETCH_TOP_LIKES_POSTS_FULFILLED = 'FETCH_TOP_LIKES_POSTS_FULFILLED';
+var FETCH_TOP_LIKES_POSTS_REJECTED = exports.FETCH_TOP_LIKES_POSTS_REJECTED = 'FETCH_TOP_LIKES_POSTS_REJECTED';
+
+/***/ }),
+/* 482 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.fetchTopViewsPosts = fetchTopViewsPosts;
+
+var _axios = __webpack_require__(8);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function fetchTopViewsPosts() {
+    return {
+        type: 'FETCH_TOP_VIEWS_POSTS',
+        payload: _axios2.default.get('api/posts/top_views/')
+    };
+}
+
+//export function addLikeTopViewPost(post_id, user_id) {
+//    return {
+//        type: 'ADD_LIKE_TOP_VIEW_POST',
+//        payload: axios.post('/api/post-likes/add/',
+//            {
+//                post_id: post_id,
+//                user_id: user_id
+//            })
+//    }
+//}
+//
+//export function deleteLikeTopViewPost(post_id, user_id) {
+//    return {
+//        type: 'DELETE_LIKE_TOP_VIEW_POST',
+//        payload: axios.post('/api/post-likes/delete',
+//            {
+//                post_id: post_id,
+//                user_id: user_id
+//            })
+//    }
+//}
+
+/***/ }),
+/* 483 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.fetchTopLikesPosts = fetchTopLikesPosts;
+
+var _axios = __webpack_require__(8);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function fetchTopLikesPosts() {
+    return {
+        type: 'FETCH_TOP_LIKES_POSTS',
+        payload: _axios2.default.get('api/posts/top_likes/')
+    };
+}
 
 /***/ })
 /******/ ]);

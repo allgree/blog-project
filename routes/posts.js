@@ -95,9 +95,26 @@ router.get('/', (req, res, next) => {
 
 
 // выборка постов пользователя для автоподгрузки
-router.get('/sample/user/', (req, res, next) => {
+router.get('/user-posts-sample/', (req, res, next) => {
+    let result = [];
+    let likes = [];
     Posts.findByUserIdSample(10, +req.query.offset, +req.query.user_id, (result_posts) => {
-        res.json(result_posts);
+        result_posts.forEach((item, i) => {
+            result[i] = result_posts[i].dataValues;
+            likes.push(new Promise((resolve, reject) => {
+                PostsLikes.findPostLikes(item.id, result_likes => {
+                    resolve(result_likes);
+                })
+            }));
+        });
+        Promise.all(likes).then(resultMessage => {
+            result.forEach((item, i) => {
+                result[i].likes = resultMessage[i];
+            });
+            res.json(result);
+        }, errMessage => {
+            console.log(errMessage);
+        });
     })
 });
 

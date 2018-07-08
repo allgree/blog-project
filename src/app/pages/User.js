@@ -8,11 +8,11 @@ import Loader from '../components/Content/Loader';
 
 import {fetchUser} from "../actions/userActions";
 import {fetchUserPostsSample} from "../actions/userPostsActions";
-import {fetchUsers} from "../actions/usersListActions";
-import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
+import {addPostLike, deletePostLike} from "../actions/postLikesActions";
 import {fetchLoginData} from "../actions/loginActions";
 import {fetchUserSubsSample} from "../actions/subsActions";
 import {fetchUserSubscribesSample, addSubcribe, deleteSubscribe} from "../actions/subscribesActions";
+
 import {autoload} from '../componentsFunctions/autoload';
 import {like} from '../componentsFunctions/like';
 import {linkUp} from "../componentsFunctions/link_up";
@@ -20,18 +20,12 @@ import {scrollTop} from "../componentsFunctions/scrollTop";
 
 @connect((store) => {
     return {
-        users: store.usersList.users,
-        is_users_fetching: store.usersList.is_fetching,
-
         user: store.user.user,
         is_user_fetching: store.user.is_fetching,
 
         user_posts: store.userPosts.posts,
         is_user_posts_fetching: store.userPosts.is_fetching,
         user_posts_empty: store.userPosts.empty,
-
-        post_likes: store.postLikes.likes,
-        is_post_likes_fetching: store.postLikes.is_fetching,
 
         login: store.login.login,
         is_login_fetching: store.login.is_fetching,
@@ -50,8 +44,6 @@ export default class User extends React.Component {
     constructor() {
         super(...arguments);
         this.props.dispatch(fetchLoginData());
-        this.props.dispatch(fetchUsers());
-        this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchUser(this.props.match.params.user_id));
         this.props.dispatch(fetchUserPostsSample(0, this.props.match.params.user_id));
         this.props.dispatch(fetchUserSubsSample(0, this.props.match.params.user_id));
@@ -85,28 +77,21 @@ export default class User extends React.Component {
         }
 
         let posts = this.props.user_posts.map((post, index) => {
-            let likes = this.props.post_likes.filter(item => item.post_id === post.id);
-            let users = likes.map((like, index) => {
-                return this.props.users.find(item => item.id === like.user_id);
-            });
-            return <PostItem key={index}
-                             post={post}
-                             likes={likes}
-                             users={users}
-                             triggerLike={this.triggerPostLike}/>
+             return <PostItem post={post}
+                              key={index}
+                              triggerLike={this.triggerPostLike}
+                              login={this.props.login}/>
         });
 
         let subs = this.props.subs.map((sub, index) =>{
-            let user = this.props.users.find(item => item.id === sub.sub_user_id);
             return <UserItem key={index}
-                             user={user}
+                             user={sub.sub_user}
                              button={false}/>;
         });
 
         let subscribes = this.props.subscribes.map((subscribe, index) => {
-           let user = this.props.users.find(item => item.id === subscribe.user_id);
            return <UserItem key={index}
-                            user={user}
+                            user={subscribe.user}
                             button={false}/>
         });
         return (
@@ -144,7 +129,7 @@ export default class User extends React.Component {
                                        {this.props.user.site}
                                    </a>
                                </p>}
-                            {this.props.subscribes.find(item => item.user_id === this.props.login.id)
+                            {this.props.subscribes.find(item => item.user.id === this.props.login.id)
                                 ? <button className="button_custom button_subscribing"
                                           onClick={() => {this.unsubscript()}}>
                                         Отписаться

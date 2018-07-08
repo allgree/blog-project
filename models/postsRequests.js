@@ -66,6 +66,23 @@ let Posts = {
             })
     },
 
+    findByUserIdSample: (limit, offset, user_id, callback) => {
+        PostsModel.findAll({
+            where: {
+                user_id: user_id
+            },
+            attributes: {exclude: ['user_id', 'updatedAt']},
+            offset: offset,
+            limit: limit,
+            order: [['createdAt', 'DESC']]
+        })
+            .then(result => {
+                callback(result);
+            })
+    },
+
+
+
     findAll: (callback) => {
         PostsModel.findAll({})
              .then(result => {
@@ -84,19 +101,7 @@ let Posts = {
             })
     },
 
-    findByUserIdSample: (limit, offset, user_id, callback) => {
-        PostsModel.findAll({
-            where: {
-                user_id: user_id
-            },
-            offset: offset,
-            limit: limit,
-            order: [['createdAt', 'DESC']]
-        })
-            .then(result => {
-                callback(result);
-            })
-    },
+
     add: (user_id, title, body, callback) => {
         PostsModel.create({
             user_id: user_id,

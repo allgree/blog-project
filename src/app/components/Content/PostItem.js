@@ -74,13 +74,14 @@ export default class PostItem extends React.Component {
                         <h3 className="content__post_item_head">{this.props.post.title}</h3>
                         <div className="content__post_item_body">{body}</div>
                     </Link>
-                    <p className="content__post_item__author">
-                        <Link to={`/user/${this.props.post.author.id}`}
-                              className="content__post_item_author_link">
-                            {this.props.post.author.name} {this.props.post.author.surname}
-                        </Link>
-                    </p>
-
+                    {this.props.post.author &&
+                        <p className="content__post_item__author">
+                            <Link to={`/user/${this.props.post.author.id}`}
+                                  className="content__post_item_author_link">
+                                {this.props.post.author.name} {this.props.post.author.surname}
+                            </Link>
+                        </p>
+                    }
                     <div className="content__post_item_info">
                         <span className="content__post_item_info_span">
                             <i className="fa fa-calendar" aria-hidden="true"/>&nbsp;<span>{created_date}</span>

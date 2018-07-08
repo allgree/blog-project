@@ -13209,7 +13209,7 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
                         body
                     )
                 ),
-                _react2.default.createElement(
+                this.props.post.author && _react2.default.createElement(
                     'p',
                     { className: 'content__post_item__author' },
                     _react2.default.createElement(
@@ -18400,7 +18400,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function fetchUserPostsSample(offset, user_id) {
     return {
         type: 'FETCH_USER_POSTS_SAMPLE',
-        payload: _axios2.default.get('/api/posts/sample/user/?user_id=' + user_id + '&offset=' + offset)
+        payload: _axios2.default.get('/api/posts/user-posts-sample/?user_id=' + user_id + '&offset=' + offset)
     };
 }
 
@@ -52647,8 +52647,6 @@ var _userActions = __webpack_require__(436);
 
 var _userPostsActions = __webpack_require__(148);
 
-var _usersListActions = __webpack_require__(34);
-
 var _postLikesActions = __webpack_require__(32);
 
 var _loginActions = __webpack_require__(9);
@@ -52675,18 +52673,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var User = (_dec = (0, _reactRedux.connect)(function (store) {
     return {
-        users: store.usersList.users,
-        is_users_fetching: store.usersList.is_fetching,
-
         user: store.user.user,
         is_user_fetching: store.user.is_fetching,
 
         user_posts: store.userPosts.posts,
         is_user_posts_fetching: store.userPosts.is_fetching,
         user_posts_empty: store.userPosts.empty,
-
-        post_likes: store.postLikes.likes,
-        is_post_likes_fetching: store.postLikes.is_fetching,
 
         login: store.login.login,
         is_login_fetching: store.login.is_fetching,
@@ -52708,8 +52700,6 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
         var _this = _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).apply(this, arguments));
 
         _this.props.dispatch((0, _loginActions.fetchLoginData)());
-        _this.props.dispatch((0, _usersListActions.fetchUsers)());
-        _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
         _this.props.dispatch((0, _userActions.fetchUser)(_this.props.match.params.user_id));
         _this.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(0, _this.props.match.params.user_id));
         _this.props.dispatch((0, _subsActions.fetchUserSubsSample)(0, _this.props.match.params.user_id));
@@ -52751,36 +52741,21 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
             }
 
             var posts = this.props.user_posts.map(function (post, index) {
-                var likes = _this2.props.post_likes.filter(function (item) {
-                    return item.post_id === post.id;
-                });
-                var users = likes.map(function (like, index) {
-                    return _this2.props.users.find(function (item) {
-                        return item.id === like.user_id;
-                    });
-                });
-                return _react2.default.createElement(_PostItem2.default, { key: index,
-                    post: post,
-                    likes: likes,
-                    users: users,
-                    triggerLike: _this2.triggerPostLike });
+                return _react2.default.createElement(_PostItem2.default, { post: post,
+                    key: index,
+                    triggerLike: _this2.triggerPostLike,
+                    login: _this2.props.login });
             });
 
             var subs = this.props.subs.map(function (sub, index) {
-                var user = _this2.props.users.find(function (item) {
-                    return item.id === sub.sub_user_id;
-                });
                 return _react2.default.createElement(_UserItem2.default, { key: index,
-                    user: user,
+                    user: sub.sub_user,
                     button: false });
             });
 
             var subscribes = this.props.subscribes.map(function (subscribe, index) {
-                var user = _this2.props.users.find(function (item) {
-                    return item.id === subscribe.user_id;
-                });
                 return _react2.default.createElement(_UserItem2.default, { key: index,
-                    user: user,
+                    user: subscribe.user,
                     button: false });
             });
             return _react2.default.createElement(
@@ -52840,7 +52815,7 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                             )
                         ),
                         this.props.subscribes.find(function (item) {
-                            return item.user_id === _this2.props.login.id;
+                            return item.user.id === _this2.props.login.id;
                         }) ? _react2.default.createElement(
                             'button',
                             { className: 'button_custom button_subscribing',

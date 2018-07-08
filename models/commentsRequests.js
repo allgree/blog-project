@@ -1,4 +1,7 @@
 const CommentsModel = require('./commentsModel');
+const UsersModel = require('./usersModel');
+
+CommentsModel.belongsTo(UsersModel, {as: 'author', foreignKey: 'user_id'});
 
 let Comments = {
     findAll: (callback) => {
@@ -12,6 +15,13 @@ let Comments = {
             where: {
                 post_id: post_id
             },
+            attributes: {exclude: ['user_id', 'updatedAt']},
+            include: [{
+               model: UsersModel,
+               as: 'author',
+               attributes: ['id', 'name', 'surname'],
+               duplicating: false,
+            }],
             offset: offset,
             limit: limit,
             order: [['createdAt', 'DESC']]

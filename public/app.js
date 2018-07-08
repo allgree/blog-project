@@ -52979,8 +52979,6 @@ var _postActions = __webpack_require__(438);
 
 var _postCommentsActions = __webpack_require__(439);
 
-var _usersListActions = __webpack_require__(34);
-
 var _postLikesActions = __webpack_require__(32);
 
 var _commentLikesActions = __webpack_require__(440);
@@ -53030,12 +53028,6 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
         is_post_comments_fetching: store.postComments.is_fetching,
         comments_empty: store.postComments.empty,
 
-        users: store.usersList.users,
-        is_users_fetching: store.usersList.is_fetching,
-
-        comment_likes: store.commentLikes.likes,
-        comment_likes_fetching: store.commentLikes.is_fetching,
-
         login: store.login.login,
         is_login_fetching: store.login.is_fetching
     };
@@ -53049,9 +53041,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
 
         _this.props.dispatch((0, _loginActions.fetchLoginData)());
         _this.props.dispatch((0, _postActions.fetchPost)(_this.props.match.params.post_id));
-        _this.props.dispatch((0, _usersListActions.fetchUsers)());
         _this.props.dispatch((0, _postCommentsActions.fetchPostCommentsSample)(0, _this.props.match.params.post_id));
-        _this.props.dispatch((0, _commentLikesActions.fetchCommentLikes)());
         _this.timeout = 0;
         _this.time = 500;
         _this.state = {
@@ -53125,22 +53115,8 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
             if (this.state.redirect_after_delete) return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/cabinet' });
 
             var comments = this.props.comments.map(function (comment, index) {
-                var user = _this2.props.users.find(function (item) {
-                    return item.id === comment.user_id;
-                });
-                var likes = _this2.props.comment_likes.filter(function (item) {
-                    return item.comment_id === comment.id;
-                });
-                var users = likes.map(function (like, index) {
-                    return _this2.props.users.find(function (item) {
-                        return item.id === like.user_id;
-                    });
-                });
                 return _react2.default.createElement(_CommentItem2.default, { key: index,
                     comment: comment,
-                    user: user,
-                    likes: likes,
-                    users: users,
                     triggerLike: _this2.triggerCommentLike,
                     'delete': _this2.deleteComment,
                     login: _this2.props.login });
@@ -53362,7 +53338,7 @@ var CommentItem = function (_React$Component) {
         _this.timeout = 0;
         _this.time = 500;
         _this.state = {
-            tooltip: ''
+            tooltip: false
         };
         _this.tooltipHide = _this.tooltipHide.bind(_this);
         _this.deleteWindowHide = _this.deleteWindowHide.bind(_this);
@@ -53372,20 +53348,9 @@ var CommentItem = function (_React$Component) {
     _createClass(CommentItem, [{
         key: 'tooltipShow',
         value: function tooltipShow() {
-            var _this2 = this;
-
-            if (this.props.likes.length === 0) return;
+            if (this.props.comment.likes.length === 0) return;
             this.setState({
-                tooltip: _react2.default.createElement(
-                    'div',
-                    { onMouseEnter: function onMouseEnter() {
-                            clearTimeout(_this2.timeout);
-                        },
-                        onMouseLeave: function onMouseLeave() {
-                            _this2.timeout = setTimeout(_this2.tooltipHide, _this2.time);
-                        } },
-                    _react2.default.createElement(_TooltipLikes2.default, { users: this.props.users })
-                )
+                tooltip: true
             });
         }
     }, {
@@ -53406,7 +53371,7 @@ var CommentItem = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this2 = this;
 
             var timestamp = Date.parse(this.props.comment.createdAt);
             var date = new Date();
@@ -53433,11 +53398,11 @@ var CommentItem = function (_React$Component) {
                     { className: 'content__post_comment_author' },
                     _react2.default.createElement(
                         _reactRouterDom.Link,
-                        { to: '/user/' + this.props.user.id,
+                        { to: '/user/' + this.props.comment.author.id,
                             className: 'content__post_comment_author_link' },
-                        this.props.user.name,
+                        this.props.comment.author.name,
                         ' ',
-                        this.props.user.surname
+                        this.props.comment.author.surname
                     )
                 ),
                 _react2.default.createElement(
@@ -53470,32 +53435,41 @@ var CommentItem = function (_React$Component) {
                         { className: 'content__post_comment_likes post_like',
                             id: 'comment_id_' + this.props.comment.id,
                             onMouseEnter: function onMouseEnter() {
-                                _this3.tooltipShow();
+                                _this2.tooltipShow();
                             },
                             onMouseLeave: function onMouseLeave() {
-                                _this3.timeout = setTimeout(_this3.tooltipHide, _this3.time);
+                                _this2.timeout = setTimeout(_this2.tooltipHide, _this2.time);
                             },
                             onClick: function onClick() {
-                                _this3.props.triggerLike(_this3.props.comment.id);
+                                _this2.props.triggerLike(_this2.props.comment.id);
                             } },
                         _react2.default.createElement(
                             'div',
                             { className: 'tooltip tooltip_comment', id: 'tooltip_' + this.props.comment.id },
-                            this.state.tooltip
+                            this.state.tooltip && _react2.default.createElement(
+                                'div',
+                                { onMouseEnter: function onMouseEnter() {
+                                        clearTimeout(_this2.timeout);
+                                    },
+                                    onMouseLeave: function onMouseLeave() {
+                                        _this2.timeout = setTimeout(_this2.tooltipHide, _this2.time);
+                                    } },
+                                _react2.default.createElement(_TooltipLikes2.default, { users: this.props.comment.likes })
+                            )
                         ),
                         _react2.default.createElement(
                             'span',
                             null,
                             _react2.default.createElement('i', { className: 'fa fa-heart', 'aria-hidden': 'true' }),
                             '\xA0',
-                            this.props.likes.length === 0 ? '' : this.props.likes.length
+                            this.props.comment.likes.length === 0 ? '' : this.props.comment.likes.length
                         )
                     ),
-                    Object.keys(this.props.login).length !== 0 && this.props.comment.user_id === this.props.login.id && _react2.default.createElement(
+                    Object.keys(this.props.login).length !== 0 && this.props.comment.author.id === this.props.login.id && _react2.default.createElement(
                         'span',
                         { className: 'content__post_comment_delete',
                             onClick: function onClick() {
-                                _this3.setState({ delete: true });
+                                _this2.setState({ delete: true });
                             } },
                         _react2.default.createElement('i', { className: 'fa fa-trash-o', 'aria-hidden': 'true' })
                     )

@@ -1,4 +1,7 @@
 const CommentsLikesModel = require('./comments-likesModel');
+const UsersModel = require('./usersModel');
+
+CommentsLikesModel.belongsTo(UsersModel, {foreignKey: 'user_id'});
 
 let CommentsLikes = {
     findAll: (callback) => {
@@ -9,9 +12,14 @@ let CommentsLikes = {
     },
     findByCommentId: (comment_id, callback) => {
         CommentsLikesModel.findAll({
+            attributes: ['id'],
             where: {
                 comment_id: comment_id
-            }
+            },
+            include: [{
+                model: UsersModel,
+                attributes: ['id', 'name', 'surname', 'avatar_path']
+            }]
         })
             .then(result => {
                 callback(result);

@@ -5,9 +5,8 @@ import {connect} from 'react-redux';
 
 import {fetchPost} from "../actions/postActions";
 import {fetchPostCommentsSample, addPostComment, deletePostComment} from "../actions/postCommentsActions";
-import {fetchUsers} from "../actions/usersListActions";
 import {addPostLike, deletePostLike} from "../actions/postLikesActions";
-import {fetchCommentLikes, addCommentLike, deleteCommentLike} from "../actions/commentLikesActions";
+import {addCommentLike, deleteCommentLike} from "../actions/commentLikesActions";
 import {fetchLoginData} from "../actions/loginActions";
 import {deletePost} from "../actions/postsListActions";
 
@@ -30,12 +29,6 @@ import {scrollTop} from "../componentsFunctions/scrollTop";
         is_post_comments_fetching: store.postComments.is_fetching,
         comments_empty: store.postComments.empty,
 
-        users: store.usersList.users,
-        is_users_fetching: store.usersList.is_fetching,
-
-        comment_likes: store.commentLikes.likes,
-        comment_likes_fetching: store.commentLikes.is_fetching,
-
         login: store.login.login,
         is_login_fetching: store.login.is_fetching
     }
@@ -45,9 +38,7 @@ export default class Post extends React.Component {
         super(...arguments);
         this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchPost(this.props.match.params.post_id));
-        this.props.dispatch(fetchUsers());
         this.props.dispatch(fetchPostCommentsSample(0, this.props.match.params.post_id));
-        this.props.dispatch(fetchCommentLikes());
         this.timeout = 0;
         this.time = 500;
         this.state = {
@@ -109,19 +100,11 @@ export default class Post extends React.Component {
         if (this.state.redirect_after_delete) return <Redirect to="/cabinet"/>;
 
         let comments = this.props.comments.map((comment, index) => {
-           let user = this.props.users.find(item => item.id === comment.user_id);
-           let likes = this.props.comment_likes.filter(item => item.comment_id === comment.id);
-           let users = likes.map((like, index) => {
-               return this.props.users.find(item => item.id === like.user_id);
-           });
-           return <CommentItem key={index}
-                               comment={comment}
-                               user={user}
-                               likes={likes}
-                               users={users}
-                               triggerLike={this.triggerCommentLike}
-                               delete={this.deleteComment}
-                               login={this.props.login}/>
+            return <CommentItem key={index}
+                                comment={comment}
+                                triggerLike={this.triggerCommentLike}
+                                delete={this.deleteComment}
+                                login={this.props.login}/>
         });
         return (
             <div>

@@ -12,10 +12,10 @@ router.get('/top_views/', (req, res, next) => {
         let result = [];
         let likes = [];
         Posts.findTopViewsPosts(result_posts => {
-            result_posts.forEach((item, i) => {
+            result_posts.forEach((post, i) => {
                 result[i] = result_posts[i].dataValues;
                 likes.push(new Promise((resolve, reject) => {
-                    PostsLikes.findPostLikes(item.id, result_likes => {
+                    PostsLikes.findPostLikes(post.id, result_likes => {
                         resolve(result_likes);
                     })
                 }));
@@ -37,10 +37,10 @@ router.get('/top_likes/', (req, res, next) => {
         let result = [];
     let likes = [];
         Posts.findTopLikesPosts(result_posts => {
-            result_posts.forEach((item, i) => {
+            result_posts.forEach((post, i) => {
                 result[i] = result_posts[i].dataValues;
                 likes.push(new Promise((resolve, reject) => {
-                    PostsLikes.findPostLikes(item.id, result_likes => {
+                    PostsLikes.findPostLikes(post.id, result_likes => {
                         resolve(result_likes);
                     })
                 }));
@@ -63,10 +63,10 @@ router.get('/sample/', (req, res, next) => {
     let result = [];
     let likes = [];
     Posts.findSample(10, +req.query.offset, (result_posts) => {
-        result_posts.forEach((item, i) => {
+        result_posts.forEach((post, i) => {
             result[i] = result_posts[i].dataValues;
             likes.push(new Promise((resolve, reject) => {
-                PostsLikes.findPostLikes(item.id, result_likes => {
+                PostsLikes.findPostLikes(post.id, result_likes => {
                     resolve(result_likes);
                 })
             }));
@@ -99,10 +99,10 @@ router.get('/user-posts-sample/', (req, res, next) => {
     let result = [];
     let likes = [];
     Posts.findByUserIdSample(10, +req.query.offset, +req.query.user_id, (result_posts) => {
-        result_posts.forEach((item, i) => {
+        result_posts.forEach((post, i) => {
             result[i] = result_posts[i].dataValues;
             likes.push(new Promise((resolve, reject) => {
-                PostsLikes.findPostLikes(item.id, result_likes => {
+                PostsLikes.findPostLikes(post.id, result_likes => {
                     resolve(result_likes);
                 })
             }));

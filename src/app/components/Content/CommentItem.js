@@ -10,19 +10,16 @@ export default class CommentItem extends React.Component {
         this.timeout = 0;
         this.time = 500;
         this.state = {
-            tooltip: ''
+            tooltip: false
         };
         this.tooltipHide = this.tooltipHide.bind(this);
         this.deleteWindowHide = this.deleteWindowHide.bind(this);
     }
 
     tooltipShow() {
-        if (this.props.likes.length === 0) return;
+        if (this.props.comment.likes.length === 0) return;
         this.setState({
-            tooltip: <div onMouseEnter={() => {clearTimeout(this.timeout)}}
-                          onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}>
-                <TooltipLikes users={this.props.users}/>
-            </div>
+            tooltip: true
         })
     }
 
@@ -60,9 +57,9 @@ export default class CommentItem extends React.Component {
                     {this.props.comment.body}
                 </p>
                 <p className="content__post_comment_author">
-                    <Link to={`/user/${this.props.user.id}`}
+                    <Link to={`/user/${this.props.comment.author.id}`}
                           className="content__post_comment_author_link">
-                        {this.props.user.name} {this.props.user.surname}
+                        {this.props.comment.author.name} {this.props.comment.author.surname}
                     </Link>
                 </p>
 
@@ -79,14 +76,18 @@ export default class CommentItem extends React.Component {
                          onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}
                          onClick={() => {this.props.triggerLike(this.props.comment.id)}}>
                         <div className="tooltip tooltip_comment" id={`tooltip_${this.props.comment.id}`}>
-                            {this.state.tooltip}
+                            {this.state.tooltip &&
+                            <div onMouseEnter={() => {clearTimeout(this.timeout)}}
+                                 onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}>
+                                <TooltipLikes users={this.props.comment.likes}/>
+                            </div>}
                         </div>
                         <span>
                             <i className="fa fa-heart" aria-hidden="true"/>&nbsp;
-                            {this.props.likes.length === 0 ? '' : this.props.likes.length}
+                            {this.props.comment.likes.length === 0 ? '' : this.props.comment.likes.length}
                         </span>
                     </span>
-                    {Object.keys(this.props.login).length !== 0 && this.props.comment.user_id === this.props.login.id &&
+                    {Object.keys(this.props.login).length !== 0 && this.props.comment.author.id === this.props.login.id &&
                         <span className="content__post_comment_delete"
                               onClick={() => {this.setState({delete: true})}}>
                         <i className="fa fa-trash-o" aria-hidden="true"/>

@@ -20,7 +20,6 @@ export function usersListReducer(state = {users: [], is_fetching: false, empty: 
             break;
         }
         case UsersList.FETCH_USERS_SAMPLE_FULFILLED: {
-
             let users = [...state.users];
             let empty = state.empty;
             let url_arr = action.payload.config.url.split('=');

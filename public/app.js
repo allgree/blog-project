@@ -49488,7 +49488,6 @@ function usersListReducer() {
             }
         case UsersList.FETCH_USERS_SAMPLE_FULFILLED:
             {
-
                 var users = [].concat(_toConsumableArray(state.users));
                 var empty = state.empty;
                 var url_arr = action.payload.config.url.split('=');

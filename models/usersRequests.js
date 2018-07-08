@@ -42,6 +42,17 @@ let Users = {
             })
     },
 
+    findSample: (limit, offset, callback) => {
+        UsersModel.findAll({
+            attributes: {exclude: ['login', 'password', 'createdAt', 'updatedAt']},
+            offset: offset,
+            limit: limit
+        })
+            .then(result => {
+                callback(result)
+            })
+    },
+
 
 
     findAll: (callback) => {
@@ -53,15 +64,7 @@ let Users = {
             })
     },
 
-    findSample: (limit, offset, callback) => {
-        UsersModel.findAll({
-            offset: offset,
-            limit: limit
-        })
-            .then(result => {
-                callback(result)
-            })
-    },
+
     findUserById: (user_id, callback) => {
         UsersModel.findOne({
             attributes: {exclude: ['login', 'password', 'createdAt', 'updatedAt']},

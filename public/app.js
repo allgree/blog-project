@@ -40499,6 +40499,10 @@ var _redux = __webpack_require__(38);
 
 var _reduxForm = __webpack_require__(17);
 
+var _usersListReducer = __webpack_require__(387);
+
+var _postsListReducer = __webpack_require__(391);
+
 var _topViewsPostsReducer = __webpack_require__(373);
 
 var _topLikesPostsReducer = __webpack_require__(375);
@@ -40509,25 +40513,21 @@ var _commentatorReducer = __webpack_require__(379);
 
 var _userReducer = __webpack_require__(381);
 
+var _userPostsReducer = __webpack_require__(389);
+
+var _subsReducer = __webpack_require__(398);
+
+var _subscribesReducer = __webpack_require__(400);
+
 var _postReducer = __webpack_require__(383);
 
 var _postCommentsReducer = __webpack_require__(385);
-
-var _usersListReducer = __webpack_require__(387);
-
-var _userPostsReducer = __webpack_require__(389);
-
-var _postsListReducer = __webpack_require__(391);
 
 var _loginReducer = __webpack_require__(393);
 
 var _postLikesReducer = __webpack_require__(395);
 
 var _commentLikesReducer = __webpack_require__(396);
-
-var _subsReducer = __webpack_require__(398);
-
-var _subscribesReducer = __webpack_require__(400);
 
 var _reduxPromiseMiddleware = __webpack_require__(402);
 
@@ -40538,22 +40538,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var middleware = (0, _redux.applyMiddleware)((0, _reduxPromiseMiddleware2.default)());
 
 var reducers = (0, _redux.combineReducers)({
+    usersList: _usersListReducer.usersListReducer,
     postsList: _postsListReducer.postsListReducer,
     topViewsPosts: _topViewsPostsReducer.topViewsPostsReducer,
     topLikesPosts: _topLikesPostsReducer.topLikesPostsReducer,
     bloger: _blogerReducer.blogerReducer,
     commentator: _commentatorReducer.commentatorReducer,
-
     user: _userReducer.userReducer,
+    userPosts: _userPostsReducer.userPostsReducer,
+    subs: _subsReducer.subsReducer,
+    subscribes: _subscribesReducer.subscribesReducer,
+
     post: _postReducer.postReducer,
     postComments: _postCommentsReducer.postCommentsReducer,
-    usersList: _usersListReducer.usersListReducer,
-    userPosts: _userPostsReducer.userPostsReducer,
     login: _loginReducer.loginReducer,
     postLikes: _postLikesReducer.postLikesReducer,
     commentLikes: _commentLikesReducer.commentLikesReducer,
-    subs: _subsReducer.subsReducer,
-    subscribes: _subscribesReducer.subscribesReducer,
+
     form: _reduxForm.reducer
 });
 
@@ -54252,45 +54253,48 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
             if (Object.keys(this.props.login).length === 0) {
                 return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/login' });
             }
+
             var posts = this.props.user_posts.map(function (post, index) {
-                var likes = _this3.props.post_likes.filter(function (item) {
-                    return item.post_id === post.id;
-                });
-                var users = likes.map(function (like, index) {
-                    return _this3.props.users.find(function (item) {
-                        return item.id === like.user_id;
-                    });
-                });
-                return _react2.default.createElement(_PostItem2.default, { key: index,
-                    post: post,
-                    likes: likes,
-                    users: users,
+                return _react2.default.createElement(_PostItem2.default, { post: post,
+                    key: index,
                     triggerLike: _this3.triggerPostLike,
                     'delete': _this3.deletePost,
                     login: _this3.props.login });
             });
 
             var subs = this.props.subs.map(function (sub, index) {
-                var user = _this3.props.users.find(function (item) {
-                    return item.id === sub.sub_user_id;
-                });
                 return _react2.default.createElement(_UserItem2.default, { key: index,
-                    user: user,
+                    user: sub.sub_user,
                     button: 'subs',
                     unsub: _this3.unsub,
                     flag: true });
             });
 
             var subscribes = this.props.subscribes.map(function (subscribe, index) {
-                var user = _this3.props.users.find(function (item) {
-                    return item.id === subscribe.user_id;
-                });
                 return _react2.default.createElement(_UserItem2.default, { key: index,
-                    user: user,
+                    user: subscribe.user,
                     button: 'subscribes',
                     unsub: _this3.unsubscribe,
                     flag: false });
             });
+
+            //let subs = this.props.subs.map((sub, index) =>{
+            //    let user = this.props.users.find(item => item.id === sub.sub_user_id);
+            //    return <UserItem key={index}
+            //                     user={user}
+            //                     button={'subs'}
+            //                     unsub={this.unsub}
+            //                     flag={true}/>;
+            //});
+            //
+            //let subscribes = this.props.subscribes.map((subscribe, index) =>{
+            //    let user = this.props.users.find(item => item.id === subscribe.user_id);
+            //    return <UserItem key={index}
+            //                     user={user}
+            //                     button={'subscribes'}
+            //                     unsub={this.unsubscribe}
+            //                     flag={false}/>;
+            //});
             return _react2.default.createElement(
                 'div',
                 { className: 'content__cabinet' },

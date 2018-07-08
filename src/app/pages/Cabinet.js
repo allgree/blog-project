@@ -161,38 +161,49 @@ export default class Cabinet extends React.Component {
         if (Object.keys(this.props.login).length === 0) {
             return <Redirect to="/login"/>
         }
+
         let posts = this.props.user_posts.map((post, index) => {
-            let likes = this.props.post_likes.filter(item => item.post_id === post.id);
-            let users = likes.map((like, index) => {
-                return this.props.users.find(item => item.id === like.user_id);
-            });
-            return <PostItem key={index}
-                             post={post}
-                             likes={likes}
-                             users={users}
+            return <PostItem post={post}
+                             key={index}
                              triggerLike={this.triggerPostLike}
                              delete={this.deletePost}
                              login={this.props.login}/>
         });
 
-
         let subs = this.props.subs.map((sub, index) =>{
-            let user = this.props.users.find(item => item.id === sub.sub_user_id);
             return <UserItem key={index}
-                             user={user}
+                             user={sub.sub_user}
                              button={'subs'}
                              unsub={this.unsub}
                              flag={true}/>;
         });
 
-        let subscribes = this.props.subscribes.map((subscribe, index) =>{
-            let user = this.props.users.find(item => item.id === subscribe.user_id);
+        let subscribes = this.props.subscribes.map((subscribe, index) => {
             return <UserItem key={index}
-                             user={user}
+                             user={subscribe.user}
                              button={'subscribes'}
                              unsub={this.unsubscribe}
-                             flag={false}/>;
+                             flag={false}/>
         });
+        
+
+        //let subs = this.props.subs.map((sub, index) =>{
+        //    let user = this.props.users.find(item => item.id === sub.sub_user_id);
+        //    return <UserItem key={index}
+        //                     user={user}
+        //                     button={'subs'}
+        //                     unsub={this.unsub}
+        //                     flag={true}/>;
+        //});
+//
+        //let subscribes = this.props.subscribes.map((subscribe, index) =>{
+        //    let user = this.props.users.find(item => item.id === subscribe.user_id);
+        //    return <UserItem key={index}
+        //                     user={user}
+        //                     button={'subscribes'}
+        //                     unsub={this.unsubscribe}
+        //                     flag={false}/>;
+        //});
         return (
             <div className="content__cabinet">
 

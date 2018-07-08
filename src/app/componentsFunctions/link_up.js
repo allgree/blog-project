@@ -1,4 +1,4 @@
-export function moveUp() {
+export function linkUp() {
     if ($(document).scrollTop() > 200) {
         $('.link_to_up').fadeIn(300)
     } else {

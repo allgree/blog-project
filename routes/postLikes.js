@@ -16,10 +16,8 @@ router.post('/add/', (req, res, next) => {
         like.user = {};
         Users.findById(like.user_id, (result_user) => {
             like.user = result_user.dataValues;
-            console.log(like);
             res.json(like);
         });
-       //res.json(result.dataValues);
     });
 });
 

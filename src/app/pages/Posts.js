@@ -3,30 +3,23 @@ import React from 'react';
 import Loader from '../components/Content/Loader';
 import PostItem from '../components/Content/PostItem';
 
-
 import {connect} from 'react-redux';
 
 import {fetchPostsSample, deletePost} from "../actions/postsListActions";
-import {fetchUsers} from "../actions/usersListActions";
-import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 import {fetchLoginData} from "../actions/loginActions";
-import {autoload} from '../functions/autoload';
-import {like} from '../functions/like';
-import {moveUp} from "../functions/move_up";
-import {scrollTop} from "../functions/scrollTop";
+import {addPostLike, deletePostLike} from "../actions/postLikesActions";
+
+import {autoload} from '../componentsFunctions/autoload';
+import {like} from '../componentsFunctions/like';
+import {linkUp} from "../componentsFunctions/link_up";
+import {scrollTop} from "../componentsFunctions/scrollTop";
 
 
 @connect((store) => {
     return {
-        users: store.usersList.users,
-        is_users_fetching: store.usersList.is_fetching,
-
         posts: store.postsList.posts,
         is_posts_fetching: store.postsList.is_fetching,
         posts_empty: store.postsList.empty,
-
-        post_likes: store.postLikes.likes,
-        is_post_likes_fetching: store.postLikes.is_fetching,
 
         login: store.login.login,
         is_login_fetching: store.login.is_fetching
@@ -36,8 +29,6 @@ export default class Posts extends React.Component {
     constructor() {
         super(...arguments);
         this.props.dispatch(fetchLoginData());
-        this.props.dispatch(fetchUsers());
-        this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchPostsSample(0));
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.deletePost = this.deletePost.bind(this);
@@ -54,20 +45,14 @@ export default class Posts extends React.Component {
 
     render() {
         let posts = this.props.posts.map((post, index) => {
-            let user = this.props.users.find(item => item.id === post.user_id);
-            let likes = this.props.post_likes.filter(item => item.post_id === post.id);
-            let users = likes.map((like, index) => {
-                return this.props.users.find(item => item.id === like.user_id);
-            });
-            return <PostItem key={index}
-                             post={post}
-                             user={user}
-                             likes={likes}
-                             users={users}
+            return <PostItem post={post}
+                             key={index}
                              triggerLike={this.triggerPostLike}
                              delete={this.deletePost}
                              login={this.props.login}/>
         });
+
+        console.log(this.props.posts[3]);
         return (
             <div className="content_posts">
                         {this.props.posts.length !== 0 &&
@@ -84,7 +69,7 @@ export default class Posts extends React.Component {
         scrollTop();
         $(document).off();
         $(document).on('scroll', () => {
-            moveUp();
+            linkUp();
             autoload(this.props.is_posts_fetching,
                      this.props.posts_empty,
                      this.props.dispatch,

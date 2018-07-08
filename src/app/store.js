@@ -23,6 +23,7 @@ import promise from 'redux-promise-middleware';
 const middleware = applyMiddleware(promise());
 
 const reducers = combineReducers({
+    postsList: postsListReducer,
     topViewsPosts: topViewsPostsReducer,
     topLikesPosts: topLikesPostsReducer,
     bloger: blogerReducer,
@@ -30,7 +31,6 @@ const reducers = combineReducers({
 
     user: userReducer,
     post: postReducer,
-    postsList: postsListReducer,
     postComments: postCommentsReducer,
     usersList: usersListReducer,
     userPosts: userPostsReducer,

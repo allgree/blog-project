@@ -6,10 +6,28 @@ const Posts = require('../models/postsRequests');
 const PostsLikes = require('../models/posts_likesRequests');
 const Comments = require('../models/commentsRequests');
 
+
 // топ просмотренных записей
 router.get('/top_views/', (req, res, next) => {
-        Posts.findTopViewsPosts(result => {
-            res.json(result)
+        let result = [];
+        let likes = [];
+        Posts.findTopViewsPosts(result_posts => {
+            result_posts.forEach((item, i) => {
+                result[i] = result_posts[i].dataValues;
+                likes.push(new Promise((resolve, reject) => {
+                    PostsLikes.findPostLikes(item.id, result_likes => {
+                        resolve(result_likes);
+                    })
+                }));
+            });
+            Promise.all(likes).then(resultMessage => {
+                result.forEach((item, i) => {
+                    result[i].likes = resultMessage[i];
+                });
+                res.json(result);
+            }, errMessage => {
+                console.log(errMessage);
+            });
         })
     }
 );
@@ -17,21 +35,52 @@ router.get('/top_views/', (req, res, next) => {
 // топ отмеченных записей
 router.get('/top_likes/', (req, res, next) => {
         let result = [];
+    let likes = [];
         Posts.findTopLikesPosts(result_posts => {
-
             result_posts.forEach((item, i) => {
-
                 result[i] = result_posts[i].dataValues;
-                result[i].likes = {};
-
-                PostsLikes.findPostLikes(item.id, result_likes => {
-                    result[i].likes = result_likes;
-                    (i === (result_posts.length - 1)) && (res.json(result));
-                })
+                likes.push(new Promise((resolve, reject) => {
+                    PostsLikes.findPostLikes(item.id, result_likes => {
+                        resolve(result_likes);
+                    })
+                }));
+            });
+            Promise.all(likes).then(resultMessage => {
+                result.forEach((item, i) => {
+                    result[i].likes = resultMessage[i];
+                });
+                res.json(result);
+            }, errMessage => {
+                console.log(errMessage);
             });
         });
     }
 );
+
+
+//выборка постов для автоподгрузки
+router.get('/sample/', (req, res, next) => {
+    let result = [];
+    let likes = [];
+    Posts.findSample(10, +req.query.offset, (result_posts) => {
+        result_posts.forEach((item, i) => {
+            result[i] = result_posts[i].dataValues;
+            likes.push(new Promise((resolve, reject) => {
+                PostsLikes.findPostLikes(item.id, result_likes => {
+                    resolve(result_likes);
+                })
+            }));
+        });
+        Promise.all(likes).then(resultMessage => {
+            result.forEach((item, i) => {
+                result[i].likes = resultMessage[i];
+            });
+            res.json(result);
+        }, errMessage => {
+            console.log(errMessage);
+        });
+    });
+});
 
 
 // все посты
@@ -42,12 +91,7 @@ router.get('/', (req, res, next) => {
 });
 
 
-//выборка постов для автоподгрузки
-router.get('/sample/', (req, res, next) => {
-    Posts.findSample(10, +req.query.offset, (result) => {
-        res.json(result);
-    });
-});
+
 
 
 // выборка постов пользователя для автоподгрузки

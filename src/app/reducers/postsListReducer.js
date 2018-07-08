@@ -15,6 +15,8 @@ export function postsListReducer(state = {posts: [], is_fetching: false, empty: 
             break;
         }
 
+
+
         case Posts.FETCH_POSTS_SAMPLE_PENDING: {
             state = {...state, is_fetching: true};
             break;
@@ -38,6 +40,8 @@ export function postsListReducer(state = {posts: [], is_fetching: false, empty: 
             state = {...state, is_fetching: false, error_message: action.payload.message};
             break;
         }
+
+
 
         case Posts.DELETE_POST_PENDING: {
             state = {...state, is_fetching: true};

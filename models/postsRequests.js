@@ -6,7 +6,6 @@ const Sequelize = require('sequelize');
 
 PostsModel.belongsTo(UsersModel, {as: 'author', foreignKey: 'user_id'});
 PostsModel.hasMany(PostsLikesModel, {as: 'likes', foreignKey: 'post_id'});
-PostsLikesModel.belongsTo(UsersModel, {foreignKey: 'user_id'});
 
 let Posts = {
     findTopViewsPosts: (callback) => {
@@ -17,15 +16,6 @@ let Posts = {
                 as: 'author',
                 attributes: ['id', 'name', 'surname'],
                 duplicating: false,
-            }, {
-                model: PostsLikesModel,
-                as: 'likes',
-                attributes: ['id'],
-                duplicating: false,
-                include: [{
-                    model: UsersModel,
-                    attributes: ['id', 'name', 'surname', 'avatar_path']
-                }]
             }],
             order: [['views', 'DESC']],
             limit: 5
@@ -48,10 +38,28 @@ let Posts = {
                 model: PostsLikesModel,
                 as: 'likes',
                 attributes: [],
-                duplicating: false, group: ['id'],
+                duplicating: false,
             }],
             order: [[Sequelize.fn('count', Sequelize.col('likes.id')), 'DESC']],
             limit: 5
+        })
+            .then(result => {
+                callback(result);
+            })
+    },
+
+    findSample: (limit, offset, callback) => {
+        PostsModel.findAll({
+            attributes: {exclude: ['user_id', 'updatedAt']},
+            include: [{
+                model: UsersModel,
+                as: 'author',
+                attributes: ['id', 'name', 'surname'],
+                duplicating: false,
+            }],
+            offset: offset,
+            limit: limit,
+            order: [['createdAt', 'DESC']],
         })
             .then(result => {
                 callback(result);
@@ -65,16 +73,6 @@ let Posts = {
              })
     },
 
-    findSample: (limit, offset, callback) => {
-        PostsModel.findAll({
-              offset: offset,
-              limit: limit,
-              order: [['createdAt', 'DESC']]
-          })
-              .then(result => {
-                  callback(result);
-              })
-    },
     findById: (post_id, callback) => {
         PostsModel.findOne({
             where: {

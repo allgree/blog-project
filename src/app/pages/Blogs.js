@@ -7,9 +7,9 @@ import {connect} from 'react-redux';
 
 import {fetchUsersSample} from "../actions/usersListActions";
 import {fetchLoginData} from "../actions/loginActions";
-import {autoload} from '../functions/autoload';
-import {moveUp} from "../functions/move_up";
-import {scrollTop} from "../functions/scrollTop";
+import {autoload} from '../componentsFunctions/autoload';
+import {linkUp} from "../componentsFunctions/link_up";
+import {scrollTop} from "../componentsFunctions/scrollTop";
 
 @connect((store) => {
     return {
@@ -49,7 +49,7 @@ export default class Blogs extends React.Component {
         scrollTop();
         $(document).off();
         $(document).on('scroll', () => {
-            moveUp();
+            linkUp();
             autoload(this.props.is_users_fetching,
                      this.props.users_empty,
                      this.props.dispatch,

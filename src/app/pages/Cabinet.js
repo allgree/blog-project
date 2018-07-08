@@ -20,10 +20,10 @@ import {fetchUserSubsSample, deleteSub} from "../actions/subsActions";
 import {fetchUserSubscribesSample, deleteSubscribe} from "../actions/subscribesActions";
 import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
 import {editUser, changeAvatar, fetchLoginData} from "../actions/loginActions";
-import {autoload} from "../functions/autoload";
-import {like} from '../functions/like';
-import {moveUp} from "../functions/move_up";
-import {scrollTop} from "../functions/scrollTop";
+import {autoload} from "../componentsFunctions/autoload";
+import {like} from '../componentsFunctions/like';
+import {linkUp} from "../componentsFunctions/link_up";
+import {scrollTop} from "../componentsFunctions/scrollTop";
 
 @connect((store) => {
     return {
@@ -296,7 +296,7 @@ export default class Cabinet extends React.Component {
     componentDidUpdate() {
         $(document).off();
         $(document).on('scroll', () => {
-            moveUp();
+            linkUp();
             switch (this.state.content) {
                 case 'posts': {
                     autoload(this.props.is_user_posts_fetching,

@@ -11,16 +11,16 @@ import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesA
 import {fetchCommentLikes, addCommentLike, deleteCommentLike} from "../actions/commentLikesActions";
 import {fetchLoginData} from "../actions/loginActions";
 import {deletePost} from "../actions/postsListActions";
-import {autoload} from '../functions/autoload';
-import {like} from '../functions/like';
+import {autoload} from '../componentsFunctions/autoload';
+import {like} from '../componentsFunctions/like';
 
 import CommentItem from '../components/Content/CommentItem';
 import Loader from '../components/Content/Loader';
 import TooltipLikes from '../components/Content/TooltipLikes';
 import CommentForm from '../components/Content/forms/CommentForm';
 import DeleteWindow from '../components/Content/DeleteWindow';
-import {moveUp} from "../functions/move_up";
-import {scrollTop} from "../functions/scrollTop";
+import {linkUp} from "../componentsFunctions/link_up";
+import {scrollTop} from "../componentsFunctions/scrollTop";
 
 @connect((store) => {
     return {
@@ -240,7 +240,7 @@ export default class Post extends React.Component {
         scrollTop();
         $(document).off();
         $(document).on('scroll', () => {
-            moveUp();
+            linkUp();
             autoload(this.props.is_post_comments_fetching,
                 this.props.comments_empty,
                 this.props.dispatch,

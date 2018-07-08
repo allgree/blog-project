@@ -10,11 +10,11 @@ import {fetchTopViewsPosts} from "../actions/topViewsPostsActions";
 import {fetchTopLikesPosts} from "../actions/topLikesPostsActions";
 import {fetchBloger} from "../actions/blogerActions";
 import {fetchCommentator} from "../actions/commentatorActions";
-import {addPostLike, deletePostLike} from "../actions/postLikesActions";
 import {fetchLoginData} from "../actions/loginActions";
+import {addPostLike, deletePostLike} from "../actions/postLikesActions";
 
-import {moveUp} from "../functions/move_up";
-import {scrollTop} from "../functions/scrollTop";
+import {linkUp} from "../componentsFunctions/link_up";
+import {scrollTop} from "../componentsFunctions/scrollTop";
 
 
 @connect((store) => {
@@ -56,13 +56,13 @@ export default class Ratings extends React.Component {
 
     triggerLike(posts, post_id) {
         let post = posts.find(post => post.id === post_id);
-        if (post) {
-            if (post.likes.find(like => like.user.id === this.props.login.id)) {
-                this.props.dispatch(deletePostLike(post_id, this.props.login.id));
-            } else {
-                this.props.dispatch(addPostLike(post_id, this.props.login.id));
-            }
+        if (!post) return;
+        if (post.likes.find(like => like.user.id === this.props.login.id)) {
+            this.props.dispatch(deletePostLike(post_id, this.props.login.id));
+        } else {
+            this.props.dispatch(addPostLike(post_id, this.props.login.id));
         }
+
     }
 
     deletePost(post_id) {
@@ -109,13 +109,13 @@ export default class Ratings extends React.Component {
                 <div className="content__top_posts">
                     <aside className="content__top_post_aside">
                         <h2 className="content__top_post_h2">Топ 5 просмотренных записей</h2>
-                            {this.props.is_posts_fetching || this.props.is_users_fetching || this.props.is_post_likes_fetching
+                            {this.props.is_top_views_posts_fetching
                                 ? <Loader/>
                                 : <div> {top_views_posts} </div>}
                     </aside>
                     <aside className="content__top_post_aside">
                         <h2 className="content__top_post_h2">Топ 5 отмеченных записей</h2>
-                            {this.props.is_posts_fetching || this.props.is_users_fetching || this.props.is_post_likes_fetching
+                            {this.props.is_top_likes_posts_fetching
                                 ? <Loader/>
                                 : <div>{top_likes_posts}</div>}
                     </aside>
@@ -129,7 +129,7 @@ export default class Ratings extends React.Component {
         scrollTop();
         $(document).off();
         $(document).on('scroll', () => {
-            moveUp();
+            linkUp();
         });
     }
 }

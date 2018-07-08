@@ -75,7 +75,7 @@ let Users = {
     },
     findById: (user_id, callback) => {
         UsersModel.findOne({
-            attributes: {exclude: ['login', 'password', 'createdAt', 'updatedAt']},
+            attributes: {exclude: ['password', 'createdAt', 'updatedAt']},
             where: {
                 id: user_id
             }

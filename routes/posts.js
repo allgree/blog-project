@@ -4,7 +4,6 @@ const router = express.Router();
 
 const Posts = require('../models/postsRequests');
 const PostsLikes = require('../models/posts_likesRequests');
-const Comments = require('../models/commentsRequests');
 
 
 // топ просмотренных записей

@@ -1,9 +1,9 @@
-export function like(content_id, login, likes, dispatch, del, add) {
-    if (Object.keys(login).length === 0) return;
-    if (likes.find(item => item.post_id === content_id && item.user_id === login.id) ||
-        likes.find(item => item.comment_id === content_id && item.user_id === login.id)) {
-        dispatch(del(content_id, login.id))
+export function like(items, item_id, dispatch, addLike, deleteLike, login_id) {
+    let item = items.find(item => item.id === item_id);
+    if (!item) return;
+    if (item.likes.find(like => like.user.id === login_id)) {
+        dispatch(deleteLike(item_id, login_id));
     } else {
-        dispatch(add(content_id, login.id))
+        dispatch(addLike(item_id, login_id));
     }
 }

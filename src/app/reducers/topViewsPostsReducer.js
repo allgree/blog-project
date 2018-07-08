@@ -7,6 +7,7 @@ import {deletePostLike} from "../reducersFunctions/deletePostLike";
 
 export function topViewsPostsReducer(state = {posts: [], is_fetching: false}, action) {
     switch (action.type) {
+        // получение постов
         case TopViewsPosts.FETCH_TOP_VIEWS_POSTS_PENDING: {
             state = {...state,
                 is_fetching: true};
@@ -26,6 +27,7 @@ export function topViewsPostsReducer(state = {posts: [], is_fetching: false}, ac
             break;
         }
 
+        // добавление лайка посту
         case PostLikes.ADD_POST_LIKE_PENDING: {
             state = {...state,
                 is_fetching: false};
@@ -43,6 +45,7 @@ export function topViewsPostsReducer(state = {posts: [], is_fetching: false}, ac
             break;
         }
 
+        // удаление лайка с поста
         case PostLikes.DELETE_POST_LIKE_PENDING: {
             state = {...state,
                 is_fetching: false};

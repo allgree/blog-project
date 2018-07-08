@@ -15,6 +15,7 @@ import {addPostLike, deletePostLike} from "../actions/postLikesActions";
 
 import {linkUp} from "../componentsFunctions/link_up";
 import {scrollTop} from "../componentsFunctions/scrollTop";
+import {like} from "../componentsFunctions/like";
 
 
 @connect((store) => {
@@ -50,19 +51,8 @@ export default class Ratings extends React.Component {
 
     like(post_id) {
         if (Object.keys(this.props.login).length === 0) return;
-        this.triggerLike(this.props.topViewsPosts, post_id);
-        this.triggerLike(this.props.topLikesPosts, post_id);
-    }
-
-    triggerLike(posts, post_id) {
-        let post = posts.find(post => post.id === post_id);
-        if (!post) return;
-        if (post.likes.find(like => like.user.id === this.props.login.id)) {
-            this.props.dispatch(deletePostLike(post_id, this.props.login.id));
-        } else {
-            this.props.dispatch(addPostLike(post_id, this.props.login.id));
-        }
-
+        like(this.props.topViewsPosts, post_id, this.props.dispatch, addPostLike, deletePostLike, this.props.login.id);
+        like(this.props.topLikesPosts, post_id, this.props.dispatch, addPostLike, deletePostLike, this.props.login.id);
     }
 
     deletePost(post_id) {

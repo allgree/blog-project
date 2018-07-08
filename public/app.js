@@ -13380,16 +13380,17 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.like = like;
-function like(content_id, login, likes, dispatch, del, add) {
-    if (Object.keys(login).length === 0) return;
-    if (likes.find(function (item) {
-        return item.post_id === content_id && item.user_id === login.id;
-    }) || likes.find(function (item) {
-        return item.comment_id === content_id && item.user_id === login.id;
+function like(items, item_id, dispatch, addLike, deleteLike, login_id) {
+    var item = items.find(function (item) {
+        return item.id === item_id;
+    });
+    if (!item) return;
+    if (item.likes.find(function (like) {
+        return like.user.id === login_id;
     })) {
-        dispatch(del(content_id, login.id));
+        dispatch(deleteLike(item_id, login_id));
     } else {
-        dispatch(add(content_id, login.id));
+        dispatch(addLike(item_id, login_id));
     }
 }
 
@@ -40514,10 +40515,6 @@ var _postCommentsReducer = __webpack_require__(385);
 
 var _loginReducer = __webpack_require__(393);
 
-var _postLikesReducer = __webpack_require__(395);
-
-var _commentLikesReducer = __webpack_require__(396);
-
 var _reduxPromiseMiddleware = __webpack_require__(402);
 
 var _reduxPromiseMiddleware2 = _interopRequireDefault(_reduxPromiseMiddleware);
@@ -40538,12 +40535,8 @@ var reducers = (0, _redux.combineReducers)({
     subs: _subsReducer.subsReducer,
     subscribes: _subscribesReducer.subscribesReducer,
     post: _postReducer.postReducer,
-
     postComments: _postCommentsReducer.postCommentsReducer,
     login: _loginReducer.loginReducer,
-    postLikes: _postLikesReducer.postLikesReducer,
-    commentLikes: _commentLikesReducer.commentLikesReducer,
-
     form: _reduxForm.reducer
 });
 
@@ -48864,6 +48857,7 @@ function topViewsPostsReducer() {
     var action = arguments[1];
 
     switch (action.type) {
+        // получение постов
         case TopViewsPosts.FETCH_TOP_VIEWS_POSTS_PENDING:
             {
                 state = _extends({}, state, {
@@ -48886,6 +48880,7 @@ function topViewsPostsReducer() {
                 break;
             }
 
+        // добавление лайка посту
         case PostLikes.ADD_POST_LIKE_PENDING:
             {
                 state = _extends({}, state, {
@@ -48906,6 +48901,7 @@ function topViewsPostsReducer() {
                 break;
             }
 
+        // удаление лайка с поста
         case PostLikes.DELETE_POST_LIKE_PENDING:
             {
                 state = _extends({}, state, {
@@ -49559,6 +49555,14 @@ var _userPostsConstants = __webpack_require__(390);
 
 var UserPosts = _interopRequireWildcard(_userPostsConstants);
 
+var _postLikesConstants = __webpack_require__(79);
+
+var PostLikes = _interopRequireWildcard(_postLikesConstants);
+
+var _addPostLike = __webpack_require__(140);
+
+var _deletePostLike = __webpack_require__(141);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -49568,6 +49572,7 @@ function userPostsReducer() {
     var action = arguments[1];
 
     switch (action.type) {
+        // выборка постов для автоподгрузки
         case UserPosts.FETCH_USER_POSTS_SAMPLE_PENDING:
             {
                 state = _extends({}, state, { is_fetching: true });
@@ -49601,6 +49606,49 @@ function userPostsReducer() {
                 break;
             }
 
+        // добавление лайка посту
+        case PostLikes.ADD_POST_LIKE_PENDING:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false });
+                break;
+            }
+        case PostLikes.ADD_POST_LIKE_FULFILLED:
+            {
+                var _posts = (0, _addPostLike.addPostLike)([].concat(_toConsumableArray(state.posts)), action.payload.data);
+                state = _extends({}, state, { posts: _posts, is_fetching: false });
+                break;
+            }
+        case PostLikes.ADD_POST_LIKE_REJECTED:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false,
+                    error_message: action.payload.message });
+                break;
+            }
+
+        // удаление лайка с поста
+        case PostLikes.DELETE_POST_LIKE_PENDING:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false });
+                break;
+            }
+        case PostLikes.DELETE_POST_LIKE_FULFILLED:
+            {
+                var _posts2 = (0, _deletePostLike.deletePostLike)([].concat(_toConsumableArray(state.posts)), action.payload.data);
+                state = _extends({}, state, { posts: _posts2, is_fetching: false });
+                break;
+            }
+        case PostLikes.DELETE_POST_LIKE_REJECTED:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false,
+                    error_message: action.payload.message });
+                break;
+            }
+
+        // добавление поста
         case UserPosts.ADD_USER_POST_PENDING:
             {
                 state = _extends({}, state, { is_fetching: true });
@@ -49608,9 +49656,9 @@ function userPostsReducer() {
             }
         case UserPosts.ADD_USER_POST_FULFILLED:
             {
-                var _posts = [].concat(_toConsumableArray(state.posts));
-                _posts.unshift(action.payload.data);
-                state = _extends({}, state, { is_fetching: false, posts: _posts });
+                var _posts3 = [].concat(_toConsumableArray(state.posts));
+                _posts3.unshift(action.payload.data);
+                state = _extends({}, state, { is_fetching: false, posts: _posts3 });
                 break;
             }
         case UserPosts.ADD_USER_POST_REJECTED:
@@ -49619,6 +49667,7 @@ function userPostsReducer() {
                 break;
             }
 
+        // удаление поста
         case UserPosts.DELETE_USER_POST_PENDING:
             {
                 state = _extends({}, state, { is_fetching: true });
@@ -49626,16 +49675,16 @@ function userPostsReducer() {
             }
         case UserPosts.DELETE_USER_POST_FULFILLED:
             {
-                var _posts2 = [].concat(_toConsumableArray(state.posts));
+                var _posts4 = [].concat(_toConsumableArray(state.posts));
                 if (action.payload.data === 1) {
                     var deleted_post_id = JSON.parse(action.payload.config.data).post_id;
-                    _posts2.find(function (post, index) {
+                    _posts4.find(function (post, index) {
                         if (post.id === deleted_post_id) {
-                            return _posts2.splice(index, 1);
+                            return _posts4.splice(index, 1);
                         }
                     });
                 }
-                state = _extends({}, state, { is_fetching: false, posts: _posts2 });
+                state = _extends({}, state, { is_fetching: false, posts: _posts4 });
                 break;
             }
         case UserPosts.DELETE_USER_POST_REJECTED:
@@ -49688,6 +49737,14 @@ var _postsListConstants = __webpack_require__(392);
 
 var Posts = _interopRequireWildcard(_postsListConstants);
 
+var _postLikesConstants = __webpack_require__(79);
+
+var PostLikes = _interopRequireWildcard(_postLikesConstants);
+
+var _addPostLike = __webpack_require__(140);
+
+var _deletePostLike = __webpack_require__(141);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -49697,22 +49754,21 @@ function postsListReducer() {
     var action = arguments[1];
 
     switch (action.type) {
-        case Posts.FETCH_POSTS_PENDING:
-            {
-                state = _extends({}, state, { is_fetching: true });
-                break;
-            }
-        case Posts.FETCH_POSTS_FULFILLED:
-            {
-                state = _extends({}, state, { is_fetching: false, posts: action.payload.data });
-                break;
-            }
-        case Posts.FETCH_POSTS_REJECTED:
-            {
-                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
-                break;
-            }
+        //case Posts.FETCH_POSTS_PENDING: {
+        //    state = {...state, is_fetching: true};
+        //    break;
+        //}
+        //case Posts.FETCH_POSTS_FULFILLED: {
+        //    state = {...state, is_fetching: false, posts: action.payload.data};
+        //    break;
+        //}
+        //case Posts.FETCH_POSTS_REJECTED: {
+        //    state = {...state, is_fetching: false, error_message: action.payload.message};
+        //    break;
+        //}
 
+
+        // выборка постов для автоподгрузки
         case Posts.FETCH_POSTS_SAMPLE_PENDING:
             {
                 state = _extends({}, state, { is_fetching: true });
@@ -49740,6 +49796,49 @@ function postsListReducer() {
                 break;
             }
 
+        // Добавление лайка посту
+        case PostLikes.ADD_POST_LIKE_PENDING:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false });
+                break;
+            }
+        case PostLikes.ADD_POST_LIKE_FULFILLED:
+            {
+                var _posts = (0, _addPostLike.addPostLike)([].concat(_toConsumableArray(state.posts)), action.payload.data);
+                state = _extends({}, state, { posts: _posts, is_fetching: false });
+                break;
+            }
+        case PostLikes.ADD_POST_LIKE_REJECTED:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false,
+                    error_message: action.payload.message });
+                break;
+            }
+
+        // удаление лайка с поста
+        case PostLikes.DELETE_POST_LIKE_PENDING:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false });
+                break;
+            }
+        case PostLikes.DELETE_POST_LIKE_FULFILLED:
+            {
+                var _posts2 = (0, _deletePostLike.deletePostLike)([].concat(_toConsumableArray(state.posts)), action.payload.data);
+                state = _extends({}, state, { posts: _posts2, is_fetching: false });
+                break;
+            }
+        case PostLikes.DELETE_POST_LIKE_REJECTED:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false,
+                    error_message: action.payload.message });
+                break;
+            }
+
+        // удаление поста
         case Posts.DELETE_POST_PENDING:
             {
                 state = _extends({}, state, { is_fetching: true });
@@ -49748,16 +49847,16 @@ function postsListReducer() {
         case Posts.DELETE_POST_FULFILLED:
             {
 
-                var _posts = [].concat(_toConsumableArray(state.posts));
+                var _posts3 = [].concat(_toConsumableArray(state.posts));
                 if (action.payload.data === 1) {
                     var deleted_post_id = JSON.parse(action.payload.config.data).post_id;
-                    _posts.find(function (post, index) {
+                    _posts3.find(function (post, index) {
                         if (post.id === deleted_post_id) {
-                            return _posts.splice(index, 1);
+                            return _posts3.splice(index, 1);
                         }
                     });
                 }
-                state = _extends({}, state, { is_fetching: false, posts: _posts });
+                state = _extends({}, state, { is_fetching: false, posts: _posts3 });
                 break;
             }
         case Posts.DELETE_POST_REJECTED:
@@ -49955,202 +50054,9 @@ var CHANGE_AVATAR_FULFILLED = exports.CHANGE_AVATAR_FULFILLED = 'CHANGE_AVATAR_F
 var CHANGE_AVATAR_REJECTED = exports.CHANGE_AVATAR_REJECTED = 'CHANGE_AVATAR_REJECTED';
 
 /***/ }),
-/* 395 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-exports.postLikesReducer = postLikesReducer;
-
-var _postLikesConstants = __webpack_require__(79);
-
-var PostLikes = _interopRequireWildcard(_postLikesConstants);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function postLikesReducer() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { likes: [], is_fetching: false };
-    var action = arguments[1];
-
-    switch (action.type) {
-        case PostLikes.FETCH_POST_LIKES_PENDING:
-            {
-                state = _extends({}, state, { is_fetching: true });
-                break;
-            }
-        case PostLikes.FETCH_POST_LIKES_FULFILLED:
-            {
-                state = _extends({}, state, { is_fetching: false, likes: action.payload.data });
-                break;
-            }
-        case PostLikes.FETCH_POST_LIKES_REJECTED:
-            {
-                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
-                break;
-            }
-
-        case PostLikes.ADD_POST_LIKE_PENDING:
-            {
-                state = _extends({}, state, { is_fetching: true });
-                break;
-            }
-        case PostLikes.ADD_POST_LIKE_FULFILLED:
-            {
-                var likes = state.likes.concat(action.payload.data);
-                state = _extends({}, state, { is_fetching: false, likes: likes });
-                break;
-            }
-        case PostLikes.ADD_POST_LIKE_REJECTED:
-            {
-                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
-                break;
-            }
-
-        case PostLikes.DELETE_POST_LIKE_PENDING:
-            {
-                state = _extends({}, state, { is_fetching: true });
-                break;
-            }
-        case PostLikes.DELETE_POST_LIKE_FULFILLED:
-            {
-                var _likes = [].concat(_toConsumableArray(state.likes));
-                if (action.payload.data === 1) {
-                    var deleted_like = JSON.parse(action.payload.config.data);
-                    _likes.find(function (like, index) {
-                        if (like.post_id === deleted_like.post_id && like.user_id === deleted_like.user_id) {
-                            return _likes.splice(index, 1);
-                        }
-                    });
-                }
-                state = _extends({}, state, { is_fetching: false, likes: _likes });
-                break;
-            }
-        case PostLikes.DELETE_POST_LIKE_REJECTED:
-            {
-                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
-                break;
-            }
-    }
-    return state;
-}
-
-/***/ }),
-/* 396 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-exports.commentLikesReducer = commentLikesReducer;
-
-var _commentLikesConstants = __webpack_require__(397);
-
-var CommentLikes = _interopRequireWildcard(_commentLikesConstants);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function commentLikesReducer() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { likes: [], is_fetching: false };
-    var action = arguments[1];
-
-    switch (action.type) {
-        case CommentLikes.FETCH_COMMENT_LIKES_PENDING:
-            {
-                state = _extends({}, state, { is_fetching: true });
-                break;
-            }
-        case CommentLikes.FETCH_COMMENT_LIKES_FULFILLED:
-            {
-                state = _extends({}, state, { is_fetching: false, likes: action.payload.data });
-                break;
-            }
-        case CommentLikes.FETCH_COMMENT_LIKES_REJECTED:
-            {
-                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
-                break;
-            }
-        case CommentLikes.ADD_COMMENT_LIKE_PENDING:
-            {
-                state = _extends({}, state, { is_fetching: true });
-                break;
-            }
-        case CommentLikes.ADD_COMMENT_LIKE_FULFILLED:
-            {
-                var likes = state.likes.concat(action.payload.data);
-                state = _extends({}, state, { is_fetching: false, likes: likes });
-                break;
-            }
-        case CommentLikes.ADD_COMMENT_LIKE_REJECTED:
-            {
-                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
-                break;
-            }
-        case CommentLikes.DELETE_COMMENT_LIKE_PENDING:
-            {
-                state = _extends({}, state, { is_fetching: true });
-                break;
-            }
-        case CommentLikes.DELETE_COMMENT_LIKE_FULFILLED:
-            {
-                var _likes = [].concat(_toConsumableArray(state.likes));
-                if (action.payload.data === 1) {
-                    var deleted_like = JSON.parse(action.payload.config.data);
-                    _likes.find(function (like, index) {
-                        if (like.comment_id === deleted_like.comment_id && like.user_id === deleted_like.user_id) {
-                            return _likes.splice(index, 1);
-                        }
-                    });
-                }
-                state = _extends({}, state, { is_fetching: false, likes: _likes });
-                break;
-            }
-        case CommentLikes.DELETE_COMMENT_LIKE_REJECTED:
-            {
-                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
-                break;
-            }
-    }
-    return state;
-}
-
-/***/ }),
-/* 397 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var FETCH_COMMENT_LIKES_PENDING = exports.FETCH_COMMENT_LIKES_PENDING = 'FETCH_COMMENT_LIKES_PENDING';
-var FETCH_COMMENT_LIKES_FULFILLED = exports.FETCH_COMMENT_LIKES_FULFILLED = 'FETCH_COMMENT_LIKES_FULFILLED';
-var FETCH_COMMENT_LIKES_REJECTED = exports.FETCH_COMMENT_LIKES_REJECTED = 'FETCH_COMMENT_LIKES_REJECTED';
-var ADD_COMMENT_LIKE_PENDING = exports.ADD_COMMENT_LIKE_PENDING = 'ADD_COMMENT_LIKE_PENDING';
-var ADD_COMMENT_LIKE_FULFILLED = exports.ADD_COMMENT_LIKE_FULFILLED = 'ADD_COMMENT_LIKE_FULFILLED';
-var ADD_COMMENT_LIKE_REJECTED = exports.ADD_COMMENT_LIKE_REJECTED = 'ADD_COMMENT_LIKE_REJECTED';
-var DELETE_COMMENT_LIKE_PENDING = exports.DELETE_COMMENT_LIKE_PENDING = 'DELETE_COMMENT_LIKE_PENDING';
-var DELETE_COMMENT_LIKE_FULFILLED = exports.DELETE_COMMENT_LIKE_FULFILLED = 'DELETE_COMMENT_LIKE_FULFILLED';
-var DELETE_COMMENT_LIKE_REJECTED = exports.DELETE_COMMENT_LIKE_REJECTED = 'DELETE_COMMENT_LIKE_REJECTED';
-
-/***/ }),
+/* 395 */,
+/* 396 */,
+/* 397 */,
 /* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -51959,7 +51865,7 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(Posts, [{
         key: 'triggerPostLike',
         value: function triggerPostLike(post_id) {
-            (0, _like.like)(post_id, this.props.login, this.props.post_likes, this.props.dispatch, _postLikesActions.deletePostLike, _postLikesActions.addPostLike);
+            (0, _like.like)(this.props.posts, post_id, this.props.dispatch, _postLikesActions.addPostLike, _postLikesActions.deletePostLike, this.props.login.id);
         }
     }, {
         key: 'deletePost',
@@ -52176,6 +52082,8 @@ var _link_up = __webpack_require__(21);
 
 var _scrollTop = __webpack_require__(22);
 
+var _like2 = __webpack_require__(55);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -52223,25 +52131,8 @@ var Ratings = (_dec = (0, _reactRedux.connect)(function (store) {
         key: 'like',
         value: function like(post_id) {
             if (Object.keys(this.props.login).length === 0) return;
-            this.triggerLike(this.props.topViewsPosts, post_id);
-            this.triggerLike(this.props.topLikesPosts, post_id);
-        }
-    }, {
-        key: 'triggerLike',
-        value: function triggerLike(posts, post_id) {
-            var _this2 = this;
-
-            var post = posts.find(function (post) {
-                return post.id === post_id;
-            });
-            if (!post) return;
-            if (post.likes.find(function (like) {
-                return like.user.id === _this2.props.login.id;
-            })) {
-                this.props.dispatch((0, _postLikesActions.deletePostLike)(post_id, this.props.login.id));
-            } else {
-                this.props.dispatch((0, _postLikesActions.addPostLike)(post_id, this.props.login.id));
-            }
+            (0, _like2.like)(this.props.topViewsPosts, post_id, this.props.dispatch, _postLikesActions.addPostLike, _postLikesActions.deletePostLike, this.props.login.id);
+            (0, _like2.like)(this.props.topLikesPosts, post_id, this.props.dispatch, _postLikesActions.addPostLike, _postLikesActions.deletePostLike, this.props.login.id);
         }
     }, {
         key: 'deletePost',
@@ -52253,22 +52144,22 @@ var Ratings = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this2 = this;
 
             var top_views_posts = this.props.topViewsPosts.map(function (post, index) {
                 return _react2.default.createElement(_PostItem2.default, { post: post,
                     key: index,
-                    triggerLike: _this3.like,
-                    'delete': _this3.deletePost,
-                    login: _this3.props.login });
+                    triggerLike: _this2.like,
+                    'delete': _this2.deletePost,
+                    login: _this2.props.login });
             });
 
             var top_likes_posts = this.props.topLikesPosts.map(function (post, index) {
                 return _react2.default.createElement(_PostItem2.default, { post: post,
                     key: index,
-                    triggerLike: _this3.like,
-                    'delete': _this3.deletePost,
-                    login: _this3.props.login });
+                    triggerLike: _this2.like,
+                    'delete': _this2.deletePost,
+                    login: _this2.props.login });
             });
 
             return _react2.default.createElement(
@@ -52703,7 +52594,7 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(User, [{
         key: 'triggerPostLike',
         value: function triggerPostLike(post_id) {
-            (0, _like.like)(post_id, this.props.login, this.props.post_likes, this.props.dispatch, _postLikesActions.deletePostLike, _postLikesActions.addPostLike);
+            (0, _like.like)(this.props.user_posts, post_id, this.props.dispatch, _postLikesActions.addPostLike, _postLikesActions.deletePostLike, this.props.login.id);
         }
     }, {
         key: 'triggerContent',
@@ -53062,7 +52953,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(Post, [{
         key: 'triggerPostLike',
         value: function triggerPostLike(post_id) {
-            (0, _like.like)(post_id, this.props.login, this.props.post_likes, this.props.dispatch, _postLikesActions.deletePostLike, _postLikesActions.addPostLike);
+            (0, _like.like)(this.props.posts, post_id, this.props.dispatch, _postLikesActions.addPostLike, _postLikesActions.deletePostLike, this.props.login.id);
         }
     }, {
         key: 'triggerCommentLike',
@@ -53968,7 +53859,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(Cabinet, [{
         key: 'triggerPostLike',
         value: function triggerPostLike(post_id) {
-            (0, _like.like)(post_id, this.props.login, this.props.post_likes, this.props.dispatch, _postLikesActions.deletePostLike, _postLikesActions.addPostLike);
+            (0, _like.like)(this.props.user_posts, post_id, this.props.dispatch, _postLikesActions.addPostLike, _postLikesActions.deletePostLike, this.props.login.id);
         }
     }, {
         key: 'addPost',

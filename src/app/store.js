@@ -12,14 +12,9 @@ import {userReducer} from './reducers/userReducer';
 import {userPostsReducer} from './reducers/userPostsReducer';
 import {subsReducer} from "./reducers/subsReducer";
 import {subscribesReducer} from "./reducers/subscribesReducer";
-
-
-
 import {postReducer} from "./reducers/postReducer";
 import {postCommentsReducer} from "./reducers/postCommentsReducer";
 import {loginReducer} from "./reducers/loginReducer";
-import {postLikesReducer} from "./reducers/postLikesReducer";
-import {commentLikesReducer} from "./reducers/commentLikesReducer";
 
 
 import promise from 'redux-promise-middleware';
@@ -38,15 +33,8 @@ const reducers = combineReducers({
     subs: subsReducer,
     subscribes: subscribesReducer,
     post: postReducer,
-
-
-
-
     postComments: postCommentsReducer,
     login: loginReducer,
-    postLikes: postLikesReducer,
-    commentLikes: commentLikesReducer,
-
     form: formReducer
 });
 

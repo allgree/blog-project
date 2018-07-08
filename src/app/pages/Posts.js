@@ -35,7 +35,12 @@ export default class Posts extends React.Component {
     }
 
     triggerPostLike(post_id) {
-        like(post_id, this.props.login, this.props.post_likes, this.props.dispatch, deletePostLike, addPostLike);
+        like(this.props.posts,
+            post_id,
+            this.props.dispatch,
+            addPostLike,
+            deletePostLike,
+            this.props.login.id);
     }
 
     deletePost(post_id) {

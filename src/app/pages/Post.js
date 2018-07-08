@@ -55,17 +55,21 @@ export default class Post extends React.Component {
         this.users_like = [];
     }
 
-    triggerPostLike(post_id) {
-        like(this.props.posts,
-            post_id,
-            this.props.dispatch,
-            addPostLike,
-            deletePostLike,
-            this.props.login.id);
+    triggerPostLike() {
+        if (this.props.post.likes.find(like => like.user.id === this.props.login.id)) {
+            this.props.dispatch(deletePostLike(this.props.post.id, this.props.login.id));
+        } else {
+            this.props.dispatch(addPostLike(this.props.post.id, this.props.login.id));
+        }
     }
 
     triggerCommentLike(comment_id) {
-        like(comment_id, this.props.login, this.props.comment_likes, this.props.dispatch, deleteCommentLike, addCommentLike);
+        like(this.props.comments,
+            comment_id,
+            this.props.dispatch,
+            addCommentLike,
+            deleteCommentLike,
+            this.props.login.id);
     }
 
     triggerCommentForm(param) {

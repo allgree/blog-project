@@ -1,7 +1,12 @@
 import * as PostComments from '../constants/postCommentsConstants';
+import * as CommentLikes from '../constants/commentLikesConstants';
+
+import {addLike} from '../reducersFunctions/addLike';
+import {deleteLike} from "../reducersFunctions/deleteLike";
 
 export function postCommentsReducer(state = {comments: [], is_fetching: false, empty: false}, action) {
     switch (action.type) {
+        // выборка комментариев для автоподгрузки
         case PostComments.FETCH_POST_COMMENTS_SAMPLE_PENDING: {
             state = {...state, is_fetching: true};
             break;
@@ -33,7 +38,42 @@ export function postCommentsReducer(state = {comments: [], is_fetching: false, e
             break;
         }
 
+        // добавление лайка комментарию
+        case CommentLikes.ADD_COMMENT_LIKE_PENDING: {
+            state = {...state,
+                    is_fetching: false};
+            break;
+        }
+        case CommentLikes.ADD_COMMENT_LIKE_FULFILLED: {
+            let comments = addLike([...state.comments], action.payload.data);
+            state = {...state, comments: comments, is_fetching: false};
+            break;
+        }
+        case CommentLikes.ADD_COMMENT_LIKE_REJECTED: {
+            state = {...state,
+                    is_fetching: false,
+                    error_message: action.payload.message};
+            break;
+        }
 
+        // удаление лайка с комментария
+        case CommentLikes.DELETE_COMMENT_LIKE_PENDING: {
+            state = {...state,
+                   is_fetching: false};
+            break;
+        }
+        case CommentLikes.DELETE_COMMENT_LIKE_FULFILLED: {
+            let comments = deleteLike([...state.comments], action.payload.data);
+            state = {...state, comments: comments, is_fetching: false};
+            break;
+        }
+        case CommentLikes.DELETE_COMMENT_LIKE_REJECTED: {
+            state = {...state, is_fetching: false,
+                    error_message: action.payload.message};
+            break;
+        }
+
+        // добавление комментария
         case PostComments.ADD_POST_COMMENT_PENDING: {
             state = {...state, is_fetching: true};
             break;
@@ -50,7 +90,7 @@ export function postCommentsReducer(state = {comments: [], is_fetching: false, e
             break;
         }
 
-
+        // удаление комментария
         case PostComments.DELETE_POST_COMMENT_PENDING: {
             state = {...state, is_fetching: true};
             break;

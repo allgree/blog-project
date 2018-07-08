@@ -1,8 +1,8 @@
 import * as TopViewsPosts from '../constants/topViewsPostsConstants';
 import * as PostLikes from '../constants/postLikesConstants';
 
-import {addPostLike} from '../reducersFunctions/addPostLike';
-import {deletePostLike} from "../reducersFunctions/deletePostLike";
+import {addLike} from '../reducersFunctions/addLike';
+import {deleteLike} from "../reducersFunctions/deleteLike";
 
 
 export function topViewsPostsReducer(state = {posts: [], is_fetching: false}, action) {
@@ -34,7 +34,7 @@ export function topViewsPostsReducer(state = {posts: [], is_fetching: false}, ac
             break;
         }
         case PostLikes.ADD_POST_LIKE_FULFILLED: {
-            let posts = addPostLike([...state.posts], action.payload.data);
+            let posts = addLike([...state.posts], action.payload.data);
             state = {...state, posts: posts, is_fetching: false};
             break;
         }
@@ -52,7 +52,7 @@ export function topViewsPostsReducer(state = {posts: [], is_fetching: false}, ac
             break;
         }
         case PostLikes.DELETE_POST_LIKE_FULFILLED: {
-            let posts = deletePostLike([...state.posts], action.payload.data);
+            let posts = deleteLike([...state.posts], action.payload.data);
             state = {...state, posts: posts, is_fetching: false};
             break;
         }

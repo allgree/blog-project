@@ -55,16 +55,16 @@ let Users = {
 
 
 
-    findAll: (callback) => {
-        UsersModel.findAll({
-            attributes: ['id', 'name', 'surname', 'city', 'age', 'site', 'email', 'avatar_path']
-        })
-            .then(result => {
-                callback(result);
-            })
-    },
+    //findAll: (callback) => {
+    //    UsersModel.findAll({
+        //        attributes: ['id', 'name', 'surname', 'city', 'age', 'site', 'email', 'avatar_path']
+        //    })
+    //        .then(result => {
+    //            callback(result);
+    //        })
+        //},
 
-
+    // запрос одного пользователя для отображения на странице
     findUserById: (user_id, callback) => {
         UsersModel.findOne({
             attributes: {exclude: ['login', 'password', 'createdAt', 'updatedAt']},
@@ -76,7 +76,23 @@ let Users = {
                 callback(result);
             })
     },
-    findById: (user_id, callback) => {
+
+    //Запрос одного пользователя для добавления лайка
+    findUserByIdForLike: (user_id, callback) => {
+        UsersModel.findOne({
+            attributes: ['id', 'name', 'surname', 'avatar_path'],
+            where: {
+                id: user_id
+            }
+        })
+            .then(result => {
+                (callback)(result);
+            })
+    },
+
+
+    //  запрос авторизованного пользователя
+    findLoginById: (user_id, callback) => {
         UsersModel.findOne({
             attributes: {exclude: ['password', 'createdAt', 'updatedAt']},
             where: {
@@ -87,6 +103,7 @@ let Users = {
                 callback(result);
             })
     },
+
     findByLogin: (login, callback) => {
         UsersModel.findOne({
             where: {

@@ -87,7 +87,7 @@ export default class PostContent extends React.Component {
                         <span className="content__post_info_span post_like"
                               onMouseEnter={() => {this.tooltipShow()}}
                               onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}
-                              onClick={() => {this.triggerPostLike(this.props.post.id)}}>
+                              onClick={() => {this.props.triggerLike()}}>
                                         <i className="fa fa-heart" aria-hidden="true"/> {this.props.post.likes.length === 0 ? '' : this.props.post.likes.length}
                                     </span>
                         {Object.keys(this.props.login).length !== 0 && this.props.post.author.id === this.props.login.id &&

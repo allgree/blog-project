@@ -13,8 +13,7 @@ router.get('/', (req, res, next) => {
 router.post('/add/', (req, res, next) => {
     PostLikes.add(req.body.post_id, req.body.user_id, (result_like) => {
         let like = result_like.dataValues;
-        like.user = {};
-        Users.findById(like.user_id, (result_user) => {
+        Users.findUserByIdForLike(like.user_id, (result_user) => {
             like.user = result_user.dataValues;
             res.json(like);
         });

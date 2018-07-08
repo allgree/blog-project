@@ -51,11 +51,11 @@ router.post('/login', (req, res, next) => {
     })
 });
 
-
+// запрос авторизованного пользователя
 router.get('/login-data', (req, res, next) => {
     if (req.session.token) {
         Tokens.findByToken(req.session.token, (result_token) => {
-            Users.findById(+result_token.user_id, (result_user) => {
+            Users.findLoginById(+result_token.user_id, (result_user) => {
                 res.json(result_user);
             })
         })
@@ -83,7 +83,7 @@ router.post('/edit', (req, res, next) => {
 
 //изменение пароля
 router.post('/pass', (req, res, next) => {
-    Users.findById(req.body.user_id, (result_user) => {
+    Users.findLoginById(req.body.user_id, (result_user) => {
         let hash_old_pass = crypto.createHash('md5')
             .update(salts.salt1 + req.body.password + salts.salt2)
             .digest('hex');
@@ -109,7 +109,7 @@ router.post('/avatar', (req, res, next) => {
         let file_name = files.avatar[0].originalFilename;
         let new_base_path = `/img/avatars/${file_name}`;
         fs.readFile(temp_path , (err, data) => {
-            Users.findById(user_id, (result_user) => {
+            Users.findLoginById(user_id, (result_user) => {
                 let old_base_path = result_user.dataValues.avatar_path;
                 let arr_old_path = old_base_path.split('/');
                 let name_avatar = arr_old_path[arr_old_path.length - 1];

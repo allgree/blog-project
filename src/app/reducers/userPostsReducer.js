@@ -1,8 +1,8 @@
 import * as UserPosts from '../constants/userPostsConstants';
 import * as PostLikes from '../constants/postLikesConstants';
 
-import {addPostLike} from '../reducersFunctions/addPostLike';
-import {deletePostLike} from "../reducersFunctions/deletePostLike";
+import {addLike} from '../reducersFunctions/addLike';
+import {deleteLike} from "../reducersFunctions/deleteLike";
 
 export function userPostsReducer(state = {posts: [], is_fetching: false, empty: false}, action) {
     switch (action.type) {
@@ -43,7 +43,7 @@ export function userPostsReducer(state = {posts: [], is_fetching: false, empty: 
             break;
         }
         case PostLikes.ADD_POST_LIKE_FULFILLED: {
-            let posts = addPostLike([...state.posts], action.payload.data);
+            let posts = addLike([...state.posts], action.payload.data);
             state = {...state, posts: posts, is_fetching: false};
             break;
         }
@@ -61,7 +61,7 @@ export function userPostsReducer(state = {posts: [], is_fetching: false, empty: 
             break;
         }
         case PostLikes.DELETE_POST_LIKE_FULFILLED: {
-            let posts = deletePostLike([...state.posts], action.payload.data);
+            let posts = deleteLike([...state.posts], action.payload.data);
             state = {...state, posts: posts, is_fetching: false};
             break;
         }

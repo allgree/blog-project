@@ -37,11 +37,11 @@ const reducers = combineReducers({
     userPosts: userPostsReducer,
     subs: subsReducer,
     subscribes: subscribesReducer,
-
-
-
-
     post: postReducer,
+
+
+
+
     postComments: postCommentsReducer,
     login: loginReducer,
     postLikes: postLikesReducer,

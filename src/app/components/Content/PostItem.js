@@ -1,26 +1,15 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-import {connect} from 'react-redux';
-
 import TooltipLikes from './TooltipLikes';
 import DeleteWindow from './DeleteWindow';
 
-@connect((store) => {
-    return {
-        login: store.login.login,
-        is_login_fetching: store.login.is_fetching,
-        post_likes: store.postLikes.likes,
-        is_post_likes_fetching: store.postLikes.is_fetching,
-    }
-})
 export default class PostItem extends React.Component {
     constructor() {
         super(...arguments);
         this.timeout = 0;
         this.time = 500;
         this.state = {
-            users: [],
             tooltip: false,
             delete: false
         };
@@ -93,7 +82,7 @@ export default class PostItem extends React.Component {
                             <i className="fa fa-eye" aria-hidden="true"/> {this.props.post.views}
                         </span>
                         <div className="tooltip" id={`tooltip_${this.props.post.id}`}>
-                            {this.state.tooltip === true &&
+                            {this.state.tooltip &&
                             <div onMouseEnter={() => {clearTimeout(this.timeout)}}
                                  onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}>
                                 <TooltipLikes users={this.props.post.likes}/>

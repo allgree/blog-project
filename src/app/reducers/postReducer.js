@@ -7,7 +7,7 @@ export function postReducer(state = {post: {}, is_fetching: false}, action) {
             break;
         }
         case Post.FETCH_POST_FULFILLED: {
-            state = {...state, is_fetching: false, post: action.payload.data};
+            state = {...state, post: action.payload.data, is_fetching: false};
             break;
         }
         case Post.FETCH_POST_REJECTED: {

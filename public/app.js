@@ -13095,15 +13095,11 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _class;
-
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(8);
-
-var _reactRedux = __webpack_require__(4);
 
 var _TooltipLikes = __webpack_require__(81);
 
@@ -13121,14 +13117,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
-    return {
-        login: store.login.login,
-        is_login_fetching: store.login.is_fetching,
-        post_likes: store.postLikes.likes,
-        is_post_likes_fetching: store.postLikes.is_fetching
-    };
-}), _dec(_class = function (_React$Component) {
+var PostItem = function (_React$Component) {
     _inherits(PostItem, _React$Component);
 
     function PostItem() {
@@ -13139,7 +13128,6 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.timeout = 0;
         _this.time = 500;
         _this.state = {
-            users: [],
             tooltip: false,
             delete: false
         };
@@ -13256,7 +13244,7 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
                     _react2.default.createElement(
                         'div',
                         { className: 'tooltip', id: 'tooltip_' + this.props.post.id },
-                        this.state.tooltip === true && _react2.default.createElement(
+                        this.state.tooltip && _react2.default.createElement(
                             'div',
                             { onMouseEnter: function onMouseEnter() {
                                     clearTimeout(_this2.timeout);
@@ -13298,7 +13286,8 @@ var PostItem = (_dec = (0, _reactRedux.connect)(function (store) {
     }]);
 
     return PostItem;
-}(_react2.default.Component)) || _class);
+}(_react2.default.Component);
+
 exports.default = PostItem;
 
 /***/ }),
@@ -40548,8 +40537,8 @@ var reducers = (0, _redux.combineReducers)({
     userPosts: _userPostsReducer.userPostsReducer,
     subs: _subsReducer.subsReducer,
     subscribes: _subscribesReducer.subscribesReducer,
-
     post: _postReducer.postReducer,
+
     postComments: _postCommentsReducer.postCommentsReducer,
     login: _loginReducer.loginReducer,
     postLikes: _postLikesReducer.postLikesReducer,
@@ -49281,7 +49270,7 @@ function postReducer() {
             }
         case Post.FETCH_POST_FULFILLED:
             {
-                state = _extends({}, state, { is_fetching: false, post: action.payload.data });
+                state = _extends({}, state, { post: action.payload.data, is_fetching: false });
                 break;
             }
         case Post.FETCH_POST_REJECTED:
@@ -51991,7 +51980,6 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
                     login: _this2.props.login });
             });
 
-            console.log(this.props.posts[3]);
             return _react2.default.createElement(
                 'div',
                 { className: 'content_posts' },
@@ -53005,6 +52993,10 @@ var _autoload = __webpack_require__(33);
 
 var _like = __webpack_require__(55);
 
+var _PostContent = __webpack_require__(486);
+
+var _PostContent2 = _interopRequireDefault(_PostContent);
+
 var _CommentItem = __webpack_require__(441);
 
 var _CommentItem2 = _interopRequireDefault(_CommentItem);
@@ -53013,17 +53005,9 @@ var _Loader = __webpack_require__(19);
 
 var _Loader2 = _interopRequireDefault(_Loader);
 
-var _TooltipLikes = __webpack_require__(81);
-
-var _TooltipLikes2 = _interopRequireDefault(_TooltipLikes);
-
 var _CommentForm = __webpack_require__(442);
 
 var _CommentForm2 = _interopRequireDefault(_CommentForm);
-
-var _DeleteWindow = __webpack_require__(54);
-
-var _DeleteWindow2 = _interopRequireDefault(_DeleteWindow);
 
 var _link_up = __webpack_require__(21);
 
@@ -53049,9 +53033,6 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
         users: store.usersList.users,
         is_users_fetching: store.usersList.is_fetching,
 
-        post_likes: store.postLikes.likes,
-        is_post_likes_fetching: store.postLikes.is_fetching,
-
         comment_likes: store.commentLikes.likes,
         comment_likes_fetching: store.commentLikes.is_fetching,
 
@@ -53066,21 +53047,17 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
 
         var _this = _possibleConstructorReturn(this, (Post.__proto__ || Object.getPrototypeOf(Post)).apply(this, arguments));
 
-        _this.props.dispatch((0, _postActions.fetchPost)(_this.props.match.params.post_id));
         _this.props.dispatch((0, _loginActions.fetchLoginData)());
+        _this.props.dispatch((0, _postActions.fetchPost)(_this.props.match.params.post_id));
         _this.props.dispatch((0, _usersListActions.fetchUsers)());
-        _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
         _this.props.dispatch((0, _postCommentsActions.fetchPostCommentsSample)(0, _this.props.match.params.post_id));
         _this.props.dispatch((0, _commentLikesActions.fetchCommentLikes)());
         _this.timeout = 0;
         _this.time = 500;
         _this.state = {
-            tooltip: '',
             comment: 'button',
-            redirect_after_delete: false,
-            delete: false
+            redirect_after_delete: false
         };
-        _this.tooltipHide = _this.tooltipHide.bind(_this);
         _this.triggerCommentForm = _this.triggerCommentForm.bind(_this);
         _this.triggerPostLike = _this.triggerPostLike.bind(_this);
         _this.triggerCommentLike = _this.triggerCommentLike.bind(_this);
@@ -53088,7 +53065,6 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.addComment = _this.addComment.bind(_this);
         _this.deleteComment = _this.deleteComment.bind(_this);
         _this.deleteWindowHide = _this.deleteWindowHide.bind(_this);
-        _this.post_likes = [];
         _this.users_like = [];
         return _this;
     }
@@ -53108,32 +53084,6 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
         value: function triggerCommentForm(param) {
             this.setState({
                 comment: param
-            });
-        }
-    }, {
-        key: 'tooltipShow',
-        value: function tooltipShow() {
-            var _this2 = this;
-
-            if (this.users_like.length === 0) return;
-            this.setState({
-                tooltip: _react2.default.createElement(
-                    'div',
-                    { onMouseEnter: function onMouseEnter() {
-                            clearTimeout(_this2.timeout);
-                        },
-                        onMouseLeave: function onMouseLeave() {
-                            _this2.timeout = setTimeout(_this2.tooltipHide, _this2.time);
-                        } },
-                    _react2.default.createElement(_TooltipLikes2.default, { users: this.users_like })
-                )
-            });
-        }
-    }, {
-        key: 'tooltipHide',
-        value: function tooltipHide() {
-            this.setState({
-                tooltip: ''
             });
         }
     }, {
@@ -53170,38 +53120,19 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this2 = this;
 
             if (this.state.redirect_after_delete) return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/cabinet' });
 
-            var timestamp = Date.parse(this.props.post.createdAt);
-            var date = new Date();
-            date.setTime(timestamp);
-            var day = ('0' + date.getDate()).slice(-2);
-            var month = ('0' + (date.getMonth() + 1)).slice(-2);
-            var created_date = day + '.' + month + '.' + date.getFullYear();
-            var created_time = date.getHours() + ':' + date.getMinutes();
-
-            this.post_likes = this.props.post_likes.filter(function (like) {
-                return like.post_id === _this3.props.post.id;
-            });
-            this.users_like = this.post_likes.map(function (like, index) {
-                return _this3.props.users.find(function (item) {
-                    return item.id === like.user_id;
-                });
-            });
-            var post_author = this.props.users.find(function (item) {
-                return item.id === _this3.props.post.user_id;
-            });
             var comments = this.props.comments.map(function (comment, index) {
-                var user = _this3.props.users.find(function (item) {
+                var user = _this2.props.users.find(function (item) {
                     return item.id === comment.user_id;
                 });
-                var likes = _this3.props.comment_likes.filter(function (item) {
+                var likes = _this2.props.comment_likes.filter(function (item) {
                     return item.comment_id === comment.id;
                 });
                 var users = likes.map(function (like, index) {
-                    return _this3.props.users.find(function (item) {
+                    return _this2.props.users.find(function (item) {
                         return item.id === like.user_id;
                     });
                 });
@@ -53210,106 +53141,17 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                     user: user,
                     likes: likes,
                     users: users,
-                    triggerLike: _this3.triggerCommentLike,
-                    'delete': _this3.deleteComment,
-                    login: _this3.props.login });
+                    triggerLike: _this2.triggerCommentLike,
+                    'delete': _this2.deleteComment,
+                    login: _this2.props.login });
             });
             return _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement(
-                    'div',
-                    { className: 'content__post' },
-                    this.state.delete && _react2.default.createElement(_DeleteWindow2.default, { id: this.props.post.id,
-                        method: this.deletePost,
-                        hide: this.deleteWindowHide,
-                        question: 'Удалить запись?' }),
-                    !post_author || this.props.is_post_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
-                        'div',
-                        null,
-                        _react2.default.createElement(
-                            'h2',
-                            { className: 'content__post_title' },
-                            this.props.post.title
-                        ),
-                        _react2.default.createElement(
-                            'p',
-                            { className: 'content__post_body' },
-                            this.props.post.body
-                        ),
-                        _react2.default.createElement(
-                            'p',
-                            { className: 'content__post_author' },
-                            '\u0410\u0432\u0442\u043E\u0440:\xA0',
-                            _react2.default.createElement(
-                                _reactRouterDom.Link,
-                                { to: '/user/' + post_author.id,
-                                    className: 'content__post_author_link' },
-                                post_author.name,
-                                ' ',
-                                post_author.surname
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'content__post_info' },
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                _react2.default.createElement(
-                                    'span',
-                                    { className: 'content__post_info_span' },
-                                    _react2.default.createElement('i', { className: 'fa fa-calendar', 'aria-hidden': 'true' }),
-                                    '\xA0',
-                                    created_date
-                                ),
-                                _react2.default.createElement(
-                                    'span',
-                                    { className: 'content__post_info_span' },
-                                    _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
-                                    '\xA0',
-                                    created_time
-                                )
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                { className: 'content__post_info_span post_view' },
-                                _react2.default.createElement('i', { className: 'fa fa-eye', 'aria-hidden': 'true' }),
-                                ' ',
-                                this.props.post.views
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'tooltip', id: 'tooltip_' + this.props.post.id },
-                                this.state.tooltip
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                { className: 'content__post_info_span post_like',
-                                    onMouseEnter: function onMouseEnter() {
-                                        _this3.tooltipShow();
-                                    },
-                                    onMouseLeave: function onMouseLeave() {
-                                        _this3.timeout = setTimeout(_this3.tooltipHide, _this3.time);
-                                    },
-                                    onClick: function onClick() {
-                                        _this3.triggerPostLike(_this3.props.post.id);
-                                    } },
-                                _react2.default.createElement('i', { className: 'fa fa-heart', 'aria-hidden': 'true' }),
-                                ' ',
-                                this.post_likes.length === 0 ? '' : this.post_likes.length
-                            ),
-                            Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id && _react2.default.createElement(
-                                'span',
-                                { className: 'content__post_delete',
-                                    onClick: function onClick() {
-                                        _this3.setState({ delete: true });
-                                    } },
-                                _react2.default.createElement('i', { className: 'fa fa-trash-o', 'aria-hidden': 'true' })
-                            )
-                        )
-                    )
-                ),
+                this.props.is_post_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(_PostContent2.default, { post: this.props.post,
+                    'delete': this.deletePost,
+                    triggerLike: this.triggerPostLike,
+                    login: this.props.login }),
                 _react2.default.createElement(
                     'div',
                     { className: 'content__post_comments' },
@@ -53321,7 +53163,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                     Object.keys(this.props.login).length !== 0 && this.state.comment === 'button' && _react2.default.createElement(
                         'button',
                         { onClick: function onClick() {
-                                _this3.triggerCommentForm('form');
+                                _this2.triggerCommentForm('form');
                             },
                             className: 'button_custom button_add_comment' },
                         '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439'
@@ -53344,13 +53186,13 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _this4 = this;
+            var _this3 = this;
 
             (0, _scrollTop.scrollTop)();
             $(document).off();
             $(document).on('scroll', function () {
                 (0, _link_up.linkUp)();
-                (0, _autoload.autoload)(_this4.props.is_post_comments_fetching, _this4.props.comments_empty, _this4.props.dispatch, _postCommentsActions.fetchPostCommentsSample, _this4.props.comments.length, _this4.props.match.params.post_id);
+                (0, _autoload.autoload)(_this3.props.is_post_comments_fetching, _this3.props.comments_empty, _this3.props.dispatch, _postCommentsActions.fetchPostCommentsSample, _this3.props.comments.length, _this3.props.match.params.post_id);
             });
         }
     }]);
@@ -54072,8 +53914,6 @@ var _EditPassForm2 = _interopRequireDefault(_EditPassForm);
 
 var _userPostsActions = __webpack_require__(148);
 
-var _usersListActions = __webpack_require__(34);
-
 var _subsActions = __webpack_require__(149);
 
 var _subscribesActions = __webpack_require__(150);
@@ -54105,15 +53945,9 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         login: store.login.login,
         is_login_fetching: store.login.is_fetching,
 
-        users: store.usersList.users,
-        is_users_fetching: store.usersList.is_fetching,
-
         user_posts: store.userPosts.posts,
         is_user_posts_fetching: store.userPosts.is_fetching,
         user_posts_empty: store.userPosts.empty,
-
-        post_likes: store.postLikes.likes,
-        is_post_likes_fetching: store.postLikes.is_fetching,
 
         subs: store.subs.subs,
         is_subs_fetching: store.subs.is_fetching,
@@ -54131,10 +53965,8 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
 
         var _this = _possibleConstructorReturn(this, (Cabinet.__proto__ || Object.getPrototypeOf(Cabinet)).apply(this, arguments));
 
-        _this.props.dispatch((0, _usersListActions.fetchUsers)());
         _this.props.dispatch((0, _loginActions.fetchLoginData)());
         _this.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(0, _this.props.login.id));
-        _this.props.dispatch((0, _postLikesActions.fetchPostLikes)());
         _this.props.dispatch((0, _subsActions.fetchUserSubsSample)(0, _this.props.login.id));
         _this.props.dispatch((0, _subscribesActions.fetchUserSubscribesSample)(0, _this.props.login.id));
 
@@ -54278,23 +54110,6 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                     flag: false });
             });
 
-            //let subs = this.props.subs.map((sub, index) =>{
-            //    let user = this.props.users.find(item => item.id === sub.sub_user_id);
-            //    return <UserItem key={index}
-            //                     user={user}
-            //                     button={'subs'}
-            //                     unsub={this.unsub}
-            //                     flag={true}/>;
-            //});
-            //
-            //let subscribes = this.props.subscribes.map((subscribe, index) =>{
-            //    let user = this.props.users.find(item => item.id === subscribe.user_id);
-            //    return <UserItem key={index}
-            //                     user={user}
-            //                     button={'subscribes'}
-            //                     unsub={this.unsubscribe}
-            //                     flag={false}/>;
-            //});
             return _react2.default.createElement(
                 'div',
                 { className: 'content__cabinet' },
@@ -55410,6 +55225,237 @@ exports.default = Main;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 456 */,
+/* 457 */,
+/* 458 */,
+/* 459 */,
+/* 460 */,
+/* 461 */,
+/* 462 */,
+/* 463 */,
+/* 464 */,
+/* 465 */,
+/* 466 */,
+/* 467 */,
+/* 468 */,
+/* 469 */,
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */,
+/* 478 */,
+/* 479 */,
+/* 480 */,
+/* 481 */,
+/* 482 */,
+/* 483 */,
+/* 484 */,
+/* 485 */,
+/* 486 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(8);
+
+var _TooltipLikes = __webpack_require__(81);
+
+var _TooltipLikes2 = _interopRequireDefault(_TooltipLikes);
+
+var _DeleteWindow = __webpack_require__(54);
+
+var _DeleteWindow2 = _interopRequireDefault(_DeleteWindow);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PostContent = function (_React$Component) {
+    _inherits(PostContent, _React$Component);
+
+    function PostContent() {
+        _classCallCheck(this, PostContent);
+
+        var _this = _possibleConstructorReturn(this, (PostContent.__proto__ || Object.getPrototypeOf(PostContent)).apply(this, arguments));
+
+        _this.timeout = 0;
+        _this.time = 500;
+        _this.state = {
+            tooltip: false,
+            delete: false
+        };
+        _this.tooltipHide = _this.tooltipHide.bind(_this);
+        return _this;
+    }
+
+    _createClass(PostContent, [{
+        key: 'deleteWindowHide',
+        value: function deleteWindowHide() {
+            this.setState({
+                delete: false
+            });
+        }
+    }, {
+        key: 'tooltipShow',
+        value: function tooltipShow() {
+            if (this.props.post.likes.length === 0) return;
+            this.setState({
+                tooltip: true
+            });
+        }
+    }, {
+        key: 'tooltipHide',
+        value: function tooltipHide() {
+            this.setState({
+                tooltip: ''
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            if (Object.keys(this.props.post).length === 0) return null;
+
+            var timestamp = Date.parse(this.props.post.createdAt);
+            var date = new Date();
+            date.setTime(timestamp);
+            var day = ('0' + date.getDate()).slice(-2);
+            var month = ('0' + (date.getMonth() + 1)).slice(-2);
+            var created_date = day + '.' + month + '.' + date.getFullYear();
+            var created_time = date.getHours() + ':' + date.getMinutes();
+
+            return _react2.default.createElement(
+                'div',
+                { className: 'content__post' },
+                this.state.delete && _react2.default.createElement(_DeleteWindow2.default, { id: this.props.post.id,
+                    method: this.props.delete,
+                    hide: this.deleteWindowHide,
+                    question: 'Удалить запись?' }),
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'h2',
+                        { className: 'content__post_title' },
+                        this.props.post.title
+                    ),
+                    _react2.default.createElement(
+                        'p',
+                        { className: 'content__post_body' },
+                        this.props.post.body
+                    ),
+                    _react2.default.createElement(
+                        'p',
+                        { className: 'content__post_author' },
+                        '\u0410\u0432\u0442\u043E\u0440:\xA0',
+                        _react2.default.createElement(
+                            _reactRouterDom.Link,
+                            { to: '/user/' + this.props.post.author.id,
+                                className: 'content__post_author_link' },
+                            this.props.post.author.name,
+                            ' ',
+                            this.props.post.author.surname
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'content__post_info' },
+                        _react2.default.createElement(
+                            'span',
+                            null,
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'content__post_info_span' },
+                                _react2.default.createElement('i', { className: 'fa fa-calendar', 'aria-hidden': 'true' }),
+                                '\xA0',
+                                created_date
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'content__post_info_span' },
+                                _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
+                                '\xA0',
+                                created_time
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'span',
+                            { className: 'content__post_info_span post_view' },
+                            _react2.default.createElement('i', { className: 'fa fa-eye', 'aria-hidden': 'true' }),
+                            ' ',
+                            this.props.post.views
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'tooltip', id: 'tooltip_' + this.props.post.id },
+                            this.state.tooltip && _react2.default.createElement(
+                                'div',
+                                { onMouseEnter: function onMouseEnter() {
+                                        clearTimeout(_this2.timeout);
+                                    },
+                                    onMouseLeave: function onMouseLeave() {
+                                        _this2.timeout = setTimeout(_this2.tooltipHide, _this2.time);
+                                    } },
+                                _react2.default.createElement(_TooltipLikes2.default, { users: this.props.post.likes })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'span',
+                            { className: 'content__post_info_span post_like',
+                                onMouseEnter: function onMouseEnter() {
+                                    _this2.tooltipShow();
+                                },
+                                onMouseLeave: function onMouseLeave() {
+                                    _this2.timeout = setTimeout(_this2.tooltipHide, _this2.time);
+                                },
+                                onClick: function onClick() {
+                                    _this2.triggerPostLike(_this2.props.post.id);
+                                } },
+                            _react2.default.createElement('i', { className: 'fa fa-heart', 'aria-hidden': 'true' }),
+                            ' ',
+                            this.props.post.likes.length === 0 ? '' : this.props.post.likes.length
+                        ),
+                        Object.keys(this.props.login).length !== 0 && this.props.post.author.id === this.props.login.id && _react2.default.createElement(
+                            'span',
+                            { className: 'content__post_delete',
+                                onClick: function onClick() {
+                                    _this2.setState({ delete: true });
+                                } },
+                            _react2.default.createElement('i', { className: 'fa fa-trash-o', 'aria-hidden': 'true' })
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return PostContent;
+}(_react2.default.Component);
+
+exports.default = PostContent;
 
 /***/ })
 /******/ ]);

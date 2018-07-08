@@ -52,7 +52,6 @@ export default class Posts extends React.Component {
                              login={this.props.login}/>
         });
 
-        console.log(this.props.posts[3]);
         return (
             <div className="content_posts">
                         {this.props.posts.length !== 0 &&

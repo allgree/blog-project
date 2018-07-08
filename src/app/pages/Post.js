@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router-dom';
 
 import {connect} from 'react-redux';
@@ -7,18 +6,18 @@ import {connect} from 'react-redux';
 import {fetchPost} from "../actions/postActions";
 import {fetchPostCommentsSample, addPostComment, deletePostComment} from "../actions/postCommentsActions";
 import {fetchUsers} from "../actions/usersListActions";
-import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
+import {addPostLike, deletePostLike} from "../actions/postLikesActions";
 import {fetchCommentLikes, addCommentLike, deleteCommentLike} from "../actions/commentLikesActions";
 import {fetchLoginData} from "../actions/loginActions";
 import {deletePost} from "../actions/postsListActions";
+
 import {autoload} from '../componentsFunctions/autoload';
 import {like} from '../componentsFunctions/like';
 
+import PostContent from '../components/Content/PostContent';
 import CommentItem from '../components/Content/CommentItem';
 import Loader from '../components/Content/Loader';
-import TooltipLikes from '../components/Content/TooltipLikes';
 import CommentForm from '../components/Content/forms/CommentForm';
-import DeleteWindow from '../components/Content/DeleteWindow';
 import {linkUp} from "../componentsFunctions/link_up";
 import {scrollTop} from "../componentsFunctions/scrollTop";
 
@@ -34,9 +33,6 @@ import {scrollTop} from "../componentsFunctions/scrollTop";
         users: store.usersList.users,
         is_users_fetching: store.usersList.is_fetching,
 
-        post_likes: store.postLikes.likes,
-        is_post_likes_fetching: store.postLikes.is_fetching,
-
         comment_likes: store.commentLikes.likes,
         comment_likes_fetching: store.commentLikes.is_fetching,
 
@@ -47,21 +43,17 @@ import {scrollTop} from "../componentsFunctions/scrollTop";
 export default class Post extends React.Component {
     constructor() {
         super(...arguments);
-        this.props.dispatch(fetchPost(this.props.match.params.post_id));
         this.props.dispatch(fetchLoginData());
+        this.props.dispatch(fetchPost(this.props.match.params.post_id));
         this.props.dispatch(fetchUsers());
-        this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchPostCommentsSample(0, this.props.match.params.post_id));
         this.props.dispatch(fetchCommentLikes());
         this.timeout = 0;
         this.time = 500;
         this.state = {
-            tooltip: '',
             comment: 'button',
-            redirect_after_delete: false,
-            delete: false
+            redirect_after_delete: false
         };
-        this.tooltipHide = this.tooltipHide.bind(this);
         this.triggerCommentForm = this.triggerCommentForm.bind(this);
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.triggerCommentLike = this.triggerCommentLike.bind(this);
@@ -69,7 +61,6 @@ export default class Post extends React.Component {
         this.addComment = this.addComment.bind(this);
         this.deleteComment = this.deleteComment.bind(this);
         this.deleteWindowHide = this.deleteWindowHide.bind(this);
-        this.post_likes = [];
         this.users_like = [];
     }
 
@@ -85,22 +76,6 @@ export default class Post extends React.Component {
         this.setState({
             comment: param
         })
-    }
-
-    tooltipShow() {
-        if (this.users_like.length === 0) return;
-        this.setState({
-            tooltip: <div onMouseEnter={() => {clearTimeout(this.timeout)}}
-                          onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}>
-                <TooltipLikes users={this.users_like}/>
-            </div>
-        })
-    }
-
-    tooltipHide() {
-        this.setState({
-            tooltip: ''
-        });
     }
 
     deletePost(post_id) {
@@ -133,19 +108,6 @@ export default class Post extends React.Component {
     render() {
         if (this.state.redirect_after_delete) return <Redirect to="/cabinet"/>;
 
-        let timestamp = Date.parse(this.props.post.createdAt);
-        let date = new Date();
-        date.setTime(timestamp);
-        let day = ('0' + date.getDate()).slice(-2);
-        let month = ('0' + (date.getMonth() + 1)).slice(-2);
-        let created_date = `${day}.${month}.${date.getFullYear()}`;
-        let created_time = `${date.getHours()}:${date.getMinutes()}`;
-
-        this.post_likes = this.props.post_likes.filter(like => like.post_id === this.props.post.id);
-        this.users_like = this.post_likes.map((like, index) => {
-           return this.props.users.find(item => item.id === like.user_id);
-        });
-        let post_author = this.props.users.find(item => item.id === this.props.post.user_id);
         let comments = this.props.comments.map((comment, index) => {
            let user = this.props.users.find(item => item.id === comment.user_id);
            let likes = this.props.comment_likes.filter(item => item.comment_id === comment.id);
@@ -163,56 +125,16 @@ export default class Post extends React.Component {
         });
         return (
             <div>
-                <div className="content__post">
-                    {this.state.delete &&
-                    <DeleteWindow id={this.props.post.id}
-                                  method={this.deletePost}
-                                  hide={this.deleteWindowHide}
-                                  question={'Удалить запись?'}/>}
-                        {!post_author || this.props.is_post_fetching
-                        ? <Loader/>
-                        : <div>
-                                    <h2 className="content__post_title">{this.props.post.title}</h2>
-                                    <p className="content__post_body">{this.props.post.body}</p>
-                                    <p className="content__post_author">
-                                        Автор:&nbsp;
-                                        <Link to={`/user/${post_author.id}`}
-                                              className="content__post_author_link">
-                                            {post_author.name} {post_author.surname}
-                                        </Link>
 
-                                    </p>
+                {this.props.is_post_fetching
+                ? <Loader/>
+                : <PostContent post={this.props.post}
+                               delete={this.deletePost}
+                               triggerLike={this.triggerPostLike}
+                               login={this.props.login}/>}
 
-                                    <div className="content__post_info">
-                                        <span>
-                                            <span className="content__post_info_span">
-                                                <i className="fa fa-calendar" aria-hidden="true"/>&nbsp;{created_date}
-                                            </span>
-                                            <span className="content__post_info_span">
-                                                <i className="fa fa-clock-o" aria-hidden="true"/>&nbsp;{created_time}
-                                            </span>
-                                        </span>
-                                        <span className="content__post_info_span post_view">
-                                            <i className="fa fa-eye" aria-hidden="true"/> {this.props.post.views}
-                                        </span>
-                                        <div className="tooltip" id={`tooltip_${this.props.post.id}`}>
-                                            {this.state.tooltip}
-                                        </div>
-                                        <span className="content__post_info_span post_like"
-                                              onMouseEnter={() => {this.tooltipShow()}}
-                                              onMouseLeave={() => {this.timeout = setTimeout(this.tooltipHide, this.time)}}
-                                              onClick={() => {this.triggerPostLike(this.props.post.id)}}>
-                                            <i className="fa fa-heart" aria-hidden="true"/> {this.post_likes.length === 0 ? '' : this.post_likes.length}
-                                        </span>
-                                        {Object.keys(this.props.login).length !== 0 && this.props.post.user_id === this.props.login.id &&
-                                        <span className="content__post_delete"
-                                              onClick={() => {this.setState({delete: true})}}>
-                                            <i className="fa fa-trash-o" aria-hidden="true"/>
-                                        </span>}
-                                    </div>
-                                </div>
-                        }
-                </div>
+
+
                 <div className="content__post_comments">
                     <h3 className="content__post_comments_header">Комментарии</h3>
                     {(Object.keys(this.props.login).length !== 0 && this.state.comment === 'button') &&

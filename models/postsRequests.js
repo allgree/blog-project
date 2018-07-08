@@ -6,6 +6,7 @@ const Sequelize = require('sequelize');
 
 PostsModel.belongsTo(UsersModel, {as: 'author', foreignKey: 'user_id'});
 PostsModel.hasMany(PostsLikesModel, {as: 'likes', foreignKey: 'post_id'});
+PostsLikesModel.belongsTo(UsersModel, {as: 'user', foreignKey: 'user_id'});
 
 let Posts = {
     findTopViewsPosts: (callback) => {
@@ -81,6 +82,32 @@ let Posts = {
             })
     },
 
+    findById: (post_id, callback) => {
+        PostsModel.findOne({
+            where: {
+                id: post_id
+            },
+            attributes: ['id', 'title', 'body', 'views', 'createdAt'],
+            include: [{
+                model: UsersModel,
+                as: 'author',
+                attributes: ['id', 'name', 'surname'],
+            },{
+                model: PostsLikesModel,
+                as: 'likes',
+                attributes: ['id'],
+                include: [{
+                    model: UsersModel,
+                    as: 'user',
+                    attributes: ['id', 'name', 'surname', 'avatar_path']
+                }]
+            }],
+        })
+            .then(result => {
+                callback(result);
+            })
+    },
+
 
 
     findAll: (callback) => {
@@ -90,16 +117,7 @@ let Posts = {
              })
     },
 
-    findById: (post_id, callback) => {
-        PostsModel.findOne({
-            where: {
-                id: post_id
-            }
-        })
-            .then(result => {
-                callback(result);
-            })
-    },
+
 
 
     add: (user_id, title, body, callback) => {

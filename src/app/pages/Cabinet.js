@@ -15,10 +15,9 @@ import EditPassForm from '../components/Content/forms/EditPassForm';
 
 
 import {fetchUserPostsSample, addUserPost, deleteUserPost} from "../actions/userPostsActions";
-import {fetchUsers} from "../actions/usersListActions";
 import {fetchUserSubsSample, deleteSub} from "../actions/subsActions";
 import {fetchUserSubscribesSample, deleteSubscribe} from "../actions/subscribesActions";
-import {addPostLike, deletePostLike, fetchPostLikes} from "../actions/postLikesActions";
+import {addPostLike, deletePostLike} from "../actions/postLikesActions";
 import {editUser, changeAvatar, fetchLoginData} from "../actions/loginActions";
 import {autoload} from "../componentsFunctions/autoload";
 import {like} from '../componentsFunctions/like';
@@ -30,15 +29,9 @@ import {scrollTop} from "../componentsFunctions/scrollTop";
         login: store.login.login,
         is_login_fetching: store.login.is_fetching,
 
-        users: store.usersList.users,
-        is_users_fetching: store.usersList.is_fetching,
-
         user_posts: store.userPosts.posts,
         is_user_posts_fetching: store.userPosts.is_fetching,
         user_posts_empty: store.userPosts.empty,
-
-        post_likes: store.postLikes.likes,
-        is_post_likes_fetching: store.postLikes.is_fetching,
 
         subs: store.subs.subs,
         is_subs_fetching: store.subs.is_fetching,
@@ -52,10 +45,8 @@ import {scrollTop} from "../componentsFunctions/scrollTop";
 export default class Cabinet extends React.Component {
     constructor() {
         super(...arguments);
-        this.props.dispatch(fetchUsers());
         this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchUserPostsSample(0, this.props.login.id));
-        this.props.dispatch(fetchPostLikes());
         this.props.dispatch(fetchUserSubsSample(0, this.props.login.id));
         this.props.dispatch(fetchUserSubscribesSample(0, this.props.login.id));
 
@@ -185,25 +176,7 @@ export default class Cabinet extends React.Component {
                              unsub={this.unsubscribe}
                              flag={false}/>
         });
-        
 
-        //let subs = this.props.subs.map((sub, index) =>{
-        //    let user = this.props.users.find(item => item.id === sub.sub_user_id);
-        //    return <UserItem key={index}
-        //                     user={user}
-        //                     button={'subs'}
-        //                     unsub={this.unsub}
-        //                     flag={true}/>;
-        //});
-//
-        //let subscribes = this.props.subscribes.map((subscribe, index) =>{
-        //    let user = this.props.users.find(item => item.id === subscribe.user_id);
-        //    return <UserItem key={index}
-        //                     user={user}
-        //                     button={'subscribes'}
-        //                     unsub={this.unsubscribe}
-        //                     flag={false}/>;
-        //});
         return (
             <div className="content__cabinet">
 
@@ -295,7 +268,6 @@ export default class Cabinet extends React.Component {
 
             </div>
         )
-
     }
 
     componentDidMount() {

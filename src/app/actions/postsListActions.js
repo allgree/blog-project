@@ -1,12 +1,5 @@
 import axios from 'axios';
 
-export function fetchPostsList() {
-    return {
-        type: 'FETCH_POSTS',
-        payload: axios.get('/api/posts/')
-    }
-}
-
 export function fetchPostsSample(offset) {
     return {
         type: 'FETCH_POSTS_SAMPLE',

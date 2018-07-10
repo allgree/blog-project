@@ -3,6 +3,7 @@ import * as CommentLikes from '../constants/commentLikesConstants';
 
 import {addLike} from '../reducersFunctions/addLike';
 import {deleteLike} from "../reducersFunctions/deleteLike";
+import {deletePostOrComment} from "../reducersFunctions/deletePostOrComment";
 
 export function postCommentsReducer(state = {comments: [], is_fetching: false, empty: false}, action) {
     switch (action.type) {
@@ -96,15 +97,16 @@ export function postCommentsReducer(state = {comments: [], is_fetching: false, e
             break;
         }
         case PostComments.DELETE_POST_COMMENT_FULFILLED: {
-            let comments = [...state.comments];
-            if (action.payload.data === 1) {
-                let deleted_comment_id = JSON.parse(action.payload.config.data).comment_id;
-                comments.find((comment, index) => {
-                    if (comment.id === deleted_comment_id) {
-                        return comments.splice(index, 1);
-                    }
-                })
-            }
+            let comments = deletePostOrComment([...state.comments], action.payload);
+            //let comments = [...state.comments];
+            //if (action.payload.data === 1) {
+            //    let deleted_comment_id = JSON.parse(action.payload.config.data).comment_id;
+            //    comments.find((comment, index) => {
+            //        if (comment.id === deleted_comment_id) {
+            //            return comments.splice(index, 1);
+            //        }
+            //    })
+            //}
             state = {...state, is_fetching: false, comments: comments};
             break;
         }

@@ -9,9 +9,10 @@ PostsModel.hasMany(PostsLikesModel, {as: 'likes', foreignKey: 'post_id'});
 PostsLikesModel.belongsTo(UsersModel, {as: 'user', foreignKey: 'user_id'});
 
 let Posts = {
+    // выборка постов для отображения топ-5 просмотренных постов
     findTopViewsPosts: (callback) => {
         PostsModel.findAll({
-            attributes: {exclude: ['user_id', 'updatedAt']},
+            attributes: {exclude: ['updatedAt']},
             include: [{
                 model: UsersModel,
                 as: 'author',
@@ -26,9 +27,10 @@ let Posts = {
             })
     },
 
+    // выборка постов для отображения топ-5 отмеченных постов
     findTopLikesPosts: (callback) => {
         PostsModel.findAll({
-            attributes: ['id', 'title', 'body', 'views', 'createdAt'],
+            attributes: ['id', 'user_id', 'title', 'body', 'views', 'createdAt'],
             group: ['posts.id'],
             include: [{
                 model: UsersModel,
@@ -49,9 +51,10 @@ let Posts = {
             })
     },
 
+    // выборка постов для автоподгрузки
     findSample: (limit, offset, callback) => {
         PostsModel.findAll({
-            attributes: {exclude: ['user_id', 'updatedAt']},
+            attributes: {exclude: ['updatedAt']},
             include: [{
                 model: UsersModel,
                 as: 'author',
@@ -67,12 +70,13 @@ let Posts = {
             })
     },
 
+    // выборка постов одного пользователя для автоподгрузки
     findByUserIdSample: (limit, offset, user_id, callback) => {
         PostsModel.findAll({
             where: {
                 user_id: user_id
             },
-            attributes: {exclude: ['user_id', 'updatedAt']},
+            attributes: {exclude: ['updatedAt']},
             offset: offset,
             limit: limit,
             order: [['createdAt', 'DESC']]
@@ -82,6 +86,7 @@ let Posts = {
             })
     },
 
+    // найти один пост по id
     findById: (post_id, callback) => {
         PostsModel.findOne({
             where: {
@@ -109,17 +114,7 @@ let Posts = {
     },
 
 
-
-    findAll: (callback) => {
-        PostsModel.findAll({})
-             .then(result => {
-                 callback(result);
-             })
-    },
-
-
-
-
+    // добавить пост
     add: (user_id, title, body, callback) => {
         PostsModel.create({
             user_id: user_id,
@@ -131,6 +126,8 @@ let Posts = {
                 callback(result);
             })
     },
+
+    // удалить пост
     delete: (post_id, callback) => {
         PostsModel.destroy({
             where: {
@@ -141,6 +138,8 @@ let Posts = {
                 callback(result);
             })
     },
+
+    // добавить просмотр
     updateViews: (post_id, views, callback) => {
         PostsModel.update({
             views: views

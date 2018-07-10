@@ -3,6 +3,7 @@ import * as PostLikes from '../constants/postLikesConstants';
 
 import {addLike} from '../reducersFunctions/addLike';
 import {deleteLike} from "../reducersFunctions/deleteLike";
+import {deletePostOrComment} from "../reducersFunctions/deletePostOrComment";
 
 export function userPostsReducer(state = {posts: [], is_fetching: false, empty: false}, action) {
     switch (action.type) {
@@ -94,15 +95,7 @@ export function userPostsReducer(state = {posts: [], is_fetching: false, empty: 
             break;
         }
         case UserPosts.DELETE_USER_POST_FULFILLED: {
-            let posts = [...state.posts];
-            if (action.payload.data === 1) {
-                let deleted_post_id = JSON.parse(action.payload.config.data).post_id;
-                posts.find((post, index) => {
-                    if (post.id === deleted_post_id) {
-                        return posts.splice(index, 1);
-                    }
-                })
-            }
+            let posts = deletePostOrComment(posts, action.payload);
             state = {...state, is_fetching: false, posts: posts};
             break;
         }

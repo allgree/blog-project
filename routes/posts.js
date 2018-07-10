@@ -4,6 +4,7 @@ const router = express.Router();
 
 const Posts = require('../models/postsRequests');
 const PostsLikes = require('../models/posts_likesRequests');
+const Users = require('../models/usersRequests');
 
 
 // топ просмотренных записей
@@ -83,11 +84,11 @@ router.get('/sample/', (req, res, next) => {
 
 
 // все посты
-router.get('/', (req, res, next) => {
-    Posts.findAll((result_posts) => {
-        res.json(result_posts);
-    })
-});
+//router.get('/', (req, res, next) => {
+//    Posts.findAll((result_posts) => {
+//        res.json(result_posts);
+//    })
+        //});
 
 
 
@@ -129,16 +130,21 @@ router.get('/:post_id', (req, res, next) => {
 });
 
 //добавить просмотр
-router.post('/addView/', (req, res, next) => {
-    Posts.updateViews(req.body.post_id, req.body.views, (result) => {
-        res.json(result);
-    })
-});
+//router.post('/addView/', (req, res, next) => {
+//    Posts.updateViews(req.body.post_id, req.body.views, (result) => {
+//        res.json(result);
+//    })
+//});
 
 // добавить пост
 router.post('/add/', (req, res, next) => {
-   Posts.add(req.body.user_id, req.body.title, req.body.body, (result) => {
-       res.json(result.dataValues);
+   Posts.add(req.body.user_id, req.body.title, req.body.body, (result_post) => {
+       let post = result_post.dataValues;
+       Users.findUserByIdForNewPost(req.body.user_id, (result_user) => {
+           post.author = result_user.dataValues;
+           post.likes = [];
+           res.json(post);
+       });
    })
 });
 

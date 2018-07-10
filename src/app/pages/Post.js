@@ -52,10 +52,10 @@ export default class Post extends React.Component {
         this.addComment = this.addComment.bind(this);
         this.deleteComment = this.deleteComment.bind(this);
         this.deleteWindowHide = this.deleteWindowHide.bind(this);
-        this.users_like = [];
     }
 
     triggerPostLike() {
+        if (Object.keys(this.props.login).length === 0) return;
         if (this.props.post.likes.find(like => like.user.id === this.props.login.id)) {
             this.props.dispatch(deletePostLike(this.props.post.id, this.props.login.id));
         } else {

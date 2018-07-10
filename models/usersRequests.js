@@ -86,15 +86,14 @@ let Users = {
             }
         })
             .then(result => {
-                (callback)(result);
+                callback(result);
             })
     },
 
-
-    //  запрос авторизованного пользователя
-    findLoginById: (user_id, callback) => {
+    // запрос пользователя для добавления информации о авторе в сохраняемом посте
+    findUserByIdForNewPost: (user_id, callback) => {
         UsersModel.findOne({
-            attributes: {exclude: ['password', 'createdAt', 'updatedAt']},
+            attributes: ['id', 'name', 'surname'],
             where: {
                 id: user_id
             }
@@ -104,16 +103,8 @@ let Users = {
             })
     },
 
-    findByLogin: (login, callback) => {
-        UsersModel.findOne({
-            where: {
-                login: login
-            }
-        })
-            .then(result => {
-                callback(result);
-            })
-    },
+
+    // регистрация нового пользователя
     register: (user, avatar, password, callback) => {
         UsersModel.create({
             login: user.login,
@@ -129,6 +120,34 @@ let Users = {
                 callback(result);
             })
     },
+
+    // авторизация пользователя
+    findByLogin: (login, callback) => {
+        UsersModel.findOne({
+            where: {
+                login: login
+            }
+        })
+            .then(result => {
+                callback(result);
+            })
+    },
+
+    //  запрос авторизованного пользователя
+    findLoginById: (user_id, callback) => {
+        UsersModel.findOne({
+            attributes: {exclude: ['password', 'createdAt', 'updatedAt']},
+            where: {
+                id: user_id
+            }
+        })
+            .then(result => {
+                callback(result);
+            })
+    },
+
+
+    // редактирование профиля пользователя
     editProfile: (profile, callback) => {
         UsersModel.update({
             login: profile.login,
@@ -146,6 +165,8 @@ let Users = {
                 callback(result)
             })
     },
+
+    // изменение пароля пользователя
     editPass: (user_id, password, callback) => {
         UsersModel.update({
             password: password
@@ -158,6 +179,8 @@ let Users = {
                 callback(result)
             })
     },
+
+    // смена аватара пользователя
     editAvatar: (user_id, avatar_path, callback) => {
         UsersModel.update({
             avatar_path: avatar_path

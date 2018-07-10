@@ -6,8 +6,8 @@ import Loader from '../components/Content/Loader';
 
 import {connect} from 'react-redux';
 
-import {fetchTopViewsPosts} from "../actions/topViewsPostsActions";
-import {fetchTopLikesPosts} from "../actions/topLikesPostsActions";
+import {fetchTopViewsPosts, deleteTopViewsPost} from "../actions/topViewsPostsActions";
+import {fetchTopLikesPosts, deleteTopLikesPost} from "../actions/topLikesPostsActions";
 import {fetchBloger} from "../actions/blogerActions";
 import {fetchCommentator} from "../actions/commentatorActions";
 import {fetchLoginData} from "../actions/loginActions";
@@ -56,9 +56,11 @@ export default class Ratings extends React.Component {
     }
 
     deletePost(post_id) {
-        console.log('deletePost', post_id);
-        //if (Object.keys(this.props.login).length === 0) return;
-        //this.props.dispatch(deletePost(post_id));
+        if (Object.keys(this.props.login).length === 0) return;
+        this.props.dispatch(deleteTopViewsPost(post_id));
+        this.props.dispatch(deleteTopLikesPost(post_id));
+        this.props.dispatch(fetchTopViewsPosts());
+        this.props.dispatch(fetchTopLikesPosts());
     }
 
     render() {

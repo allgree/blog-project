@@ -4,6 +4,7 @@ const router = express.Router();
 
 const Comments = require('../models/commentsRequests');
 const CommentLikes = require('../models/comments_likesRequests');
+const Users = require('../models/usersRequests');
 
 // выборка пяти комментариев к посту для автоподгрузки
 router.get('/sample/post/', (req, res, next) => {
@@ -32,8 +33,14 @@ router.get('/sample/post/', (req, res, next) => {
 
 // добавить комментарий
 router.post('/add/', (req, res, next) => {
-    Comments.add(req.body.post_id, req.body.user_id, req.body.body, (result) => {
-        res.json(result.dataValues);
+    Comments.add(req.body.post_id, req.body.user_id, req.body.body, (result_comment) => {
+        let comment = result_comment.dataValues;
+        Users.findUserByIdForNewItem(req.body.user_id, (result_user) => {
+           comment.author = result_user.dataValues;
+           comment.likes = [];
+           res.json(comment);
+        });
+
     })
 });
 

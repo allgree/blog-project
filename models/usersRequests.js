@@ -91,7 +91,7 @@ let Users = {
     },
 
     // запрос пользователя для добавления информации о авторе в сохраняемом посте
-    findUserByIdForNewPost: (user_id, callback) => {
+    findUserByIdForNewItem: (user_id, callback) => {
         UsersModel.findOne({
             attributes: ['id', 'name', 'surname'],
             where: {

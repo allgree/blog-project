@@ -140,7 +140,7 @@ router.get('/:post_id', (req, res, next) => {
 router.post('/add/', (req, res, next) => {
    Posts.add(req.body.user_id, req.body.title, req.body.body, (result_post) => {
        let post = result_post.dataValues;
-       Users.findUserByIdForNewPost(req.body.user_id, (result_user) => {
+       Users.findUserByIdForNewItem(req.body.user_id, (result_user) => {
            post.author = result_user.dataValues;
            post.likes = [];
            res.json(post);

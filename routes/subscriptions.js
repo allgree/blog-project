@@ -9,6 +9,13 @@ router.get('/sample/subs/', (req, res, next) => {
     })
 });
 
+router.get('/sample/subscribes/', (req, res, next) => {
+    Subscriptons.findSampleSubscribes(10, +req.query.offset, +req.query.sub_user_id, (result) => {
+        res.json(result);
+    })
+});
+
+
 router.post('/add/', (req, res, next) => {
     Subscriptons.findSub(req.body.user_id, req.body.sub_user_id, (result_find) => {
         result_find.length
@@ -27,10 +34,6 @@ router.post('/delete/', (req, res, next) => {
    })
 });
 
-router.get('/sample/subscribes/', (req, res, next) => {
-    Subscriptons.findSampleSubscribes(10, +req.query.offset, +req.query.sub_user_id, (result) => {
-        res.json(result);
-    })
-});
+
 
 module.exports = router;

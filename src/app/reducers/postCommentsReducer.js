@@ -4,6 +4,7 @@ import * as CommentLikes from '../constants/commentLikesConstants';
 import {addLike} from '../reducersFunctions/addLike';
 import {deleteLike} from "../reducersFunctions/deleteLike";
 import {deletePostOrComment} from "../reducersFunctions/deletePostOrComment";
+import {autoloadContent} from "../reducersFunctions/autoloadContent";
 
 export function postCommentsReducer(state = {comments: [], is_fetching: false, empty: false}, action) {
     switch (action.type) {
@@ -13,24 +14,7 @@ export function postCommentsReducer(state = {comments: [], is_fetching: false, e
             break;
         }
         case PostComments.FETCH_POST_COMMENTS_SAMPLE_FULFILLED: {
-            let comments = [...state.comments];
-            let empty = state.empty;
-            let url_arr = action.payload.config.url.split('=');
-            let offset = +url_arr[url_arr.length - 1];
-
-            if (action.payload.data.length === 0 && offset === 0) {
-                comments = [];
-                empty = true;
-            } else if (action.payload.data.length === 0) {
-                empty = true;
-            } else if (offset === 0) {
-                comments = action.payload.data;
-                empty = false;
-            } else {
-                comments = comments.concat(action.payload.data);
-                empty = false;
-            }
-
+            let [comments, empty] = autoloadContent([...state.comments], state.empty, action.payload);
             state = {...state, is_fetching: false, comments: comments, empty: empty};
             break;
         }
@@ -98,15 +82,6 @@ export function postCommentsReducer(state = {comments: [], is_fetching: false, e
         }
         case PostComments.DELETE_POST_COMMENT_FULFILLED: {
             let comments = deletePostOrComment([...state.comments], action.payload);
-            //let comments = [...state.comments];
-            //if (action.payload.data === 1) {
-            //    let deleted_comment_id = JSON.parse(action.payload.config.data).comment_id;
-            //    comments.find((comment, index) => {
-            //        if (comment.id === deleted_comment_id) {
-            //            return comments.splice(index, 1);
-            //        }
-            //    })
-            //}
             state = {...state, is_fetching: false, comments: comments};
             break;
         }

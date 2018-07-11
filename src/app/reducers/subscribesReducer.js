@@ -1,28 +1,16 @@
 import * as Subscribes from '../constants/subscribesConstants';
 
+import {autoloadContent} from "../reducersFunctions/autoloadContent";
+
 export function subscribesReducer(state = {subscribes: [], is_fetching: false, empty: false}, action) {
     switch (action.type) {
+        // выборка подписчиков для автоподгрузки
         case Subscribes.FETCH_USER_SUBSCRIBES_SAMPLE_PENDING: {
             state = {...state, is_fetching: true};
             break;
         }
         case Subscribes.FETCH_USER_SUBSCRIBES_SAMPLE_FULFILLED: {
-            let subscribes = [...state.subscribes];
-            let empty = state.empty;
-            let url_arr = action.payload.config.url.split('=');
-            let offset = +url_arr[url_arr.length - 1];
-            if (action.payload.data.length === 0 && offset === 0) {
-                subscribes = [];
-                empty = true;
-            } else if (action.payload.data.length === 0) {
-                empty = true;
-            } else if (offset === 0) {
-                subscribes = action.payload.data;
-                empty = false;
-            } else {
-                subscribes = subscribes.concat(action.payload.data);
-                empty = false;
-            }
+            let [subscribes, empty] = autoloadContent([...state.subscribes], state.empty, action.payload);
             state = {...state, is_fetching: false, subscribes: subscribes, empty: empty};
             break;
         }
@@ -31,6 +19,7 @@ export function subscribesReducer(state = {subscribes: [], is_fetching: false, e
             break;
         }
 
+        // добавить подписчика
         case Subscribes.ADD_USER_SUBSCRIBE_PENDING: {
             state = {...state, is_fetching: true};
             break;
@@ -52,6 +41,7 @@ export function subscribesReducer(state = {subscribes: [], is_fetching: false, e
         }
 
 
+        // удалить подписчика
         case Subscribes.DELETE_USER_SUBSCRIBE_PENDING: {
             state = {...state, is_fetching: true};
             break;

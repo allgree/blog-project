@@ -83,17 +83,6 @@ router.get('/sample/', (req, res, next) => {
 });
 
 
-// все посты
-//router.get('/', (req, res, next) => {
-//    Posts.findAll((result_posts) => {
-//        res.json(result_posts);
-//    })
-        //});
-
-
-
-
-
 // выборка постов пользователя для автоподгрузки
 router.get('/user-posts-sample/', (req, res, next) => {
     let result = [];

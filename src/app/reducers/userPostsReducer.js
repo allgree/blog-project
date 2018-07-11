@@ -4,6 +4,7 @@ import * as PostLikes from '../constants/postLikesConstants';
 import {addLike} from '../reducersFunctions/addLike';
 import {deleteLike} from "../reducersFunctions/deleteLike";
 import {deletePostOrComment} from "../reducersFunctions/deletePostOrComment";
+import {autoloadContent} from "../reducersFunctions/autoloadContent";
 
 export function userPostsReducer(state = {posts: [], is_fetching: false, empty: false}, action) {
     switch (action.type) {
@@ -13,22 +14,7 @@ export function userPostsReducer(state = {posts: [], is_fetching: false, empty: 
             break;
         }
         case UserPosts.FETCH_USER_POSTS_SAMPLE_FULFILLED: {
-            let posts = [...state.posts];
-            let empty = state.empty;
-            let url_arr = action.payload.config.url.split('=');
-            let offset = +url_arr[url_arr.length - 1];
-            if (action.payload.data.length === 0 && offset === 0) {
-                posts = [];
-                empty = true;
-            } else if (action.payload.data.length === 0) {
-                empty = true;
-            } else if(offset === 0) {         //
-                posts = action.payload.data;  //
-                empty = false;                //
-            } else {
-                posts = posts.concat(action.payload.data);
-                empty = false;
-            }
+            let [posts, empty] = autoloadContent([...state.posts], state.empty, action.payload);
             state = {...state, is_fetching: false, posts: posts, empty: empty};
             break;
         }

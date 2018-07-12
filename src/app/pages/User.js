@@ -11,7 +11,7 @@ import {fetchUserPostsSample} from "../actions/userPostsActions";
 import {addPostLike, deletePostLike} from "../actions/postLikesActions";
 import {fetchLoginData} from "../actions/loginActions";
 import {fetchUserSubsSample} from "../actions/subsActions";
-import {fetchUserSubscribesSample, addSubcribe, deleteSubscribe} from "../actions/subscribesActions";
+import {fetchUserFollowersSample, addFollower, deleteFollower} from "../actions/followersActions";
 
 import {autoload} from '../componentsFunctions/autoload';
 import {like} from '../componentsFunctions/like';
@@ -34,9 +34,9 @@ import {scrollTop} from "../componentsFunctions/scrollTop";
         is_subs_fetching: store.subs.is_fetching,
         subs_empty: store.subs.empty,
 
-        subscribes: store.subscribes.subscribes,
-        is_subscribes_fetching: store.subscribes.is_fetching,
-        subscribes_empty: store.subscribes.empty,
+        followers: store.followers.followers,
+        is_followers_fetching: store.followers.is_fetching,
+        followers_empty: store.followers.empty,
     }
 })
 
@@ -47,7 +47,7 @@ export default class User extends React.Component {
         this.props.dispatch(fetchUser(this.props.match.params.user_id));
         this.props.dispatch(fetchUserPostsSample(0, this.props.match.params.user_id));
         this.props.dispatch(fetchUserSubsSample(0, this.props.match.params.user_id));
-        this.props.dispatch(fetchUserSubscribesSample(0, this.props.match.params.user_id));
+        this.props.dispatch(fetchUserFollowersSample(0, this.props.match.params.user_id));
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.state = {
             content: 'posts'
@@ -69,11 +69,11 @@ export default class User extends React.Component {
     }
 
     subscript() {
-        this.props.dispatch(addSubcribe(this.props.login.id, this.props.user.id));
+        this.props.dispatch(addFollower(this.props.login.id, this.props.user.id));
     }
 
     unsubscript() {
-        this.props.dispatch(deleteSubscribe(this.props.login.id, this.props.user.id));
+        this.props.dispatch(deleteFollower(this.props.login.id, this.props.user.id));
     }
 
     render() {
@@ -94,7 +94,7 @@ export default class User extends React.Component {
                              button={false}/>;
         });
 
-        let subscribes = this.props.subscribes.map((subscribe, index) => {
+        let followers = this.props.followers.map((subscribe, index) => {
            return <UserItem key={index}
                             user={subscribe.user}
                             button={false}/>
@@ -134,7 +134,7 @@ export default class User extends React.Component {
                                        {this.props.user.site}
                                    </a>
                                </p>}
-                            {this.props.subscribes.find(item => item.user.id === this.props.login.id)
+                            {this.props.followers.find(item => item.user.id === this.props.login.id)
                                 ? <button className="button_custom button_subscribing"
                                           onClick={() => {this.unsubscript()}}>
                                         Отписаться
@@ -158,8 +158,8 @@ export default class User extends React.Component {
                             className="button_custom button_show_user_content">
                         Подписки
                     </button>
-                    <button disabled={this.state.content === 'subscribes'}
-                            onClick={() => {this.triggerContent('subscribes')}}
+                    <button disabled={this.state.content === 'followers'}
+                            onClick={() => {this.triggerContent('followers')}}
                             className="button_custom button_show_user_content">
                         Подписчики
                     </button>
@@ -183,12 +183,12 @@ export default class User extends React.Component {
                         <Loader/>}
                     </aside>
                 }
-                {this.state.content === 'subscribes' &&
+                {this.state.content === 'followers' &&
                 <aside className="content__user_aside user_content">
                     {this.props.subs.length !== 0 &&
-                    <div>{subscribes}</div>}
+                    <div>{followers}</div>}
                     <span className="point"/>
-                    {this.props.is_subscribes_fetching &&
+                    {this.props.is_followers_fetching &&
                     <Loader/>}
                 </aside>
                 }
@@ -225,12 +225,12 @@ export default class User extends React.Component {
                         this.props.match.params.user_id);
                     break;
                 }
-                case 'subscribes': {
-                    autoload(this.props.is_subscribes_fetching,
-                             this.props.subscribes_empty,
+                case 'followers': {
+                    autoload(this.props.is_followers_fetching,
+                             this.props.followers_empty,
                              this.props.dispatch,
-                             fetchUserSubscribesSample,
-                             this.props.subscribes.length,
+                             fetchUserFollowersSample,
+                             this.props.followers.length,
                              this.props.match.params.user_id);
                     break;
                 }

@@ -11,7 +11,7 @@ import {commentatorReducer} from "./reducers/commentatorReducer";
 import {userReducer} from './reducers/userReducer';
 import {userPostsReducer} from './reducers/userPostsReducer';
 import {subsReducer} from "./reducers/subsReducer";
-import {subscribesReducer} from "./reducers/subscribesReducer";
+import {followersReducer} from "./reducers/followersReducer";
 import {postReducer} from "./reducers/postReducer";
 import {postCommentsReducer} from "./reducers/postCommentsReducer";
 import {loginReducer} from "./reducers/loginReducer";
@@ -31,7 +31,7 @@ const reducers = combineReducers({
     user: userReducer,
     userPosts: userPostsReducer,
     subs: subsReducer,
-    subscribes: subscribesReducer,
+    followers: followersReducer,
     post: postReducer,
     postComments: postCommentsReducer,
     login: loginReducer,

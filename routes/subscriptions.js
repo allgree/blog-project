@@ -3,19 +3,21 @@ const router = express.Router();
 
 const Subscriptons = require('../models/subscriptionsRequests');
 
+// выборка подписок пользователя для автоподгрузки
 router.get('/sample/subs/', (req, res, next) => {
     Subscriptons.findSampleSubs(10, +req.query.offset, +req.query.user_id, (result) => {
         res.json(result);
     })
 });
 
-router.get('/sample/subscribes/', (req, res, next) => {
+// выборка подписчиков пользователя для автоподгрузки
+router.get('/sample/followers/', (req, res, next) => {
     Subscriptons.findSampleSubscribes(10, +req.query.offset, +req.query.sub_user_id, (result) => {
         res.json(result);
     })
 });
 
-
+// добавить подписку
 router.post('/add/', (req, res, next) => {
     Subscriptons.findSub(req.body.user_id, req.body.sub_user_id, (result_find) => {
         result_find.length
@@ -27,6 +29,7 @@ router.post('/add/', (req, res, next) => {
 
 });
 
+// удалить подписку
 router.post('/delete/', (req, res, next) => {
     console.log('!!!  ROUTER !!!');
    Subscriptons.deleteSub(req.body.user_id, req.body.sub_user_id, (result) => {

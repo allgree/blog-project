@@ -25,7 +25,9 @@ export default class UserItem extends React.Component {
                  <DeleteWindow id={this.props.user.id}
                                method={this.props.unsub}
                                hide={this.deleteWindowHide}
-                               question={this.props.flag ? 'Отписаться от пользователя?' : 'Отписать пользователя?'}/>}
+                               question={this.props.flag
+                                   ? `Отписаться от пользователя ${this.props.user.name} ${this.props.user.surname}?`
+                                   : `Отписать пользователя ${this.props.user.name} ${this.props.user.surname}?`}/>}
                 <Link to={`/user/${this.props.user.id}`} className="user_item__link">
                     <p className="user_item__ava">
                         <img src={this.props.user.avatar_path} className="user_item__ava__img"/>
@@ -43,12 +45,12 @@ export default class UserItem extends React.Component {
                     </p>}
                 </Link>
                 {this.props.button === 'subs' &&
-                <button className="button_custom button_subscribing"
+                <button className="button_custom button_subscribing button_subs_cabinet"
                         onClick={() => {this.setState({window: true})}}>
                     Отписаться
                 </button>}
-                {this.props.button === 'subscribes' &&
-                <button className="button_custom button_subscribing"
+                {this.props.button === 'followers' &&
+                <button className="button_custom button_subscribing button_subs_cabinet"
                         onClick={() => {this.setState({window: true})}}>
                     Отписать
                 </button>}

@@ -16,7 +16,7 @@ import EditPassForm from '../components/Content/forms/EditPassForm';
 
 import {fetchUserPostsSample, addUserPost, deleteUserPost} from "../actions/userPostsActions";
 import {fetchUserSubsSample, deleteSub} from "../actions/subsActions";
-import {fetchUserSubscribesSample, deleteSubscribe} from "../actions/subscribesActions";
+import {fetchUserFollowersSample, deleteFollower} from "../actions/followersActions";
 import {addPostLike, deletePostLike} from "../actions/postLikesActions";
 import {editUser, changeAvatar, fetchLoginData} from "../actions/loginActions";
 import {autoload} from "../componentsFunctions/autoload";
@@ -37,9 +37,9 @@ import {scrollTop} from "../componentsFunctions/scrollTop";
         is_subs_fetching: store.subs.is_fetching,
         subs_empty: store.subs.empty,
 
-        subscribes: store.subscribes.subscribes,
-        is_subscribes_fetching: store.subscribes.is_fetching,
-        subscribes_empty: store.subscribes.empty
+        followers: store.followers.followers,
+        is_followers_fetching: store.followers.is_fetching,
+        followers_empty: store.followers.empty
     }
 })
 export default class Cabinet extends React.Component {
@@ -48,7 +48,7 @@ export default class Cabinet extends React.Component {
         this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchUserPostsSample(0, this.props.login.id));
         this.props.dispatch(fetchUserSubsSample(0, this.props.login.id));
-        this.props.dispatch(fetchUserSubscribesSample(0, this.props.login.id));
+        this.props.dispatch(fetchUserFollowersSample(0, this.props.login.id));
 
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.addPost = this.addPost.bind(this);
@@ -150,7 +150,7 @@ export default class Cabinet extends React.Component {
     }
 
     unsubscribe(user_id) {
-        this.props.dispatch(deleteSubscribe(user_id, this.props.login.id))
+        this.props.dispatch(deleteFollower(user_id, this.props.login.id))
     }
 
     render() {
@@ -174,10 +174,10 @@ export default class Cabinet extends React.Component {
                              flag={true}/>;
         });
 
-        let subscribes = this.props.subscribes.map((subscribe, index) => {
+        let followers = this.props.followers.map((follower, index) => {
             return <UserItem key={index}
-                             user={subscribe.user}
-                             button={'subscribes'}
+                             user={follower.user}
+                             button={'followers'}
                              unsub={this.unsubscribe}
                              flag={false}/>
         });
@@ -226,8 +226,8 @@ export default class Cabinet extends React.Component {
                             className="button_custom button_show_content">
                         Подписки
                     </button>
-                    <button disabled={this.state.content === 'subscribes'}
-                            onClick={() => {this.trigger('content', 'subscribes')}}
+                    <button disabled={this.state.content === 'followers'}
+                            onClick={() => {this.trigger('content', 'followers')}}
                             className="button_custom button_show_content">
                         Подписчики
                     </button>
@@ -261,12 +261,12 @@ export default class Cabinet extends React.Component {
                     <Loader/>}
                 </div>
                 }
-                {this.state.content === 'subscribes' &&
+                {this.state.content === 'followers' &&
                 <div className="content__cabinet__content">
-                    {this.props.subscribes.length !== 0 &&
-                    <div>{subscribes}</div>}
+                    {this.props.followers.length !== 0 &&
+                    <div>{followers}</div>}
                     <span className="point"/>
-                    {this.props.is_subscribes_fetching &&
+                    {this.props.is_followers_fetching &&
                     <Loader/>}
                 </div>
                 }
@@ -305,12 +305,12 @@ export default class Cabinet extends React.Component {
                              this.props.login.id);
                     break;
                 }
-                case 'subscribes': {
-                    autoload(this.props.is_subscribes_fetching,
-                             this.props.subscribes_empty,
+                case 'followers': {
+                    autoload(this.props.is_followers_fetching,
+                             this.props.followers_empty,
                              this.props.dispatch,
-                             fetchUserSubscribesSample,
-                             this.props.subscribes.length,
+                             fetchUserFollowersSample,
+                             this.props.followers.length,
                              this.props.login.id);
                     break;
                 }

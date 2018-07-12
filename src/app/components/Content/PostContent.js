@@ -14,6 +14,7 @@ export default class PostContent extends React.Component {
             delete: false
         };
         this.tooltipHide = this.tooltipHide.bind(this);
+        this.deleteWindowHide = this.deleteWindowHide.bind(this);
     }
 
     deleteWindowHide() {
@@ -52,7 +53,7 @@ export default class PostContent extends React.Component {
                 <DeleteWindow id={this.props.post.id}
                               method={this.props.delete}
                               hide={this.deleteWindowHide}
-                              question={'Удалить запись?'}/>}
+                              question={`Удалить запись "${this.props.post.title}"?`}/>}
                 <div>
                     <h2 className="content__post_title">{this.props.post.title}</h2>
                     <p className="content__post_body">{this.props.post.body}</p>

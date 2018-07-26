@@ -51155,6 +51155,20 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
                         '\u041F\u0440\u043E\u0441\u043C\u0430\u0442\u0440\u0438\u0432\u0430\u0439\u0442\u0435 \u0440\u0435\u0439\u0442\u0438\u043D\u0433\u0438 \u0441\u0430\u0439\u0442\u0430!'
                     )
                 ),
+                this.props.login.id && _react2.default.createElement(
+                    _reactRouterDom.Link,
+                    { to: '/cabinet', className: 'content__main__link block_item' },
+                    _react2.default.createElement(
+                        'p',
+                        null,
+                        '\u041B\u0438\u0447\u043D\u044B\u0439 \u043A\u0430\u0431\u0438\u043D\u0435\u0442'
+                    ),
+                    _react2.default.createElement(
+                        'p',
+                        { className: 'content_main_p' },
+                        '\u0417\u0430\u0439\u0434\u0438\u0442\u0435 \u0432 \u0441\u0432\u043E\u0439 \u043B\u0438\u0447\u043D\u044B\u0439 \u043A\u0430\u0431\u0438\u043D\u0435\u0442!'
+                    )
+                ),
                 _react2.default.createElement(
                     _reactRouterDom.Link,
                     { to: '/about', className: 'content__main__link block_item' },
@@ -54220,9 +54234,9 @@ var _AvatarForm = __webpack_require__(449);
 
 var _AvatarForm2 = _interopRequireDefault(_AvatarForm);
 
-var _UserProfile = __webpack_require__(450);
+var _LoginProfile = __webpack_require__(487);
 
-var _UserProfile2 = _interopRequireDefault(_UserProfile);
+var _LoginProfile2 = _interopRequireDefault(_LoginProfile);
 
 var _EditUserForm = __webpack_require__(451);
 
@@ -54455,7 +54469,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                         this.state.avatar === 'form' && _react2.default.createElement(_AvatarForm2.default, { changeAvatar: this.changeAvatar,
                             trigger: this.trigger })
                     ),
-                    this.state.info === 'info' && _react2.default.createElement(_UserProfile2.default, { login: this.props.login,
+                    this.state.info === 'info' && _react2.default.createElement(_LoginProfile2.default, { login: this.props.login,
                         trigger: this.trigger }),
                     this.state.info === 'form' && _react2.default.createElement(_EditUserForm2.default, { onSubmit: this.editUser,
                         login: this.props.login,
@@ -54778,117 +54792,7 @@ var AvatarForm = function (_React$Component) {
 exports.default = AvatarForm;
 
 /***/ }),
-/* 450 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var UserProfile = function (_React$Component) {
-    _inherits(UserProfile, _React$Component);
-
-    function UserProfile() {
-        _classCallCheck(this, UserProfile);
-
-        return _possibleConstructorReturn(this, (UserProfile.__proto__ || Object.getPrototypeOf(UserProfile)).apply(this, arguments));
-    }
-
-    _createClass(UserProfile, [{
-        key: "render",
-        value: function render() {
-            var _this2 = this;
-
-            return _react2.default.createElement(
-                "div",
-                { className: "user_profile" },
-                _react2.default.createElement(
-                    "h2",
-                    { className: "content__cabinet__login_name" },
-                    this.props.login.name,
-                    " ",
-                    this.props.login.surname
-                ),
-                this.props.login.city && _react2.default.createElement(
-                    "p",
-                    { className: "content__cabinet__login_info" },
-                    "\u0413\u043E\u0440\u043E\u0434: ",
-                    this.props.login.city
-                ),
-                this.props.login.age && _react2.default.createElement(
-                    "p",
-                    { className: "content__cabinet__login_info" },
-                    "\u0412\u043E\u0437\u0440\u0430\u0441\u0442: ",
-                    this.props.login.age
-                ),
-                this.props.login.email && _react2.default.createElement(
-                    "p",
-                    { className: "content__cabinet__login_info" },
-                    "Email: ",
-                    _react2.default.createElement(
-                        "a",
-                        { href: "mailto:" + this.props.login.email,
-                            className: "login_info_link" },
-                        this.props.login.email
-                    )
-                ),
-                this.props.login.site && _react2.default.createElement(
-                    "p",
-                    { className: "content__cabinet__login_info" },
-                    "\u0412\u0435\u0431-\u0441\u0430\u0439\u0442: ",
-                    _react2.default.createElement(
-                        "a",
-                        { href: "http://" + this.props.login.site,
-                            target: "_blank",
-                            className: "login_info_link" },
-                        this.props.login.site
-                    )
-                ),
-                _react2.default.createElement(
-                    "button",
-                    { className: "button_custom button_edit_profile",
-                        onClick: function onClick() {
-                            _this2.props.trigger('info', 'form');
-                        } },
-                    "\u0420\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u0440\u043E\u0444\u0438\u043B\u044C"
-                ),
-                _react2.default.createElement("br", null),
-                _react2.default.createElement(
-                    "button",
-                    { className: " button_custom button_edit_password",
-                        onClick: function onClick() {
-                            _this2.props.trigger('info', 'pass');
-                        } },
-                    "\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u043F\u0430\u0440\u043E\u043B\u044C"
-                )
-            );
-        }
-    }]);
-
-    return UserProfile;
-}(_react2.default.Component);
-
-exports.default = UserProfile;
-
-/***/ }),
+/* 450 */,
 /* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -55545,6 +55449,147 @@ exports.default = Main;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 457 */,
+/* 458 */,
+/* 459 */,
+/* 460 */,
+/* 461 */,
+/* 462 */,
+/* 463 */,
+/* 464 */,
+/* 465 */,
+/* 466 */,
+/* 467 */,
+/* 468 */,
+/* 469 */,
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */,
+/* 478 */,
+/* 479 */,
+/* 480 */,
+/* 481 */,
+/* 482 */,
+/* 483 */,
+/* 484 */,
+/* 485 */,
+/* 486 */,
+/* 487 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var LoginProfile = function (_React$Component) {
+    _inherits(LoginProfile, _React$Component);
+
+    function LoginProfile() {
+        _classCallCheck(this, LoginProfile);
+
+        return _possibleConstructorReturn(this, (LoginProfile.__proto__ || Object.getPrototypeOf(LoginProfile)).apply(this, arguments));
+    }
+
+    _createClass(LoginProfile, [{
+        key: "render",
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                "div",
+                { className: "user_profile" },
+                _react2.default.createElement(
+                    "h2",
+                    { className: "content__cabinet__login_name" },
+                    this.props.login.name,
+                    " ",
+                    this.props.login.surname
+                ),
+                this.props.login.city && _react2.default.createElement(
+                    "p",
+                    { className: "content__cabinet__login_info" },
+                    "\u0413\u043E\u0440\u043E\u0434: ",
+                    this.props.login.city
+                ),
+                this.props.login.age && _react2.default.createElement(
+                    "p",
+                    { className: "content__cabinet__login_info" },
+                    "\u0412\u043E\u0437\u0440\u0430\u0441\u0442: ",
+                    this.props.login.age
+                ),
+                this.props.login.email && _react2.default.createElement(
+                    "p",
+                    { className: "content__cabinet__login_info" },
+                    "Email: ",
+                    _react2.default.createElement(
+                        "a",
+                        { href: "mailto:" + this.props.login.email,
+                            className: "login_info_link" },
+                        this.props.login.email
+                    )
+                ),
+                this.props.login.site && _react2.default.createElement(
+                    "p",
+                    { className: "content__cabinet__login_info" },
+                    "\u0412\u0435\u0431-\u0441\u0430\u0439\u0442: ",
+                    _react2.default.createElement(
+                        "a",
+                        { href: "http://" + this.props.login.site,
+                            target: "_blank",
+                            className: "login_info_link" },
+                        this.props.login.site
+                    )
+                ),
+                _react2.default.createElement(
+                    "button",
+                    { className: "button_custom button_edit_profile",
+                        onClick: function onClick() {
+                            _this2.props.trigger('info', 'form');
+                        } },
+                    "\u0420\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u0440\u043E\u0444\u0438\u043B\u044C"
+                ),
+                _react2.default.createElement("br", null),
+                _react2.default.createElement(
+                    "button",
+                    { className: " button_custom button_edit_password",
+                        onClick: function onClick() {
+                            _this2.props.trigger('info', 'pass');
+                        } },
+                    "\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u043F\u0430\u0440\u043E\u043B\u044C"
+                )
+            );
+        }
+    }]);
+
+    return LoginProfile;
+}(_react2.default.Component);
+
+exports.default = LoginProfile;
 
 /***/ })
 /******/ ]);

@@ -2744,10 +2744,10 @@ nav {
   text-align: center;
   font-family: "Calibri Regular", sans-serif; }
 
-.content__main__link:first-of-type, .content__main__link:nth-of-type(3) {
+.content__main__link:nth-of-type(odd) {
   animation: fadeInLeft 0.5s 1; }
 
-.content__main__link:nth-of-type(2), .content__main__link:nth-of-type(4) {
+.content__main__link:nth-of-type(even) {
   animation: fadeInRight 0.5s 1; }
 
 /*end Main*/

@@ -9,7 +9,7 @@ import UserItem from '../components/Content/UserItem';
 import Loader from '../components/Content/Loader';
 import PostForm from '../components/Content/forms/PostForm';
 import AvatarForm from '../components/Content/forms/AvatarForm';
-import UserProfile from '../components/Content/UserProfile';
+import LoginProfile from '../components/Content/LoginProfile';
 import EditUserForm from '../components/Content/forms/EditUserForm';
 import EditPassForm from '../components/Content/forms/EditPassForm';
 
@@ -203,7 +203,7 @@ export default class Cabinet extends React.Component {
                         }
                     </div>
                     {this.state.info === 'info' &&
-                    <UserProfile login={this.props.login}
+                    <LoginProfile login={this.props.login}
                                  trigger={this.trigger}/>}
                     {this.state.info === 'form' &&
                     <EditUserForm onSubmit={this.editUser}

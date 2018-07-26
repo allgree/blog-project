@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class UserProfile extends React.Component {
+export default class LoginProfile extends React.Component {
     render() {
         return (
             <div className="user_profile">

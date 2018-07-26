@@ -6,6 +6,7 @@ import LoginPanel from './LoginPanel';
 export default class Nav extends React.Component {
     constructor() {
         super(...arguments);
+        this.location = '';
         this.headers = {
             '/': 'Добро пожаловать',
             '/posts': 'Все записи',
@@ -20,13 +21,25 @@ export default class Nav extends React.Component {
         }
     }
 
-    render() {
+    getLocation() {
         let location = window.location.pathname;
         let arr_path = location.split('/');
-        if (/[\d]/g.test(arr_path[arr_path.length - 1])) {
-            let count = arr_path[arr_path.length - 1].length + 1;
+        let last_value = arr_path[arr_path.length - 1];
+        if (/[\d]/g.test(last_value)) {
+            let count = last_value.length + 1;
             location = location.slice(0, -(count));
         }
+        return location;
+    }
+
+    showOrHideSideMenu() {
+        ['/','/login','/register'].indexOf(this.location) === -1
+            ?  document.querySelector('#nav_input').checked = true
+            :  document.querySelector('#nav_input').checked = false
+    }
+
+    render() {
+        this.location = this.getLocation();
         return (
             <nav>
                 <label htmlFor="nav_input" className="nav_header_label"><i className="fa fa-bars" aria-hidden="true"/></label>
@@ -41,13 +54,17 @@ export default class Nav extends React.Component {
                 <NavLink to="/">
                     <h2 className="nav_header">Personal Blog</h2>
                 </NavLink>
-                <h2 className="nav_page_header">{this.headers[location]}</h2>
+                <h2 className="nav_page_header">{this.headers[this.location]}</h2>
                 <LoginPanel/>
             </nav>
         )
     }
 
     componentDidMount() {
-        document.querySelector('#nav_input').checked = true;
+        this.showOrHideSideMenu()
+    }
+
+    componentDidUpdate() {
+        this.showOrHideSideMenu()
     }
 }

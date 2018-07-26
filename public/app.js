@@ -50764,6 +50764,7 @@ var Nav = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).apply(this, arguments));
 
+        _this.location = '';
         _this.headers = {
             '/': 'Добро пожаловать',
             '/posts': 'Все записи',
@@ -50780,14 +50781,26 @@ var Nav = function (_React$Component) {
     }
 
     _createClass(Nav, [{
-        key: 'render',
-        value: function render() {
+        key: 'getLocation',
+        value: function getLocation() {
             var location = window.location.pathname;
             var arr_path = location.split('/');
-            if (/[\d]/g.test(arr_path[arr_path.length - 1])) {
-                var count = arr_path[arr_path.length - 1].length + 1;
+            var last_value = arr_path[arr_path.length - 1];
+            if (/[\d]/g.test(last_value)) {
+                var count = last_value.length + 1;
                 location = location.slice(0, -count);
             }
+            return location;
+        }
+    }, {
+        key: 'showOrHideSideMenu',
+        value: function showOrHideSideMenu() {
+            ['/', '/login', '/register'].indexOf(this.location) === -1 ? document.querySelector('#nav_input').checked = true : document.querySelector('#nav_input').checked = false;
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            this.location = this.getLocation();
             return _react2.default.createElement(
                 'nav',
                 null,
@@ -50838,7 +50851,7 @@ var Nav = function (_React$Component) {
                 _react2.default.createElement(
                     'h2',
                     { className: 'nav_page_header' },
-                    this.headers[location]
+                    this.headers[this.location]
                 ),
                 _react2.default.createElement(_LoginPanel2.default, null)
             );
@@ -50846,7 +50859,12 @@ var Nav = function (_React$Component) {
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
-            document.querySelector('#nav_input').checked = true;
+            this.showOrHideSideMenu();
+        }
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {
+            this.showOrHideSideMenu();
         }
     }]);
 

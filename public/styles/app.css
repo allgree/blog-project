@@ -2707,12 +2707,14 @@ nav {
   line-height: 50px; }
 
 .content__welcome > h2 {
-  font-family: "Arial Cyr Bold", sans-serif; }
+  font-family: "Arial Cyr Bold", sans-serif;
+  font-size: 30px; }
 
 .content_main_p {
   font-family: "Quant Antiqua Plain", sans-serif;
   font-size: 16px;
-  margin-top: 15px; }
+  margin-top: 15px;
+  color: #9d5143; }
 
 .content__welcome:hover {
   box-shadow: 0 0 30px #a19a98; }

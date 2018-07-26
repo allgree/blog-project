@@ -22,7 +22,6 @@ import {scrollTop} from "../componentsFunctions/scrollTop";
         posts_empty: store.postsList.empty,
 
         login: store.login.login,
-        is_login_fetching: store.login.is_fetching
     }
 })
 export default class Posts extends React.Component {

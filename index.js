@@ -7,7 +7,7 @@ const session = require('cookie-session');
 
 
 const PORT = 8090;
-const Users = require('./models/usersRequests');
+const Users = require('./requests/usersRequests');
 
 //Подключение маршрутов
 let routePosts = require('./routes/posts');

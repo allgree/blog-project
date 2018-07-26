@@ -1,4 +1,4 @@
-const TokensModel = require('./tokensModel');
+const TokensModel = require('../models/tokensModel');
 
 let Tokens = {
   findByUserId: (user_id, callback) => {

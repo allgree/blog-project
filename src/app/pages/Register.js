@@ -9,10 +9,7 @@ import {fetchLoginData} from "../actions/loginActions";
 
 @connect((store) => {
     return {
-        users: store.usersList.users,
-
-        login: store.login.login,
-        is_login_fetching: store.login.is_fetching
+        login: store.login.login
     }
 })
 export default class Register extends React.Component {
@@ -35,6 +32,9 @@ export default class Register extends React.Component {
     }
 
     render() {
+        if (Object.keys(this.props.login).length !== 0) {
+            return <Redirect to="/"/>
+        }
         if (this.state.register) {
             return (
                 <Redirect to="/login"/>

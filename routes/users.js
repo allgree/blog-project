@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const Users = require('../models/usersRequests');
-const Posts = require('../models/postsRequests');
-const Comments = require('../models/commentsRequests');
-const PostLikes = require('../models/posts_likesRequests');
-const CommentLikes = require('../models/comments_likesRequests');
+const Users = require('../requests/usersRequests');
+const Posts = require('../requests/postsRequests');
+const Comments = require('../requests/commentsRequests');
+const PostLikes = require('../requests/postsLikesRequests');
+const CommentLikes = require('../requests/commentsLikesRequests');
 
 // все пользователи
 router.get('/', (req, res, next) => {

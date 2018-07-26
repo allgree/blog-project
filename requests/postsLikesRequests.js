@@ -1,5 +1,5 @@
-const PostsLikesModel = require('./posts-likesModel');
-const UsersModel = require('./usersModel');
+const PostsLikesModel = require('../models/postsLikesModel');
+const UsersModel = require('../models/usersModel');
 
 PostsLikesModel.belongsTo(UsersModel, {foreignKey: 'user_id'});
 

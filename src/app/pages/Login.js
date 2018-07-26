@@ -25,7 +25,7 @@ export default class Login extends React.Component {
 
     render() {
         if (Object.keys(this.props.login).length !== 0) {
-            return <Redirect to="/cabinet"/>
+            return <Redirect to="/"/>
         }
 
         return (

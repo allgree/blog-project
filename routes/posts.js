@@ -2,9 +2,9 @@ const express = require('express');
 
 const router = express.Router();
 
-const Posts = require('../models/postsRequests');
-const PostsLikes = require('../models/posts_likesRequests');
-const Users = require('../models/usersRequests');
+const Posts = require('../requests/postsRequests');
+const PostsLikes = require('../requests/postsLikesRequests');
+const Users = require('../requests/usersRequests');
 
 
 // топ просмотренных записей

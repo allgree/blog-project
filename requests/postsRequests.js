@@ -1,6 +1,6 @@
-const PostsModel = require('./postsModel');
-const UsersModel = require('./usersModel');
-const PostsLikesModel = require('./posts-likesModel');
+const PostsModel = require('../models/postsModel');
+const UsersModel = require('../models/usersModel');
+const PostsLikesModel = require('../models/postsLikesModel');
 
 const Sequelize = require('sequelize');
 

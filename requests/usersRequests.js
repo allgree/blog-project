@@ -1,6 +1,6 @@
-const UsersModel = require('./usersModel');
-const PostsModel = require('./postsModel');
-const CommentsModel = require('./commentsModel');
+const UsersModel = require('../models/usersModel');
+const PostsModel = require('../models/postsModel');
+const CommentsModel = require('../models/commentsModel');
 
 const Sequelize = require('sequelize');
 
@@ -52,17 +52,6 @@ let Users = {
                 callback(result)
             })
     },
-
-
-
-    //findAll: (callback) => {
-    //    UsersModel.findAll({
-        //        attributes: ['id', 'name', 'surname', 'city', 'age', 'site', 'email', 'avatar_path']
-        //    })
-    //        .then(result => {
-    //            callback(result);
-    //        })
-        //},
 
     // запрос одного пользователя для отображения на странице
     findUserById: (user_id, callback) => {

@@ -18499,7 +18499,53 @@ function deleteSub(user_id, sub_user_id) {
 }
 
 /***/ }),
-/* 152 */,
+/* 152 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.fetchUserFollowersSample = fetchUserFollowersSample;
+exports.addFollower = addFollower;
+exports.deleteFollower = deleteFollower;
+
+var _axios = __webpack_require__(8);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function fetchUserFollowersSample(offset, sub_user_id) {
+    return {
+        type: 'FETCH_USER_FOLLOWERS_SAMPLE',
+        payload: _axios2.default.get('/api/subs/sample/followers/?sub_user_id=' + sub_user_id + '&offset=' + offset)
+    };
+}
+
+function addFollower(user_id, sub_user_id) {
+    return {
+        type: 'ADD_USER_FOLLOWER',
+        payload: _axios2.default.post('/api/subs/add/', {
+            user_id: user_id,
+            sub_user_id: sub_user_id
+        })
+    };
+}
+
+function deleteFollower(user_id, sub_user_id) {
+    return {
+        type: 'DELETE_USER_FOLLOWER',
+        payload: _axios2.default.post('/api/subs/delete/', {
+            user_id: user_id,
+            sub_user_id: sub_user_id
+        })
+    };
+}
+
+/***/ }),
 /* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -40511,7 +40557,7 @@ var _userPostsReducer = __webpack_require__(389);
 
 var _subsReducer = __webpack_require__(391);
 
-var _followersReducer = __webpack_require__(488);
+var _followersReducer = __webpack_require__(393);
 
 var _postReducer = __webpack_require__(395);
 
@@ -49803,8 +49849,137 @@ var DELETE_USER_SUB_FULFILLED = exports.DELETE_USER_SUB_FULFILLED = 'DELETE_USER
 var DELETE_USER_SUB_REJECTED = exports.DELETE_USER_SUB_REJECTED = 'DELETE_USER_SUB_REJECTED';
 
 /***/ }),
-/* 393 */,
-/* 394 */,
+/* 393 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.followersReducer = followersReducer;
+
+var _followersConstants = __webpack_require__(394);
+
+var Followers = _interopRequireWildcard(_followersConstants);
+
+var _autoloadContent3 = __webpack_require__(21);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function followersReducer() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { followers: [], is_fetching: false, empty: false };
+    var action = arguments[1];
+
+    switch (action.type) {
+        // выборка подписчиков для автоподгрузки
+        case Followers.FETCH_USER_FOLLOWERS_SAMPLE_PENDING:
+            {
+                state = _extends({}, state, { is_fetching: true });
+                break;
+            }
+        case Followers.FETCH_USER_FOLLOWERS_SAMPLE_FULFILLED:
+            {
+                var _autoloadContent = (0, _autoloadContent3.autoloadContent)([].concat(_toConsumableArray(state.followers)), state.empty, action.payload),
+                    _autoloadContent2 = _slicedToArray(_autoloadContent, 2),
+                    followers = _autoloadContent2[0],
+                    empty = _autoloadContent2[1];
+
+                state = _extends({}, state, { is_fetching: false, followers: followers, empty: empty });
+                break;
+            }
+        case Followers.FETCH_USER_FOLLOWERS_SAMPLE_REJECTED:
+            {
+                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
+                break;
+            }
+
+        // добавить подписчика
+        case Followers.ADD_USER_FOLLOWER_PENDING:
+            {
+                state = _extends({}, state, { is_fetching: true });
+                break;
+            }
+
+        case Followers.ADD_USER_FOLLOWER_FULFILLED:
+            {
+                if (action.payload.data === 0) {
+                    state = _extends({}, state, { is_fetching: false });
+                } else {
+                    var _followers = state.subscribes.concat(action.payload.data);
+                    state = _extends({}, state, { is_fetching: false, followers: _followers });
+                }
+                break;
+            }
+
+        case Followers.ADD_USER_FOLLOWER_REJECTED:
+            {
+                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
+                break;
+            }
+
+        // удалить подписчика
+        case Followers.DELETE_USER_FOLLOWER_PENDING:
+            {
+                state = _extends({}, state, { is_fetching: true });
+                break;
+            }
+
+        case Followers.DELETE_USER_FOLLOWER_FULFILLED:
+            {
+                var _followers2 = [].concat(_toConsumableArray(state.followers));
+                if (action.payload.data === 1) {
+                    var deleted_follow = JSON.parse(action.payload.config.data);
+                    _followers2.find(function (sub, index) {
+                        if (sub.user_id === deleted_follow.user_id && sub.sub_user_id === deleted_follow.sub_user_id) {
+                            return _followers2.splice(index, 1);
+                        }
+                    });
+                }
+                state = _extends({}, state, { is_fetching: false, followers: _followers2 });
+                break;
+            }
+
+        case Followers.DELETE_USER_FOLLOWER_REJECTED:
+            {
+                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
+                break;
+            }
+    }
+    return state;
+}
+
+/***/ }),
+/* 394 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var FETCH_USER_FOLLOWERS_SAMPLE_PENDING = exports.FETCH_USER_FOLLOWERS_SAMPLE_PENDING = 'FETCH_USER_FOLLOWERS_SAMPLE_PENDING';
+var FETCH_USER_FOLLOWERS_SAMPLE_FULFILLED = exports.FETCH_USER_FOLLOWERS_SAMPLE_FULFILLED = 'FETCH_USER_FOLLOWERS_SAMPLE_FULFILLED';
+var FETCH_USER_FOLLOWERS_SAMPLE_REJECTED = exports.FETCH_USER_FOLLOWERS_SAMPLE_REJECTED = 'FETCH_USER_FOLLOWERS_SAMPLE_REJECTED';
+
+var ADD_USER_FOLLOWER_PENDING = exports.ADD_USER_FOLLOWER_PENDING = 'ADD_USER_FOLLOWER_PENDING';
+var ADD_USER_FOLLOWER_FULFILLED = exports.ADD_USER_FOLLOWER_FULFILLED = 'ADD_USER_FOLLOWER_FULFILLED';
+var ADD_USER_FOLLOWER_REJECTED = exports.ADD_USER_FOLLOWER_REJECTED = 'ADD_USER_FOLLOWER_REJECTED';
+
+var DELETE_USER_FOLLOWER_PENDING = exports.DELETE_USER_FOLLOWER_PENDING = 'DELETE_USER_FOLLOWER_PENDING';
+var DELETE_USER_FOLLOWER_FULFILLED = exports.DELETE_USER_FOLLOWER_FULFILLED = 'DELETE_USER_FOLLOWER_FULFILLED';
+var DELETE_USER_FOLLOWER_REJECTED = exports.DELETE_USER_FOLLOWER_REJECTED = 'DELETE_USER_FOLLOWER_REJECTED';
+
+/***/ }),
 /* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -50865,8 +51040,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var Main = (_dec = (0, _reactRedux.connect)(function (store) {
     return {
-        login: store.login.login,
-        is_login_fetching: store.login.is_fetching
+        login: store.login.login
     };
 }), _dec(_class = function (_React$Component) {
     _inherits(Main, _React$Component);
@@ -50892,28 +51066,90 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
                     _react2.default.createElement(
                         'h2',
                         null,
-                        '\u0414\u043E\u0431\u0440\u043E \u043F\u043E\u0436\u0430\u043B\u043E\u0432\u0430\u0442\u044C \u0432 \u0412\u0430\u0448 \u041F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0439 \u0411\u043B\u043E\u0433!'
+                        '\u0414\u043E\u0431\u0440\u043E \u043F\u043E\u0436\u0430\u043B\u043E\u0432\u0430\u0442\u044C',
+                        this.props.login.name && _react2.default.createElement(
+                            'span',
+                            null,
+                            ', ',
+                            this.props.login.name
+                        ),
+                        '!'
+                    ),
+                    !this.props.login.id && _react2.default.createElement(
+                        'div',
+                        null,
+                        _react2.default.createElement(
+                            'p',
+                            { className: 'content_main_p' },
+                            '\u0417\u0434\u0435\u0441\u044C \u0432\u044B \u043C\u043E\u0436\u0435\u0442\u0435 \u0437\u0430\u0432\u0435\u0441\u0442\u0438 \u043B\u0438\u0447\u043D\u044B\u0439 \u0431\u043B\u043E\u0433 \u0438 \u0434\u0435\u043B\u0438\u0442\u044C\u0441\u044F \u0441\u0432\u043E\u0438\u043C\u0438 \u043C\u044B\u0441\u043B\u044F\u043C\u0438 \u0441\u043E \u0432\u0441\u0435\u043C\u0438!'
+                        ),
+                        _react2.default.createElement(
+                            _reactRouterDom.Link,
+                            { to: '/login', className: 'main_welcome_link' },
+                            '\u0412\u043E\u0439\u0442\u0438'
+                        ),
+                        _react2.default.createElement(
+                            _reactRouterDom.Link,
+                            { to: '/register', className: 'main_welcome_link' },
+                            '\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u0442\u044C\u0441\u044F'
+                        )
                     )
                 ),
                 _react2.default.createElement(
                     _reactRouterDom.Link,
                     { to: '/posts', className: 'content__main__link block_item' },
-                    '\u0417\u0430\u043F\u0438\u0441\u0438'
+                    _react2.default.createElement(
+                        'p',
+                        null,
+                        '\u0417\u0430\u043F\u0438\u0441\u0438'
+                    ),
+                    _react2.default.createElement(
+                        'p',
+                        { className: 'content_main_p' },
+                        '\u041F\u0440\u043E\u0441\u043C\u0430\u0442\u0440\u0438\u0432\u0430\u0439\u0442\u0435 \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 \u0437\u0430\u043F\u0438\u0441\u0438 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u0435\u0439!'
+                    )
                 ),
                 _react2.default.createElement(
                     _reactRouterDom.Link,
                     { to: '/blogs', className: 'content__main__link block_item' },
-                    '\u0410\u0432\u0442\u043E\u0440\u044B'
+                    _react2.default.createElement(
+                        'p',
+                        null,
+                        '\u0410\u0432\u0442\u043E\u0440\u044B'
+                    ),
+                    _react2.default.createElement(
+                        'p',
+                        { className: 'content_main_p' },
+                        '\u0417\u0430\u0445\u043E\u0434\u0438\u0442\u0435 \u043D\u0430 \u0431\u043B\u043E\u0433\u0438 \u0434\u0440\u0443\u0433\u0438\u0445 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u0435\u0439!'
+                    )
                 ),
                 _react2.default.createElement(
                     _reactRouterDom.Link,
                     { to: '/ratings', className: 'content__main__link block_item' },
-                    '\u0420\u0435\u0439\u0442\u0438\u043D\u0433\u0438'
+                    _react2.default.createElement(
+                        'p',
+                        null,
+                        '\u0420\u0435\u0439\u0442\u0438\u043D\u0433\u0438'
+                    ),
+                    _react2.default.createElement(
+                        'p',
+                        { className: 'content_main_p' },
+                        '\u041F\u0440\u043E\u0441\u043C\u0430\u0442\u0440\u0438\u0432\u0430\u0439\u0442\u0435 \u0440\u0435\u0439\u0442\u0438\u043D\u0433\u0438 \u0441\u0430\u0439\u0442\u0430!'
+                    )
                 ),
                 _react2.default.createElement(
                     _reactRouterDom.Link,
                     { to: '/about', className: 'content__main__link block_item' },
-                    '\u041E \u043F\u0440\u043E\u0435\u043A\u0442\u0435'
+                    _react2.default.createElement(
+                        'p',
+                        null,
+                        '\u041E \u043F\u0440\u043E\u0435\u043A\u0442\u0435'
+                    ),
+                    _react2.default.createElement(
+                        'p',
+                        { className: 'content_main_p' },
+                        '\u0423\u0437\u043D\u0430\u0439\u0442\u0435 \u0431\u043E\u043B\u0435\u0435 \u043F\u043E\u0434\u0440\u043E\u0431\u043D\u0443\u044E \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044E \u043E \u0441\u0430\u0439\u0442\u0435!'
+                    )
                 )
             );
         }
@@ -51816,8 +52052,7 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
         is_posts_fetching: store.postsList.is_fetching,
         posts_empty: store.postsList.empty,
 
-        login: store.login.login,
-        is_login_fetching: store.login.is_fetching
+        login: store.login.login
     };
 }), _dec(_class = function (_React$Component) {
     _inherits(Posts, _React$Component);
@@ -52523,7 +52758,7 @@ var _loginActions = __webpack_require__(9);
 
 var _subsActions = __webpack_require__(151);
 
-var _followersActions = __webpack_require__(487);
+var _followersActions = __webpack_require__(152);
 
 var _autoload = __webpack_require__(38);
 
@@ -53728,7 +53963,7 @@ var Login = (_dec = (0, _reactRedux.connect)(function (store) {
         key: 'render',
         value: function render() {
             if (Object.keys(this.props.login).length !== 0) {
-                return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/cabinet' });
+                return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' });
             }
 
             return _react2.default.createElement(
@@ -53983,7 +54218,7 @@ var _userPostsActions = __webpack_require__(150);
 
 var _subsActions = __webpack_require__(151);
 
-var _followersActions = __webpack_require__(487);
+var _followersActions = __webpack_require__(152);
 
 var _postLikesActions = __webpack_require__(37);
 
@@ -54978,10 +55213,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var Register = (_dec = (0, _reactRedux.connect)(function (store) {
     return {
-        users: store.usersList.users,
-
-        login: store.login.login,
-        is_login_fetching: store.login.is_fetching
+        login: store.login.login
     };
 }), _dec(_class = function (_React$Component) {
     _inherits(Register, _React$Component);
@@ -55012,6 +55244,9 @@ var Register = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'render',
         value: function render() {
+            if (Object.keys(this.props.login).length !== 0) {
+                return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' });
+            }
             if (this.state.register) {
                 return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/login' });
             }
@@ -55292,214 +55527,6 @@ exports.default = Main;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 457 */,
-/* 458 */,
-/* 459 */,
-/* 460 */,
-/* 461 */,
-/* 462 */,
-/* 463 */,
-/* 464 */,
-/* 465 */,
-/* 466 */,
-/* 467 */,
-/* 468 */,
-/* 469 */,
-/* 470 */,
-/* 471 */,
-/* 472 */,
-/* 473 */,
-/* 474 */,
-/* 475 */,
-/* 476 */,
-/* 477 */,
-/* 478 */,
-/* 479 */,
-/* 480 */,
-/* 481 */,
-/* 482 */,
-/* 483 */,
-/* 484 */,
-/* 485 */,
-/* 486 */,
-/* 487 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.fetchUserFollowersSample = fetchUserFollowersSample;
-exports.addFollower = addFollower;
-exports.deleteFollower = deleteFollower;
-
-var _axios = __webpack_require__(8);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function fetchUserFollowersSample(offset, sub_user_id) {
-    return {
-        type: 'FETCH_USER_FOLLOWERS_SAMPLE',
-        payload: _axios2.default.get('/api/subs/sample/followers/?sub_user_id=' + sub_user_id + '&offset=' + offset)
-    };
-}
-
-function addFollower(user_id, sub_user_id) {
-    return {
-        type: 'ADD_USER_FOLLOWER',
-        payload: _axios2.default.post('/api/subs/add/', {
-            user_id: user_id,
-            sub_user_id: sub_user_id
-        })
-    };
-}
-
-function deleteFollower(user_id, sub_user_id) {
-    return {
-        type: 'DELETE_USER_FOLLOWER',
-        payload: _axios2.default.post('/api/subs/delete/', {
-            user_id: user_id,
-            sub_user_id: sub_user_id
-        })
-    };
-}
-
-/***/ }),
-/* 488 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-exports.followersReducer = followersReducer;
-
-var _followersConstants = __webpack_require__(489);
-
-var Followers = _interopRequireWildcard(_followersConstants);
-
-var _autoloadContent3 = __webpack_require__(21);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function followersReducer() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { followers: [], is_fetching: false, empty: false };
-    var action = arguments[1];
-
-    switch (action.type) {
-        // выборка подписчиков для автоподгрузки
-        case Followers.FETCH_USER_FOLLOWERS_SAMPLE_PENDING:
-            {
-                state = _extends({}, state, { is_fetching: true });
-                break;
-            }
-        case Followers.FETCH_USER_FOLLOWERS_SAMPLE_FULFILLED:
-            {
-                var _autoloadContent = (0, _autoloadContent3.autoloadContent)([].concat(_toConsumableArray(state.followers)), state.empty, action.payload),
-                    _autoloadContent2 = _slicedToArray(_autoloadContent, 2),
-                    followers = _autoloadContent2[0],
-                    empty = _autoloadContent2[1];
-
-                state = _extends({}, state, { is_fetching: false, followers: followers, empty: empty });
-                break;
-            }
-        case Followers.FETCH_USER_FOLLOWERS_SAMPLE_REJECTED:
-            {
-                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
-                break;
-            }
-
-        // добавить подписчика
-        case Followers.ADD_USER_FOLLOWER_PENDING:
-            {
-                state = _extends({}, state, { is_fetching: true });
-                break;
-            }
-
-        case Followers.ADD_USER_FOLLOWER_FULFILLED:
-            {
-                if (action.payload.data === 0) {
-                    state = _extends({}, state, { is_fetching: false });
-                } else {
-                    var _followers = state.subscribes.concat(action.payload.data);
-                    state = _extends({}, state, { is_fetching: false, followers: _followers });
-                }
-                break;
-            }
-
-        case Followers.ADD_USER_FOLLOWER_REJECTED:
-            {
-                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
-                break;
-            }
-
-        // удалить подписчика
-        case Followers.DELETE_USER_FOLLOWER_PENDING:
-            {
-                state = _extends({}, state, { is_fetching: true });
-                break;
-            }
-
-        case Followers.DELETE_USER_FOLLOWER_FULFILLED:
-            {
-                var _followers2 = [].concat(_toConsumableArray(state.followers));
-                if (action.payload.data === 1) {
-                    var deleted_follow = JSON.parse(action.payload.config.data);
-                    _followers2.find(function (sub, index) {
-                        if (sub.user_id === deleted_follow.user_id && sub.sub_user_id === deleted_follow.sub_user_id) {
-                            return _followers2.splice(index, 1);
-                        }
-                    });
-                }
-                state = _extends({}, state, { is_fetching: false, followers: _followers2 });
-                break;
-            }
-
-        case Followers.DELETE_USER_FOLLOWER_REJECTED:
-            {
-                state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
-                break;
-            }
-    }
-    return state;
-}
-
-/***/ }),
-/* 489 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var FETCH_USER_FOLLOWERS_SAMPLE_PENDING = exports.FETCH_USER_FOLLOWERS_SAMPLE_PENDING = 'FETCH_USER_FOLLOWERS_SAMPLE_PENDING';
-var FETCH_USER_FOLLOWERS_SAMPLE_FULFILLED = exports.FETCH_USER_FOLLOWERS_SAMPLE_FULFILLED = 'FETCH_USER_FOLLOWERS_SAMPLE_FULFILLED';
-var FETCH_USER_FOLLOWERS_SAMPLE_REJECTED = exports.FETCH_USER_FOLLOWERS_SAMPLE_REJECTED = 'FETCH_USER_FOLLOWERS_SAMPLE_REJECTED';
-
-var ADD_USER_FOLLOWER_PENDING = exports.ADD_USER_FOLLOWER_PENDING = 'ADD_USER_FOLLOWER_PENDING';
-var ADD_USER_FOLLOWER_FULFILLED = exports.ADD_USER_FOLLOWER_FULFILLED = 'ADD_USER_FOLLOWER_FULFILLED';
-var ADD_USER_FOLLOWER_REJECTED = exports.ADD_USER_FOLLOWER_REJECTED = 'ADD_USER_FOLLOWER_REJECTED';
-
-var DELETE_USER_FOLLOWER_PENDING = exports.DELETE_USER_FOLLOWER_PENDING = 'DELETE_USER_FOLLOWER_PENDING';
-var DELETE_USER_FOLLOWER_FULFILLED = exports.DELETE_USER_FOLLOWER_FULFILLED = 'DELETE_USER_FOLLOWER_FULFILLED';
-var DELETE_USER_FOLLOWER_REJECTED = exports.DELETE_USER_FOLLOWER_REJECTED = 'DELETE_USER_FOLLOWER_REJECTED';
 
 /***/ })
 /******/ ]);

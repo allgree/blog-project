@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const PostLikes = require('../models/posts_likesRequests');
-const Users = require('../models/usersRequests');
+const PostLikes = require('../requests/postsLikesRequests');
+const Users = require('../requests/usersRequests');
 
 router.get('/', (req, res, next) => {
     PostLikes.findAll((result) => {

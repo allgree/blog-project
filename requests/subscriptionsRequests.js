@@ -1,5 +1,5 @@
-const SubscriptionsModel = require('./subscriptionsModel');
-const UsersModel = require('./usersModel');
+const SubscriptionsModel = require('../models/subscriptionsModel');
+const UsersModel = require('../models/usersModel');
 
 SubscriptionsModel.belongsTo(UsersModel, {as: 'user', foreignKey: 'user_id'});
 SubscriptionsModel.belongsTo(UsersModel, {as: 'sub_user', foreignKey: 'sub_user_id'});

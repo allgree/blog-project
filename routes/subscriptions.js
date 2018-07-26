@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const Subscriptons = require('../models/subscriptionsRequests');
+const Subscriptons = require('../requests/subscriptionsRequests');
 
 // выборка подписок пользователя для автоподгрузки
 router.get('/sample/subs/', (req, res, next) => {

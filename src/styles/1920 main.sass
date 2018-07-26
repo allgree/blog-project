@@ -229,7 +229,7 @@ nav
   display: none
 
 #nav_input:checked ~.nav_menu
-  width: 150px
+  width: 130px
 
 .nav_menu
   background: rgba(154, 77, 44, 0.8)
@@ -338,17 +338,39 @@ nav
 .content__welcome
   text-align: center
   animation: fadeInDown 0.5s 1
-  height: 50px
+  min-height: 50px
   line-height: 50px
 
 .content__welcome > h2
   font-family: "Arial Cyr Bold", sans-serif
 
+.content_main_p
+  font-family: "Quant Antiqua Plain", sans-serif
+  font-size: 16px
+  margin-top: 15px
+
 .content__welcome:hover
   box-shadow: 0 0 30px #a19a98
 
-.content__main__link
+.main_welcome_link
+  text-decoration: none
+  color: white
+  background-color: #9A4D2C
+  padding: 10px
   font-size: 20px
+  font-family: "Calibri Regular", sans-serif
+  line-height: 30px
+  display: inline-block
+  border-radius: 3px
+  margin-right: 10px
+  transition: all 0.1s linear
+
+.main_welcome_link:hover
+  background-color: #f19f51
+  color: #1e1e1e
+
+.content__main__link
+  font-size: 25px
   text-decoration: none
   color: black
   display: block

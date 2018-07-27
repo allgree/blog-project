@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 
 import PostItem from '../components/Content/PostItem';
 import UserItem from '../components/Content/UserItem';
+import UserProfile from '../components/Content/UserProfile';
 import Loader from '../components/Content/Loader';
 
 import {fetchUser} from "../actions/userActions";
@@ -48,10 +49,14 @@ export default class User extends React.Component {
         this.props.dispatch(fetchUserPostsSample(0, this.props.match.params.user_id));
         this.props.dispatch(fetchUserSubsSample(0, this.props.match.params.user_id));
         this.props.dispatch(fetchUserFollowersSample(0, this.props.match.params.user_id));
-        this.triggerPostLike = this.triggerPostLike.bind(this);
+
         this.state = {
             content: 'posts'
-        }
+        };
+
+        this.triggerPostLike = this.triggerPostLike.bind(this);
+        this.subscript = this.subscript.bind(this);
+        this.unsubscript = this.unsubscript.bind(this);
     }
 
     triggerPostLike(post_id) {
@@ -99,54 +104,17 @@ export default class User extends React.Component {
                             user={subscribe.user}
                             button={false}/>
         });
+
         return (
             <div className="content__user">
                 <aside className="content__user_aside fixed">
                     {this.props.is_user_fetching
                         ? <Loader/>
-                        : <div className="user_info">
-                               <div className="content__user_ava_div">
-                                   <img src={this.props.user.avatar_path} className="big_avatar"/>
-                               </div>
-                               <h2 className="content__user_name">
-                                   {this.props.user.name} {this.props.user.surname}
-                               </h2>
-                               {this.props.user.city &&
-                               <p className="content__user_info">
-                                   Город: {this.props.user.city}
-                               </p>}
-                               {this.props.user.age &&
-                               <p className="content__user_info">
-                                   Возраст: {this.props.user.age}
-                               </p>}
-                               {this.props.user.email &&
-                               <p className="content__user_info">
-                                   Email: <a href={`mailto:${this.props.user.email}`}
-                                             className="user_info__link">
-                                       {this.props.user.email}
-                                   </a>
-                               </p>}
-                               {this.props.user.site &&
-                               <p className="content__user_info">
-                                   Веб-сайт: <a href={`http://${this.props.user.site}`}
-                                                target="_blank"
-                                                className="user_info__link">
-                                       {this.props.user.site}
-                                   </a>
-                               </p>}
-                            {this.props.followers.find(item => item.user.id === this.props.login.id)
-                                ? <button className="button_custom button_subscribing"
-                                          onClick={() => {this.unsubscript()}}>
-                                        Отписаться
-                                  </button>
-                                : this.props.login.id &&
-                                  <button className="button_custom button_subscribing"
-                                          onClick={() => {this.subscript()}}>
-                                        Подписаться
-                                  </button>}
-
-                          </div>
-
+                        : <UserProfile user={this.props.user}
+                                       followers={this.props.followers}
+                                       login={this.props.login}
+                                       subscript={this.subscript}
+                                       unsubscript={this.unsubscript}/>
                     }
                     <button disabled={this.state.content === 'posts'}
                             onClick={() => {this.triggerContent('posts')}}
@@ -165,6 +133,7 @@ export default class User extends React.Component {
                     </button>
 
                 </aside>
+
                 {this.state.content === 'posts' &&
                     <aside className="content__user_aside user_content">
                         {this.props.user_posts.length !== 0 &&

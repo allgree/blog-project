@@ -49812,7 +49812,7 @@ function subsReducer() {
                 if (action.payload.data === 1) {
                     var deleted_sub = JSON.parse(action.payload.config.data);
                     _subs.find(function (sub, index) {
-                        if (sub.user_id === deleted_sub.user_id && sub.sub_user_id === deleted_sub.sub_user_id) {
+                        if (sub.user.id === deleted_sub.user_id && sub.sub_user.id === deleted_sub.sub_user_id) {
                             return _subs.splice(index, 1);
                         }
                     });
@@ -49914,7 +49914,7 @@ function followersReducer() {
                 if (action.payload.data === 0) {
                     state = _extends({}, state, { is_fetching: false });
                 } else {
-                    var _followers = state.subscribes.concat(action.payload.data);
+                    var _followers = state.followers.concat(action.payload.data);
                     state = _extends({}, state, { is_fetching: false, followers: _followers });
                 }
                 break;
@@ -49939,7 +49939,7 @@ function followersReducer() {
                 if (action.payload.data === 1) {
                     var deleted_follow = JSON.parse(action.payload.config.data);
                     _followers2.find(function (sub, index) {
-                        if (sub.user_id === deleted_follow.user_id && sub.sub_user_id === deleted_follow.sub_user_id) {
+                        if (sub.user.id === deleted_follow.user_id && sub.sub_user.id === deleted_follow.sub_user_id) {
                             return _followers2.splice(index, 1);
                         }
                     });
@@ -52776,6 +52776,10 @@ var _UserItem = __webpack_require__(85);
 
 var _UserItem2 = _interopRequireDefault(_UserItem);
 
+var _UserProfile = __webpack_require__(487);
+
+var _UserProfile2 = _interopRequireDefault(_UserProfile);
+
 var _Loader = __webpack_require__(19);
 
 var _Loader2 = _interopRequireDefault(_Loader);
@@ -52841,10 +52845,14 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(0, _this.props.match.params.user_id));
         _this.props.dispatch((0, _subsActions.fetchUserSubsSample)(0, _this.props.match.params.user_id));
         _this.props.dispatch((0, _followersActions.fetchUserFollowersSample)(0, _this.props.match.params.user_id));
-        _this.triggerPostLike = _this.triggerPostLike.bind(_this);
+
         _this.state = {
             content: 'posts'
         };
+
+        _this.triggerPostLike = _this.triggerPostLike.bind(_this);
+        _this.subscript = _this.subscript.bind(_this);
+        _this.unsubscript = _this.unsubscript.bind(_this);
         return _this;
     }
 
@@ -52895,80 +52903,18 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                     user: subscribe.user,
                     button: false });
             });
+
             return _react2.default.createElement(
                 'div',
                 { className: 'content__user' },
                 _react2.default.createElement(
                     'aside',
                     { className: 'content__user_aside fixed' },
-                    this.props.is_user_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(
-                        'div',
-                        { className: 'user_info' },
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'content__user_ava_div' },
-                            _react2.default.createElement('img', { src: this.props.user.avatar_path, className: 'big_avatar' })
-                        ),
-                        _react2.default.createElement(
-                            'h2',
-                            { className: 'content__user_name' },
-                            this.props.user.name,
-                            ' ',
-                            this.props.user.surname
-                        ),
-                        this.props.user.city && _react2.default.createElement(
-                            'p',
-                            { className: 'content__user_info' },
-                            '\u0413\u043E\u0440\u043E\u0434: ',
-                            this.props.user.city
-                        ),
-                        this.props.user.age && _react2.default.createElement(
-                            'p',
-                            { className: 'content__user_info' },
-                            '\u0412\u043E\u0437\u0440\u0430\u0441\u0442: ',
-                            this.props.user.age
-                        ),
-                        this.props.user.email && _react2.default.createElement(
-                            'p',
-                            { className: 'content__user_info' },
-                            'Email: ',
-                            _react2.default.createElement(
-                                'a',
-                                { href: 'mailto:' + this.props.user.email,
-                                    className: 'user_info__link' },
-                                this.props.user.email
-                            )
-                        ),
-                        this.props.user.site && _react2.default.createElement(
-                            'p',
-                            { className: 'content__user_info' },
-                            '\u0412\u0435\u0431-\u0441\u0430\u0439\u0442: ',
-                            _react2.default.createElement(
-                                'a',
-                                { href: 'http://' + this.props.user.site,
-                                    target: '_blank',
-                                    className: 'user_info__link' },
-                                this.props.user.site
-                            )
-                        ),
-                        this.props.followers.find(function (item) {
-                            return item.user.id === _this2.props.login.id;
-                        }) ? _react2.default.createElement(
-                            'button',
-                            { className: 'button_custom button_subscribing',
-                                onClick: function onClick() {
-                                    _this2.unsubscript();
-                                } },
-                            '\u041E\u0442\u043F\u0438\u0441\u0430\u0442\u044C\u0441\u044F'
-                        ) : this.props.login.id && _react2.default.createElement(
-                            'button',
-                            { className: 'button_custom button_subscribing',
-                                onClick: function onClick() {
-                                    _this2.subscript();
-                                } },
-                            '\u041F\u043E\u0434\u043F\u0438\u0441\u0430\u0442\u044C\u0441\u044F'
-                        )
-                    ),
+                    this.props.is_user_fetching ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(_UserProfile2.default, { user: this.props.user,
+                        followers: this.props.followers,
+                        login: this.props.login,
+                        subscript: this.subscript,
+                        unsubscript: this.unsubscript }),
                     _react2.default.createElement(
                         'button',
                         { disabled: this.state.content === 'posts',
@@ -54234,7 +54180,7 @@ var _AvatarForm = __webpack_require__(449);
 
 var _AvatarForm2 = _interopRequireDefault(_AvatarForm);
 
-var _LoginProfile = __webpack_require__(487);
+var _LoginProfile = __webpack_require__(450);
 
 var _LoginProfile2 = _interopRequireDefault(_LoginProfile);
 
@@ -54792,7 +54738,117 @@ var AvatarForm = function (_React$Component) {
 exports.default = AvatarForm;
 
 /***/ }),
-/* 450 */,
+/* 450 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var LoginProfile = function (_React$Component) {
+    _inherits(LoginProfile, _React$Component);
+
+    function LoginProfile() {
+        _classCallCheck(this, LoginProfile);
+
+        return _possibleConstructorReturn(this, (LoginProfile.__proto__ || Object.getPrototypeOf(LoginProfile)).apply(this, arguments));
+    }
+
+    _createClass(LoginProfile, [{
+        key: "render",
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                "div",
+                { className: "user_profile" },
+                _react2.default.createElement(
+                    "h2",
+                    { className: "content__cabinet__login_name" },
+                    this.props.login.name,
+                    " ",
+                    this.props.login.surname
+                ),
+                this.props.login.city && _react2.default.createElement(
+                    "p",
+                    { className: "content__cabinet__login_info" },
+                    "\u0413\u043E\u0440\u043E\u0434: ",
+                    this.props.login.city
+                ),
+                this.props.login.age && _react2.default.createElement(
+                    "p",
+                    { className: "content__cabinet__login_info" },
+                    "\u0412\u043E\u0437\u0440\u0430\u0441\u0442: ",
+                    this.props.login.age
+                ),
+                this.props.login.email && _react2.default.createElement(
+                    "p",
+                    { className: "content__cabinet__login_info" },
+                    "Email: ",
+                    _react2.default.createElement(
+                        "a",
+                        { href: "mailto:" + this.props.login.email,
+                            className: "login_info_link" },
+                        this.props.login.email
+                    )
+                ),
+                this.props.login.site && _react2.default.createElement(
+                    "p",
+                    { className: "content__cabinet__login_info" },
+                    "\u0412\u0435\u0431-\u0441\u0430\u0439\u0442: ",
+                    _react2.default.createElement(
+                        "a",
+                        { href: "http://" + this.props.login.site,
+                            target: "_blank",
+                            className: "login_info_link" },
+                        this.props.login.site
+                    )
+                ),
+                _react2.default.createElement(
+                    "button",
+                    { className: "button_custom button_edit_profile",
+                        onClick: function onClick() {
+                            _this2.props.trigger('info', 'form');
+                        } },
+                    "\u0420\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u0440\u043E\u0444\u0438\u043B\u044C"
+                ),
+                _react2.default.createElement("br", null),
+                _react2.default.createElement(
+                    "button",
+                    { className: " button_custom button_edit_password",
+                        onClick: function onClick() {
+                            _this2.props.trigger('info', 'pass');
+                        } },
+                    "\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u043F\u0430\u0440\u043E\u043B\u044C"
+                )
+            );
+        }
+    }]);
+
+    return LoginProfile;
+}(_react2.default.Component);
+
+exports.default = LoginProfile;
+
+/***/ }),
 /* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -55506,90 +55562,95 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var LoginProfile = function (_React$Component) {
-    _inherits(LoginProfile, _React$Component);
+var UserProfile = function (_React$Component) {
+    _inherits(UserProfile, _React$Component);
 
-    function LoginProfile() {
-        _classCallCheck(this, LoginProfile);
+    function UserProfile() {
+        _classCallCheck(this, UserProfile);
 
-        return _possibleConstructorReturn(this, (LoginProfile.__proto__ || Object.getPrototypeOf(LoginProfile)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (UserProfile.__proto__ || Object.getPrototypeOf(UserProfile)).apply(this, arguments));
     }
 
-    _createClass(LoginProfile, [{
+    _createClass(UserProfile, [{
         key: "render",
         value: function render() {
             var _this2 = this;
 
             return _react2.default.createElement(
                 "div",
-                { className: "user_profile" },
+                { className: "user_info" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "content__user_ava_div" },
+                    _react2.default.createElement("img", { src: this.props.user.avatar_path, className: "big_avatar" })
+                ),
                 _react2.default.createElement(
                     "h2",
-                    { className: "content__cabinet__login_name" },
-                    this.props.login.name,
+                    { className: "content__user_name" },
+                    this.props.user.name,
                     " ",
-                    this.props.login.surname
+                    this.props.user.surname
                 ),
-                this.props.login.city && _react2.default.createElement(
+                this.props.user.city && _react2.default.createElement(
                     "p",
-                    { className: "content__cabinet__login_info" },
+                    { className: "content__user_info" },
                     "\u0413\u043E\u0440\u043E\u0434: ",
-                    this.props.login.city
+                    this.props.user.city
                 ),
-                this.props.login.age && _react2.default.createElement(
+                this.props.user.age && _react2.default.createElement(
                     "p",
-                    { className: "content__cabinet__login_info" },
+                    { className: "content__user_info" },
                     "\u0412\u043E\u0437\u0440\u0430\u0441\u0442: ",
-                    this.props.login.age
+                    this.props.user.age
                 ),
-                this.props.login.email && _react2.default.createElement(
+                this.props.user.email && _react2.default.createElement(
                     "p",
-                    { className: "content__cabinet__login_info" },
+                    { className: "content__user_info" },
                     "Email: ",
                     _react2.default.createElement(
                         "a",
-                        { href: "mailto:" + this.props.login.email,
-                            className: "login_info_link" },
-                        this.props.login.email
+                        { href: "mailto:" + this.props.user.email,
+                            className: "user_info__link" },
+                        this.props.user.email
                     )
                 ),
-                this.props.login.site && _react2.default.createElement(
+                this.props.user.site && _react2.default.createElement(
                     "p",
-                    { className: "content__cabinet__login_info" },
+                    { className: "content__user_info" },
                     "\u0412\u0435\u0431-\u0441\u0430\u0439\u0442: ",
                     _react2.default.createElement(
                         "a",
-                        { href: "http://" + this.props.login.site,
+                        { href: "http://" + this.props.user.site,
                             target: "_blank",
-                            className: "login_info_link" },
-                        this.props.login.site
+                            className: "user_info__link" },
+                        this.props.user.site
                     )
                 ),
-                _react2.default.createElement(
+                this.props.followers.find(function (item) {
+                    return item.user.id === _this2.props.login.id;
+                }) ? _react2.default.createElement(
                     "button",
-                    { className: "button_custom button_edit_profile",
+                    { className: "button_custom button_subscribing",
                         onClick: function onClick() {
-                            _this2.props.trigger('info', 'form');
+                            _this2.props.unsubscript();
                         } },
-                    "\u0420\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u0440\u043E\u0444\u0438\u043B\u044C"
-                ),
-                _react2.default.createElement("br", null),
-                _react2.default.createElement(
+                    "\u041E\u0442\u043F\u0438\u0441\u0430\u0442\u044C\u0441\u044F"
+                ) : this.props.login.id && _react2.default.createElement(
                     "button",
-                    { className: " button_custom button_edit_password",
+                    { className: "button_custom button_subscribing",
                         onClick: function onClick() {
-                            _this2.props.trigger('info', 'pass');
+                            _this2.props.subscript();
                         } },
-                    "\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u043F\u0430\u0440\u043E\u043B\u044C"
+                    "\u041F\u043E\u0434\u043F\u0438\u0441\u0430\u0442\u044C\u0441\u044F"
                 )
             );
         }
     }]);
 
-    return LoginProfile;
+    return UserProfile;
 }(_react2.default.Component);
 
-exports.default = LoginProfile;
+exports.default = UserProfile;
 
 /***/ })
 /******/ ]);

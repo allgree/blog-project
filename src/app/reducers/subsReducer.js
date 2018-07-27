@@ -30,7 +30,7 @@ export function subsReducer(state = {subs: [], is_fetching: false, empty: false}
             if (action.payload.data === 1) {
                 let deleted_sub = JSON.parse(action.payload.config.data);
                 subs.find((sub, index) => {
-                    if(sub.user_id === deleted_sub.user_id && sub.sub_user_id === deleted_sub.sub_user_id) {
+                    if(sub.user.id === deleted_sub.user_id && sub.sub_user.id === deleted_sub.sub_user_id) {
                         return subs.splice(index, 1);
                     }
                 })

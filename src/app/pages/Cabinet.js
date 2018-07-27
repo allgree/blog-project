@@ -182,7 +182,6 @@ export default class Cabinet extends React.Component {
                              flag={false}/>
         });
 
-
         return (
             <div className="content__cabinet">
 

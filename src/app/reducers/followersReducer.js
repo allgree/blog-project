@@ -29,7 +29,7 @@ export function followersReducer(state = {followers: [], is_fetching: false, emp
             if (action.payload.data === 0) {
                 state = {...state, is_fetching: false};
             } else {
-                let followers = state.subscribes.concat(action.payload.data);
+                let followers = state.followers.concat(action.payload.data);
                 state = {...state, is_fetching: false, followers: followers};
             }
             break;
@@ -52,7 +52,7 @@ export function followersReducer(state = {followers: [], is_fetching: false, emp
             if (action.payload.data === 1) {
                 let deleted_follow = JSON.parse(action.payload.config.data);
                 followers.find((sub, index) => {
-                    if (sub.user_id === deleted_follow.user_id && sub.sub_user_id === deleted_follow.sub_user_id) {
+                    if (sub.user.id === deleted_follow.user_id && sub.sub_user.id === deleted_follow.sub_user_id) {
                         return followers.splice(index, 1);
                     }
                 })

@@ -12,7 +12,7 @@ router.get('/sample/subs/', (req, res, next) => {
 
 // выборка подписчиков пользователя для автоподгрузки
 router.get('/sample/followers/', (req, res, next) => {
-    Subscriptons.findSampleSubscribes(10, +req.query.offset, +req.query.sub_user_id, (result) => {
+    Subscriptons.findSampleFollowers(10, +req.query.offset, +req.query.sub_user_id, (result) => {
         res.json(result);
     })
 });
@@ -22,11 +22,12 @@ router.post('/add/', (req, res, next) => {
     Subscriptons.findSub(req.body.user_id, req.body.sub_user_id, (result_find) => {
         result_find.length
             ? res.json(0)
-            : Subscriptons.addSub(req.body.user_id, req.body.sub_user_id, (result) => {
-                res.json(result);
+            : Subscriptons.addSub(req.body.user_id, req.body.sub_user_id, (result_add) => {
+                Subscriptons.findSubWithUsers(result_add.user_id, result_add.sub_user_id, result_sub => {
+                    res.json(result_sub);
+                });
             })
     })
-
 });
 
 // удалить подписку

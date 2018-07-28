@@ -5,6 +5,7 @@ const router = express.Router();
 const Posts = require('../requests/postsRequests');
 const PostsLikes = require('../requests/postsLikesRequests');
 const Users = require('../requests/usersRequests');
+const Subscriptions = require('../requests/subscriptionsRequests');
 
 
 // топ просмотренных записей
@@ -108,8 +109,40 @@ router.get('/user-posts-sample/', (req, res, next) => {
 });
 
 
+// выборка постов в ленте пользователя
+router.get('/feed/', (req, res, next) => {
+    let result = [];
+    let likes = [];
+    Subscriptions.findSubs(+req.query.user_id, (result_subs) => {
+        let arr_sub_users = result_subs.map((sub) => {
+            return sub.sub_user_id;
+        });
+        Posts.findPostsByFeed(5, +req.query.offset, arr_sub_users, (result_posts) => {
+            result_posts.forEach((post, i) => {
+                result[i] = result_posts[i].dataValues;
+                likes.push(new Promise((resolve, reject) => {
+                    PostsLikes.findPostLikes(post.id, result_likes => {
+                        resolve(result_likes);
+                    })
+                }))
+            });
+            Promise.all(likes).then(resultMessage => {
+                result.forEach((item, i) => {
+                    result[i].likes = resultMessage[i];
+                });
+                res.json(result);
+            }, errMessage => {
+                console.log(errMessage);
+            })
+            //res.json(result_posts);
+        })
+    });
+
+});
+
 // один пост по id
 router.get('/:post_id', (req, res, next) => {
+
     Posts.findById(req.params.post_id, (resultPost) => {
         resultPost.dataValues.views++;
         Posts.updateViews(resultPost.dataValues.id, resultPost.dataValues.views, (resultUpdate) => {
@@ -118,12 +151,6 @@ router.get('/:post_id', (req, res, next) => {
     })
 });
 
-//добавить просмотр
-//router.post('/addView/', (req, res, next) => {
-//    Posts.updateViews(req.body.post_id, req.body.views, (result) => {
-//        res.json(result);
-//    })
-//});
 
 // добавить пост
 router.post('/add/', (req, res, next) => {

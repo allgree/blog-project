@@ -54,9 +54,18 @@ let Subscriptions = {
             limit: limit,
             order: [['createdAt', 'DESC']]
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
+    },
+
+
+    // запрос подписок для построения запроса ленты новостей
+    findSubs: (user_id, callback) => {
+        SubscriptionsModel.findAll({
+            where: {
+                user_id: user_id
+            },
+        })
+            .then(result => callback(result))
     },
 
     // одна подписка

@@ -54051,10 +54051,8 @@ var Login = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(Login, [{
         key: 'login',
         value: function login(values) {
-            var incorrect_caution = document.querySelector('.login_incorrect');
-            incorrect_caution.style.display = 'none';
+            document.querySelector('.login_incorrect').style.display = 'none';
             this.props.dispatch((0, _loginActions.fetchLogin)(values));
-            if (!this.props.login.id) incorrect_caution.style.display = 'inline';
         }
     }, {
         key: 'render',
@@ -54068,6 +54066,13 @@ var Login = (_dec = (0, _reactRedux.connect)(function (store) {
                 { className: 'content__login' },
                 _react2.default.createElement(_LoginForm2.default, { onSubmit: this.login })
             );
+        }
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {
+            if (!this.props.login.id) {
+                document.querySelector('.login_incorrect').style.display = 'inline';
+            }
         }
     }]);
 

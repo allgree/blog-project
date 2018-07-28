@@ -20,10 +20,8 @@ export default class Login extends React.Component {
     }
 
     login(values) {
-        let incorrect_caution = document.querySelector('.login_incorrect');
-        incorrect_caution.style.display = 'none';
+        document.querySelector('.login_incorrect').style.display = 'none';
         this.props.dispatch(fetchLogin(values));
-        if (!this.props.login.id) incorrect_caution.style.display = 'inline';
     }
 
     render() {
@@ -36,5 +34,11 @@ export default class Login extends React.Component {
                 <LoginForm onSubmit={this.login}/>
             </div>
             )
+    }
+
+    componentDidUpdate() {
+        if (!this.props.login.id) {
+            document.querySelector('.login_incorrect').style.display = 'inline';
+        }
     }
 }

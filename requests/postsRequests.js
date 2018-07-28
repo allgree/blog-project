@@ -81,9 +81,29 @@ let Posts = {
             limit: limit,
             order: [['createdAt', 'DESC']]
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
+    },
+
+    // выюорка постов для автоподгрузки ленты
+    findPostsByFeed: (limit, offset, users_id, callback) => {
+        PostsModel.findAll({
+            where: {
+                user_id: {
+                    [Sequelize.Op.or]: users_id
+                }
+            },
+            attributes: {exclude: ['updatedAt']},
+            include: [{
+                model: UsersModel,
+                as: 'author',
+                attributes: ['id', 'name', 'surname'],
+                duplicating: false,
+            }],
+            offset: offset,
+            limit: limit,
+            order: [['createdAt', 'DESC']]
+        })
+            .then(result => callback(result))
     },
 
     // найти один пост по id

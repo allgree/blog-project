@@ -20,12 +20,15 @@ export default class Login extends React.Component {
     }
 
     login(values) {
+        let incorrect_caution = document.querySelector('.login_incorrect');
+        incorrect_caution.style.display = 'none';
         this.props.dispatch(fetchLogin(values));
+        if (!this.props.login.id) incorrect_caution.style.display = 'inline';
     }
 
     render() {
-        if (Object.keys(this.props.login).length !== 0) {
-            return <Redirect to="/"/>
+        if (this.props.login.id) {
+            return <Redirect to="/cabinet"/>
         }
 
         return (

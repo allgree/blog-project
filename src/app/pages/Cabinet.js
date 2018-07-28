@@ -154,7 +154,7 @@ export default class Cabinet extends React.Component {
     }
 
     render() {
-        if (Object.keys(this.props.login).length === 0) {
+        if (!this.props.login.id) {
             return <Redirect to="/login"/>
         }
 

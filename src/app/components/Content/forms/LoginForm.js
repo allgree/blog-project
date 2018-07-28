@@ -33,6 +33,7 @@ class LoginForm extends React.Component {
                        className="label_custom">
                     Запомнить меня
                 </label><br/>
+                <span className="login_incorrect">Логин или пароль неверный</span> <br/>
                 <button type="submit"
                         className="button_custom button__enter_login">
                     Войти

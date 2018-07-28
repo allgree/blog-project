@@ -18550,7 +18550,7 @@ function deleteFollower(user_id, sub_user_id) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(154);
-module.exports = __webpack_require__(456);
+module.exports = __webpack_require__(457);
 
 
 /***/ }),
@@ -18606,27 +18606,27 @@ var _User = __webpack_require__(435);
 
 var _User2 = _interopRequireDefault(_User);
 
-var _Post = __webpack_require__(437);
+var _Post = __webpack_require__(438);
 
 var _Post2 = _interopRequireDefault(_Post);
 
-var _Login = __webpack_require__(444);
+var _Login = __webpack_require__(445);
 
 var _Login2 = _interopRequireDefault(_Login);
 
-var _Unlogged = __webpack_require__(446);
+var _Unlogged = __webpack_require__(447);
 
 var _Unlogged2 = _interopRequireDefault(_Unlogged);
 
-var _Cabinet = __webpack_require__(447);
+var _Cabinet = __webpack_require__(448);
 
 var _Cabinet2 = _interopRequireDefault(_Cabinet);
 
-var _Register = __webpack_require__(453);
+var _Register = __webpack_require__(454);
 
 var _Register2 = _interopRequireDefault(_Register);
 
-var _PageNotFound = __webpack_require__(455);
+var _PageNotFound = __webpack_require__(456);
 
 var _PageNotFound2 = _interopRequireDefault(_PageNotFound);
 
@@ -52776,7 +52776,7 @@ var _UserItem = __webpack_require__(85);
 
 var _UserItem2 = _interopRequireDefault(_UserItem);
 
-var _UserProfile = __webpack_require__(487);
+var _UserProfile = __webpack_require__(436);
 
 var _UserProfile2 = _interopRequireDefault(_UserProfile);
 
@@ -52784,7 +52784,7 @@ var _Loader = __webpack_require__(19);
 
 var _Loader2 = _interopRequireDefault(_Loader);
 
-var _userActions = __webpack_require__(436);
+var _userActions = __webpack_require__(437);
 
 var _userPostsActions = __webpack_require__(150);
 
@@ -53030,6 +53030,122 @@ exports.default = User;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UserProfile = function (_React$Component) {
+    _inherits(UserProfile, _React$Component);
+
+    function UserProfile() {
+        _classCallCheck(this, UserProfile);
+
+        return _possibleConstructorReturn(this, (UserProfile.__proto__ || Object.getPrototypeOf(UserProfile)).apply(this, arguments));
+    }
+
+    _createClass(UserProfile, [{
+        key: "render",
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                "div",
+                { className: "user_info" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "content__user_ava_div" },
+                    _react2.default.createElement("img", { src: this.props.user.avatar_path, className: "big_avatar" })
+                ),
+                _react2.default.createElement(
+                    "h2",
+                    { className: "content__user_name" },
+                    this.props.user.name,
+                    " ",
+                    this.props.user.surname
+                ),
+                this.props.user.city && _react2.default.createElement(
+                    "p",
+                    { className: "content__user_info" },
+                    "\u0413\u043E\u0440\u043E\u0434: ",
+                    this.props.user.city
+                ),
+                this.props.user.age && _react2.default.createElement(
+                    "p",
+                    { className: "content__user_info" },
+                    "\u0412\u043E\u0437\u0440\u0430\u0441\u0442: ",
+                    this.props.user.age
+                ),
+                this.props.user.email && _react2.default.createElement(
+                    "p",
+                    { className: "content__user_info" },
+                    "Email: ",
+                    _react2.default.createElement(
+                        "a",
+                        { href: "mailto:" + this.props.user.email,
+                            className: "user_info__link" },
+                        this.props.user.email
+                    )
+                ),
+                this.props.user.site && _react2.default.createElement(
+                    "p",
+                    { className: "content__user_info" },
+                    "\u0412\u0435\u0431-\u0441\u0430\u0439\u0442: ",
+                    _react2.default.createElement(
+                        "a",
+                        { href: "http://" + this.props.user.site,
+                            target: "_blank",
+                            className: "user_info__link" },
+                        this.props.user.site
+                    )
+                ),
+                this.props.followers.find(function (item) {
+                    return item.user.id === _this2.props.login.id;
+                }) ? _react2.default.createElement(
+                    "button",
+                    { className: "button_custom button_subscribing",
+                        onClick: function onClick() {
+                            _this2.props.unsubscript();
+                        } },
+                    "\u041E\u0442\u043F\u0438\u0441\u0430\u0442\u044C\u0441\u044F"
+                ) : this.props.login.id && _react2.default.createElement(
+                    "button",
+                    { className: "button_custom button_subscribing",
+                        onClick: function onClick() {
+                            _this2.props.subscript();
+                        } },
+                    "\u041F\u043E\u0434\u043F\u0438\u0441\u0430\u0442\u044C\u0441\u044F"
+                )
+            );
+        }
+    }]);
+
+    return UserProfile;
+}(_react2.default.Component);
+
+exports.default = UserProfile;
+
+/***/ }),
+/* 437 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.fetchUser = fetchUser;
 
 var _axios = __webpack_require__(8);
@@ -53046,7 +53162,7 @@ function fetchUser(user_id) {
 }
 
 /***/ }),
-/* 437 */
+/* 438 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53069,13 +53185,13 @@ var _reactRouterDom = __webpack_require__(6);
 
 var _reactRedux = __webpack_require__(4);
 
-var _postActions = __webpack_require__(438);
+var _postActions = __webpack_require__(439);
 
-var _postCommentsActions = __webpack_require__(439);
+var _postCommentsActions = __webpack_require__(440);
 
 var _postLikesActions = __webpack_require__(37);
 
-var _commentLikesActions = __webpack_require__(440);
+var _commentLikesActions = __webpack_require__(441);
 
 var _loginActions = __webpack_require__(9);
 
@@ -53085,11 +53201,11 @@ var _autoload = __webpack_require__(38);
 
 var _like = __webpack_require__(39);
 
-var _PostContent = __webpack_require__(441);
+var _PostContent = __webpack_require__(442);
 
 var _PostContent2 = _interopRequireDefault(_PostContent);
 
-var _CommentItem = __webpack_require__(442);
+var _CommentItem = __webpack_require__(443);
 
 var _CommentItem2 = _interopRequireDefault(_CommentItem);
 
@@ -53097,7 +53213,7 @@ var _Loader = __webpack_require__(19);
 
 var _Loader2 = _interopRequireDefault(_Loader);
 
-var _CommentForm = __webpack_require__(443);
+var _CommentForm = __webpack_require__(444);
 
 var _CommentForm2 = _interopRequireDefault(_CommentForm);
 
@@ -53281,7 +53397,7 @@ exports.default = Post;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13)))
 
 /***/ }),
-/* 438 */
+/* 439 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53306,7 +53422,7 @@ function fetchPost(post_id) {
 }
 
 /***/ }),
-/* 439 */
+/* 440 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53353,7 +53469,7 @@ function deletePostComment(comment_id) {
 }
 
 /***/ }),
-/* 440 */
+/* 441 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53396,7 +53512,7 @@ function deleteCommentLike(comment_id, user_id) {
 }
 
 /***/ }),
-/* 441 */
+/* 442 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53598,7 +53714,7 @@ var PostContent = function (_React$Component) {
 exports.default = PostContent;
 
 /***/ }),
-/* 442 */
+/* 443 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53790,7 +53906,7 @@ var CommentItem = function (_React$Component) {
 exports.default = CommentItem;
 
 /***/ }),
-/* 443 */
+/* 444 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53877,7 +53993,7 @@ CommentForm = (0, _reduxForm.reduxForm)({
 exports.default = CommentForm;
 
 /***/ }),
-/* 444 */
+/* 445 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53898,7 +54014,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(6);
 
-var _LoginForm = __webpack_require__(445);
+var _LoginForm = __webpack_require__(446);
 
 var _LoginForm2 = _interopRequireDefault(_LoginForm);
 
@@ -53935,13 +54051,16 @@ var Login = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(Login, [{
         key: 'login',
         value: function login(values) {
+            var incorrect_caution = document.querySelector('.login_incorrect');
+            incorrect_caution.style.display = 'none';
             this.props.dispatch((0, _loginActions.fetchLogin)(values));
+            if (!this.props.login.id) incorrect_caution.style.display = 'inline';
         }
     }, {
         key: 'render',
         value: function render() {
-            if (Object.keys(this.props.login).length !== 0) {
-                return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' });
+            if (this.props.login.id) {
+                return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/cabinet' });
             }
 
             return _react2.default.createElement(
@@ -53957,7 +54076,7 @@ var Login = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = Login;
 
 /***/ }),
-/* 445 */
+/* 446 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54039,6 +54158,13 @@ var LoginForm = function (_React$Component) {
                 ),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
+                    'span',
+                    { className: 'login_incorrect' },
+                    '\u041B\u043E\u0433\u0438\u043D \u0438\u043B\u0438 \u043F\u0430\u0440\u043E\u043B\u044C \u043D\u0435\u0432\u0435\u0440\u043D\u044B\u0439'
+                ),
+                ' ',
+                _react2.default.createElement('br', null),
+                _react2.default.createElement(
                     'button',
                     { type: 'submit',
                         className: 'button_custom button__enter_login' },
@@ -54058,7 +54184,7 @@ LoginForm = (0, _reduxForm.reduxForm)({
 exports.default = LoginForm;
 
 /***/ }),
-/* 446 */
+/* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54133,7 +54259,7 @@ var Unlogged = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = Unlogged;
 
 /***/ }),
-/* 447 */
+/* 448 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54172,23 +54298,23 @@ var _Loader = __webpack_require__(19);
 
 var _Loader2 = _interopRequireDefault(_Loader);
 
-var _PostForm = __webpack_require__(448);
+var _PostForm = __webpack_require__(449);
 
 var _PostForm2 = _interopRequireDefault(_PostForm);
 
-var _AvatarForm = __webpack_require__(449);
+var _AvatarForm = __webpack_require__(450);
 
 var _AvatarForm2 = _interopRequireDefault(_AvatarForm);
 
-var _LoginProfile = __webpack_require__(450);
+var _LoginProfile = __webpack_require__(451);
 
 var _LoginProfile2 = _interopRequireDefault(_LoginProfile);
 
-var _EditUserForm = __webpack_require__(451);
+var _EditUserForm = __webpack_require__(452);
 
 var _EditUserForm2 = _interopRequireDefault(_EditUserForm);
 
-var _EditPassForm = __webpack_require__(452);
+var _EditPassForm = __webpack_require__(453);
 
 var _EditPassForm2 = _interopRequireDefault(_EditPassForm);
 
@@ -54362,7 +54488,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         value: function render() {
             var _this3 = this;
 
-            if (Object.keys(this.props.login).length === 0) {
+            if (!this.props.login.id) {
                 return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/login' });
             }
 
@@ -54549,7 +54675,7 @@ exports.default = Cabinet;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13)))
 
 /***/ }),
-/* 448 */
+/* 449 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54645,7 +54771,7 @@ PostForm = (0, _reduxForm.reduxForm)({
 exports.default = PostForm;
 
 /***/ }),
-/* 449 */
+/* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54738,7 +54864,7 @@ var AvatarForm = function (_React$Component) {
 exports.default = AvatarForm;
 
 /***/ }),
-/* 450 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54849,7 +54975,7 @@ var LoginProfile = function (_React$Component) {
 exports.default = LoginProfile;
 
 /***/ }),
-/* 451 */
+/* 452 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55027,7 +55153,7 @@ EditUserForm = (0, _reduxForm.reduxForm)({
 exports.default = EditUserForm;
 
 /***/ }),
-/* 452 */
+/* 453 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55150,7 +55276,7 @@ EditPassForm = (0, _reduxForm.reduxForm)({
 exports.default = EditPassForm;
 
 /***/ }),
-/* 453 */
+/* 454 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55173,7 +55299,7 @@ var _reactRouterDom = __webpack_require__(6);
 
 var _reactRedux = __webpack_require__(4);
 
-var _RegisterForm = __webpack_require__(454);
+var _RegisterForm = __webpack_require__(455);
 
 var _RegisterForm2 = _interopRequireDefault(_RegisterForm);
 
@@ -55241,7 +55367,7 @@ var Register = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = Register;
 
 /***/ }),
-/* 454 */
+/* 455 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55433,7 +55559,7 @@ RegisterForm = (0, _reduxForm.reduxForm)({
 exports.default = RegisterForm;
 
 /***/ }),
-/* 455 */
+/* 456 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55501,156 +55627,10 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
 exports.default = Main;
 
 /***/ }),
-/* 456 */
+/* 457 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 457 */,
-/* 458 */,
-/* 459 */,
-/* 460 */,
-/* 461 */,
-/* 462 */,
-/* 463 */,
-/* 464 */,
-/* 465 */,
-/* 466 */,
-/* 467 */,
-/* 468 */,
-/* 469 */,
-/* 470 */,
-/* 471 */,
-/* 472 */,
-/* 473 */,
-/* 474 */,
-/* 475 */,
-/* 476 */,
-/* 477 */,
-/* 478 */,
-/* 479 */,
-/* 480 */,
-/* 481 */,
-/* 482 */,
-/* 483 */,
-/* 484 */,
-/* 485 */,
-/* 486 */,
-/* 487 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var UserProfile = function (_React$Component) {
-    _inherits(UserProfile, _React$Component);
-
-    function UserProfile() {
-        _classCallCheck(this, UserProfile);
-
-        return _possibleConstructorReturn(this, (UserProfile.__proto__ || Object.getPrototypeOf(UserProfile)).apply(this, arguments));
-    }
-
-    _createClass(UserProfile, [{
-        key: "render",
-        value: function render() {
-            var _this2 = this;
-
-            return _react2.default.createElement(
-                "div",
-                { className: "user_info" },
-                _react2.default.createElement(
-                    "div",
-                    { className: "content__user_ava_div" },
-                    _react2.default.createElement("img", { src: this.props.user.avatar_path, className: "big_avatar" })
-                ),
-                _react2.default.createElement(
-                    "h2",
-                    { className: "content__user_name" },
-                    this.props.user.name,
-                    " ",
-                    this.props.user.surname
-                ),
-                this.props.user.city && _react2.default.createElement(
-                    "p",
-                    { className: "content__user_info" },
-                    "\u0413\u043E\u0440\u043E\u0434: ",
-                    this.props.user.city
-                ),
-                this.props.user.age && _react2.default.createElement(
-                    "p",
-                    { className: "content__user_info" },
-                    "\u0412\u043E\u0437\u0440\u0430\u0441\u0442: ",
-                    this.props.user.age
-                ),
-                this.props.user.email && _react2.default.createElement(
-                    "p",
-                    { className: "content__user_info" },
-                    "Email: ",
-                    _react2.default.createElement(
-                        "a",
-                        { href: "mailto:" + this.props.user.email,
-                            className: "user_info__link" },
-                        this.props.user.email
-                    )
-                ),
-                this.props.user.site && _react2.default.createElement(
-                    "p",
-                    { className: "content__user_info" },
-                    "\u0412\u0435\u0431-\u0441\u0430\u0439\u0442: ",
-                    _react2.default.createElement(
-                        "a",
-                        { href: "http://" + this.props.user.site,
-                            target: "_blank",
-                            className: "user_info__link" },
-                        this.props.user.site
-                    )
-                ),
-                this.props.followers.find(function (item) {
-                    return item.user.id === _this2.props.login.id;
-                }) ? _react2.default.createElement(
-                    "button",
-                    { className: "button_custom button_subscribing",
-                        onClick: function onClick() {
-                            _this2.props.unsubscript();
-                        } },
-                    "\u041E\u0442\u043F\u0438\u0441\u0430\u0442\u044C\u0441\u044F"
-                ) : this.props.login.id && _react2.default.createElement(
-                    "button",
-                    { className: "button_custom button_subscribing",
-                        onClick: function onClick() {
-                            _this2.props.subscript();
-                        } },
-                    "\u041F\u043E\u0434\u043F\u0438\u0441\u0430\u0442\u044C\u0441\u044F"
-                )
-            );
-        }
-    }]);
-
-    return UserProfile;
-}(_react2.default.Component);
-
-exports.default = UserProfile;
 
 /***/ })
 /******/ ]);

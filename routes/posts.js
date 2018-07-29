@@ -134,7 +134,6 @@ router.get('/feed/', (req, res, next) => {
             }, errMessage => {
                 console.log(errMessage);
             })
-            //res.json(result_posts);
         })
     });
 

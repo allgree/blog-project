@@ -14,6 +14,7 @@ import EditUserForm from '../components/Content/forms/EditUserForm';
 import EditPassForm from '../components/Content/forms/EditPassForm';
 
 
+import {fetchFeedPostsSample} from "../actions/feedActions";
 import {fetchUserPostsSample, addUserPost, deleteUserPost} from "../actions/userPostsActions";
 import {fetchUserSubsSample, deleteSub} from "../actions/subsActions";
 import {fetchUserFollowersSample, deleteFollower} from "../actions/followersActions";
@@ -28,6 +29,10 @@ import {scrollTop} from "../componentsFunctions/scrollTop";
     return {
         login: store.login.login,
         is_login_fetching: store.login.is_fetching,
+
+        feed_posts: store.feed.posts,
+        is_feed_posts_fetching: store.feed.is_fetching,
+        feed_posts_empty: store.feed.empty,
 
         user_posts: store.userPosts.posts,
         is_user_posts_fetching: store.userPosts.is_fetching,
@@ -46,11 +51,13 @@ export default class Cabinet extends React.Component {
     constructor() {
         super(...arguments);
         this.props.dispatch(fetchLoginData());
+        this.props.dispatch(fetchFeedPostsSample(0, this.props.login.id));
         this.props.dispatch(fetchUserPostsSample(0, this.props.login.id));
         this.props.dispatch(fetchUserSubsSample(0, this.props.login.id));
         this.props.dispatch(fetchUserFollowersSample(0, this.props.login.id));
 
-        this.triggerPostLike = this.triggerPostLike.bind(this);
+        this.triggerUserPostLike = this.triggerUserPostLike.bind(this);
+        this.triggerFeedPostLike = this.triggerFeedPostLike.bind(this);
         this.addPost = this.addPost.bind(this);
         this.deletePost = this.deletePost.bind(this);
         this.trigger = this.trigger.bind(this);
@@ -64,14 +71,23 @@ export default class Cabinet extends React.Component {
             info: 'info',
             avatar: 'button',
             post: 'button',
-            content: 'posts'
+            content: 'feed'
         };
 
         this.extensions = ['jpeg', 'jpg'];
     }
 
-    triggerPostLike(post_id) {
+    triggerUserPostLike(post_id) {
         like(this.props.user_posts,
+            post_id,
+            this.props.dispatch,
+            addPostLike,
+            deletePostLike,
+            this.props.login.id);
+    }
+
+    triggerFeedPostLike(post_id) {
+        like(this.props.feed_posts,
             post_id,
             this.props.dispatch,
             addPostLike,
@@ -158,10 +174,17 @@ export default class Cabinet extends React.Component {
             return <Redirect to="/login"/>
         }
 
+        let feed_posts = this.props.feed_posts.map((post, index) => {
+            return <PostItem post={post}
+                             key={index}
+                             triggerLike={this.triggerFeedPostLike}
+                             login={this.props.login}/>
+        });
+
         let posts = this.props.user_posts.map((post, index) => {
             return <PostItem post={post}
                              key={index}
-                             triggerLike={this.triggerPostLike}
+                             triggerLike={this.triggerUserPostLike}
                              delete={this.deletePost}
                              login={this.props.login}/>
         });
@@ -215,10 +238,15 @@ export default class Cabinet extends React.Component {
                 </div>
 
                 <div className="buttons">
+                    <button disabled={this.state.content === 'feed'}
+                            onClick={() => {this.trigger('content', 'feed')}}
+                            className="button_custom button_show_content">
+                        Лента
+                    </button>
                     <button disabled={this.state.content === 'posts'}
                             onClick={() => {this.trigger('content', 'posts')}}
                             className="button_custom button_show_content">
-                        Записи
+                        Мои записи
                     </button>
                     <button disabled={this.state.content === 'subscriptions'}
                             onClick={() => {this.trigger('content', 'subscriptions')}}
@@ -231,6 +259,15 @@ export default class Cabinet extends React.Component {
                         Подписчики
                     </button>
                 </div>
+                {this.state.content === 'feed' &&
+                <div className="content__cabinet__content">
+                    {this.props.feed_posts.length !== 0 &&
+                    <div>{feed_posts}</div>}
+                    <span className="point"/>
+                    {this.props.is_feed_posts_fetching &&
+                    <Loader/>}
+                </div>
+                }
                 {this.state.content === 'posts' &&
                 <div className="content__cabinet__content">
                     {this.state.post === 'button' &&
@@ -286,6 +323,15 @@ export default class Cabinet extends React.Component {
         $(document).on('scroll', () => {
             linkUp();
             switch (this.state.content) {
+                case 'feed': {
+                    autoload(this.props.is_feed_posts_fetching,
+                        this.props.feed_posts_empty,
+                        this.props.dispatch,
+                        fetchFeedPostsSample,
+                        this.props.feed_posts.length,
+                        this.props.login.id);
+                    break;
+                }
                 case 'posts': {
                     autoload(this.props.is_user_posts_fetching,
                              this.props.user_posts_empty,

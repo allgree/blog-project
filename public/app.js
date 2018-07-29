@@ -40555,6 +40555,8 @@ var _userReducer = __webpack_require__(387);
 
 var _userPostsReducer = __webpack_require__(389);
 
+var _feedReducer = __webpack_require__(488);
+
 var _subsReducer = __webpack_require__(391);
 
 var _followersReducer = __webpack_require__(393);
@@ -40582,6 +40584,7 @@ var reducers = (0, _redux.combineReducers)({
     commentator: _commentatorReducer.commentatorReducer,
     user: _userReducer.userReducer,
     userPosts: _userPostsReducer.userPostsReducer,
+    feed: _feedReducer.feedReducer,
     subs: _subsReducer.subsReducer,
     followers: _followersReducer.followersReducer,
     post: _postReducer.postReducer,
@@ -54323,6 +54326,8 @@ var _EditPassForm = __webpack_require__(453);
 
 var _EditPassForm2 = _interopRequireDefault(_EditPassForm);
 
+var _feedActions = __webpack_require__(490);
+
 var _userPostsActions = __webpack_require__(150);
 
 var _subsActions = __webpack_require__(151);
@@ -54356,6 +54361,10 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         login: store.login.login,
         is_login_fetching: store.login.is_fetching,
 
+        feed_posts: store.feed.posts,
+        is_feed_posts_fetching: store.feed.is_fetching,
+        feed_posts_empty: store.feed.empty,
+
         user_posts: store.userPosts.posts,
         is_user_posts_fetching: store.userPosts.is_fetching,
         user_posts_empty: store.userPosts.empty,
@@ -54377,11 +54386,13 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         var _this = _possibleConstructorReturn(this, (Cabinet.__proto__ || Object.getPrototypeOf(Cabinet)).apply(this, arguments));
 
         _this.props.dispatch((0, _loginActions.fetchLoginData)());
+        _this.props.dispatch((0, _feedActions.fetchFeedPostsSample)(0, _this.props.login.id));
         _this.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(0, _this.props.login.id));
         _this.props.dispatch((0, _subsActions.fetchUserSubsSample)(0, _this.props.login.id));
         _this.props.dispatch((0, _followersActions.fetchUserFollowersSample)(0, _this.props.login.id));
 
-        _this.triggerPostLike = _this.triggerPostLike.bind(_this);
+        _this.triggerUserPostLike = _this.triggerUserPostLike.bind(_this);
+        _this.triggerFeedPostLike = _this.triggerFeedPostLike.bind(_this);
         _this.addPost = _this.addPost.bind(_this);
         _this.deletePost = _this.deletePost.bind(_this);
         _this.trigger = _this.trigger.bind(_this);
@@ -54395,7 +54406,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
             info: 'info',
             avatar: 'button',
             post: 'button',
-            content: 'posts'
+            content: 'feed'
         };
 
         _this.extensions = ['jpeg', 'jpg'];
@@ -54403,9 +54414,14 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
     }
 
     _createClass(Cabinet, [{
-        key: 'triggerPostLike',
-        value: function triggerPostLike(post_id) {
+        key: 'triggerUserPostLike',
+        value: function triggerUserPostLike(post_id) {
             (0, _like.like)(this.props.user_posts, post_id, this.props.dispatch, _postLikesActions.addPostLike, _postLikesActions.deletePostLike, this.props.login.id);
+        }
+    }, {
+        key: 'triggerFeedPostLike',
+        value: function triggerFeedPostLike(post_id) {
+            (0, _like.like)(this.props.feed_posts, post_id, this.props.dispatch, _postLikesActions.addPostLike, _postLikesActions.deletePostLike, this.props.login.id);
         }
     }, {
         key: 'addPost',
@@ -54497,10 +54513,17 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                 return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/login' });
             }
 
+            var feed_posts = this.props.feed_posts.map(function (post, index) {
+                return _react2.default.createElement(_PostItem2.default, { post: post,
+                    key: index,
+                    triggerLike: _this3.triggerFeedPostLike,
+                    login: _this3.props.login });
+            });
+
             var posts = this.props.user_posts.map(function (post, index) {
                 return _react2.default.createElement(_PostItem2.default, { post: post,
                     key: index,
-                    triggerLike: _this3.triggerPostLike,
+                    triggerLike: _this3.triggerUserPostLike,
                     'delete': _this3.deletePost,
                     login: _this3.props.login });
             });
@@ -54560,12 +54583,21 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                     { className: 'buttons' },
                     _react2.default.createElement(
                         'button',
+                        { disabled: this.state.content === 'feed',
+                            onClick: function onClick() {
+                                _this3.trigger('content', 'feed');
+                            },
+                            className: 'button_custom button_show_content' },
+                        '\u041B\u0435\u043D\u0442\u0430'
+                    ),
+                    _react2.default.createElement(
+                        'button',
                         { disabled: this.state.content === 'posts',
                             onClick: function onClick() {
                                 _this3.trigger('content', 'posts');
                             },
                             className: 'button_custom button_show_content' },
-                        '\u0417\u0430\u043F\u0438\u0441\u0438'
+                        '\u041C\u043E\u0438 \u0437\u0430\u043F\u0438\u0441\u0438'
                     ),
                     _react2.default.createElement(
                         'button',
@@ -54585,6 +54617,17 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                             className: 'button_custom button_show_content' },
                         '\u041F\u043E\u0434\u043F\u0438\u0441\u0447\u0438\u043A\u0438'
                     )
+                ),
+                this.state.content === 'feed' && _react2.default.createElement(
+                    'div',
+                    { className: 'content__cabinet__content' },
+                    this.props.feed_posts.length !== 0 && _react2.default.createElement(
+                        'div',
+                        null,
+                        feed_posts
+                    ),
+                    _react2.default.createElement('span', { className: 'point' }),
+                    this.props.is_feed_posts_fetching && _react2.default.createElement(_Loader2.default, null)
                 ),
                 this.state.content === 'posts' && _react2.default.createElement(
                     'div',
@@ -54654,6 +54697,11 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
             $(document).on('scroll', function () {
                 (0, _link_up.linkUp)();
                 switch (_this4.state.content) {
+                    case 'feed':
+                        {
+                            (0, _autoload.autoload)(_this4.props.is_feed_posts_fetching, _this4.props.feed_posts_empty, _this4.props.dispatch, _feedActions.fetchFeedPostsSample, _this4.props.feed_posts.length, _this4.props.login.id);
+                            break;
+                        }
                     case 'posts':
                         {
                             (0, _autoload.autoload)(_this4.props.is_user_posts_fetching, _this4.props.user_posts_empty, _this4.props.dispatch, _userPostsActions.fetchUserPostsSample, _this4.props.user_posts.length, _this4.props.login.id);
@@ -55636,6 +55684,180 @@ exports.default = Main;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 458 */,
+/* 459 */,
+/* 460 */,
+/* 461 */,
+/* 462 */,
+/* 463 */,
+/* 464 */,
+/* 465 */,
+/* 466 */,
+/* 467 */,
+/* 468 */,
+/* 469 */,
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */,
+/* 478 */,
+/* 479 */,
+/* 480 */,
+/* 481 */,
+/* 482 */,
+/* 483 */,
+/* 484 */,
+/* 485 */,
+/* 486 */,
+/* 487 */,
+/* 488 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.feedReducer = feedReducer;
+
+var _feedConstants = __webpack_require__(489);
+
+var Feed = _interopRequireWildcard(_feedConstants);
+
+var _postLikesConstants = __webpack_require__(33);
+
+var PostLikes = _interopRequireWildcard(_postLikesConstants);
+
+var _addLike = __webpack_require__(34);
+
+var _deleteLike = __webpack_require__(35);
+
+var _autoloadContent3 = __webpack_require__(21);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function feedReducer() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { posts: [], is_fetching: false, empty: false };
+    var action = arguments[1];
+
+    switch (action.type) {
+        // выборка постов в ленте для автоподгрузки
+        case Feed.FETCH_FEED_POSTS_SAMPLE_PENDING:
+            {
+                state = _extends({}, state, { is_fetching: true });
+                break;
+            }
+        case Feed.FETCH_FEED_POSTS_SAMPLE_FULFILLED:
+            {
+                var _autoloadContent = (0, _autoloadContent3.autoloadContent)([].concat(_toConsumableArray(state.posts)), state.empty, action.payload),
+                    _autoloadContent2 = _slicedToArray(_autoloadContent, 2),
+                    posts = _autoloadContent2[0],
+                    empty = _autoloadContent2[1];
+
+                state = _extends({}, state, { is_fetching: false, posts: posts, empty: empty });
+                break;
+            }
+        case Feed.FETCH_FEED_POSTS_SAMPLE_REJECTED:
+            {
+                state = _extends({}, state, { is_fetching: false });
+                break;
+            }
+
+        // добавление лайка посту
+        case PostLikes.ADD_POST_LIKE_PENDING:
+            {
+                state = _extends({}, state, { is_fetching: false });
+                break;
+            }
+        case PostLikes.ADD_POST_LIKE_FULFILLED:
+            {
+                var _posts = (0, _addLike.addLike)([].concat(_toConsumableArray(state.posts)), action.payload.data);
+                state = _extends({}, state, { posts: _posts, is_fetching: false });
+                break;
+            }
+        case PostLikes.ADD_POST_LIKE_REJECTED:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false,
+                    error_message: action.payload.message });
+                break;
+            }
+
+        // удаление лайка с поста
+        case PostLikes.DELETE_POST_LIKE_PENDING:
+            {
+                state = _extends({}, state, { is_fetching: false });
+                break;
+            }
+        case PostLikes.DELETE_POST_LIKE_FULFILLED:
+            {
+                var _posts2 = (0, _deleteLike.deleteLike)([].concat(_toConsumableArray(state.posts)), action.payload.data);
+                state = _extends({}, state, { posts: _posts2, is_fetching: false });
+                break;
+            }
+        case PostLikes.DELETE_POST_LIKE_REJECTED:
+            {
+                state = _extends({}, state, {
+                    is_fetching: false,
+                    error_message: action.payload.message });
+                break;
+            }
+    }
+    return state;
+}
+
+/***/ }),
+/* 489 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var FETCH_FEED_POSTS_SAMPLE_PENDING = exports.FETCH_FEED_POSTS_SAMPLE_PENDING = 'FETCH_FEED_POSTS_SAMPLE_PENDING';
+var FETCH_FEED_POSTS_SAMPLE_FULFILLED = exports.FETCH_FEED_POSTS_SAMPLE_FULFILLED = 'FETCH_FEED_POSTS_SAMPLE_FULFILLED';
+var FETCH_FEED_POSTS_SAMPLE_REJECTED = exports.FETCH_FEED_POSTS_SAMPLE_REJECTED = 'FETCH_FEED_POSTS_SAMPLE_REJECTED';
+
+/***/ }),
+/* 490 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.fetchFeedPostsSample = fetchFeedPostsSample;
+
+var _axios = __webpack_require__(8);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function fetchFeedPostsSample(offset, user_id) {
+    return {
+        type: 'FETCH_FEED_POSTS_SAMPLE',
+        payload: _axios2.default.get('/api/posts/feed/?user_id=' + user_id + '&offset=' + offset)
+    };
+}
 
 /***/ })
 /******/ ]);

@@ -2969,7 +2969,8 @@ nav {
   animation: opacity 1s 1; }
 
 .content__cabinet__content {
-  clear: both; }
+  clear: both;
+  min-height: 700px; }
 
 .button_edit_avatar, .button_add_post, .button_show_content {
   background-color: #c27900;
@@ -2978,10 +2979,16 @@ nav {
 
 .buttons {
   clear: both;
-  padding: 20px 10px; }
+  padding: 20px 10px;
+  position: sticky;
+  top: 70px;
+  background-color: rgba(170, 105, 87, 0.8);
+  border-radius: 5px;
+  height: 30px;
+  margin: 10px 0; }
 
 .button_show_content {
-  margin-right: 20px; }
+  margin: 0 20px 0 0; }
 
 .button_show_content[disabled] {
   background-color: #ac8b4f;

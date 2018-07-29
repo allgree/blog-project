@@ -10,6 +10,7 @@ import {blogerReducer} from "./reducers/blogerReducer";
 import {commentatorReducer} from "./reducers/commentatorReducer";
 import {userReducer} from './reducers/userReducer';
 import {userPostsReducer} from './reducers/userPostsReducer';
+import {feedReducer} from "./reducers/feedReducer";
 import {subsReducer} from "./reducers/subsReducer";
 import {followersReducer} from "./reducers/followersReducer";
 import {postReducer} from "./reducers/postReducer";
@@ -30,6 +31,7 @@ const reducers = combineReducers({
     commentator: commentatorReducer,
     user: userReducer,
     userPosts: userPostsReducer,
+    feed: feedReducer,
     subs: subsReducer,
     followers: followersReducer,
     post: postReducer,

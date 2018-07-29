@@ -13,7 +13,7 @@ export default class LoginPanel extends React.Component {
     }
 
     render() {
-        if (Object.keys(this.props.login).length === 0) {
+        if (!this.props.login.id) {
             return <div className="login__links">
                 <NavLink to='/login' className={`nav_menu__link login__link`}>Вход на сайт</NavLink>
                 <NavLink to='/register' className={`nav_menu__link login__link`}>Регистрация</NavLink>

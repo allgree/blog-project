@@ -20,8 +20,16 @@ export default class Login extends React.Component {
     }
 
     login(values) {
-        document.querySelector('.login_incorrect').style.display = 'none';
-        this.props.dispatch(fetchLogin(values));
+        let caution = document.querySelector('.login_incorrect');
+        caution.style.display = 'none';
+        let authorize = fetchLogin(values);
+        authorize.payload.then(result => {
+            if (!result.data.id) {
+                caution.style.display = 'inline';
+            } else {
+                this.props.dispatch(authorize);
+            }
+        });
     }
 
     render() {
@@ -36,9 +44,4 @@ export default class Login extends React.Component {
             )
     }
 
-    componentDidUpdate() {
-        if (!this.props.login.id) {
-            document.querySelector('.login_incorrect').style.display = 'inline';
-        }
-    }
 }

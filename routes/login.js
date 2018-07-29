@@ -31,6 +31,10 @@ router.post('/register',  (req, res, next) => {
 // авторизующийся пользователь
 router.post('/login', (req, res, next) => {
     Users.findByLogin(req.body.login, (result) => {
+        if (!result) {
+            res.json({});
+            return;
+        }
         let hash_pass = crypto.createHash('md5')
             .update(salts.salt1 + req.body.password + salts.salt2)
             .digest('hex');

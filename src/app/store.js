@@ -16,7 +16,7 @@ import {followersReducer} from "./reducers/followersReducer";
 import {postReducer} from "./reducers/postReducer";
 import {postCommentsReducer} from "./reducers/postCommentsReducer";
 import {loginReducer} from "./reducers/loginReducer";
-
+import {opinionsReducer} from "./reducers/opinionsReducer";
 
 import promise from 'redux-promise-middleware';
 
@@ -37,6 +37,7 @@ const reducers = combineReducers({
     post: postReducer,
     postComments: postCommentsReducer,
     login: loginReducer,
+    opinions: opinionsReducer,
     form: formReducer
 });
 

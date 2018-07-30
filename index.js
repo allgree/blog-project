@@ -17,6 +17,7 @@ let routeLogin = require('./routes/login');
 let routePostLikes = require('./routes/postLikes');
 let routeCommentLikes = require('./routes/commentLikes');
 let routeSubscriptions = require('./routes/subscriptions');
+let routeOpinions = require('./routes/opinions');
 
 let app = express();
 
@@ -44,6 +45,7 @@ app.use('/api/login', routeLogin);
 app.use('/api/post-likes', routePostLikes);
 app.use('/api/comment-likes', routeCommentLikes);
 app.use('/api/subs', routeSubscriptions);
+app.use('/api/opinions', routeOpinions);
 
 
 app.use((req, res) => {

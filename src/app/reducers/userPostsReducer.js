@@ -19,7 +19,7 @@ export function userPostsReducer(state = {posts: [], is_fetching: false, empty: 
             break;
         }
         case UserPosts.FETCH_USER_POSTS_SAMPLE_REJECTED: {
-            state = {...state, is_fetching: false};
+            state = {...state, is_fetching: false, error_message: action.payload.message};
             break;
         }
 

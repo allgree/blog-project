@@ -3,9 +3,10 @@ import {connect} from 'react-redux';
 
 import OpinionItem from '../components/Content/opinionItem';
 import Loader from '../components/Content/Loader';
+import OpinionForm from '../components/Content/forms/OpinionForm';
 
 import {fetchLoginData} from "../actions/loginActions";
-import {fetchOpinionsSample} from "../actions/opinionActions";
+import {fetchOpinionsSample, addOpinion} from "../actions/opinionActions";
 
 import {autoload} from '../componentsFunctions/autoload';
 import {linkUp} from "../componentsFunctions/link_up";
@@ -25,6 +26,24 @@ export default class Main extends React.Component {
         super(...arguments);
         this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchOpinionsSample(0));
+
+        this.state = {
+            form: false
+        };
+
+        this.triggerForm = this.triggerForm.bind(this);
+        this.addOpinion = this.addOpinion.bind(this);
+    }
+
+    triggerForm(param, value) {
+        this.setState({
+            [param]: value
+        })
+    }
+
+    addOpinion(values) {
+        this.props.dispatch(addOpinion(values.name, this.props.login.id || null, values.body));
+        this.triggerForm('form', false);
     }
 
     render() {
@@ -53,7 +72,7 @@ export default class Main extends React.Component {
                 </p>
                 <div className="content_about_p logo">
                     <div className="about_tool_div">
-                        <img src="/img/html5-css3.png" className="about_tool_img_htmlcss"/>
+                        <img src="/img/html-css.png" className="about_tool_img_htmlcss"/>
                     </div>
                      <span className="about_tool_span">HTML5 и CSS3</span>
                 </div>
@@ -69,7 +88,7 @@ export default class Main extends React.Component {
                 </div>
                 <div className="content_about_p logo">
                     <div className="about_tool_div">
-                        <img src="/img/nodejs.webp" className="about_tool_img_node"/>
+                        <img src="/img/node.png" className="about_tool_img_node"/>
                     </div> <span className="about_tool_span">NodeJs (Express)</span>
                 </div>
                 <div className="content_about_p logo">
@@ -79,6 +98,15 @@ export default class Main extends React.Component {
                 </div>
                 <p className="content_about_p">Пользуйтесь в удовольствие и не забудьте оставить свой отзыв!</p>
                 <h2 className="content_about_opinions_h2">Отзывы</h2>
+                {this.state.form === false
+                  ?  <button onClick={() => {this.triggerForm('form', true)}}
+                            className="button_custom button_add_opinion">
+                        Добавить пост
+                    </button>
+                  : <OpinionForm onSubmit={this.addOpinion}
+                                 trigger={this.triggerForm}
+                                 login={this.props.login}/>
+                }
                 {this.props.opinions.length !== 0 &&
                 <div>{opinions}</div>}
                 <span className="point"/>

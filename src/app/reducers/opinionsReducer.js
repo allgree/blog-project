@@ -21,6 +21,21 @@ export function opinionsReducer(state = {opinions: [], is_fetching: false, empty
             break;
         }
 
+        // добавление отзыва
+        case Opinions.ADD_OPINION_PENDING: {
+            state = {...state, is_fetching: true};
+            break;
+        }
+        case Opinions.ADD_OPINION_FULFILLED: {
+            let opinions = [...state.opinions];
+            opinions.unshift(action.payload.data);
+            state = {...state, opinions: opinions, is_fetching: false};
+            break;
+        }
+        case Opinions.ADD_OPINION_REJECTED: {
+            state = {...state, is_fetching: false, error_message: action.payload.message};
+            break;
+        }
     }
     return state;
 }

@@ -86,7 +86,7 @@ export function userPostsReducer(state = {posts: [], is_fetching: false, empty: 
             break;
         }
         case UserPosts.DELETE_USER_POST_REJECTED: {
-            state = {...state, is_fetching: false};
+            state = {...state, is_fetching: false, error_message: action.payload.message};
             break;
         }
     }

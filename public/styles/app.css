@@ -2834,6 +2834,12 @@ nav {
   font-family: "Arial Cyr Bold", sans-serif;
   margin: 20px; }
 
+.button_add_opinion {
+  background-color: #ee9e00;
+  border: 1px solid #ee9e00;
+  margin: 0 0 20px 10px;
+  animation: opacity 0.5s 1; }
+
 /*end About*/
 /*Post*/
 .content__post {
@@ -3016,8 +3022,8 @@ nav {
   min-height: 700px; }
 
 .button_edit_avatar, .button_add_post, .button_show_content {
-  background-color: #c27900;
-  border: 1px solid #c27900;
+  background-color: #ee9e00;
+  border: 1px solid #ee9e00;
   margin-top: 10px; }
 
 .buttons {
@@ -3039,7 +3045,8 @@ nav {
   border-color: #ac8b4f; }
 
 .button_add_post {
-  margin: 0 0 20px 10px; }
+  margin: 0 0 20px 10px;
+  animation: opacity 0.5s 1; }
 
 /*end Cabinet*/
 /*UserProfile*/
@@ -3382,6 +3389,18 @@ nav {
   margin-top: 10px; }
 
 /*end RegisterForm*/
+/*OpinionForm*/
+.opinion_form {
+  margin-bottom: 20px;
+  animation: opacity 1s 1; }
+
+.label_name_opinion {
+  margin-right: 10px; }
+
+.opinion_form > .button_custom__save {
+  margin-right: 20px; }
+
+/*end OpinionForm*/
 /*DeleteWindow*/
 .dialog_conteiner {
   position: fixed;

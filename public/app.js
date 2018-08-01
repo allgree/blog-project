@@ -52943,8 +52943,6 @@ var _scrollTop = __webpack_require__(22);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -52981,8 +52979,8 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
 
     _createClass(Main, [{
         key: 'triggerForm',
-        value: function triggerForm(param, value) {
-            this.setState(_defineProperty({}, param, value));
+        value: function triggerForm() {
+            this.state.form ? this.setState({ form: false }) : this.setState({ form: true });
         }
     }, {
         key: 'addOpinion',
@@ -53819,7 +53817,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.timeout = 0;
         _this.time = 500;
         _this.state = {
-            comment: 'button',
+            form: false,
             redirect_after_delete: false
         };
         _this.triggerCommentForm = _this.triggerCommentForm.bind(_this);
@@ -53853,10 +53851,8 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
         }
     }, {
         key: 'triggerCommentForm',
-        value: function triggerCommentForm(param) {
-            this.setState({
-                comment: param
-            });
+        value: function triggerCommentForm() {
+            this.state.form ? this.setState({ form: false }) : this.setState({ form: true });
         }
     }, {
         key: 'deletePost',
@@ -53918,16 +53914,16 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                         { className: 'content__post_comments_header' },
                         '\u041A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0438'
                     ),
-                    Object.keys(this.props.login).length !== 0 && this.state.comment === 'button' && _react2.default.createElement(
+                    Object.keys(this.props.login).length !== 0 && !this.state.form && _react2.default.createElement(
                         'button',
                         { onClick: function onClick() {
-                                _this3.triggerCommentForm('form');
+                                _this3.triggerCommentForm();
                             },
                             className: 'button_custom button_add_comment' },
                         '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439'
                     ),
-                    Object.keys(this.props.login).length !== 0 && this.state.comment === 'form' && _react2.default.createElement(_CommentForm2.default, { onSubmit: this.addComment,
-                        click: this.triggerCommentForm }),
+                    Object.keys(this.props.login).length !== 0 && this.state.form && _react2.default.createElement(_CommentForm2.default, { onSubmit: this.addComment,
+                        trigger: this.triggerCommentForm }),
                     this.props.comments.length !== 0 && _react2.default.createElement(
                         'div',
                         null,
@@ -54538,7 +54534,7 @@ var CommentForm = function (_React$Component) {
                 _react2.default.createElement(
                     'button',
                     { onClick: function onClick() {
-                            _this2.props.click('button');
+                            _this2.props.trigger();
                         },
                         className: 'button_custom button_custom__cansel' },
                     '\u041E\u0442\u043C\u0435\u043D\u0430'
@@ -55131,16 +55127,22 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                             )
                         ),
                         this.state.avatar === 'form' && _react2.default.createElement(_AvatarForm2.default, { changeAvatar: this.changeAvatar,
-                            trigger: this.trigger })
+                            trigger: this.trigger,
+                            state_param: 'avatar',
+                            state_value: 'button' })
                     ),
                     this.state.info === 'info' && _react2.default.createElement(_LoginProfile2.default, { login: this.props.login,
                         trigger: this.trigger }),
                     this.state.info === 'form' && _react2.default.createElement(_EditUserForm2.default, { onSubmit: this.editUser,
                         login: this.props.login,
-                        trigger: this.trigger }),
+                        trigger: this.trigger,
+                        state_param: 'info',
+                        state_value: 'info' }),
                     this.state.info === 'pass' && _react2.default.createElement(_EditPassForm2.default, { onSubmit: this.editPass,
                         login: this.props.login,
-                        trigger: this.trigger })
+                        trigger: this.trigger,
+                        state_param: 'info',
+                        state_value: 'info' })
                 ),
                 _react2.default.createElement(
                     'div',
@@ -55209,7 +55211,9 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                         )
                     ),
                     this.state.post === 'form' && _react2.default.createElement(_PostForm2.default, { onSubmit: this.addPost,
-                        trigger: this.trigger }),
+                        trigger: this.trigger,
+                        state_param: 'post',
+                        state_value: 'button' }),
                     this.props.user_posts.length !== 0 && _react2.default.createElement(
                         'div',
                         null,
@@ -55368,7 +55372,7 @@ var PostForm = function (_React$Component) {
                     _react2.default.createElement(
                         'button',
                         { onClick: function onClick() {
-                                _this2.props.trigger('post', 'button');
+                                _this2.props.trigger(_this2.props.state_param, _this2.props.state_value);
                             },
                             className: 'button_custom button_custom__cansel' },
                         '\u041E\u0442\u043C\u0435\u043D\u0430'
@@ -55466,7 +55470,7 @@ var AvatarForm = function (_React$Component) {
                 _react2.default.createElement(
                     "button",
                     { onClick: function onClick() {
-                            _this2.props.trigger('avatar', 'button');
+                            _this2.props.trigger(_this2.props.state_param, _this2.props.state_value);
                         },
                         className: "button_custom button_custom__cansel" },
                     "\u041E\u0442\u043C\u0435\u043D\u0430"
@@ -55751,7 +55755,7 @@ var EditUserForm = function (_React$Component) {
                 _react2.default.createElement(
                     'button',
                     { onClick: function onClick() {
-                            _this2.props.trigger('info', 'info');
+                            _this2.props.trigger(_this2.props.state_param, _this2.props.state_value);
                         },
                         className: 'button_custom button_custom__cansel' },
                     '\u041E\u0442\u043C\u0435\u043D\u0430'
@@ -55874,7 +55878,7 @@ var EditPassForm = function (_React$Component) {
                 _react2.default.createElement(
                     'button',
                     { onClick: function onClick() {
-                            _this2.props.trigger('info', 'info');
+                            _this2.props.trigger(_this2.props.state_param, _this2.props.state_value);
                         },
                         className: 'button_custom button_custom__cansel' },
                     '\u041E\u0442\u043C\u0435\u043D\u0430'
@@ -55980,11 +55984,15 @@ var Register = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(Register, [{
         key: 'register',
         value: function register(values) {
+            var caution = document.querySelector('.register_form__caution');
             if (values.pass1 === values.pass2) {
+                caution.style.display = 'none';
                 this.props.dispatch((0, _usersListActions.registerUser)(values));
                 this.setState({
                     register: true
                 });
+            } else {
+                caution.style.display = 'inline';
             }
         }
     }, {
@@ -56054,7 +56062,7 @@ var RegisterForm = function (_React$Component) {
                                    'label',
                                    { htmlFor: 'login',
                                           className: 'label_custom' },
-                                   '\u041B\u043E\u0433\u0438\u043D'
+                                   '\u041B\u043E\u0433\u0438\u043D*'
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(_reduxForm.Field, { component: 'input',
@@ -56069,7 +56077,7 @@ var RegisterForm = function (_React$Component) {
                                    'label',
                                    { htmlFor: 'name',
                                           className: 'label_custom' },
-                                   '\u0418\u043C\u044F'
+                                   '\u0418\u043C\u044F*'
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(_reduxForm.Field, { component: 'input',
@@ -56084,7 +56092,7 @@ var RegisterForm = function (_React$Component) {
                                    'label',
                                    { htmlFor: 'surname',
                                           className: 'label_custom' },
-                                   '\u0424\u0430\u043C\u0438\u043B\u0438\u044F'
+                                   '\u0424\u0430\u043C\u0438\u043B\u0438\u044F*'
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(_reduxForm.Field, { component: 'input',
@@ -56155,7 +56163,7 @@ var RegisterForm = function (_React$Component) {
                                    'label',
                                    { htmlFor: 'pass1',
                                           className: 'label_custom' },
-                                   '\u041F\u0430\u0440\u043E\u043B\u044C'
+                                   '\u041F\u0430\u0440\u043E\u043B\u044C*'
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(_reduxForm.Field, { component: 'input',
@@ -56170,7 +56178,7 @@ var RegisterForm = function (_React$Component) {
                                    'label',
                                    { htmlFor: 'pass2',
                                           className: 'label_custom' },
-                                   '\u041F\u043E\u0432\u0442\u043E\u0440 \u043F\u0430\u0440\u043E\u043B\u044F'
+                                   '\u041F\u043E\u0432\u0442\u043E\u0440 \u043F\u0430\u0440\u043E\u043B\u044F*'
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(_reduxForm.Field, { component: 'input',
@@ -56180,7 +56188,18 @@ var RegisterForm = function (_React$Component) {
                                    type: 'password',
                                    required: true
                             }),
+                            ' ',
+                            _react2.default.createElement(
+                                   'span',
+                                   { className: 'register_form__caution' },
+                                   '\u041F\u0430\u0440\u043E\u043B\u0438 \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u044E\u0442'
+                            ),
                             _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                   'p',
+                                   { className: 'register_form__p' },
+                                   '\u041F\u043E\u043B\u044F, \u043E\u0442\u043C\u0435\u0447\u0435\u043D\u043D\u044B\u0435 * \u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u044B \u0434\u043B\u044F \u0437\u0430\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u044F.'
+                            ),
                             _react2.default.createElement(
                                    'button',
                                    { type: 'submit',
@@ -56382,7 +56401,7 @@ var OpinionForm = function (_React$Component) {
                 _react2.default.createElement(
                     'button',
                     { onClick: function onClick() {
-                            _this2.props.trigger('form', false);
+                            _this2.props.trigger();
                         },
                         className: 'button_custom button_custom__cansel' },
                     '\u041E\u0442\u043C\u0435\u043D\u0430'

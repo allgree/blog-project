@@ -23,11 +23,15 @@ export default class Register extends React.Component {
     }
 
     register(values) {
+        let caution = document.querySelector('.register_form__caution');
         if (values.pass1 === values.pass2) {
+            caution.style.display = 'none';
             this.props.dispatch(registerUser(values));
             this.setState({
                 register: true
             })
+        } else {
+            caution.style.display = 'inline';
         }
     }
 

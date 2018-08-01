@@ -42,7 +42,7 @@ export default class Post extends React.Component {
         this.timeout = 0;
         this.time = 500;
         this.state = {
-            comment: 'button',
+            form: false,
             redirect_after_delete: false
         };
         this.triggerCommentForm = this.triggerCommentForm.bind(this);
@@ -72,10 +72,10 @@ export default class Post extends React.Component {
             this.props.login.id);
     }
 
-    triggerCommentForm(param) {
-        this.setState({
-            comment: param
-        })
+    triggerCommentForm() {
+        this.state.form
+        ? this.setState({form: false})
+        : this.setState({form: true});
     }
 
     deletePost(post_id) {
@@ -129,14 +129,14 @@ export default class Post extends React.Component {
 
                 <div className="content__post_comments">
                     <h3 className="content__post_comments_header">Комментарии</h3>
-                    {(Object.keys(this.props.login).length !== 0 && this.state.comment === 'button') &&
-                    <button onClick={() => {this.triggerCommentForm('form')}}
+                    {(Object.keys(this.props.login).length !== 0 && !this.state.form) &&
+                    <button onClick={() => {this.triggerCommentForm()}}
                             className="button_custom button_add_comment">
                         Добавить комментарий
                     </button>}
-                    {(Object.keys(this.props.login).length !== 0 && this.state.comment === 'form') &&
+                    {(Object.keys(this.props.login).length !== 0 && this.state.form) &&
                     <CommentForm onSubmit={this.addComment}
-                                 click={this.triggerCommentForm}/>}
+                                 trigger={this.triggerCommentForm}/>}
 
                     {this.props.comments.length !== 0 &&
                             <div>{comments}</div>

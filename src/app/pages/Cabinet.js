@@ -221,7 +221,9 @@ export default class Cabinet extends React.Component {
                         }
                         {this.state.avatar === 'form' &&
                             <AvatarForm changeAvatar={this.changeAvatar}
-                                        trigger={this.trigger}/>
+                                        trigger={this.trigger}
+                                        state_param="avatar"
+                                        state_value="button"/>
                         }
                     </div>
                     {this.state.info === 'info' &&
@@ -230,11 +232,15 @@ export default class Cabinet extends React.Component {
                     {this.state.info === 'form' &&
                     <EditUserForm onSubmit={this.editUser}
                                   login={this.props.login}
-                                  trigger={this.trigger}/>}
+                                  trigger={this.trigger}
+                                  state_param="info"
+                                  state_value="info"/>}
                     {this.state.info === 'pass' &&
                     <EditPassForm onSubmit={this.editPass}
                                   login={this.props.login}
-                                  trigger={this.trigger}/>}
+                                  trigger={this.trigger}
+                                  state_param="info"
+                                  state_value="info"/>}
                 </div>
 
                 <div className="buttons">
@@ -279,7 +285,9 @@ export default class Cabinet extends React.Component {
                     </div>}
                     {this.state.post === 'form' &&
                     <PostForm onSubmit={this.addPost}
-                              trigger={this.trigger}/>}
+                              trigger={this.trigger}
+                              state_param="post"
+                              state_value="button"/>}
 
                     {this.props.user_posts.length !== 0 &&
                     <div>{posts}</div>}

@@ -73,7 +73,7 @@ class EditUserForm extends React.Component {
                         className="button_custom button_custom__save">
                     Сохранить
                 </button>
-                <button onClick={() => {this.props.trigger('info', 'info')}}
+                <button onClick={() => {this.props.trigger(this.props.state_param, this.props.state_value)}}
                         className="button_custom button_custom__cansel">
                     Отмена
                 </button>

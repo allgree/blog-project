@@ -11,7 +11,7 @@ class RegisterForm extends React.Component {
             <form onSubmit={this.props.handleSubmit} encType="multipart/form-data">
                 <label htmlFor="login"
                        className="label_custom">
-                    Логин
+                    Логин*
                 </label><br/>
                 <Field component="input"
                        name="login"
@@ -22,7 +22,7 @@ class RegisterForm extends React.Component {
                        /><br/>
                 <label htmlFor="name"
                        className="label_custom">
-                    Имя
+                    Имя*
                 </label><br/>
                 <Field component="input"
                        name="name"
@@ -33,7 +33,7 @@ class RegisterForm extends React.Component {
                        /><br/>
                 <label htmlFor="surname"
                        className="label_custom">
-                    Фамилия
+                    Фамилия*
                 </label><br/>
                 <Field component="input"
                        name="surname"
@@ -84,7 +84,7 @@ class RegisterForm extends React.Component {
                        /><br/>
                 <label htmlFor="pass1"
                        className="label_custom">
-                    Пароль
+                    Пароль*
                 </label><br/>
                 <Field component="input"
                         name="pass1"
@@ -95,7 +95,7 @@ class RegisterForm extends React.Component {
                         /><br/>
                 <label htmlFor="pass2"
                        className="label_custom">
-                    Повтор пароля
+                    Повтор пароля*
                 </label><br/>
                 <Field component="input"
                        name="pass2"
@@ -103,7 +103,9 @@ class RegisterForm extends React.Component {
                        className="input_custom"
                        type="password"
                        required
-                /><br/>
+                /> <span className="register_form__caution">Пароли не совпадают</span>
+                <br/>
+                <p className="register_form__p">Поля, отмеченные * обязательны для заполнения.</p>
                 <button type="submit"
                         className="button_custom button__register">
                     Зарегистрироваться

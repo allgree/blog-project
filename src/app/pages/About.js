@@ -35,10 +35,10 @@ export default class Main extends React.Component {
         this.addOpinion = this.addOpinion.bind(this);
     }
 
-    triggerForm(param, value) {
-        this.setState({
-            [param]: value
-        })
+    triggerForm() {
+        this.state.form
+        ? this.setState({form: false})
+        : this.setState({form: true});
     }
 
     addOpinion(values) {

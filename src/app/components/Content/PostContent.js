@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+import {formatTimestamp} from "../../componentsFunctions/formatTimestamp";
+
 import TooltipLikes from './TooltipLikes';
 import DeleteWindow from './DeleteWindow';
 
@@ -39,13 +41,7 @@ export default class PostContent extends React.Component {
     render() {
         if (Object.keys(this.props.post).length === 0) return null;
 
-        let timestamp = Date.parse(this.props.post.createdAt);
-        let date = new Date();
-        date.setTime(timestamp);
-        let day = ('0' + date.getDate()).slice(-2);
-        let month = ('0' + (date.getMonth() + 1)).slice(-2);
-        let created_date = `${day}.${month}.${date.getFullYear()}`;
-        let created_time = `${date.getHours()}:${date.getMinutes()}`;
+        let {created_date, created_time} = formatTimestamp(this.props.post.createdAt);
 
         return (
             <div className="content__post">

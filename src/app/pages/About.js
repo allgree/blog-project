@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import OpinionItem from '../components/Content/opinionItem';
+import OpinionItem from '../components/Content/OpinionItem';
 import Loader from '../components/Content/Loader';
 import OpinionForm from '../components/Content/forms/OpinionForm';
 

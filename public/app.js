@@ -13211,6 +13211,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(6);
 
+var _formatTimestamp2 = __webpack_require__(497);
+
 var _TooltipLikes = __webpack_require__(84);
 
 var _TooltipLikes2 = _interopRequireDefault(_TooltipLikes);
@@ -13274,13 +13276,9 @@ var PostItem = function (_React$Component) {
         value: function render() {
             var _this2 = this;
 
-            var timestamp = Date.parse(this.props.post.createdAt);
-            var date = new Date();
-            date.setTime(timestamp);
-            var day = ('0' + date.getDate()).slice(-2);
-            var month = ('0' + (date.getMonth() + 1)).slice(-2);
-            var created_date = day + '.' + month + '.' + date.getFullYear();
-            var created_time = date.getHours() + ':' + date.getMinutes();
+            var _formatTimestamp = (0, _formatTimestamp2.formatTimestamp)(this.props.post.createdAt),
+                created_date = _formatTimestamp.created_date,
+                created_time = _formatTimestamp.created_time;
 
             var body = '';
             this.props.post.body.length > 300 ? body = this.props.post.body.substr(0, 300) + '...' : body = this.props.post.body;
@@ -52919,9 +52917,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(4);
 
-var _opinionItem = __webpack_require__(439);
+var _OpinionItem = __webpack_require__(496);
 
-var _opinionItem2 = _interopRequireDefault(_opinionItem);
+var _OpinionItem2 = _interopRequireDefault(_OpinionItem);
 
 var _Loader = __webpack_require__(17);
 
@@ -52994,7 +52992,7 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
             var _this2 = this;
 
             var opinions = this.props.opinions.map(function (opinion, index) {
-                return _react2.default.createElement(_opinionItem2.default, { opinion: opinion,
+                return _react2.default.createElement(_OpinionItem2.default, { opinion: opinion,
                     key: index });
             });
             return _react2.default.createElement(
@@ -53161,115 +53159,7 @@ exports.default = Main;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13)))
 
 /***/ }),
-/* 439 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRouterDom = __webpack_require__(6);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var OpinionItem = function (_React$Component) {
-    _inherits(OpinionItem, _React$Component);
-
-    function OpinionItem() {
-        _classCallCheck(this, OpinionItem);
-
-        return _possibleConstructorReturn(this, (OpinionItem.__proto__ || Object.getPrototypeOf(OpinionItem)).apply(this, arguments));
-    }
-
-    _createClass(OpinionItem, [{
-        key: 'render',
-        value: function render() {
-            var timestamp = Date.parse(this.props.opinion.createdAt);
-            var date = new Date();
-            date.setTime(timestamp);
-            var day = ('0' + date.getDate()).slice(-2);
-            var month = ('0' + (date.getMonth() + 1)).slice(-2);
-            var created_date = day + '.' + month + '.' + date.getFullYear();
-            var created_time = date.getHours() + ':' + date.getMinutes();
-
-            return _react2.default.createElement(
-                'div',
-                { className: 'content_opinion_item block_item' },
-                _react2.default.createElement(
-                    'p',
-                    { className: 'content_opinion_item_body' },
-                    this.props.opinion.body
-                ),
-                this.props.opinion.author && _react2.default.createElement(
-                    'p',
-                    { className: 'content_opinion_item_author' },
-                    '\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C: ',
-                    _react2.default.createElement(
-                        _reactRouterDom.Link,
-                        { to: '/user/' + this.props.opinion.author.id, className: 'content_opinion_item_author_link' },
-                        this.props.opinion.author.name,
-                        ' ',
-                        this.props.opinion.author.surname
-                    )
-                ),
-                this.props.opinion.name && _react2.default.createElement(
-                    'p',
-                    { className: 'content_opinion_item_author' },
-                    '\u0413\u043E\u0441\u0442\u044C: ',
-                    this.props.opinion.name
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'content__opinion_item__info' },
-                    _react2.default.createElement(
-                        'span',
-                        { className: 'content__opinion_item__info_span' },
-                        _react2.default.createElement('i', { className: 'fa fa-calendar', 'aria-hidden': 'true' }),
-                        '\xA0',
-                        _react2.default.createElement(
-                            'span',
-                            null,
-                            created_date
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'span',
-                        { className: 'content__opinion_item__info_span' },
-                        _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
-                        '\xA0',
-                        _react2.default.createElement(
-                            'span',
-                            null,
-                            created_time
-                        )
-                    )
-                )
-            );
-        }
-    }]);
-
-    return OpinionItem;
-}(_react2.default.Component);
-
-exports.default = OpinionItem;
-
-/***/ }),
+/* 439 */,
 /* 440 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -54091,6 +53981,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(6);
 
+var _formatTimestamp2 = __webpack_require__(497);
+
 var _TooltipLikes = __webpack_require__(84);
 
 var _TooltipLikes2 = _interopRequireDefault(_TooltipLikes);
@@ -54155,13 +54047,9 @@ var PostContent = function (_React$Component) {
 
             if (Object.keys(this.props.post).length === 0) return null;
 
-            var timestamp = Date.parse(this.props.post.createdAt);
-            var date = new Date();
-            date.setTime(timestamp);
-            var day = ('0' + date.getDate()).slice(-2);
-            var month = ('0' + (date.getMonth() + 1)).slice(-2);
-            var created_date = day + '.' + month + '.' + date.getFullYear();
-            var created_time = date.getHours() + ':' + date.getMinutes();
+            var _formatTimestamp = (0, _formatTimestamp2.formatTimestamp)(this.props.post.createdAt),
+                created_date = _formatTimestamp.created_date,
+                created_time = _formatTimestamp.created_time;
 
             return _react2.default.createElement(
                 'div',
@@ -54293,6 +54181,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(6);
 
+var _formatTimestamp2 = __webpack_require__(497);
+
 var _TooltipLikes = __webpack_require__(84);
 
 var _TooltipLikes2 = _interopRequireDefault(_TooltipLikes);
@@ -54355,13 +54245,9 @@ var CommentItem = function (_React$Component) {
         value: function render() {
             var _this2 = this;
 
-            var timestamp = Date.parse(this.props.comment.createdAt);
-            var date = new Date();
-            date.setTime(timestamp);
-            var day = ('0' + date.getDate()).slice(-2);
-            var month = ('0' + (date.getMonth() + 1)).slice(-2);
-            var created_date = day + '.' + month + '.' + date.getFullYear();
-            var created_time = date.getHours() + ':' + date.getMinutes();
+            var _formatTimestamp = (0, _formatTimestamp2.formatTimestamp)(this.props.comment.createdAt),
+                created_date = _formatTimestamp.created_date,
+                created_time = _formatTimestamp.created_time;
 
             return _react2.default.createElement(
                 'div',
@@ -56418,6 +56304,136 @@ OpinionForm = (0, _reduxForm.reduxForm)({
 })(OpinionForm);
 
 exports.default = OpinionForm;
+
+/***/ }),
+/* 496 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(6);
+
+var _formatTimestamp2 = __webpack_require__(497);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var OpinionItem = function (_React$Component) {
+    _inherits(OpinionItem, _React$Component);
+
+    function OpinionItem() {
+        _classCallCheck(this, OpinionItem);
+
+        return _possibleConstructorReturn(this, (OpinionItem.__proto__ || Object.getPrototypeOf(OpinionItem)).apply(this, arguments));
+    }
+
+    _createClass(OpinionItem, [{
+        key: 'render',
+        value: function render() {
+            var _formatTimestamp = (0, _formatTimestamp2.formatTimestamp)(this.props.opinion.createdAt),
+                created_date = _formatTimestamp.created_date,
+                created_time = _formatTimestamp.created_time;
+
+            return _react2.default.createElement(
+                'div',
+                { className: 'content_opinion_item block_item' },
+                _react2.default.createElement(
+                    'p',
+                    { className: 'content_opinion_item_body' },
+                    this.props.opinion.body
+                ),
+                this.props.opinion.author && _react2.default.createElement(
+                    'p',
+                    { className: 'content_opinion_item_author' },
+                    '\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C: ',
+                    _react2.default.createElement(
+                        _reactRouterDom.Link,
+                        { to: '/user/' + this.props.opinion.author.id, className: 'content_opinion_item_author_link' },
+                        this.props.opinion.author.name,
+                        ' ',
+                        this.props.opinion.author.surname
+                    )
+                ),
+                this.props.opinion.name && _react2.default.createElement(
+                    'p',
+                    { className: 'content_opinion_item_author' },
+                    '\u0413\u043E\u0441\u0442\u044C: ',
+                    this.props.opinion.name
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'content__opinion_item__info' },
+                    _react2.default.createElement(
+                        'span',
+                        { className: 'content__opinion_item__info_span' },
+                        _react2.default.createElement('i', { className: 'fa fa-calendar', 'aria-hidden': 'true' }),
+                        '\xA0',
+                        _react2.default.createElement(
+                            'span',
+                            null,
+                            created_date
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'span',
+                        { className: 'content__opinion_item__info_span' },
+                        _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
+                        '\xA0',
+                        _react2.default.createElement(
+                            'span',
+                            null,
+                            created_time
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return OpinionItem;
+}(_react2.default.Component);
+
+exports.default = OpinionItem;
+
+/***/ }),
+/* 497 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.formatTimestamp = formatTimestamp;
+function formatTimestamp(created) {
+    var timestamp = Date.parse(created);
+    var date = new Date();
+    date.setTime(timestamp);
+    var day = ('0' + date.getDate()).slice(-2);
+    var month = ('0' + (date.getMonth() + 1)).slice(-2);
+    return {
+        created_date: day + '.' + month + '.' + date.getFullYear(),
+        created_time: date.getHours() + ':' + date.getMinutes()
+    };
+}
 
 /***/ })
 /******/ ]);

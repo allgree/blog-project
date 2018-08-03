@@ -51,7 +51,6 @@ export default class Post extends React.Component {
         this.deletePost = this.deletePost.bind(this);
         this.addComment = this.addComment.bind(this);
         this.deleteComment = this.deleteComment.bind(this);
-        this.deleteWindowHide = this.deleteWindowHide.bind(this);
     }
 
     triggerPostLike() {
@@ -87,10 +86,10 @@ export default class Post extends React.Component {
     }
 
     addComment(values) {
-        if (Object.keys(this.props.login).length === 0 || !values.body) return;
+        if (!this.props.login.id || !values.body) return;
         this.props.dispatch(addPostComment(this.props.post.id, this.props.login.id, values.body));
         this.setState({
-           comment: 'button'
+            form: false
         });
     }
 
@@ -99,22 +98,17 @@ export default class Post extends React.Component {
         this.props.dispatch(deletePostComment(comment_id));
     }
 
-    deleteWindowHide() {
-        this.setState({
-            delete: false
-        })
-    }
-
     render() {
         if (this.state.redirect_after_delete) return <Redirect to="/cabinet"/>;
-
         let comments = this.props.comments.map((comment, index) => {
-            return <CommentItem key={index}
-                                comment={comment}
-                                triggerLike={this.triggerCommentLike}
-                                delete={this.deleteComment}
-                                login={this.props.login}/>
+                return <CommentItem key={index}
+                                    comment={comment}
+                                    triggerLike={this.triggerCommentLike}
+                                    post_author={this.props.post.author || {}}
+                                    delete={this.deleteComment}
+                                    login={this.props.login}/>
         });
+
         return (
             <div>
 

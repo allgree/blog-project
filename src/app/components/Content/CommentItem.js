@@ -83,10 +83,10 @@ export default class CommentItem extends React.Component {
                             {this.props.comment.likes.length === 0 ? '' : this.props.comment.likes.length}
                         </span>
                     </span>
-                    {Object.keys(this.props.login).length !== 0 && this.props.comment.author.id === this.props.login.id &&
+                    {this.props.login.id && (this.props.comment.author.id === this.props.login.id || this.props.post_author.id === this.props.login.id) &&
                         <span className="content__post_comment_delete"
                               onClick={() => {this.setState({delete: true})}}>
-                        <i className="fa fa-trash-o" aria-hidden="true"/>
+                            <i className="fa fa-trash-o" aria-hidden="true"/>
                         </span>
                     }
                 </div>

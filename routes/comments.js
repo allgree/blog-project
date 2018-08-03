@@ -6,11 +6,11 @@ const Comments = require('../requests/commentsRequests');
 const CommentLikes = require('../requests/commentsLikesRequests');
 const Users = require('../requests/usersRequests');
 
-// выборка пяти комментариев к посту для автоподгрузки
+// выборка десяти комментариев к посту для автоподгрузки
 router.get('/sample/post/', (req, res, next) => {
     let result = [];
     let likes = [];
-    Comments.findByPostIdSample(2, +req.query.offset, +req.query.post_id, (result_comments) => {
+    Comments.findByPostIdSample(10, +req.query.offset, +req.query.post_id, (result_comments) => {
         result_comments.forEach((comment, i) => {
             result[i] = result_comments[i].dataValues;
             likes.push(new Promise((resolve, reject) => {

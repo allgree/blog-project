@@ -27,6 +27,7 @@ let Posts = {
             })
     },
 
+
     // выборка постов для отображения топ-5 отмеченных постов
     findTopLikesPosts: (callback) => {
         PostsModel.findAll({

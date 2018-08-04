@@ -17,7 +17,8 @@ const Users = require('../requests/usersRequests');
 const Tokens = require('../requests/tokensRequests');
 
 // регистрация
-router.post('/register',  (req, res, next) => {
+router.post('/register/',  (req, res, next) => {
+    console.log(req.body);
     let avatar = '/img/avatars/default.jpeg';
     let password = crypto.createHash('md5')
         .update(salts.salt1 + req.body.pass1 + salts.salt2)
@@ -30,8 +31,15 @@ router.post('/register',  (req, res, next) => {
     })
 });
 
+// запрос наличия логина для избежания повторяющегося логина
+router.get('/check-login/', (req, res, next) => {
+    Users.findByLogin(req.query.login, (result) => {
+        result === null ? res.json(1) : res.json(0);
+    })
+});
+
 // авторизующийся пользователь
-router.post('/login', (req, res, next) => {
+router.post('/login/', (req, res, next) => {
     Users.findByLogin(req.body.login, (result) => {
         if (!result) {
             res.json({});
@@ -131,7 +139,6 @@ router.post('/avatar', (req, res, next) => {
                     './src/img/avatars',
                     {plugins: [imageminJpegtran()]})
                .then(data => {
-                   console.log(data);
                    fs.rename(data[0].path, `./src/img/avatars/${file_name}`, err => {if (err) throw err});
                });
            imagemin([temp_path],

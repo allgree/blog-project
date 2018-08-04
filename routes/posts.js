@@ -14,7 +14,7 @@ router.get('/top_views/', (req, res, next) => {
         let likes = [];
         Posts.findTopViewsPosts(result_posts => {
             result_posts.forEach((post, i) => {
-                result[i] = result_posts[i].dataValues;
+                result[i] = post.dataValues;
                 likes.push(new Promise((resolve, reject) => {
                     PostsLikes.findPostLikes(post.id, result_likes => {
                         resolve(result_likes);
@@ -33,13 +33,14 @@ router.get('/top_views/', (req, res, next) => {
     }
 );
 
+
 // топ отмеченных записей
 router.get('/top_likes/', (req, res, next) => {
         let result = [];
-    let likes = [];
+        let likes = [];
         Posts.findTopLikesPosts(result_posts => {
             result_posts.forEach((post, i) => {
-                result[i] = result_posts[i].dataValues;
+                result[i] = post.dataValues;
                 likes.push(new Promise((resolve, reject) => {
                     PostsLikes.findPostLikes(post.id, result_likes => {
                         resolve(result_likes);
@@ -65,7 +66,7 @@ router.get('/sample/', (req, res, next) => {
     let likes = [];
     Posts.findSample(10, +req.query.offset, (result_posts) => {
         result_posts.forEach((post, i) => {
-            result[i] = result_posts[i].dataValues;
+            result[i] = post.dataValues;
             likes.push(new Promise((resolve, reject) => {
                 PostsLikes.findPostLikes(post.id, result_likes => {
                     resolve(result_likes);
@@ -90,7 +91,7 @@ router.get('/user-posts-sample/', (req, res, next) => {
     let likes = [];
     Posts.findByUserIdSample(10, +req.query.offset, +req.query.user_id, (result_posts) => {
         result_posts.forEach((post, i) => {
-            result[i] = result_posts[i].dataValues;
+            result[i] = post.dataValues;
             likes.push(new Promise((resolve, reject) => {
                 PostsLikes.findPostLikes(post.id, result_likes => {
                     resolve(result_likes);
@@ -141,7 +142,6 @@ router.get('/feed/', (req, res, next) => {
 
 // один пост по id
 router.get('/:post_id', (req, res, next) => {
-
     Posts.findById(req.params.post_id, (resultPost) => {
         resultPost.dataValues.views++;
         Posts.updateViews(resultPost.dataValues.id, resultPost.dataValues.views, (resultUpdate) => {

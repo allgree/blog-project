@@ -1,5 +1,6 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
+import axios from 'axios';
 
 import {connect} from 'react-redux';
 
@@ -23,16 +24,25 @@ export default class Register extends React.Component {
     }
 
     register(values) {
-        let caution = document.querySelector('.register_form__caution');
-        if (values.pass1 === values.pass2) {
-            caution.style.display = 'none';
-            this.props.dispatch(registerUser(values));
-            this.setState({
-                register: true
-            })
-        } else {
-            caution.style.display = 'inline';
-        }
+            let caution_pass = document.querySelector('.register_form__caution_pass');
+            let caution_login = document.querySelector('.register_form__caution_login');
+            caution_pass.style.display = 'none';
+            caution_login.style.display = 'none';
+        this.setState({valid: true});
+            axios.get(`/api/login/check-login/?login=${values.login}`).then(result => {
+                if (result.data === 0) {
+                    caution_login.style.display = 'inline';
+                    return;
+                }
+                if (values.pass1 !== values.pass2) {
+                    caution_pass.style.display = 'inline';
+                    return;
+                }
+                this.props.dispatch(registerUser(values));
+                this.setState({
+                    register: true
+                });
+            });
     }
 
     render() {

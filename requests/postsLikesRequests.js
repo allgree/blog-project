@@ -20,12 +20,14 @@ let PostsLikes = {
             })
     },
 
-    findAll: (callback) => {
-        PostsLikesModel.findAll({})
-             .then(result => {
-                 callback(result);
-             })
-    },
+
+    //findAll: (callback) => {
+    //    PostsLikesModel.findAll({})
+    //         .then(result => {
+    //             callback(result);
+    //         })
+    //},
+
     findByPostId: (post_id, callback) => {
         PostsLikesModel.findAll({
             where: {

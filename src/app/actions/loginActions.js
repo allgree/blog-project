@@ -3,7 +3,7 @@ import axios from 'axios';
 export function fetchLogin(login) {
     return {
         type: 'FETCH_LOGIN',
-        payload: axios.post('/api/login/login', login)
+        payload: axios.post('/api/login/login/', login)
     }
 }
 

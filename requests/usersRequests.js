@@ -8,6 +8,7 @@ UsersModel.hasMany(PostsModel, {foreignKey: 'user_id'});
 UsersModel.hasMany(CommentsModel, {foreignKey: 'user_id'});
 
 let Users = {
+    // самый активный автор
     findTopBloger: (callback) => {
         UsersModel.findAll({
             attributes: ['id', 'name', 'surname', 'city', 'avatar_path', [Sequelize.fn('count', Sequelize.col('posts.id')), 'posts_count']],
@@ -25,6 +26,7 @@ let Users = {
             })
     },
 
+    // самый активный комментатор
     findTopCommentator: (callback) => {
         UsersModel.findAll({
             attributes: ['id', 'name', 'surname', 'city', 'avatar_path', [Sequelize.fn('count', Sequelize.col('comments.id')), 'comments_count']],
@@ -42,6 +44,7 @@ let Users = {
             })
     },
 
+    // выборка пользователей
     findSample: (limit, offset, callback) => {
         UsersModel.findAll({
             attributes: {exclude: ['login', 'password', 'createdAt', 'updatedAt']},
@@ -91,7 +94,6 @@ let Users = {
                 callback(result);
             })
     },
-
 
     // регистрация нового пользователя
     register: (user, avatar, password, callback) => {

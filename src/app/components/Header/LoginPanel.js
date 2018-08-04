@@ -35,4 +35,16 @@ export default class LoginPanel extends React.Component {
             </div>
         }
     }
+
+    componentDidMount() {
+        if (this.props.login.id) {
+            document.body.onclick = (event) => {
+                let label = document.querySelector('.login__panel__label');
+                let input = document.querySelector('#login__panel_input');
+                if (event.srcElement !== label && event.srcElement !== input) {
+                    input.checked = false;
+                }
+            };
+        }
+    }
 }

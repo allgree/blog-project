@@ -19,7 +19,8 @@ class RegisterForm extends React.Component {
                        className="input_custom"
                        type="text"
                        required
-                       /><br/>
+                       /><span className="register_form__caution_login">Такой логин уже существует</span>
+                <br/>
                 <label htmlFor="name"
                        className="label_custom">
                     Имя*
@@ -103,7 +104,7 @@ class RegisterForm extends React.Component {
                        className="input_custom"
                        type="password"
                        required
-                /> <span className="register_form__caution">Пароли не совпадают</span>
+                /> <span className="register_form__caution_pass">Пароли не совпадают</span>
                 <br/>
                 <p className="register_form__p">Поля, отмеченные * обязательны для заполнения.</p>
                 <button type="submit"

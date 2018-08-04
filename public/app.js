@@ -585,7 +585,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function fetchLogin(login) {
     return {
         type: 'FETCH_LOGIN',
-        payload: _axios2.default.post('/api/login/login', login)
+        payload: _axios2.default.post('/api/login/login/', login)
     };
 }
 
@@ -18434,7 +18434,7 @@ function fetchUsersSample(offset) {
 function registerUser(user) {
     return {
         type: 'REGISTER_USER',
-        payload: _axios2.default.post('api/login/register', user)
+        payload: _axios2.default.post('api/login/register/', user)
     };
 }
 
@@ -49737,7 +49737,7 @@ function userPostsReducer() {
             }
         case UserPosts.DELETE_USER_POST_FULFILLED:
             {
-                var _posts4 = (0, _deletePostOrComment.deletePostOrComment)(_posts4, action.payload);
+                var _posts4 = (0, _deletePostOrComment.deletePostOrComment)([].concat(_toConsumableArray(state.posts)), action.payload);
                 state = _extends({}, state, { is_fetching: false, posts: _posts4 });
                 break;
             }
@@ -51205,6 +51205,19 @@ var LoginPanel = (_dec = (0, _reactRedux.connect)(function (store) {
                         )
                     )
                 );
+            }
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            if (this.props.login.id) {
+                document.body.onclick = function (event) {
+                    var label = document.querySelector('.login__panel__label');
+                    var input = document.querySelector('#login__panel_input');
+                    if (event.srcElement !== label && event.srcElement !== input) {
+                        input.checked = false;
+                    }
+                };
             }
         }
     }]);
@@ -56047,6 +56060,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(6);
 
+var _axios = __webpack_require__(5);
+
+var _axios2 = _interopRequireDefault(_axios);
+
 var _reactRedux = __webpack_require__(4);
 
 var _RegisterForm = __webpack_require__(464);
@@ -56088,16 +56105,27 @@ var Register = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(Register, [{
         key: 'register',
         value: function register(values) {
-            var caution = document.querySelector('.register_form__caution');
-            if (values.pass1 === values.pass2) {
-                caution.style.display = 'none';
-                this.props.dispatch((0, _usersListActions.registerUser)(values));
-                this.setState({
+            var _this2 = this;
+
+            var caution_pass = document.querySelector('.register_form__caution_pass');
+            var caution_login = document.querySelector('.register_form__caution_login');
+            caution_pass.style.display = 'none';
+            caution_login.style.display = 'none';
+            this.setState({ valid: true });
+            _axios2.default.get('/api/login/check-login/?login=' + values.login).then(function (result) {
+                if (result.data === 0) {
+                    caution_login.style.display = 'inline';
+                    return;
+                }
+                if (values.pass1 !== values.pass2) {
+                    caution_pass.style.display = 'inline';
+                    return;
+                }
+                _this2.props.dispatch((0, _usersListActions.registerUser)(values));
+                _this2.setState({
                     register: true
                 });
-            } else {
-                caution.style.display = 'inline';
-            }
+            });
         }
     }, {
         key: 'render',
@@ -56176,6 +56204,11 @@ var RegisterForm = function (_React$Component) {
                                    type: 'text',
                                    required: true
                             }),
+                            _react2.default.createElement(
+                                   'span',
+                                   { className: 'register_form__caution_login' },
+                                   '\u0422\u0430\u043A\u043E\u0439 \u043B\u043E\u0433\u0438\u043D \u0443\u0436\u0435 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442'
+                            ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(
                                    'label',
@@ -56295,7 +56328,7 @@ var RegisterForm = function (_React$Component) {
                             ' ',
                             _react2.default.createElement(
                                    'span',
-                                   { className: 'register_form__caution' },
+                                   { className: 'register_form__caution_pass' },
                                    '\u041F\u0430\u0440\u043E\u043B\u0438 \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u044E\u0442'
                             ),
                             _react2.default.createElement('br', null),

@@ -81,7 +81,7 @@ export function userPostsReducer(state = {posts: [], is_fetching: false, empty: 
             break;
         }
         case UserPosts.DELETE_USER_POST_FULFILLED: {
-            let posts = deletePostOrComment(posts, action.payload);
+            let posts = deletePostOrComment([...state.posts], action.payload);
             state = {...state, is_fetching: false, posts: posts};
             break;
         }

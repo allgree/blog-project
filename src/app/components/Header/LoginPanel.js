@@ -12,6 +12,14 @@ export default class LoginPanel extends React.Component {
         super(...arguments);
     }
 
+    hideMenu() {
+        let label = document.querySelector('.login__panel__label');
+        let input = document.querySelector('#login__panel_input');
+        if (event.srcElement !== label && event.srcElement !== input) {
+            input.checked = false;
+        }
+    }
+
     render() {
         if (!this.props.login.id) {
             return <div className="login__links">
@@ -36,15 +44,10 @@ export default class LoginPanel extends React.Component {
         }
     }
 
-    componentDidMount() {
+    componentDidUpdate() {
+        document.body.removeEventListener('click', this.hideMenu);
         if (this.props.login.id) {
-            document.body.onclick = (event) => {
-                let label = document.querySelector('.login__panel__label');
-                let input = document.querySelector('#login__panel_input');
-                if (event.srcElement !== label && event.srcElement !== input) {
-                    input.checked = false;
-                }
-            };
+            document.body.addEventListener('click', this.hideMenu);
         }
     }
 }

@@ -51161,6 +51161,15 @@ var LoginPanel = (_dec = (0, _reactRedux.connect)(function (store) {
     }
 
     _createClass(LoginPanel, [{
+        key: 'hideMenu',
+        value: function hideMenu() {
+            var label = document.querySelector('.login__panel__label');
+            var input = document.querySelector('#login__panel_input');
+            if (event.srcElement !== label && event.srcElement !== input) {
+                input.checked = false;
+            }
+        }
+    }, {
         key: 'render',
         value: function render() {
             if (!this.props.login.id) {
@@ -51208,16 +51217,11 @@ var LoginPanel = (_dec = (0, _reactRedux.connect)(function (store) {
             }
         }
     }, {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {
+            document.body.removeEventListener('click', this.hideMenu);
             if (this.props.login.id) {
-                document.body.onclick = function (event) {
-                    var label = document.querySelector('.login__panel__label');
-                    var input = document.querySelector('#login__panel_input');
-                    if (event.srcElement !== label && event.srcElement !== input) {
-                        input.checked = false;
-                    }
-                };
+                document.body.addEventListener('click', this.hideMenu);
             }
         }
     }]);

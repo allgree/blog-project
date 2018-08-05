@@ -101,7 +101,7 @@ router.post('/edit', (req, res, next) => {
 
 //изменение пароля
 router.post('/pass', (req, res, next) => {
-    Users.findLoginById(req.body.user_id, (result_user) => {
+    Users.findLoginForPass(req.body.user_id, (result_user) => {
         let hash_old_pass = crypto.createHash('md5')
             .update(salts.salt1 + req.body.password + salts.salt2)
             .digest('hex');
@@ -112,7 +112,7 @@ router.post('/pass', (req, res, next) => {
                 .update(salts.salt1 + req.body.new_pass + salts.salt2)
                 .digest('hex');
             Users.editPass(req.body.user_id, hash_new_pass, (result_pass) => {
-                res.json(result_pass)
+                res.json({result: result_pass[0]})
             })
         }
     });

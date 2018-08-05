@@ -20,11 +20,12 @@ export default class AvatarForm extends React.Component {
         this.files = e.target.files;
     }
 
+
     render() {
         return (
             <form onSubmit={this.onFormSubmit} className="avatar_form">
                 <label htmlFor="avatar" className="button_custom label_upload_avatar">
-                    Загрузить изображение
+                    Выбрать изображение
                 </label>
                 <div className="div_for_input_avatar">
                     <input name="avatar" type="file" id="avatar" onChange={this.change}/>
@@ -37,7 +38,23 @@ export default class AvatarForm extends React.Component {
                         className="button_custom button_custom__cansel">
                     Отмена
                 </button>
+                <p className="image_name"/>
+                <p className="caution_incorrect_format"/>
             </form>
         )
+    }
+
+    componentDidMount() {
+        let types = this.props.extensions;
+        document.getElementById('avatar').onchange = function () {
+            let name = this.value.split('\\').pop();
+            document.querySelector('.image_name').innerHTML = `Выбрано изображение: ${name}`;
+            let type = name.split('.').pop();
+            if (types.indexOf(type) === -1) {
+                document.querySelector('.caution_incorrect_format').innerHTML = 'Неправильный тип изображения';
+            } else {
+                document.querySelector('.caution_incorrect_format').innerHTML = '';
+            }
+        };
     }
 }

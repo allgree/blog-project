@@ -17,15 +17,22 @@ export default class Login extends React.Component {
         super(...arguments);
         this.props.dispatch(fetchLoginData());
         this.login = this.login.bind(this);
+        this.state = {
+            valid_profile: true
+        }
     }
 
     login(values) {
-        let caution = document.querySelector('.login_incorrect');
-        caution.style.display = 'none';
+        //let caution = document.querySelector('.login_incorrect');
+        //caution.style.display = 'none';
+        this.setState({valid_profile: true});
         let authorize = fetchLogin(values);
         authorize.payload.then(result => {
             if (!result.data.id) {
-                caution.style.display = 'inline';
+                this.setState({
+                    valid_profile: false
+                })
+                //caution.style.display = 'inline';
             } else {
                 this.props.dispatch(authorize);
             }
@@ -39,7 +46,8 @@ export default class Login extends React.Component {
 
         return (
             <div className="content__login">
-                <LoginForm onSubmit={this.login}/>
+                <LoginForm onSubmit={this.login}
+                           valid_profile={this.state.valid_profile}/>
             </div>
             )
     }

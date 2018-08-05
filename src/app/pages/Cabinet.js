@@ -51,11 +51,12 @@ export default class Cabinet extends React.Component {
     constructor() {
         super(...arguments);
         this.props.dispatch(fetchLoginData());
-        this.props.dispatch(fetchFeedPostsSample(0, this.props.login.id));
-        this.props.dispatch(fetchUserPostsSample(0, this.props.login.id));
-        this.props.dispatch(fetchUserSubsSample(0, this.props.login.id));
-        this.props.dispatch(fetchUserFollowersSample(0, this.props.login.id));
-
+        if (this.props.login.id) {
+            this.props.dispatch(fetchFeedPostsSample(0, this.props.login.id));
+            this.props.dispatch(fetchUserPostsSample(0, this.props.login.id));
+            this.props.dispatch(fetchUserSubsSample(0, this.props.login.id));
+            this.props.dispatch(fetchUserFollowersSample(0, this.props.login.id));
+        }
         this.triggerUserPostLike = this.triggerUserPostLike.bind(this);
         this.triggerFeedPostLike = this.triggerFeedPostLike.bind(this);
         this.addPost = this.addPost.bind(this);
@@ -71,12 +72,15 @@ export default class Cabinet extends React.Component {
             info: 'info',
             avatar: 'button',
             post: 'button',
-            content: 'feed'
+            content: 'feed',
+            valid_old_pass: true,
+            valid_new_pass: true
         };
 
         this.extensions = ['jpeg', 'jpg'];
     }
 
+    // поставить/убрать лайк на пост из списка Мои записи
     triggerUserPostLike(post_id) {
         like(this.props.user_posts,
             post_id,
@@ -86,6 +90,7 @@ export default class Cabinet extends React.Component {
             this.props.login.id);
     }
 
+    //поставить/убрать лайк на пост из списка Лента
     triggerFeedPostLike(post_id) {
         like(this.props.feed_posts,
             post_id,
@@ -95,23 +100,27 @@ export default class Cabinet extends React.Component {
             this.props.login.id);
     }
 
+    // добавить пост
     addPost(values) {
         if (Object.keys(this.props.login).length === 0 || !values.title || !values.body) return;
         this.props.dispatch(addUserPost(this.props.login.id, values.title, values.body));
         this.trigger('post', 'button');
     }
 
+    // удалить пост
     deletePost(post_id) {
         if (Object.keys(this.props.login).length === 0) return;
         this.props.dispatch(deleteUserPost(post_id));
     }
 
+    // изменить состояние
     trigger(param, value) {
         this.setState({
             [param]: value
         })
     }
 
+    // изменить информацию о себе
     editUser(values) {
         values.id = this.props.login.id;
         this.props.dispatch(editUser(values));
@@ -120,11 +129,10 @@ export default class Cabinet extends React.Component {
         })
     }
 
+    // изменить пароль
     editPass(values) {
-        let incorrect_caution = document.querySelector('.pass_incorrect');
-        let mismatch_caution = document.querySelector('.pass_mismatch');
-        incorrect_caution.style.display = 'none';
-        mismatch_caution.style.display = 'none';
+        this.setState({valid_old_pass: true});
+        this.setState({valid_old_pass: true});
         if (values.pass1 === values.pass2) {
             axios.post('/api/login/pass',
                 {
@@ -132,20 +140,28 @@ export default class Cabinet extends React.Component {
                     password: values.password,
                     new_pass: values.pass1
                 }).then((responce) => {
-                    if (responce.data[0] === 1) {
+                    if (responce.data.result === 1) {
                         this.setState({
                             info: 'info'
                         })
                     } else {
-                        incorrect_caution.style.display = 'inline';
+                        this.setState({valid_old_pass: false})
                     }
             })
         } else {
-            mismatch_caution.style.display = 'inline';
+            this.setState({valid_new_pass: false})
         }
     }
 
+
+
+
+    // поменять аватар
     changeAvatar(files) {
+        console.log(files);
+        this.setState({
+            valid_avatar: true
+        });
         if (!files[0]) return;
         let name_arr = files[0].name.split('.');
         let extension = name_arr[name_arr.length - 1];
@@ -161,10 +177,12 @@ export default class Cabinet extends React.Component {
         })
     }
 
+    // отписаться от пользователя
     unsub(sub_user_id) {
         this.props.dispatch(deleteSub(this.props.login.id, sub_user_id))
     }
 
+    // отписать пользователя от себя
     unsubscribe(user_id) {
         this.props.dispatch(deleteFollower(user_id, this.props.login.id))
     }
@@ -223,7 +241,8 @@ export default class Cabinet extends React.Component {
                             <AvatarForm changeAvatar={this.changeAvatar}
                                         trigger={this.trigger}
                                         state_param="avatar"
-                                        state_value="button"/>
+                                        state_value="button"
+                                        extensions={this.extensions}/>
                         }
                     </div>
                     {this.state.info === 'info' &&
@@ -240,7 +259,9 @@ export default class Cabinet extends React.Component {
                                   login={this.props.login}
                                   trigger={this.trigger}
                                   state_param="info"
-                                  state_value="info"/>}
+                                  state_value="info"
+                                  valid_old_pass={this.state.valid_old_pass}
+                                  valid_new_pass={this.state.valid_new_pass}/>}
                 </div>
 
                 <div className="buttons">
@@ -321,8 +342,8 @@ export default class Cabinet extends React.Component {
     }
 
     componentDidMount() {
-        let login__panel_input = document.querySelector('#login__panel_input');
-        if (login__panel_input) login__panel_input.checked = false;
+        //let login__panel_input = document.querySelector('#login__panel_input');
+        //if (login__panel_input) login__panel_input.checked = false;
         scrollTop();
     }
 

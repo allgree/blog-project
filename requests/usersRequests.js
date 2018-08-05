@@ -157,6 +157,19 @@ let Users = {
             })
     },
 
+    // Запрос пользователя для проверки пароля при изменении
+    findLoginForPass: (user_id, callback) => {
+        UsersModel.findOne({
+            attributes: ['id', 'login', 'password'],
+            where: {
+                id: user_id
+            }
+        })
+            .then(result => {
+                callback(result);
+            })
+    },
+
     // изменение пароля пользователя
     editPass: (user_id, password, callback) => {
         UsersModel.update({

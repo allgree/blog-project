@@ -3009,7 +3009,7 @@ nav {
 
 .content__cabinet__login_ava {
   width: 360px;
-  height: 417px;
+  height: 425px;
   float: left;
   margin: 0 10px 30px 0;
   overflow: hidden; }
@@ -3330,13 +3330,15 @@ nav {
 
 .pass_incorrect, .pass_mismatch {
   color: red;
-  display: none;
   font-family: "Quant Antiqua Plain", sans-serif; }
 
 /*end EditPassForm*/
 /*AvatarForm*/
 .avatar_form {
-  animation: opacity 1s 1; }
+  animation: opacity 1s 1;
+  overflow: hidden;
+  white-space: nowrap;
+  height: 100px; }
 
 .div_for_input_avatar {
   float: left;
@@ -3350,6 +3352,16 @@ nav {
 
 .avatar_form > .button_custom__save {
   margin-right: 10px; }
+
+.image_name {
+  font-family: "Calibri Regular", sans-serif;
+  font-size: 18px;
+  color: #fff616; }
+
+.caution_incorrect_format {
+  font-family: "Calibri Regular", sans-serif;
+  font-size: 18px;
+  color: red; }
 
 /*end AvatarForm*/
 /*PostForm*/
@@ -3378,7 +3390,6 @@ nav {
 
 .login_incorrect {
   color: red;
-  display: none;
   font-family: "Quant Antiqua Plain", sans-serif; }
 
 /*end LoginForm*/
@@ -3392,8 +3403,7 @@ nav {
   margin-left: 10px;
   font-family: "Calibri Regular", sans-serif;
   font-size: 18px;
-  color: red;
-  display: none; }
+  color: red; }
 
 .register_form__p {
   font-family: "Calibri Regular", sans-serif;

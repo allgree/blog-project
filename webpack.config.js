@@ -2,8 +2,6 @@ const path = require('path');
 const Html = require('html-webpack-plugin');
 const webpack = require('webpack');
 
-
-//const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -117,25 +115,17 @@ module.exports = {
             template: path.join(__dirname, 'src', 'index.html'),
             filename: path.join(__dirname, 'public', 'index.html')
         }),
-        //new BrowserSyncPlugin({
-        //    host: 'localhost',
-        //    port: 8090,
-        //    server: {
-        //        baseDir: ['public']
-        //    }
-        //}),
 
-
-        // Image optimizer
-        //new ImageminPlugin({
+    //    // Image optimizer
+    //    new ImageminPlugin({
     //    test: /\.(jpe?g|png|gif|svg)$/i
     //}),
 //
-        //new UglifyJSPlugin({
+    //    new UglifyJSPlugin({
     //    sourceMap: true
     //}),
 //
-        //new webpack.LoaderOptionsPlugin({
+    //    new webpack.LoaderOptionsPlugin({
     //    minimize: true
     //}),
     ]

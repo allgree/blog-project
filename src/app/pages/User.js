@@ -168,7 +168,6 @@ export default class User extends React.Component {
 
     componentDidMount() {
         scrollTop();
-
     }
 
     componentDidUpdate() {

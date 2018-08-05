@@ -11,7 +11,7 @@ class EditPassForm extends React.Component {
                        id="password"
                        className="input_custom"
                        type="password"
-                       required/> <span className="pass_incorrect">Неправильный пароль</span><br/>
+                       required/> {!this.props.valid_old_pass && <span className="pass_incorrect">Неправильный пароль</span>}<br/>
                 <label htmlFor="pass1" className="label_custom">Новый пароль</label><br/>
                 <Field component="input"
                        name="pass1"
@@ -25,7 +25,7 @@ class EditPassForm extends React.Component {
                        id="pass2"
                        className="input_custom"
                        type="password"
-                       required/> <span className="pass_mismatch">Пароли не совпадают</span> <br/>
+                       required/> {!this.props.valid_new_pass && <span className="pass_mismatch">Пароли не совпадают</span>} <br/>
                 <button type="submit"
                         className="button_custom button_custom__save">
                     Сохранить

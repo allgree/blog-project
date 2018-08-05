@@ -19,30 +19,29 @@ export default class Register extends React.Component {
         this.props.dispatch(fetchLoginData());
         this.register = this.register.bind(this);
         this.state = {
-            register: false
+            register: false,
+            valid_login: true,
+            valid_pass: true,
         }
     }
 
     register(values) {
-            let caution_pass = document.querySelector('.register_form__caution_pass');
-            let caution_login = document.querySelector('.register_form__caution_login');
-            caution_pass.style.display = 'none';
-            caution_login.style.display = 'none';
-        this.setState({valid: true});
-            axios.get(`/api/login/check-login/?login=${values.login}`).then(result => {
-                if (result.data === 0) {
-                    caution_login.style.display = 'inline';
-                    return;
-                }
-                if (values.pass1 !== values.pass2) {
-                    caution_pass.style.display = 'inline';
-                    return;
-                }
-                this.props.dispatch(registerUser(values));
-                this.setState({
-                    register: true
-                });
+        this.setState({valid_login: true});
+        this.setState({valid_pass: true});
+        axios.get(`/api/login/check-login/?login=${values.login}`).then(result => {
+            if (result.data === 0) {
+                this.setState({valid_login: false});
+                return;
+            }
+            if (values.pass1 !== values.pass2) {
+                this.setState({valid_pass: false});
+                return;
+            }
+            this.props.dispatch(registerUser(values));
+            this.setState({
+                register: true
             });
+        });
     }
 
     render() {
@@ -56,7 +55,9 @@ export default class Register extends React.Component {
         }
         return (
             <div className="content__register">
-                <RegisterForm onSubmit={this.register}/>
+                <RegisterForm onSubmit={this.register}
+                              valid_login={this.state.valid_login}
+                              valid_pass={this.state.valid_pass}/>
             </div>
         )
     }

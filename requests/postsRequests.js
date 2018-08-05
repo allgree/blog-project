@@ -53,9 +53,14 @@ let Posts = {
     },
 
     // выборка постов для автоподгрузки
-    findSample: (limit, offset, callback) => {
+    findSample: (limit, offset, value, callback) => {
         PostsModel.findAll({
             attributes: {exclude: ['updatedAt']},
+            where: {
+                title: {
+                    [Sequelize.Op.like]: `${value}%`
+                }
+            },
             include: [{
                 model: UsersModel,
                 as: 'author',

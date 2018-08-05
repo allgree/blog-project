@@ -11,6 +11,8 @@ import {fetchLoginData} from "../actions/loginActions";
 import {linkUp} from "../componentsFunctions/link_up";
 import {scrollTop} from "../componentsFunctions/scrollTop";
 
+import {autoloadWithSearch} from '../componentsFunctions/autoloadWithSearch';
+
 @connect((store) => {
 
     return {
@@ -31,11 +33,16 @@ export default class Blogs extends React.Component {
         };
         this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchUsersSample(0, '', ''));
-        this.data = this.data.bind(this);
+        this.search = this.search.bind(this);
     }
 
-    data(form_value) {
+    // обработка строки поиска
+    search(form_value) {
         if (!form_value) {
+            this.setState({
+                val1: '',
+                val2: ''
+            });
             this.props.dispatch(fetchUsersSample(0, '', ''));
             return;
         }
@@ -61,7 +68,7 @@ export default class Blogs extends React.Component {
 
         return (
             <div className="content_blogs">
-                <SearchFrom data={this.data}
+                <SearchFrom search={this.search}
                             placeholder={'Введите имя и фамилию'}/>
                     {this.props.users !== 0 &&
                        <div>{users}</div>}
@@ -78,21 +85,13 @@ export default class Blogs extends React.Component {
         $(document).off();
         $(document).on('scroll', () => {
             linkUp();
-
-            // автоподгрузка
-            let $point = $('.point');
-            if (!$point[0]) {
-                return;
-            }
-            let point = $point.offset().top;          // точка где заканчиваются новые записи
-            let scroll_top = $(document).scrollTop(); //Насколько прокручена страница сверху (без учета высоты окна)
-            let height = $(window).height();   // Высота окна
-            let load_flag = scroll_top + height >= point;   // Флаг подгружаем ли данные
-            if (load_flag && !this.props.is_users_fetching && !this.props.users_empty) {
-                console.log('autoload, users.lenght', this.props.users.length);
-                this.props.dispatch(fetchUsersSample(this.props.users.length, this.state.val1, this.state.val2));
-            }
-
+            autoloadWithSearch(this.props.is_users_fetching,
+                               this.props.users_empty,
+                               this.props.dispatch,
+                               fetchUsersSample,
+                               this.props.users.length,
+                               this.state.val1,
+                               this.state.val2)
         });
     }
 }

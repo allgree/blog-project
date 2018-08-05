@@ -2,6 +2,7 @@ import React from 'react';
 
 import Loader from '../components/Content/Loader';
 import PostItem from '../components/Content/PostItem';
+import SearchFrom from '../components/Content/forms/SearchForm';
 
 import {connect} from 'react-redux';
 
@@ -10,7 +11,7 @@ import {deletePost} from "../actions/deletePost";
 import {fetchLoginData} from "../actions/loginActions";
 import {addPostLike, deletePostLike} from "../actions/postLikesActions";
 
-import {autoload} from '../componentsFunctions/autoload';
+import {autoloadWithSearch} from '../componentsFunctions/autoloadWithSearch';
 import {like} from '../componentsFunctions/like';
 import {linkUp} from "../componentsFunctions/link_up";
 import {scrollTop} from "../componentsFunctions/scrollTop";
@@ -28,10 +29,15 @@ import {scrollTop} from "../componentsFunctions/scrollTop";
 export default class Posts extends React.Component {
     constructor() {
         super(...arguments);
+
         this.props.dispatch(fetchLoginData());
-        this.props.dispatch(fetchPostsSample(0));
+        this.props.dispatch(fetchPostsSample(0, ''));
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.deletePost = this.deletePost.bind(this);
+        this.search = this.search.bind(this);
+        this.state = {
+            search_value: ''
+        }
     }
 
     // добавить/удалить лайк
@@ -50,6 +56,21 @@ export default class Posts extends React.Component {
         this.props.dispatch(deletePost(post_id));
     }
 
+    // обработка строки поиска
+    search(form_value) {
+        if (!form_value) {
+            this.setState({
+                search_value: ''
+            });
+            this.props.dispatch(fetchPostsSample(0, ''));
+            return;
+        }
+        this.setState({
+            search_value: form_value || null
+        });
+        this.props.dispatch(fetchPostsSample(0, this.state.search_value))
+    }
+
     render() {
         let posts = this.props.posts.map((post, index) => {
             return <PostItem post={post}
@@ -61,6 +82,8 @@ export default class Posts extends React.Component {
 
         return (
             <div className="content_posts">
+                <SearchFrom search={this.search}
+                            placeholder={'Введите заголовок поста'}/>
                         {this.props.posts.length !== 0 &&
                             <div>{posts}</div>}
                     <span className="point"/>
@@ -76,11 +99,12 @@ export default class Posts extends React.Component {
         $(document).off();
         $(document).on('scroll', () => {
             linkUp();
-            autoload(this.props.is_posts_fetching,
+            autoloadWithSearch(this.props.is_posts_fetching,
                      this.props.posts_empty,
                      this.props.dispatch,
                      fetchPostsSample,
-                     this.props.posts.length)
+                     this.props.posts.length,
+                     this.state.search_value)
         });
     }
 

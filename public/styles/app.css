@@ -3427,15 +3427,18 @@ nav {
   margin-right: 20px; }
 
 /*end OpinionForm*/
-/*SearchUserForm*/
-.search_user_form {
+/*SearchForm*/
+.search_form {
   position: sticky;
-  top: 110px; }
+  top: 90px;
+  z-index: 20; }
 
-.search_user_form > #user {
-  width: 300px; }
+.search_form > #search {
+  width: 300px;
+  background-color: #1a1a1a;
+  color: #666666; }
 
-/*end SearchUserForm*/
+/*end SearchForm*/
 /*DeleteWindow*/
 .dialog_conteiner {
   position: fixed;

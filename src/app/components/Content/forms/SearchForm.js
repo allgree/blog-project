@@ -3,9 +3,9 @@ import React from 'react';
 export default class SearchForm extends React.Component {
     render() {
         return (
-            <form onSubmit={this.props.handleSubmit} className="search_user_form">
+            <form onSubmit={this.props.handleSubmit} className="search_form">
                 <input type="text"
-                       id="user"
+                       id="search"
                        className="input_custom"
                        placeholder={this.props.placeholder}/>
             </form>
@@ -13,9 +13,9 @@ export default class SearchForm extends React.Component {
     }
 
     componentDidMount() {
-        let data = this.props.data;
-        document.querySelector('#user').oninput = function () {
-            data(this.value);
+        let search = this.props.search;
+        document.querySelector('#search').oninput = function () {
+            search(this.value);
         }
     }
 

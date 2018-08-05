@@ -51105,10 +51105,10 @@ var _axios2 = _interopRequireDefault(_axios);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // получить выборку постов для автопогрузки ан странице Записи
-function fetchPostsSample(offset) {
+function fetchPostsSample(offset, value) {
     return {
         type: 'FETCH_POSTS_SAMPLE',
-        payload: _axios2.default.get('/api/posts/sample/?offset=' + offset)
+        payload: _axios2.default.get('/api/posts/sample/?value=' + value + '&offset=' + offset)
     };
 }
 
@@ -53823,9 +53823,9 @@ var SearchForm = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 "form",
-                { onSubmit: this.props.handleSubmit, className: "search_user_form" },
+                { onSubmit: this.props.handleSubmit, className: "search_form" },
                 _react2.default.createElement("input", { type: "text",
-                    id: "user",
+                    id: "search",
                     className: "input_custom",
                     placeholder: this.props.placeholder })
             );
@@ -53833,9 +53833,9 @@ var SearchForm = function (_React$Component) {
     }, {
         key: "componentDidMount",
         value: function componentDidMount() {
-            var data = this.props.data;
-            document.querySelector('#user').oninput = function () {
-                data(this.value);
+            var search = this.props.search;
+            document.querySelector('#search').oninput = function () {
+                search(this.value);
             };
         }
     }]);
@@ -54201,9 +54201,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.autoload = autoload;
 // автоподгрузка контента
-function autoload(is_fetching, is_empty, dispatch, fetch, lenght) {
-    var id = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
-
+function autoload(is_fetching, is_empty, dispatch, fetch, lenght, id) {
     var $point = $('.point');
     if (!$point[0]) {
         return;
@@ -54214,6 +54212,41 @@ function autoload(is_fetching, is_empty, dispatch, fetch, lenght) {
     var load_flag = scroll_top + height >= point; // Флаг подгружаем ли данные
     if (load_flag && !is_fetching && !is_empty) {
         dispatch(fetch(lenght, id));
+    }
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "../node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./app/componentsFunctions/autoloadWithSearch.js":
+/*!*******************************************************!*\
+  !*** ./app/componentsFunctions/autoloadWithSearch.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.autoloadWithSearch = autoloadWithSearch;
+// автоподгрузка контента с поиском
+function autoloadWithSearch(is_fetching, is_empty, dispatch, fetch, lenght) {
+    var val1 = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : '';
+    var val2 = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : '';
+
+    var $point = $('.point');
+    if (!$point[0]) {
+        return;
+    }
+    var point = $point.offset().top; // точка где заканчиваются новые записи
+    var scroll_top = $(document).scrollTop(); //Насколько прокручена страница сверху (без учета высоты окна)
+    var height = $(window).height(); // Высота окна
+    var load_flag = scroll_top + height >= point; // Флаг подгружаем ли данные
+    if (load_flag && !is_fetching && !is_empty) {
+        dispatch(fetch(lenght, val1, val2));
     }
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "../node_modules/jquery/dist/jquery.js")))
@@ -55168,6 +55201,8 @@ var _link_up = __webpack_require__(/*! ../componentsFunctions/link_up */ "./app/
 
 var _scrollTop = __webpack_require__(/*! ../componentsFunctions/scrollTop */ "./app/componentsFunctions/scrollTop.js");
 
+var _autoloadWithSearch = __webpack_require__(/*! ../componentsFunctions/autoloadWithSearch */ "./app/componentsFunctions/autoloadWithSearch.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -55200,14 +55235,21 @@ var Blogs = (_dec = (0, _reactRedux.connect)(function (store) {
         };
         _this.props.dispatch((0, _loginActions.fetchLoginData)());
         _this.props.dispatch((0, _usersListActions.fetchUsersSample)(0, '', ''));
-        _this.data = _this.data.bind(_this);
+        _this.search = _this.search.bind(_this);
         return _this;
     }
 
+    // обработка строки поиска
+
+
     _createClass(Blogs, [{
-        key: 'data',
-        value: function data(form_value) {
+        key: 'search',
+        value: function search(form_value) {
             if (!form_value) {
+                this.setState({
+                    val1: '',
+                    val2: ''
+                });
                 this.props.dispatch((0, _usersListActions.fetchUsersSample)(0, '', ''));
                 return;
             }
@@ -55235,7 +55277,7 @@ var Blogs = (_dec = (0, _reactRedux.connect)(function (store) {
             return _react2.default.createElement(
                 'div',
                 { className: 'content_blogs' },
-                _react2.default.createElement(_SearchForm2.default, { data: this.data,
+                _react2.default.createElement(_SearchForm2.default, { search: this.search,
                     placeholder: 'Введите имя и фамилию' }),
                 this.props.users !== 0 && _react2.default.createElement(
                     'div',
@@ -55258,20 +55300,7 @@ var Blogs = (_dec = (0, _reactRedux.connect)(function (store) {
             $(document).off();
             $(document).on('scroll', function () {
                 (0, _link_up.linkUp)();
-
-                // автоподгрузка
-                var $point = $('.point');
-                if (!$point[0]) {
-                    return;
-                }
-                var point = $point.offset().top; // точка где заканчиваются новые записи
-                var scroll_top = $(document).scrollTop(); //Насколько прокручена страница сверху (без учета высоты окна)
-                var height = $(window).height(); // Высота окна
-                var load_flag = scroll_top + height >= point; // Флаг подгружаем ли данные
-                if (load_flag && !_this2.props.is_users_fetching && !_this2.props.users_empty) {
-                    console.log('autoload, users.lenght', _this2.props.users.length);
-                    _this2.props.dispatch((0, _usersListActions.fetchUsersSample)(_this2.props.users.length, _this2.state.val1, _this2.state.val2));
-                }
+                (0, _autoloadWithSearch.autoloadWithSearch)(_this2.props.is_users_fetching, _this2.props.users_empty, _this2.props.dispatch, _usersListActions.fetchUsersSample, _this2.props.users.length, _this2.state.val1, _this2.state.val2);
             });
         }
     }]);
@@ -56426,6 +56455,10 @@ var _PostItem = __webpack_require__(/*! ../components/Content/PostItem */ "./app
 
 var _PostItem2 = _interopRequireDefault(_PostItem);
 
+var _SearchForm = __webpack_require__(/*! ../components/Content/forms/SearchForm */ "./app/components/Content/forms/SearchForm.js");
+
+var _SearchForm2 = _interopRequireDefault(_SearchForm);
+
 var _reactRedux = __webpack_require__(/*! react-redux */ "../node_modules/react-redux/es/index.js");
 
 var _postsListActions = __webpack_require__(/*! ../actions/postsListActions */ "./app/actions/postsListActions.js");
@@ -56436,7 +56469,7 @@ var _loginActions = __webpack_require__(/*! ../actions/loginActions */ "./app/ac
 
 var _postLikesActions = __webpack_require__(/*! ../actions/postLikesActions */ "./app/actions/postLikesActions.js");
 
-var _autoload = __webpack_require__(/*! ../componentsFunctions/autoload */ "./app/componentsFunctions/autoload.js");
+var _autoloadWithSearch = __webpack_require__(/*! ../componentsFunctions/autoloadWithSearch */ "./app/componentsFunctions/autoloadWithSearch.js");
 
 var _like = __webpack_require__(/*! ../componentsFunctions/like */ "./app/componentsFunctions/like.js");
 
@@ -56469,9 +56502,13 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
         var _this = _possibleConstructorReturn(this, (Posts.__proto__ || Object.getPrototypeOf(Posts)).apply(this, arguments));
 
         _this.props.dispatch((0, _loginActions.fetchLoginData)());
-        _this.props.dispatch((0, _postsListActions.fetchPostsSample)(0));
+        _this.props.dispatch((0, _postsListActions.fetchPostsSample)(0, ''));
         _this.triggerPostLike = _this.triggerPostLike.bind(_this);
         _this.deletePost = _this.deletePost.bind(_this);
+        _this.search = _this.search.bind(_this);
+        _this.state = {
+            search_value: ''
+        };
         return _this;
     }
 
@@ -56492,6 +56529,24 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
             if (Object.keys(this.props.login).length === 0) return;
             this.props.dispatch((0, _deletePost2.deletePost)(post_id));
         }
+
+        // обработка строки поиска
+
+    }, {
+        key: 'search',
+        value: function search(form_value) {
+            if (!form_value) {
+                this.setState({
+                    search_value: ''
+                });
+                this.props.dispatch((0, _postsListActions.fetchPostsSample)(0, ''));
+                return;
+            }
+            this.setState({
+                search_value: form_value || null
+            });
+            this.props.dispatch((0, _postsListActions.fetchPostsSample)(0, this.state.search_value));
+        }
     }, {
         key: 'render',
         value: function render() {
@@ -56508,6 +56563,8 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
             return _react2.default.createElement(
                 'div',
                 { className: 'content_posts' },
+                _react2.default.createElement(_SearchForm2.default, { search: this.search,
+                    placeholder: 'Введите заголовок поста' }),
                 this.props.posts.length !== 0 && _react2.default.createElement(
                     'div',
                     null,
@@ -56529,7 +56586,7 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
             $(document).off();
             $(document).on('scroll', function () {
                 (0, _link_up.linkUp)();
-                (0, _autoload.autoload)(_this3.props.is_posts_fetching, _this3.props.posts_empty, _this3.props.dispatch, _postsListActions.fetchPostsSample, _this3.props.posts.length);
+                (0, _autoloadWithSearch.autoloadWithSearch)(_this3.props.is_posts_fetching, _this3.props.posts_empty, _this3.props.dispatch, _postsListActions.fetchPostsSample, _this3.props.posts.length, _this3.state.search_value);
             });
         }
     }]);

@@ -20,6 +20,7 @@ export default class PostItem extends React.Component {
         this.deleteWindowHide = this.deleteWindowHide.bind(this);
     }
 
+    // показать панель лайков
     tooltipShow() {
         if (this.props.post.likes.length === 0) return;
         this.setState({
@@ -27,12 +28,14 @@ export default class PostItem extends React.Component {
         })
     }
 
+    // скрыть панель лайков
     tooltipHide() {
         this.setState({
             tooltip: false
         });
     }
 
+    // скрыть окно удаления
     deleteWindowHide() {
         this.setState({
             delete: false

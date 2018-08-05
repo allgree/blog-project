@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// получить выборку отзывов для автоподгрузки
 export function fetchOpinionsSample(offset) {
     return {
         type: 'FETCH_OPINIONS_SAMPLE',
@@ -7,6 +8,7 @@ export function fetchOpinionsSample(offset) {
     }
 }
 
+// добавить отзыв
 export function addOpinion(name, user_id, body) {
     return {
         type: "ADD_OPINION",

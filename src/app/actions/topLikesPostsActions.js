@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// получить топ отмеченных постов
 export function fetchTopLikesPosts() {
     return {
         type: 'FETCH_TOP_LIKES_POSTS',
@@ -7,6 +8,7 @@ export function fetchTopLikesPosts() {
     }
 }
 
+// удалить пост через страницу рейтингов
 export function deleteTopLikesPost(post_id) {
     return {
         type: 'DELETE_TOP_LIKES_POST',

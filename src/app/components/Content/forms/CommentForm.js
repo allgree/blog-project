@@ -2,14 +2,9 @@ import React from 'react';
 import {Field, reduxForm } from 'redux-form';
 
 class CommentForm extends React.Component {
-    submit() {
-        this.props.reset();
-        this.props.handleSubmit();
-    }
-
     render() {
         return (
-            <form className="comment_form">
+            <form onSubmit={this.props.handleSubmit} className="comment_form">
                 <Field component="textarea"
                        name="body"
                        cols="110"

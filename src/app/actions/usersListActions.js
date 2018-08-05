@@ -1,12 +1,8 @@
 import axios from 'axios';
 
-export function fetchUsers() {
-    return {
-        type: 'FETCH_USERS',
-        payload: axios.get('/api/users/')
-    }
-}
 
+
+// получить выборку пользователей для автоподгрузки
 export function fetchUsersSample(offset) {
     return {
         type: 'FETCH_USERS_SAMPLE',
@@ -14,6 +10,7 @@ export function fetchUsersSample(offset) {
     }
 }
 
+// зарегистрировать пользователя
 export function registerUser(user) {
     return {
         type: 'REGISTER_USER',

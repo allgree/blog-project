@@ -1,3 +1,4 @@
+// получить самого активного автора
 export const FETCH_BLOGER_PENDING = 'FETCH_BLOGER_PENDING';
 export const FETCH_BLOGER_FULFILLED = 'FETCH_BLOGER_FULFILLED';
 export const FETCH_BLOGER_REJECTED = 'FETCH_BLOGER_REJECTED';

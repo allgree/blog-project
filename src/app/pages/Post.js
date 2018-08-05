@@ -53,6 +53,7 @@ export default class Post extends React.Component {
         this.deleteComment = this.deleteComment.bind(this);
     }
 
+    // добавить/удалить лайк к посту
     triggerPostLike() {
         if (Object.keys(this.props.login).length === 0) return;
         if (this.props.post.likes.find(like => like.user.id === this.props.login.id)) {
@@ -62,6 +63,7 @@ export default class Post extends React.Component {
         }
     }
 
+    // добавить/удалить лайк к комментарию
     triggerCommentLike(comment_id) {
         like(this.props.comments,
             comment_id,
@@ -71,12 +73,14 @@ export default class Post extends React.Component {
             this.props.login.id);
     }
 
+    // показать/скрыть форму ввода комментария
     triggerCommentForm() {
         this.state.form
         ? this.setState({form: false})
         : this.setState({form: true});
     }
 
+    // удалить пост
     deletePost(post_id) {
         if (Object.keys(this.props.login).length === 0) return;
         this.props.dispatch(deletePost(post_id));
@@ -85,6 +89,7 @@ export default class Post extends React.Component {
         });
     }
 
+    // добавить комментарий
     addComment(values) {
         if (!this.props.login.id || !values.body) return;
         this.props.dispatch(addPostComment(this.props.post.id, this.props.login.id, values.body));
@@ -93,6 +98,7 @@ export default class Post extends React.Component {
         });
     }
 
+    // удалить комментарий
     deleteComment(comment_id) {
         if (Object.keys(this.props.login).length === 0) return;
         this.props.dispatch(deletePostComment(comment_id));

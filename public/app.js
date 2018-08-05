@@ -50638,6 +50638,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// получить самого активного автора
 function fetchBloger() {
     return {
         type: 'FETCH_BLOGER',
@@ -50669,13 +50670,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//export function fetchCommentLikes() {
-//    return {
-//        type: 'FETCH_COMMENT_LIKES',
-//        payload: axios.get('/api/comment-likes/')
-//    }
-//}
-//
+// добавить лайк к комментарию
 function addCommentLike(comment_id, user_id) {
     return {
         type: 'ADD_COMMENT_LIKE',
@@ -50686,6 +50681,7 @@ function addCommentLike(comment_id, user_id) {
     };
 }
 
+// удалить лайк с комментария
 function deleteCommentLike(comment_id, user_id) {
     return {
         type: 'DELETE_COMMENT_LIKE',
@@ -50716,6 +50712,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// получить самого активного комментатора
 function fetchCommentator() {
     return {
         type: 'FETCH_COMMENTATOR',
@@ -50746,6 +50743,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// получить выборку постов для автоподгрузки ленты
 function fetchFeedPostsSample(offset, user_id) {
     return {
         type: 'FETCH_FEED_POSTS_SAMPLE',
@@ -50778,6 +50776,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// получить выборку подписчиков пользователя для автоподгрузки
 function fetchUserFollowersSample(offset, sub_user_id) {
     return {
         type: 'FETCH_USER_FOLLOWERS_SAMPLE',
@@ -50785,6 +50784,7 @@ function fetchUserFollowersSample(offset, sub_user_id) {
     };
 }
 
+// добавить подписчика
 function addFollower(user_id, sub_user_id) {
     return {
         type: 'ADD_USER_FOLLOWER',
@@ -50795,6 +50795,7 @@ function addFollower(user_id, sub_user_id) {
     };
 }
 
+// удалить подписчика
 function deleteFollower(user_id, sub_user_id) {
     return {
         type: 'DELETE_USER_FOLLOWER',
@@ -50832,6 +50833,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// получить логин для авторизации
 function fetchLogin(login) {
     return {
         type: 'FETCH_LOGIN',
@@ -50839,6 +50841,7 @@ function fetchLogin(login) {
     };
 }
 
+// получить логин для проверки авторизации
 function fetchLoginData() {
     return {
         type: 'FETCH_LOGIN_DATA',
@@ -50846,6 +50849,7 @@ function fetchLoginData() {
     };
 }
 
+// выход с сайта
 function unlogged(login) {
     return {
         type: 'UNLOGGED',
@@ -50853,6 +50857,7 @@ function unlogged(login) {
     };
 }
 
+// изменить данные аккаунта
 function editUser(login) {
     return {
         type: 'EDIT_USER',
@@ -50860,6 +50865,7 @@ function editUser(login) {
     };
 }
 
+// изменить аватар
 function changeAvatar(login_id, data) {
     var config = { headers: { 'content-type': 'multipart/form-data' } };
     return {
@@ -50892,6 +50898,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// получить выборку отзывов для автоподгрузки
 function fetchOpinionsSample(offset) {
     return {
         type: 'FETCH_OPINIONS_SAMPLE',
@@ -50899,6 +50906,7 @@ function fetchOpinionsSample(offset) {
     };
 }
 
+// добавить отзыв
 function addOpinion(name, user_id, body) {
     return {
         type: "ADD_OPINION",
@@ -50933,6 +50941,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// получить один пост для отображения на странице Запись
 function fetchPost(post_id) {
     return {
         type: 'FETCH_POST',
@@ -50965,6 +50974,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// получить выборку комментариев для автоподгрузки
 function fetchPostCommentsSample(offset, post_id) {
     return {
         type: 'FETCH_POST_COMMENTS_SAMPLE',
@@ -50972,6 +50982,7 @@ function fetchPostCommentsSample(offset, post_id) {
     };
 }
 
+// добавить комментарий
 function addPostComment(post_id, user_id, body) {
     return {
         type: 'ADD_POST_COMMENT',
@@ -50983,6 +50994,7 @@ function addPostComment(post_id, user_id, body) {
     };
 }
 
+// удалить комментарий
 function deletePostComment(comment_id) {
     return {
         type: 'DELETE_POST_COMMENT',
@@ -51016,6 +51028,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// добавить лайк посту
 function addPostLike(post_id, user_id) {
     return {
         type: 'ADD_POST_LIKE',
@@ -51026,6 +51039,7 @@ function addPostLike(post_id, user_id) {
     };
 }
 
+// удалить лайк с поста
 function deletePostLike(post_id, user_id) {
     return {
         type: 'DELETE_POST_LIKE',
@@ -51060,6 +51074,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// получить выборку постов для автопогрузки ан странице Записи
 function fetchPostsSample(offset) {
     return {
         type: 'FETCH_POSTS_SAMPLE',
@@ -51067,6 +51082,7 @@ function fetchPostsSample(offset) {
     };
 }
 
+// удалить пост
 function deletePost(post_id) {
     return {
         type: 'DELETE_POST',
@@ -51098,6 +51114,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// получить выборку подписок пользователя для автоподгрузки
 function fetchUserSubsSample(offset, user_id) {
     return {
         type: 'FETCH_USER_SUBS_SAMPLE',
@@ -51105,6 +51122,7 @@ function fetchUserSubsSample(offset, user_id) {
     };
 }
 
+// удалить подписку
 function deleteSub(user_id, sub_user_id) {
     return {
         type: 'DELETE_USER_SUB',
@@ -51139,6 +51157,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// получить топ отмеченных постов
 function fetchTopLikesPosts() {
     return {
         type: 'FETCH_TOP_LIKES_POSTS',
@@ -51146,6 +51165,7 @@ function fetchTopLikesPosts() {
     };
 }
 
+// удалить пост через страницу рейтингов
 function deleteTopLikesPost(post_id) {
     return {
         type: 'DELETE_TOP_LIKES_POST',
@@ -51177,6 +51197,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// получить топ просмотренных постов
 function fetchTopViewsPosts() {
     return {
         type: 'FETCH_TOP_VIEWS_POSTS',
@@ -51184,6 +51205,7 @@ function fetchTopViewsPosts() {
     };
 }
 
+// удалить пост через страницу Рейтинги
 function deleteTopViewsPost(post_id) {
     return {
         type: 'DELETE_TOP_VIEWS_POST',
@@ -51214,6 +51236,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// получить пользователя для страницы Автор
 function fetchUser(user_id) {
     return {
         type: 'FETCH_USER',
@@ -51246,6 +51269,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// получить выборку постов пользователя для автоподгрузки
 function fetchUserPostsSample(offset, user_id) {
     return {
         type: 'FETCH_USER_POSTS_SAMPLE',
@@ -51253,6 +51277,7 @@ function fetchUserPostsSample(offset, user_id) {
     };
 }
 
+// добавить пост
 function addUserPost(user_id, title, body) {
     return {
         type: 'ADD_USER_POST',
@@ -51264,6 +51289,7 @@ function addUserPost(user_id, title, body) {
     };
 }
 
+// удалить пост
 function deleteUserPost(post_id) {
     return {
         type: 'DELETE_USER_POST',
@@ -51286,7 +51312,6 @@ function deleteUserPost(post_id) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.fetchUsers = fetchUsers;
 exports.fetchUsersSample = fetchUsersSample;
 exports.registerUser = registerUser;
 
@@ -51296,13 +51321,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function fetchUsers() {
-    return {
-        type: 'FETCH_USERS',
-        payload: _axios2.default.get('/api/users/')
-    };
-}
-
+// получить выборку пользователей для автоподгрузки
 function fetchUsersSample(offset) {
     return {
         type: 'FETCH_USERS_SAMPLE',
@@ -51310,6 +51329,7 @@ function fetchUsersSample(offset) {
     };
 }
 
+// зарегистрировать пользователя
 function registerUser(user) {
     return {
         type: 'REGISTER_USER',
@@ -51378,6 +51398,9 @@ var CommentItem = function (_React$Component) {
         return _this;
     }
 
+    // показать панель лайков
+
+
     _createClass(CommentItem, [{
         key: 'tooltipShow',
         value: function tooltipShow() {
@@ -51386,6 +51409,9 @@ var CommentItem = function (_React$Component) {
                 tooltip: true
             });
         }
+
+        // скрыть панель лайков
+
     }, {
         key: 'tooltipHide',
         value: function tooltipHide() {
@@ -51394,6 +51420,9 @@ var CommentItem = function (_React$Component) {
                 delete: false
             });
         }
+
+        // скрыть диалоговое окно удаления
+
     }, {
         key: 'deleteWindowHide',
         value: function deleteWindowHide() {
@@ -51942,6 +51971,9 @@ var PostContent = function (_React$Component) {
         return _this;
     }
 
+    // скрыть окно удаления
+
+
     _createClass(PostContent, [{
         key: 'deleteWindowHide',
         value: function deleteWindowHide() {
@@ -51949,6 +51981,9 @@ var PostContent = function (_React$Component) {
                 delete: false
             });
         }
+
+        // показать панель лайков
+
     }, {
         key: 'tooltipShow',
         value: function tooltipShow() {
@@ -51957,6 +51992,9 @@ var PostContent = function (_React$Component) {
                 tooltip: true
             });
         }
+
+        // скрыть панель лайков
+
     }, {
         key: 'tooltipHide',
         value: function tooltipHide() {
@@ -52148,6 +52186,9 @@ var PostItem = function (_React$Component) {
         return _this;
     }
 
+    // показать панель лайков
+
+
     _createClass(PostItem, [{
         key: 'tooltipShow',
         value: function tooltipShow() {
@@ -52156,6 +52197,9 @@ var PostItem = function (_React$Component) {
                 tooltip: true
             });
         }
+
+        // скрыть панель лайков
+
     }, {
         key: 'tooltipHide',
         value: function tooltipHide() {
@@ -52163,6 +52207,9 @@ var PostItem = function (_React$Component) {
                 tooltip: false
             });
         }
+
+        // скрыть окно удаления
+
     }, {
         key: 'deleteWindowHide',
         value: function deleteWindowHide() {
@@ -52418,6 +52465,9 @@ var UserItem = function (_React$Component) {
         _this.deleteWindowHide = _this.deleteWindowHide.bind(_this);
         return _this;
     }
+
+    // скрыть окно удаления
+
 
     _createClass(UserItem, [{
         key: 'deleteWindowHide',
@@ -52738,16 +52788,16 @@ var AvatarForm = function (_React$Component) {
     }
 
     _createClass(AvatarForm, [{
-        key: "onFormSubmit",
-        value: function onFormSubmit(e) {
-            e.preventDefault();
-            this.props.changeAvatar(this.files);
-        }
-    }, {
         key: "change",
         value: function change(e) {
             e.preventDefault();
             this.files = e.target.files;
+        }
+    }, {
+        key: "onFormSubmit",
+        value: function onFormSubmit(e) {
+            e.preventDefault();
+            this.props.changeAvatar(this.files);
         }
     }, {
         key: "render",
@@ -52794,7 +52844,6 @@ var AvatarForm = function (_React$Component) {
                 if (!name) return;
                 document.querySelector('.image_name').innerHTML = "\u0412\u044B\u0431\u0440\u0430\u043D\u043E \u0438\u0437\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u0438\u0435: " + name;
                 var type = name.split('.').pop();
-
                 if (types.indexOf(type) === -1) {
                     document.querySelector('.caution_incorrect_format').innerHTML = 'Неправильный тип изображения';
                 } else {
@@ -52851,19 +52900,13 @@ var CommentForm = function (_React$Component) {
     }
 
     _createClass(CommentForm, [{
-        key: 'submit',
-        value: function submit() {
-            this.props.reset();
-            this.props.handleSubmit();
-        }
-    }, {
         key: 'render',
         value: function render() {
             var _this2 = this;
 
             return _react2.default.createElement(
                 'form',
-                { className: 'comment_form' },
+                { onSubmit: this.props.handleSubmit, className: 'comment_form' },
                 _react2.default.createElement(_reduxForm.Field, { component: 'textarea',
                     name: 'body',
                     cols: '110',
@@ -53846,6 +53889,9 @@ var LoginPanel = (_dec = (0, _reactRedux.connect)(function (store) {
         return _possibleConstructorReturn(this, (LoginPanel.__proto__ || Object.getPrototypeOf(LoginPanel)).apply(this, arguments));
     }
 
+    // скрыть меню логина (Личный кабинет, Выход)
+
+
     _createClass(LoginPanel, [{
         key: 'hideMenu',
         value: function hideMenu() {
@@ -53905,6 +53951,7 @@ var LoginPanel = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
+            // скрытие меню логина при клике в любом месте экрана
             document.body.removeEventListener('click', this.hideMenu);
             if (this.props.login.id) {
                 document.body.addEventListener('click', this.hideMenu);
@@ -53977,18 +54024,23 @@ var Nav = function (_React$Component) {
         return _this;
     }
 
+    // определить роут страницы
+
+
     _createClass(Nav, [{
         key: 'getLocation',
         value: function getLocation() {
             var location = window.location.pathname;
-            var arr_path = location.split('/');
-            var last_value = arr_path[arr_path.length - 1];
+            var last_value = location.split('/').pop();
             if (/[\d]/g.test(last_value)) {
                 var count = last_value.length + 1;
                 location = location.slice(0, -count);
             }
             return location;
         }
+
+        // показать/скрыть боковое меню навигации
+
     }, {
         key: 'showOrHideSideMenu',
         value: function showOrHideSideMenu() {
@@ -54086,6 +54138,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.autoload = autoload;
+// автоподгрузка контента
 function autoload(is_fetching, is_empty, dispatch, fetch, lenght) {
     var id = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
 
@@ -54119,6 +54172,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.formatTimestamp = formatTimestamp;
+// форматирование даты добавления контента
 function formatTimestamp(created) {
     var timestamp = Date.parse(created);
     var date = new Date();
@@ -54147,6 +54201,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.like = like;
+// добавление/удаление лайка
 function like(items, item_id, dispatch, addLike, deleteLike, login_id) {
     var item = items.find(function (item) {
         return item.id === item_id;
@@ -54177,6 +54232,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.linkUp = linkUp;
+// показ/скрытие кнопки "наверх"
 function linkUp() {
     if ($(document).scrollTop() > 200) {
         $('.link_to_up').fadeIn(300);
@@ -54202,6 +54258,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.scrollTop = scrollTop;
+// автоматическая прокрутка в верх страницы
 function scrollTop() {
     $('html, body').animate({ scrollTop: 0 }, 'slow');
 }
@@ -54222,6 +54279,7 @@ function scrollTop() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// получить самого активного автора
 var FETCH_BLOGER_PENDING = exports.FETCH_BLOGER_PENDING = 'FETCH_BLOGER_PENDING';
 var FETCH_BLOGER_FULFILLED = exports.FETCH_BLOGER_FULFILLED = 'FETCH_BLOGER_FULFILLED';
 var FETCH_BLOGER_REJECTED = exports.FETCH_BLOGER_REJECTED = 'FETCH_BLOGER_REJECTED';
@@ -54241,12 +54299,11 @@ var FETCH_BLOGER_REJECTED = exports.FETCH_BLOGER_REJECTED = 'FETCH_BLOGER_REJECT
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-//export const FETCH_COMMENT_LIKES_PENDING = 'FETCH_COMMENT_LIKES_PENDING';
-//export const FETCH_COMMENT_LIKES_FULFILLED = 'FETCH_COMMENT_LIKES_FULFILLED';
-//export const FETCH_COMMENT_LIKES_REJECTED = 'FETCH_COMMENT_LIKES_REJECTED';
+// добавить лайк комментарию
 var ADD_COMMENT_LIKE_PENDING = exports.ADD_COMMENT_LIKE_PENDING = 'ADD_COMMENT_LIKE_PENDING';
 var ADD_COMMENT_LIKE_FULFILLED = exports.ADD_COMMENT_LIKE_FULFILLED = 'ADD_COMMENT_LIKE_FULFILLED';
 var ADD_COMMENT_LIKE_REJECTED = exports.ADD_COMMENT_LIKE_REJECTED = 'ADD_COMMENT_LIKE_REJECTED';
+// удалить лайк с комментария
 var DELETE_COMMENT_LIKE_PENDING = exports.DELETE_COMMENT_LIKE_PENDING = 'DELETE_COMMENT_LIKE_PENDING';
 var DELETE_COMMENT_LIKE_FULFILLED = exports.DELETE_COMMENT_LIKE_FULFILLED = 'DELETE_COMMENT_LIKE_FULFILLED';
 var DELETE_COMMENT_LIKE_REJECTED = exports.DELETE_COMMENT_LIKE_REJECTED = 'DELETE_COMMENT_LIKE_REJECTED';
@@ -54266,6 +54323,7 @@ var DELETE_COMMENT_LIKE_REJECTED = exports.DELETE_COMMENT_LIKE_REJECTED = 'DELET
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// получить самого активного комментатора
 var FETCH_COMMENTATOR_PENDING = exports.FETCH_COMMENTATOR_PENDING = 'FETCH_COMMENTATOR_PENDING';
 var FETCH_COMMENTATOR_FULFILLED = exports.FETCH_COMMENTATOR_FULFILLED = 'FETCH_COMMENTATOR_FULFILLED';
 var FETCH_COMMENTATOR_REJECTED = exports.FETCH_COMMENTATOR_REJECTED = 'FETCH_COMMENTATOR_REJECTED';
@@ -54285,6 +54343,7 @@ var FETCH_COMMENTATOR_REJECTED = exports.FETCH_COMMENTATOR_REJECTED = 'FETCH_COM
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// получить выборку постов для ленты
 var FETCH_FEED_POSTS_SAMPLE_PENDING = exports.FETCH_FEED_POSTS_SAMPLE_PENDING = 'FETCH_FEED_POSTS_SAMPLE_PENDING';
 var FETCH_FEED_POSTS_SAMPLE_FULFILLED = exports.FETCH_FEED_POSTS_SAMPLE_FULFILLED = 'FETCH_FEED_POSTS_SAMPLE_FULFILLED';
 var FETCH_FEED_POSTS_SAMPLE_REJECTED = exports.FETCH_FEED_POSTS_SAMPLE_REJECTED = 'FETCH_FEED_POSTS_SAMPLE_REJECTED';
@@ -54304,14 +54363,17 @@ var FETCH_FEED_POSTS_SAMPLE_REJECTED = exports.FETCH_FEED_POSTS_SAMPLE_REJECTED 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// получить выборку подписчиков для автоподгрузки
 var FETCH_USER_FOLLOWERS_SAMPLE_PENDING = exports.FETCH_USER_FOLLOWERS_SAMPLE_PENDING = 'FETCH_USER_FOLLOWERS_SAMPLE_PENDING';
 var FETCH_USER_FOLLOWERS_SAMPLE_FULFILLED = exports.FETCH_USER_FOLLOWERS_SAMPLE_FULFILLED = 'FETCH_USER_FOLLOWERS_SAMPLE_FULFILLED';
 var FETCH_USER_FOLLOWERS_SAMPLE_REJECTED = exports.FETCH_USER_FOLLOWERS_SAMPLE_REJECTED = 'FETCH_USER_FOLLOWERS_SAMPLE_REJECTED';
 
+// добавить подписчика
 var ADD_USER_FOLLOWER_PENDING = exports.ADD_USER_FOLLOWER_PENDING = 'ADD_USER_FOLLOWER_PENDING';
 var ADD_USER_FOLLOWER_FULFILLED = exports.ADD_USER_FOLLOWER_FULFILLED = 'ADD_USER_FOLLOWER_FULFILLED';
 var ADD_USER_FOLLOWER_REJECTED = exports.ADD_USER_FOLLOWER_REJECTED = 'ADD_USER_FOLLOWER_REJECTED';
 
+// удалить подписчика
 var DELETE_USER_FOLLOWER_PENDING = exports.DELETE_USER_FOLLOWER_PENDING = 'DELETE_USER_FOLLOWER_PENDING';
 var DELETE_USER_FOLLOWER_FULFILLED = exports.DELETE_USER_FOLLOWER_FULFILLED = 'DELETE_USER_FOLLOWER_FULFILLED';
 var DELETE_USER_FOLLOWER_REJECTED = exports.DELETE_USER_FOLLOWER_REJECTED = 'DELETE_USER_FOLLOWER_REJECTED';
@@ -54331,22 +54393,27 @@ var DELETE_USER_FOLLOWER_REJECTED = exports.DELETE_USER_FOLLOWER_REJECTED = 'DEL
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// получить логин для автопризации
 var FETCH_LOGIN_PENDING = exports.FETCH_LOGIN_PENDING = 'FETCH_LOGIN_PENDING';
 var FETCH_LOGIN_FULFILLED = exports.FETCH_LOGIN_FULFILLED = 'FETCH_LOGIN_FULFILLED';
 var FETCH_LOGIN_REJECTED = exports.FETCH_LOGIN_REJECTED = 'FETCH_LOGIN_REJECTED';
 
+// получить логин для проверки авторизации
 var FETCH_LOGIN_DATA_PENDING = exports.FETCH_LOGIN_DATA_PENDING = 'FETCH_LOGIN_DATA_PENDING';
 var FETCH_LOGIN_DATA_FULFILLED = exports.FETCH_LOGIN_DATA_FULFILLED = 'FETCH_LOGIN_DATA_FULFILLED';
 var FETCH_LOGIN_DATA_REJECTED = exports.FETCH_LOGIN_DATA_REJECTED = 'FETCH_LOGIN_DATA_REJECTED';
 
+// выход с сайта
 var UNLOGGED_PENDING = exports.UNLOGGED_PENDING = 'UNLOGGED_PENDING';
 var UNLOGGED_FULFILLED = exports.UNLOGGED_FULFILLED = 'UNLOGGED_FULFILLED';
 var UNLOGGED_REJECTED = exports.UNLOGGED_REJECTED = 'UNLOGGED_REJECTED';
 
+// изменить данные пользователя
 var EDIT_USER_PENDING = exports.EDIT_USER_PENDING = 'EDIT_USER_PENDING';
 var EDIT_USER_FULFILLED = exports.EDIT_USER_FULFILLED = 'EDIT_USER_FULFILLED';
 var EDIT_USER_REJECTED = exports.EDIT_USER_REJECTED = 'EDIT_USER_REJECTED';
 
+// изменить аватар пользователя
 var CHANGE_AVATAR_PENDING = exports.CHANGE_AVATAR_PENDING = 'CHANGE_AVATAR_PENDING';
 var CHANGE_AVATAR_FULFILLED = exports.CHANGE_AVATAR_FULFILLED = 'CHANGE_AVATAR_FULFILLED';
 var CHANGE_AVATAR_REJECTED = exports.CHANGE_AVATAR_REJECTED = 'CHANGE_AVATAR_REJECTED';
@@ -54366,10 +54433,12 @@ var CHANGE_AVATAR_REJECTED = exports.CHANGE_AVATAR_REJECTED = 'CHANGE_AVATAR_REJ
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// получить выборку отзывов для автоподгрузки
 var FETCH_OPINIONS_SAMPLE_PENDING = exports.FETCH_OPINIONS_SAMPLE_PENDING = 'FETCH_OPINIONS_SAMPLE_PENDING';
 var FETCH_OPINIONS_SAMPLE_FULFILLED = exports.FETCH_OPINIONS_SAMPLE_FULFILLED = 'FETCH_OPINIONS_SAMPLE_FULFILLED';
 var FETCH_OPINIONS_SAMPLE_REJECTED = exports.FETCH_OPINIONS_SAMPLE_REJECTED = 'FETCH_OPINIONS_SAMPLE_REJECTED';
 
+// добавить отзыв
 var ADD_OPINION_PENDING = exports.ADD_OPINION_PENDING = 'ADD_OPINION_PENDING';
 var ADD_OPINION_FULFILLED = exports.ADD_OPINION_FULFILLED = 'ADD_OPINION_FULFILLED';
 var ADD_OPINION_REJECTED = exports.ADD_OPINION_REJECTED = 'ADD_OPINION_REJECTED';
@@ -54389,14 +54458,17 @@ var ADD_OPINION_REJECTED = exports.ADD_OPINION_REJECTED = 'ADD_OPINION_REJECTED'
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// получить выборку комментариев к посту для автпподгрузки
 var FETCH_POST_COMMENTS_SAMPLE_PENDING = exports.FETCH_POST_COMMENTS_SAMPLE_PENDING = 'FETCH_POST_COMMENTS_SAMPLE_PENDING';
 var FETCH_POST_COMMENTS_SAMPLE_FULFILLED = exports.FETCH_POST_COMMENTS_SAMPLE_FULFILLED = 'FETCH_POST_COMMENTS_SAMPLE_FULFILLED';
 var FETCH_POST_COMMENTS_SAMPLE_REJECTED = exports.FETCH_POST_COMMENTS_SAMPLE_REJECTED = 'FETCH_POST_COMMENTS_SAMPLE_REJECTED';
 
+// добавить комментарий
 var ADD_POST_COMMENT_PENDING = exports.ADD_POST_COMMENT_PENDING = 'ADD_POST_COMMENT_PENDING';
 var ADD_POST_COMMENT_FULFILLED = exports.ADD_POST_COMMENT_FULFILLED = 'ADD_POST_COMMENT_FULFILLED';
 var ADD_POST_COMMENT_REJECTED = exports.ADD_POST_COMMENT_REJECTED = 'ADD_POST_COMMENT_REJECTED';
 
+// удалить комментарий
 var DELETE_POST_COMMENT_PENDING = exports.DELETE_POST_COMMENT_PENDING = 'DELETE_POST_COMMENT_PENDING';
 var DELETE_POST_COMMENT_FULFILLED = exports.DELETE_POST_COMMENT_FULFILLED = 'DELETE_POST_COMMENT_FULFILLED';
 var DELETE_POST_COMMENT_REJECTED = exports.DELETE_POST_COMMENT_REJECTED = 'DELETE_POST_COMMENT_REJECTED';
@@ -54416,6 +54488,7 @@ var DELETE_POST_COMMENT_REJECTED = exports.DELETE_POST_COMMENT_REJECTED = 'DELET
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// получить пост для отбражения на странице Запись
 var FETCH_POST_PENDING = exports.FETCH_POST_PENDING = 'FETCH_POST_PENDING';
 var FETCH_POST_FULFILLED = exports.FETCH_POST_FULFILLED = 'FETCH_POST_FULFILLED';
 var FETCH_POST_REJECTED = exports.FETCH_POST_REJECTED = 'FETCH_POST_REJECTED';
@@ -54435,14 +54508,12 @@ var FETCH_POST_REJECTED = exports.FETCH_POST_REJECTED = 'FETCH_POST_REJECTED';
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-//export const FETCH_POST_LIKES_PENDING = 'FETCH_POST_LIKES_PENDING';
-//export const FETCH_POST_LIKES_FULFILLED = 'FETCH_POST_LIKES_FULFILLED';
-//export const FETCH_POST_LIKES_REJECTED = 'FETCH_POST_LIKES_REJECTED';
-
+// добавить лайк посту
 var ADD_POST_LIKE_PENDING = exports.ADD_POST_LIKE_PENDING = 'ADD_POST_LIKE_PENDING';
 var ADD_POST_LIKE_FULFILLED = exports.ADD_POST_LIKE_FULFILLED = 'ADD_POST_LIKE_FULFILLED';
 var ADD_POST_LIKE_REJECTED = exports.ADD_POST_LIKE_REJECTED = 'ADD_POST_LIKE_REJECTED';
 
+// удалить лайк с поста
 var DELETE_POST_LIKE_PENDING = exports.DELETE_POST_LIKE_PENDING = 'DELETE_POST_LIKE_PENDING';
 var DELETE_POST_LIKE_FULFILLED = exports.DELETE_POST_LIKE_FULFILLED = 'DELETE_POST_LIKE_FULFILLED';
 var DELETE_POST_LIKE_REJECTED = exports.DELETE_POST_LIKE_REJECTED = 'DELETE_POST_LIKE_REJECTED';
@@ -54462,10 +54533,12 @@ var DELETE_POST_LIKE_REJECTED = exports.DELETE_POST_LIKE_REJECTED = 'DELETE_POST
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// получить выборку постов для автоподгрузки на странице Все записи
 var FETCH_POSTS_SAMPLE_PENDING = exports.FETCH_POSTS_SAMPLE_PENDING = 'FETCH_POSTS_SAMPLE_PENDING';
 var FETCH_POSTS_SAMPLE_FULFILLED = exports.FETCH_POSTS_SAMPLE_FULFILLED = 'FETCH_POSTS_SAMPLE_FULFILLED';
 var FETCH_POSTS_SAMPLE_REJECTED = exports.FETCH_POSTS_SAMPLE_REJECTED = 'FETCH_POSTS_SAMPLE_REJECTED';
 
+// удалить пост через страницу Все записи
 var DELETE_POST_PENDING = exports.DELETE_POST_PENDING = 'DELETE_POST_PENDING';
 var DELETE_POST_FULFILLED = exports.DELETE_POST_FULFILLED = 'DELETE_POST_FULFILLED';
 var DELETE_POST_REJECTED = exports.DELETE_POST_REJECTED = 'DELETE_POST_REJECTED';
@@ -54485,10 +54558,12 @@ var DELETE_POST_REJECTED = exports.DELETE_POST_REJECTED = 'DELETE_POST_REJECTED'
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// получить выборку подписок пользователя для автоподгрузки
 var FETCH_USER_SUBS_SAMPLE_PENDING = exports.FETCH_USER_SUBS_SAMPLE_PENDING = 'FETCH_USER_SUBS_SAMPLE_PENDING';
 var FETCH_USER_SUBS_SAMPLE_FULFILLED = exports.FETCH_USER_SUBS_SAMPLE_FULFILLED = 'FETCH_USER_SUBS_SAMPLE_FULFILLED';
 var FETCH_USER_SUBS_SAMPLE_REJECTED = exports.FETCH_USER_SUBS_SAMPLE_REJECTED = 'FETCH_USER_SUBS_SAMPLE_REJECTED';
 
+// удалить подписку
 var DELETE_USER_SUB_PENDING = exports.DELETE_USER_SUB_PENDING = 'DELETE_USER_SUB_PENDING';
 var DELETE_USER_SUB_FULFILLED = exports.DELETE_USER_SUB_FULFILLED = 'DELETE_USER_SUB_FULFILLED';
 var DELETE_USER_SUB_REJECTED = exports.DELETE_USER_SUB_REJECTED = 'DELETE_USER_SUB_REJECTED';
@@ -54508,10 +54583,12 @@ var DELETE_USER_SUB_REJECTED = exports.DELETE_USER_SUB_REJECTED = 'DELETE_USER_S
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// получить топ отмеченных постов пользователя
 var FETCH_TOP_LIKES_POSTS_PENDING = exports.FETCH_TOP_LIKES_POSTS_PENDING = 'FETCH_TOP_LIKES_POSTS_PENDING';
 var FETCH_TOP_LIKES_POSTS_FULFILLED = exports.FETCH_TOP_LIKES_POSTS_FULFILLED = 'FETCH_TOP_LIKES_POSTS_FULFILLED';
 var FETCH_TOP_LIKES_POSTS_REJECTED = exports.FETCH_TOP_LIKES_POSTS_REJECTED = 'FETCH_TOP_LIKES_POSTS_REJECTED';
 
+// удалить пост со станицы Рейтинги
 var DELETE_TOP_LIKES_POST_PENDING = exports.DELETE_TOP_LIKES_POST_PENDING = 'DELETE_TOP_LIKES_POST_PENDING';
 var DELETE_TOP_LIKES_POST_FULFILLED = exports.DELETE_TOP_LIKES_POST_FULFILLED = 'DELETE_TOP_LIKES_POST_FULFILLED';
 var DELETE_TOP_LIKES_POST_REJECTED = exports.DELETE_TOP_LIKES_POST_REJECTED = 'DELETE_TOP_LIKES_POST_REJECTED';
@@ -54531,10 +54608,11 @@ var DELETE_TOP_LIKES_POST_REJECTED = exports.DELETE_TOP_LIKES_POST_REJECTED = 'D
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// получить топ просмотренных постов
 var FETCH_TOP_VIEWS_POSTS_PENDING = exports.FETCH_TOP_VIEWS_POSTS_PENDING = 'FETCH_TOP_VIEWS_POSTS_PENDING';
 var FETCH_TOP_VIEWS_POSTS_FULFILLED = exports.FETCH_TOP_VIEWS_POSTS_FULFILLED = 'FETCH_TOP_VIEWS_POSTS_FULFILLED';
 var FETCH_TOP_VIEWS_POSTS_REJECTED = exports.FETCH_TOP_VIEWS_POSTS_REJECTED = 'FETCH_TOP_VIEWS_POSTS_REJECTED';
-
+// удалить пост со страницы Рейтинги
 var DELETE_TOP_VIEWS_POST_PENDING = exports.DELETE_TOP_VIEWS_POST_PENDING = 'DELETE_TOP_VIEWS_POST_PENDING';
 var DELETE_TOP_VIEWS_POST_FULFILLED = exports.DELETE_TOP_VIEWS_POST_FULFILLED = 'DELETE_TOP_VIEWS_POST_FULFILLED';
 var DELETE_TOP_VIEWS_POST_REJECTED = exports.DELETE_TOP_VIEWS_POST_REJECTED = 'DELETE_TOP_VIEWS_POST_REJECTED';
@@ -54554,6 +54632,7 @@ var DELETE_TOP_VIEWS_POST_REJECTED = exports.DELETE_TOP_VIEWS_POST_REJECTED = 'D
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// получить пользователя
 var FETCH_USER_PENDING = exports.FETCH_USER_PENDING = 'FETCH_USER_PENDING';
 var FETCH_USER_FULFILLED = exports.FETCH_USER_FULFILLED = 'FETCH_USER_FULFILLED';
 var FETCH_USER_REJECTED = exports.FETCH_USER_REJECTED = 'FETCH_USER_REJECTED';
@@ -54573,14 +54652,17 @@ var FETCH_USER_REJECTED = exports.FETCH_USER_REJECTED = 'FETCH_USER_REJECTED';
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// получить выборку постов пользователя для автоподгрузки
 var FETCH_USER_POSTS_SAMPLE_PENDING = exports.FETCH_USER_POSTS_SAMPLE_PENDING = 'FETCH_USER_POSTS_SAMPLE_PENDING';
 var FETCH_USER_POSTS_SAMPLE_FULFILLED = exports.FETCH_USER_POSTS_SAMPLE_FULFILLED = 'FETCH_USER_POSTS_SAMPLE_FULFILLED';
 var FETCH_USER_POSTS_SAMPLE_REJECTED = exports.FETCH_USER_POSTS_SAMPLE_REJECTED = 'FETCH_USER_POSTS_SAMPLE_REJECTED';
 
+// добавить пост
 var ADD_USER_POST_PENDING = exports.ADD_USER_POST_PENDING = 'ADD_USER_POST_PENDING';
 var ADD_USER_POST_FULFILLED = exports.ADD_USER_POST_FULFILLED = 'ADD_USER_POST_FULFILLED';
 var ADD_USER_POST_REJECTED = exports.ADD_USER_POST_REJECTED = 'ADD_USER_POST_REJECTED';
 
+// удалить пост
 var DELETE_USER_POST_PENDING = exports.DELETE_USER_POST_PENDING = 'DELETE_USER_POST_PENDING';
 var DELETE_USER_POST_FULFILLED = exports.DELETE_USER_POST_FULFILLED = 'DELETE_USER_POST_FULFILLED';
 var DELETE_USER_POST_REJECTED = exports.DELETE_USER_POST_REJECTED = 'DELETE_USER_POST_REJECTED';
@@ -54600,14 +54682,12 @@ var DELETE_USER_POST_REJECTED = exports.DELETE_USER_POST_REJECTED = 'DELETE_USER
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var FETCH_USERS_PENDING = exports.FETCH_USERS_PENDING = 'FETCH_USERS_PENDING';
-var FETCH_USERS_FULFILLED = exports.FETCH_USERS_FULFILLED = 'FETCH_USERS_FULFILLED';
-var FETCH_USERS_REJECTED = exports.FETCH_USERS_REJECTED = 'FETCH_USERS_REJECTED';
-
+// получить выборку пользователей для автоподгрузки
 var FETCH_USERS_SAMPLE_PENDING = exports.FETCH_USERS_SAMPLE_PENDING = 'FETCH_USERS_SAMPLE_PENDING';
 var FETCH_USERS_SAMPLE_FULFILLED = exports.FETCH_USERS_SAMPLE_FULFILLED = 'FETCH_USERS_SAMPLE_FULFILLED';
 var FETCH_USERS_SAMPLE_REJECTED = exports.FETCH_USERS_SAMPLE_REJECTED = 'FETCH_USERS_SAMPLE_REJECTED';
 
+// зарегистрировать пользователя
 var REGISTER_USER_PENDING = exports.REGISTER_USER_PENDING = 'REGISTER_USER_PENDING';
 var REGISTER_USER_FULFILLED = exports.REGISTER_USER_FULFILLED = 'REGISTER_USER_FULFILLED';
 var REGISTER_USER_REJECTED = exports.REGISTER_USER_REJECTED = 'REGISTER_USER_REJECTED';
@@ -54678,9 +54758,9 @@ var Layout = function (_React$Component) {
         key: 'render',
         value: function render() {
             var location = window.location.pathname;
-            var arr_path = location.split('/');
-            if (/[\d]/g.test(arr_path[arr_path.length - 1])) {
-                var count = arr_path[arr_path.length - 1].length + 1;
+            var route = location.split('/').pop();
+            if (/[\d]/g.test(route)) {
+                var count = route.length + 1;
                 location = location.slice(0, -count);
             }
             return _react2.default.createElement(
@@ -54789,11 +54869,17 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
         return _this;
     }
 
+    // отображение/скрытие формы отзывов
+
+
     _createClass(Main, [{
         key: 'triggerForm',
         value: function triggerForm() {
             this.state.form ? this.setState({ form: false }) : this.setState({ form: true });
         }
+
+        // дбавить отзыв
+
     }, {
         key: 'addOpinion',
         value: function addOpinion(values) {
@@ -55663,13 +55749,14 @@ var Login = (_dec = (0, _reactRedux.connect)(function (store) {
         return _this;
     }
 
+    // получить логин для входа на сайт
+
+
     _createClass(Login, [{
         key: 'login',
         value: function login(values) {
             var _this2 = this;
 
-            //let caution = document.querySelector('.login_incorrect');
-            //caution.style.display = 'none';
             this.setState({ valid_profile: true });
             var authorize = (0, _loginActions.fetchLogin)(values);
             authorize.payload.then(function (result) {
@@ -55677,7 +55764,6 @@ var Login = (_dec = (0, _reactRedux.connect)(function (store) {
                     _this2.setState({
                         valid_profile: false
                     });
-                    //caution.style.display = 'inline';
                 } else {
                     _this2.props.dispatch(authorize);
                 }
@@ -56061,6 +56147,9 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
         return _this;
     }
 
+    // добавить/удалить лайк к посту
+
+
     _createClass(Post, [{
         key: 'triggerPostLike',
         value: function triggerPostLike() {
@@ -56075,16 +56164,25 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                 this.props.dispatch((0, _postLikesActions.addPostLike)(this.props.post.id, this.props.login.id));
             }
         }
+
+        // добавить/удалить лайк к комментарию
+
     }, {
         key: 'triggerCommentLike',
         value: function triggerCommentLike(comment_id) {
             (0, _like.like)(this.props.comments, comment_id, this.props.dispatch, _commentLikesActions.addCommentLike, _commentLikesActions.deleteCommentLike, this.props.login.id);
         }
+
+        // показать/скрыть форму ввода комментария
+
     }, {
         key: 'triggerCommentForm',
         value: function triggerCommentForm() {
             this.state.form ? this.setState({ form: false }) : this.setState({ form: true });
         }
+
+        // удалить пост
+
     }, {
         key: 'deletePost',
         value: function deletePost(post_id) {
@@ -56094,6 +56192,9 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                 redirect_after_delete: true
             });
         }
+
+        // добавить комментарий
+
     }, {
         key: 'addComment',
         value: function addComment(values) {
@@ -56103,6 +56204,9 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                 form: false
             });
         }
+
+        // удалить комментарий
+
     }, {
         key: 'deleteComment',
         value: function deleteComment(comment_id) {
@@ -56261,11 +56365,17 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
         return _this;
     }
 
+    // добавить/удалить лайк
+
+
     _createClass(Posts, [{
         key: 'triggerPostLike',
         value: function triggerPostLike(post_id) {
             (0, _like.like)(this.props.posts, post_id, this.props.dispatch, _postLikesActions.addPostLike, _postLikesActions.deletePostLike, this.props.login.id);
         }
+
+        // удалить пост
+
     }, {
         key: 'deletePost',
         value: function deletePost(post_id) {
@@ -56419,6 +56529,9 @@ var Ratings = (_dec = (0, _reactRedux.connect)(function (store) {
         return _this;
     }
 
+    // добавить/удалить лайк
+
+
     _createClass(Ratings, [{
         key: 'like',
         value: function like(post_id) {
@@ -56426,6 +56539,9 @@ var Ratings = (_dec = (0, _reactRedux.connect)(function (store) {
             (0, _like2.like)(this.props.topViewsPosts, post_id, this.props.dispatch, _postLikesActions.addPostLike, _postLikesActions.deletePostLike, this.props.login.id);
             (0, _like2.like)(this.props.topLikesPosts, post_id, this.props.dispatch, _postLikesActions.addPostLike, _postLikesActions.deletePostLike, this.props.login.id);
         }
+
+        // удалить пост
+
     }, {
         key: 'deletePost',
         value: function deletePost(post_id) {
@@ -56609,6 +56725,9 @@ var Register = (_dec = (0, _reactRedux.connect)(function (store) {
         return _this;
     }
 
+    // зарегистрировать пользователя
+
+
     _createClass(Register, [{
         key: 'register',
         value: function register(values) {
@@ -56718,7 +56837,7 @@ var Unlogged = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(Unlogged, [{
         key: 'render',
         value: function render() {
-            if (Object.keys(this.props.login).length === 0) {
+            if (!this.props.login.id) {
                 return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' });
             }
             return _react2.default.createElement(
@@ -56851,21 +56970,33 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
         return _this;
     }
 
+    // добавить/удалить лайк к посту
+
+
     _createClass(User, [{
         key: 'triggerPostLike',
         value: function triggerPostLike(post_id) {
             (0, _like.like)(this.props.user_posts, post_id, this.props.dispatch, _postLikesActions.addPostLike, _postLikesActions.deletePostLike, this.props.login.id);
         }
+
+        // изменить отображаемый контент
+
     }, {
         key: 'triggerContent',
         value: function triggerContent(content) {
             this.setState({ content: content });
         }
+
+        // подписаться на пользователя
+
     }, {
         key: 'subscript',
         value: function subscript() {
             this.props.dispatch((0, _followersActions.addFollower)(this.props.login.id, this.props.user.id));
         }
+
+        // отписаться от пользователя
+
     }, {
         key: 'unsubscript',
         value: function unsubscript() {
@@ -56876,7 +57007,7 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
         value: function render() {
             var _this2 = this;
 
-            if (Object.keys(this.props.login).length !== 0 && this.props.login.id === +this.props.match.params.user_id) {
+            if (this.props.login.id && this.props.login.id === +this.props.match.params.user_id) {
                 return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/cabinet' });
             }
 
@@ -58623,7 +58754,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.autoloadContent = autoloadContent;
 function autoloadContent(items, empty, payload) {
-    var offset = payload.config.url.split('=').pop();
+    var offset = +payload.config.url.split('=').pop();
     if (payload.data.length === 0 && offset === 0) {
         items = [];
         empty = true;

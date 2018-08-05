@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// получить выборку постов для автоподгрузки ленты
 export function fetchFeedPostsSample(offset, user_id) {
     return {
         type: 'FETCH_FEED_POSTS_SAMPLE',

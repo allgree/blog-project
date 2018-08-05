@@ -1,11 +1,6 @@
 import axios from 'axios';
-//export function fetchCommentLikes() {
-//    return {
-//        type: 'FETCH_COMMENT_LIKES',
-//        payload: axios.get('/api/comment-likes/')
-            //    }
-//}
-//
+
+// добавить лайк к комментарию
 export function addCommentLike(comment_id, user_id) {
     return {
         type: 'ADD_COMMENT_LIKE',
@@ -17,6 +12,7 @@ export function addCommentLike(comment_id, user_id) {
     }
 }
 
+// удалить лайк с комментария
 export function deleteCommentLike(comment_id, user_id) {
     return {
         type: 'DELETE_COMMENT_LIKE',

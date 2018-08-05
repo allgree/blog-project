@@ -18,6 +18,7 @@ export default class CommentItem extends React.Component {
         this.deleteWindowHide = this.deleteWindowHide.bind(this);
     }
 
+    // показать панель лайков
     tooltipShow() {
         if (this.props.comment.likes.length === 0) return;
         this.setState({
@@ -25,6 +26,7 @@ export default class CommentItem extends React.Component {
         })
     }
 
+    // скрыть панель лайков
     tooltipHide() {
         this.setState({
             tooltip: '',
@@ -32,6 +34,7 @@ export default class CommentItem extends React.Component {
         });
     }
 
+    // скрыть диалоговое окно удаления
     deleteWindowHide() {
         this.setState({
             delete: false

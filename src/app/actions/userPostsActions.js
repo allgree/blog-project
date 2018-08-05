@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// получить выборку постов пользователя для автоподгрузки
 export function fetchUserPostsSample(offset, user_id) {
     return {
         type: 'FETCH_USER_POSTS_SAMPLE',
@@ -7,6 +8,7 @@ export function fetchUserPostsSample(offset, user_id) {
     }
 }
 
+// добавить пост
 export function addUserPost(user_id, title, body) {
     return {
         type: 'ADD_USER_POST',
@@ -19,6 +21,7 @@ export function addUserPost(user_id, title, body) {
     }
 }
 
+// удалить пост
 export function deleteUserPost(post_id) {
     return {
         type: 'DELETE_USER_POST',

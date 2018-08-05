@@ -35,12 +35,14 @@ export default class Main extends React.Component {
         this.addOpinion = this.addOpinion.bind(this);
     }
 
+    // отображение/скрытие формы отзывов
     triggerForm() {
         this.state.form
         ? this.setState({form: false})
         : this.setState({form: true});
     }
 
+    // дбавить отзыв
     addOpinion(values) {
         this.props.dispatch(addOpinion(values.name, this.props.login.id || null, values.body));
         this.triggerForm('form', false);

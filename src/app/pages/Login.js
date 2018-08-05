@@ -22,9 +22,8 @@ export default class Login extends React.Component {
         }
     }
 
+    // получить логин для входа на сайт
     login(values) {
-        //let caution = document.querySelector('.login_incorrect');
-        //caution.style.display = 'none';
         this.setState({valid_profile: true});
         let authorize = fetchLogin(values);
         authorize.payload.then(result => {
@@ -32,7 +31,6 @@ export default class Login extends React.Component {
                 this.setState({
                     valid_profile: false
                 })
-                //caution.style.display = 'inline';
             } else {
                 this.props.dispatch(authorize);
             }

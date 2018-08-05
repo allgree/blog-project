@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// получить выборку подписок пользователя для автоподгрузки
 export function fetchUserSubsSample(offset, user_id) {
     return {
         type: 'FETCH_USER_SUBS_SAMPLE',
@@ -7,6 +8,7 @@ export function fetchUserSubsSample(offset, user_id) {
     }
 }
 
+// удалить подписку
 export function deleteSub(user_id, sub_user_id) {
     return {
         type: 'DELETE_USER_SUB',

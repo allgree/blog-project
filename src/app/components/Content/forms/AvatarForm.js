@@ -10,14 +10,14 @@ export default class AvatarForm extends React.Component {
     }
 
 
-    onFormSubmit(e) {
-        e.preventDefault();
-        this.props.changeAvatar(this.files);
-    }
-
     change(e) {
         e.preventDefault();
         this.files = e.target.files;
+    }
+
+    onFormSubmit(e) {
+        e.preventDefault();
+        this.props.changeAvatar(this.files);
     }
 
 
@@ -51,7 +51,6 @@ export default class AvatarForm extends React.Component {
             if (!name) return;
             document.querySelector('.image_name').innerHTML = `Выбрано изображение: ${name}`;
             let type = name.split('.').pop();
-
             if (types.indexOf(type) === -1) {
                 document.querySelector('.caution_incorrect_format').innerHTML = 'Неправильный тип изображения';
             } else {

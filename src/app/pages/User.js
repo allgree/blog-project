@@ -59,6 +59,7 @@ export default class User extends React.Component {
         this.unsubscript = this.unsubscript.bind(this);
     }
 
+    // добавить/удалить лайк к посту
     triggerPostLike(post_id) {
         like(this.props.user_posts,
             post_id,
@@ -68,21 +69,23 @@ export default class User extends React.Component {
             this.props.login.id);
     }
 
-
+    // изменить отображаемый контент
     triggerContent(content) {
         this.setState({content: content});
     }
 
+    // подписаться на пользователя
     subscript() {
         this.props.dispatch(addFollower(this.props.login.id, this.props.user.id));
     }
 
+    // отписаться от пользователя
     unsubscript() {
         this.props.dispatch(deleteFollower(this.props.login.id, this.props.user.id));
     }
 
     render() {
-        if (Object.keys(this.props.login).length !== 0 && this.props.login.id === +this.props.match.params.user_id) {
+        if (this.props.login.id && this.props.login.id === +this.props.match.params.user_id) {
             return <Redirect to="/cabinet"/>
         }
 

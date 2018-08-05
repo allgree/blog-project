@@ -49,12 +49,14 @@ export default class Ratings extends React.Component {
         this.deletePost = this.deletePost.bind(this);
     }
 
+    // добавить/удалить лайк
     like(post_id) {
         if (Object.keys(this.props.login).length === 0) return;
         like(this.props.topViewsPosts, post_id, this.props.dispatch, addPostLike, deletePostLike, this.props.login.id);
         like(this.props.topLikesPosts, post_id, this.props.dispatch, addPostLike, deletePostLike, this.props.login.id);
     }
 
+    // удалить пост
     deletePost(post_id) {
         if (Object.keys(this.props.login).length === 0) return;
         this.props.dispatch(deleteTopViewsPost(post_id));

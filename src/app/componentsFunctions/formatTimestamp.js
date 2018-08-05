@@ -1,3 +1,4 @@
+// форматирование даты добавления контента
 export function formatTimestamp(created) {
     let timestamp = Date.parse(created);
     let date = new Date();

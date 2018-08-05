@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// получить логин для авторизации
 export function fetchLogin(login) {
     return {
         type: 'FETCH_LOGIN',
@@ -7,6 +8,7 @@ export function fetchLogin(login) {
     }
 }
 
+// получить логин для проверки авторизации
 export function fetchLoginData() {
     return {
         type: 'FETCH_LOGIN_DATA',
@@ -14,6 +16,7 @@ export function fetchLoginData() {
     }
 }
 
+// выход с сайта
 export function unlogged(login) {
     return {
         type: 'UNLOGGED',
@@ -21,6 +24,7 @@ export function unlogged(login) {
     }
 }
 
+// изменить данные аккаунта
 export function editUser(login) {
     return {
         type: 'EDIT_USER',
@@ -28,6 +32,7 @@ export function editUser(login) {
     }
 }
 
+// изменить аватар
 export function changeAvatar(login_id, data) {
     const config = {headers: {'content-type': 'multipart/form-data'}};
     return {

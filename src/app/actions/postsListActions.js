@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// получить выборку постов для автопогрузки ан странице Записи
 export function fetchPostsSample(offset) {
     return {
         type: 'FETCH_POSTS_SAMPLE',
@@ -7,6 +8,7 @@ export function fetchPostsSample(offset) {
     }
 }
 
+// удалить пост
 export function deletePost(post_id) {
     return {
         type: 'DELETE_POST',

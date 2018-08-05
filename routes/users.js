@@ -2,20 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 const Users = require('../requests/usersRequests');
-const Posts = require('../requests/postsRequests');
-const Comments = require('../requests/commentsRequests');
 const PostLikes = require('../requests/postsLikesRequests');
 const CommentLikes = require('../requests/commentsLikesRequests');
 
-// все пользователи
-router.get('/', (req, res, next) => {
-   Users.findAll((result) => {
-       let modified_users = result.map((user, index) => {
-            return user;
-       });
-       res.json(modified_users);
-   })
-});
 
 // выборка пользователей для автоподгрузки
 router.get('/sample/', (req, res, next) => {

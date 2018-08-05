@@ -21,10 +21,10 @@ export default class Nav extends React.Component {
         }
     }
 
+    // определить роут страницы
     getLocation() {
         let location = window.location.pathname;
-        let arr_path = location.split('/');
-        let last_value = arr_path[arr_path.length - 1];
+        let last_value = location.split('/').pop();
         if (/[\d]/g.test(last_value)) {
             let count = last_value.length + 1;
             location = location.slice(0, -(count));
@@ -32,6 +32,7 @@ export default class Nav extends React.Component {
         return location;
     }
 
+    // показать/скрыть боковое меню навигации
     showOrHideSideMenu() {
         ['/','/login','/register'].indexOf(this.location) === -1
             ?  document.querySelector('#nav_input').checked = true

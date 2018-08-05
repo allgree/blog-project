@@ -1,4 +1,4 @@
-
+// автоподгрузка контента
 export function autoload(is_fetching, is_empty, dispatch, fetch, lenght, id = null) {
         let $point = $('.point');
         if (!$point[0]) {

@@ -12,6 +12,7 @@ export default class UserItem extends React.Component {
         this.deleteWindowHide = this.deleteWindowHide.bind(this);
     }
 
+    // скрыть окно удаления
     deleteWindowHide() {
         this.setState({
             window: false

@@ -1,19 +1,24 @@
+// получить логин для автопризации
 export const FETCH_LOGIN_PENDING = 'FETCH_LOGIN_PENDING';
 export const FETCH_LOGIN_FULFILLED = 'FETCH_LOGIN_FULFILLED';
 export const FETCH_LOGIN_REJECTED = 'FETCH_LOGIN_REJECTED';
 
+// получить логин для проверки авторизации
 export const FETCH_LOGIN_DATA_PENDING = 'FETCH_LOGIN_DATA_PENDING';
 export const FETCH_LOGIN_DATA_FULFILLED = 'FETCH_LOGIN_DATA_FULFILLED';
 export const FETCH_LOGIN_DATA_REJECTED = 'FETCH_LOGIN_DATA_REJECTED';
 
+// выход с сайта
 export const UNLOGGED_PENDING = 'UNLOGGED_PENDING';
 export const UNLOGGED_FULFILLED = 'UNLOGGED_FULFILLED';
 export const UNLOGGED_REJECTED = 'UNLOGGED_REJECTED';
 
+// изменить данные пользователя
 export const EDIT_USER_PENDING = 'EDIT_USER_PENDING';
 export const EDIT_USER_FULFILLED = 'EDIT_USER_FULFILLED';
 export const EDIT_USER_REJECTED = 'EDIT_USER_REJECTED';
 
+// изменить аватар пользователя
 export const CHANGE_AVATAR_PENDING = 'CHANGE_AVATAR_PENDING';
 export const CHANGE_AVATAR_FULFILLED = 'CHANGE_AVATAR_FULFILLED';
 export const CHANGE_AVATAR_REJECTED = 'CHANGE_AVATAR_REJECTED';

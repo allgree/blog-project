@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// получить выборку комментариев для автоподгрузки
 export function fetchPostCommentsSample(offset, post_id) {
     return {
         type: 'FETCH_POST_COMMENTS_SAMPLE',
@@ -7,6 +8,7 @@ export function fetchPostCommentsSample(offset, post_id) {
     }
 }
 
+// добавить комментарий
 export function addPostComment(post_id, user_id, body) {
     return {
         type: 'ADD_POST_COMMENT',
@@ -19,6 +21,7 @@ export function addPostComment(post_id, user_id, body) {
     }
 }
 
+// удалить комментарий
 export function deletePostComment(comment_id) {
     return {
         type: 'DELETE_POST_COMMENT',

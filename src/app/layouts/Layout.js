@@ -22,9 +22,9 @@ export default class Layout extends React.Component {
 
     render () {
         let location = window.location.pathname;
-        let arr_path = location.split('/');
-        if (/[\d]/g.test(arr_path[arr_path.length - 1])) {
-            let count = arr_path[arr_path.length - 1].length + 1;
+        let route = location.split('/').pop();
+        if (/[\d]/g.test(route)) {
+            let count = route.length + 1;
             location = location.slice(0, -(count));
         }
         return (

@@ -19,12 +19,14 @@ export default class PostContent extends React.Component {
         this.deleteWindowHide = this.deleteWindowHide.bind(this);
     }
 
+    // скрыть окно удаления
     deleteWindowHide() {
         this.setState({
             delete: false
         })
     }
 
+    // показать панель лайков
     tooltipShow() {
         if (this.props.post.likes.length === 0) return;
         this.setState({
@@ -32,6 +34,7 @@ export default class PostContent extends React.Component {
         })
     }
 
+    // скрыть панель лайков
     tooltipHide() {
         this.setState({
             tooltip: ''
@@ -59,7 +62,6 @@ export default class PostContent extends React.Component {
                               className="content__post_author_link">
                             {this.props.post.author.name} {this.props.post.author.surname}
                         </Link>
-
                     </p>
 
                     <div className="content__post_info">

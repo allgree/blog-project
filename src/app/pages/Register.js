@@ -25,6 +25,7 @@ export default class Register extends React.Component {
         }
     }
 
+    // зарегистрировать пользователя
     register(values) {
         this.setState({valid_login: true});
         this.setState({valid_pass: true});

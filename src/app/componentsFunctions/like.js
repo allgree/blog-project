@@ -1,3 +1,4 @@
+// добавление/удаление лайка
 export function like(items, item_id, dispatch, addLike, deleteLike, login_id) {
     let item = items.find(item => item.id === item_id);
     if (!item) return;

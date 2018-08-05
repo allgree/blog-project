@@ -52790,9 +52790,11 @@ var AvatarForm = function (_React$Component) {
         value: function componentDidMount() {
             var types = this.props.extensions;
             document.getElementById('avatar').onchange = function () {
-                var name = this.value.split('\\').pop();
+                var name = this.value.split('/').pop().split('\\').pop();
+                if (!name) return;
                 document.querySelector('.image_name').innerHTML = "\u0412\u044B\u0431\u0440\u0430\u043D\u043E \u0438\u0437\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u0438\u0435: " + name;
                 var type = name.split('.').pop();
+
                 if (types.indexOf(type) === -1) {
                     document.querySelector('.caution_incorrect_format').innerHTML = 'Неправильный тип изображения';
                 } else {
@@ -55556,8 +55558,6 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
-            //let login__panel_input = document.querySelector('#login__panel_input');
-            //if (login__panel_input) login__panel_input.checked = false;
             (0, _scrollTop.scrollTop)();
         }
     }, {
@@ -57680,7 +57680,6 @@ function postCommentsReducer() {
             {
                 var _comments3 = [].concat(_toConsumableArray(state.comments));
                 _comments3.unshift(action.payload.data);
-                //let comments = state.comments.concat(action.payload.data);
                 state = _extends({}, state, { is_fetching: false, comments: _comments3 });
                 break;
             }
@@ -58624,36 +58623,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.autoloadContent = autoloadContent;
 function autoloadContent(items, empty, payload) {
-    var url_arr = payload.config.url.split('=');
-    var offset = +url_arr[url_arr.length - 1];
+    var offset = payload.config.url.split('=').pop();
     if (payload.data.length === 0 && offset === 0) {
         items = [];
         empty = true;
     } else if (payload.data.length === 0) {
         empty = true;
     } else if (offset === 0) {
-        //
-        items = payload.data; //
-        empty = false; //
+        items = payload.data;
+        empty = false;
     } else {
         items = items.concat(payload.data);
         empty = false;
     }
     return [items, empty];
 }
-
-//export function autoloadContent(items, empty, payload) {
-//    let url_arr = payload.config.url.split('=');
-//    let offset = +url_arr[1];
-//    if (payload.data.length === 0) {
-//        empty = true;
-//    } else if (offset === 0){
-//        items = payload.data;
-//    } else {
-//        items = items.concat(payload.data);
-//    }
-//    return [items, empty];
-//}
 
 /***/ }),
 

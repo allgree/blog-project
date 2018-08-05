@@ -342,8 +342,6 @@ export default class Cabinet extends React.Component {
     }
 
     componentDidMount() {
-        //let login__panel_input = document.querySelector('#login__panel_input');
-        //if (login__panel_input) login__panel_input.checked = false;
         scrollTop();
     }
 

@@ -66,7 +66,6 @@ export function postCommentsReducer(state = {comments: [], is_fetching: false, e
         case PostComments.ADD_POST_COMMENT_FULFILLED: {
             let comments = [...state.comments];
             comments.unshift(action.payload.data);
-            //let comments = state.comments.concat(action.payload.data);
             state = {...state, is_fetching: false, comments: comments};
             break;
         }

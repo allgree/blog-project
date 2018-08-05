@@ -47,9 +47,11 @@ export default class AvatarForm extends React.Component {
     componentDidMount() {
         let types = this.props.extensions;
         document.getElementById('avatar').onchange = function () {
-            let name = this.value.split('\\').pop();
+            let name = this.value.split('/').pop().split('\\').pop();
+            if (!name) return;
             document.querySelector('.image_name').innerHTML = `Выбрано изображение: ${name}`;
             let type = name.split('.').pop();
+
             if (types.indexOf(type) === -1) {
                 document.querySelector('.caution_incorrect_format').innerHTML = 'Неправильный тип изображения';
             } else {

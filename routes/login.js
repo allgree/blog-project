@@ -129,8 +129,7 @@ router.post('/avatar', (req, res, next) => {
 
        Users.findLoginById(user_id, result_user => {
            let old_base_path = result_user.dataValues.avatar_path;
-           let arr_old_path = old_base_path.split('/');
-           let name_avatar = arr_old_path[arr_old_path.length - 1];
+           let name_avatar = old_base_path.split('/').pop().split('\\').pop();
            if (name_avatar !== 'default.jpeg') {
                fs.unlink(`./src${old_base_path}`, (err) => {if(err) console.log(err);});
                fs.unlink(`./public${old_base_path}`, (err) => {if(err) console.log(err);});

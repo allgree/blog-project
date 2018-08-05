@@ -51317,10 +51317,10 @@ var _axios2 = _interopRequireDefault(_axios);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // получить выборку пользователей для автоподгрузки
-function fetchUsersSample(offset) {
+function fetchUsersSample(offset, val1, val2) {
     return {
         type: 'FETCH_USERS_SAMPLE',
-        payload: _axios2.default.get('/api/users/sample/?offset=' + offset)
+        payload: _axios2.default.get('/api/users/sample/?val_1=' + val1 + '&val_2=' + val2 + '&offset=' + offset)
     };
 }
 
@@ -53780,6 +53780,73 @@ exports.default = RegisterForm;
 
 /***/ }),
 
+/***/ "./app/components/Content/forms/SearchForm.js":
+/*!****************************************************!*\
+  !*** ./app/components/Content/forms/SearchForm.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SearchForm = function (_React$Component) {
+    _inherits(SearchForm, _React$Component);
+
+    function SearchForm() {
+        _classCallCheck(this, SearchForm);
+
+        return _possibleConstructorReturn(this, (SearchForm.__proto__ || Object.getPrototypeOf(SearchForm)).apply(this, arguments));
+    }
+
+    _createClass(SearchForm, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "form",
+                { onSubmit: this.props.handleSubmit, className: "search_user_form" },
+                _react2.default.createElement("input", { type: "text",
+                    id: "user",
+                    className: "input_custom",
+                    placeholder: this.props.placeholder })
+            );
+        }
+    }, {
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            var data = this.props.data;
+            document.querySelector('#user').oninput = function () {
+                data(this.value);
+            };
+        }
+    }]);
+
+    return SearchForm;
+}(_react2.default.Component);
+
+exports.default = SearchForm;
+
+/***/ }),
+
 /***/ "./app/components/Footer/Footer.js":
 /*!*****************************************!*\
   !*** ./app/components/Footer/Footer.js ***!
@@ -55087,13 +55154,15 @@ var _UserItem = __webpack_require__(/*! ../components/Content/UserItem */ "./app
 
 var _UserItem2 = _interopRequireDefault(_UserItem);
 
+var _SearchForm = __webpack_require__(/*! ../components/Content/forms/SearchForm */ "./app/components/Content/forms/SearchForm.js");
+
+var _SearchForm2 = _interopRequireDefault(_SearchForm);
+
 var _reactRedux = __webpack_require__(/*! react-redux */ "../node_modules/react-redux/es/index.js");
 
 var _usersListActions = __webpack_require__(/*! ../actions/usersListActions */ "./app/actions/usersListActions.js");
 
 var _loginActions = __webpack_require__(/*! ../actions/loginActions */ "./app/actions/loginActions.js");
-
-var _autoload = __webpack_require__(/*! ../componentsFunctions/autoload */ "./app/componentsFunctions/autoload.js");
 
 var _link_up = __webpack_require__(/*! ../componentsFunctions/link_up */ "./app/componentsFunctions/link_up.js");
 
@@ -55108,6 +55177,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Blogs = (_dec = (0, _reactRedux.connect)(function (store) {
+
     return {
         users: store.usersList.users,
         is_users_fetching: store.usersList.is_fetching,
@@ -55124,23 +55194,50 @@ var Blogs = (_dec = (0, _reactRedux.connect)(function (store) {
 
         var _this = _possibleConstructorReturn(this, (Blogs.__proto__ || Object.getPrototypeOf(Blogs)).apply(this, arguments));
 
+        _this.state = {
+            val1: '',
+            val2: ''
+        };
         _this.props.dispatch((0, _loginActions.fetchLoginData)());
-        _this.props.dispatch((0, _usersListActions.fetchUsersSample)(0));
+        _this.props.dispatch((0, _usersListActions.fetchUsersSample)(0, '', ''));
+        _this.data = _this.data.bind(_this);
         return _this;
     }
 
     _createClass(Blogs, [{
+        key: 'data',
+        value: function data(form_value) {
+            if (!form_value) {
+                this.props.dispatch((0, _usersListActions.fetchUsersSample)(0, '', ''));
+                return;
+            }
+            var values = form_value.split(' ').map(function (value, i) {
+                if (value !== '') return value;
+            });
+            this.setState({
+                val1: values[0] || null,
+                val2: values[1] || null
+            });
+            this.props.dispatch((0, _usersListActions.fetchUsersSample)(0, this.state.val1, this.state.val2));
+        }
+    }, {
         key: 'render',
         value: function render() {
-            var users = this.props.users.map(function (user, index) {
-                return _react2.default.createElement(_UserItem2.default, { key: index,
-                    user: user,
-                    button: false });
-            });
+            var users = [];
+            if (this.props.users) {
+                users = this.props.users.map(function (user, index) {
+                    return _react2.default.createElement(_UserItem2.default, { key: index,
+                        user: user,
+                        button: false });
+                });
+            }
+
             return _react2.default.createElement(
                 'div',
                 { className: 'content_blogs' },
-                this.props.users.length !== 0 && _react2.default.createElement(
+                _react2.default.createElement(_SearchForm2.default, { data: this.data,
+                    placeholder: 'Введите имя и фамилию' }),
+                this.props.users !== 0 && _react2.default.createElement(
                     'div',
                     null,
                     users
@@ -55161,7 +55258,20 @@ var Blogs = (_dec = (0, _reactRedux.connect)(function (store) {
             $(document).off();
             $(document).on('scroll', function () {
                 (0, _link_up.linkUp)();
-                (0, _autoload.autoload)(_this2.props.is_users_fetching, _this2.props.users_empty, _this2.props.dispatch, _usersListActions.fetchUsersSample, _this2.props.users.length);
+
+                // автоподгрузка
+                var $point = $('.point');
+                if (!$point[0]) {
+                    return;
+                }
+                var point = $point.offset().top; // точка где заканчиваются новые записи
+                var scroll_top = $(document).scrollTop(); //Насколько прокручена страница сверху (без учета высоты окна)
+                var height = $(window).height(); // Высота окна
+                var load_flag = scroll_top + height >= point; // Флаг подгружаем ли данные
+                if (load_flag && !_this2.props.is_users_fetching && !_this2.props.users_empty) {
+                    console.log('autoload, users.lenght', _this2.props.users.length);
+                    _this2.props.dispatch((0, _usersListActions.fetchUsersSample)(_this2.props.users.length, _this2.state.val1, _this2.state.val2));
+                }
             });
         }
     }]);

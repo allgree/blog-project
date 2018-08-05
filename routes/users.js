@@ -8,7 +8,9 @@ const CommentLikes = require('../requests/commentsLikesRequests');
 
 // выборка пользователей для автоподгрузки
 router.get('/sample/', (req, res, next) => {
-   Users.findSample(10, +req.query.offset, (result) => {
+   Users.findSample(10, +req.query.offset, req.query.val_1, req.query.val_2, result => {
+       console.log('         ');
+       console.log(req.query);
        res.json(result);
    })
 });

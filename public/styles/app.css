@@ -3427,6 +3427,15 @@ nav {
   margin-right: 20px; }
 
 /*end OpinionForm*/
+/*SearchUserForm*/
+.search_user_form {
+  position: sticky;
+  top: 110px; }
+
+.search_user_form > #user {
+  width: 300px; }
+
+/*end SearchUserForm*/
 /*DeleteWindow*/
 .dialog_conteiner {
   position: fixed;

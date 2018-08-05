@@ -45,9 +45,42 @@ let Users = {
     },
 
     // выборка пользователей
-    findSample: (limit, offset, callback) => {
+    findSample: (limit, offset, val1, val2, callback) => {
+        console.log('val1', val1);
+        console.log('val2', val2);
         UsersModel.findAll({
             attributes: {exclude: ['login', 'password', 'createdAt', 'updatedAt']},
+            where: val2 !== 'null'
+                ?
+                {
+                    [Sequelize.Op.and]: [
+                        {
+                            name: {
+                                [Sequelize.Op.like]: `${val1}%`
+                            }
+                        },
+                        {
+                            surname: {
+                                [Sequelize.Op.like]: `${val2}%`
+                            }
+                        }
+                    ]
+                }
+                :
+                {
+                    [Sequelize.Op.or]: [
+                        {
+                            name: {
+                                [Sequelize.Op.like]: `${val1}%`
+                            }
+                        },
+                        {
+                            surname: {
+                                [Sequelize.Op.like]: `${val1}%`
+                            }
+                        }
+                    ]
+                },
             offset: offset,
             limit: limit
         })

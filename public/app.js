@@ -56564,7 +56564,7 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
                 'div',
                 { className: 'content_posts' },
                 _react2.default.createElement(_SearchForm2.default, { search: this.search,
-                    placeholder: 'Введите заголовок поста' }),
+                    placeholder: 'Введите заголовок записи' }),
                 this.props.posts.length !== 0 && _react2.default.createElement(
                     'div',
                     null,

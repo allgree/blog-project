@@ -83,7 +83,7 @@ export default class Posts extends React.Component {
         return (
             <div className="content_posts">
                 <SearchFrom search={this.search}
-                            placeholder={'Введите заголовок поста'}/>
+                            placeholder={'Введите заголовок записи'}/>
                         {this.props.posts.length !== 0 &&
                             <div>{posts}</div>}
                     <span className="point"/>

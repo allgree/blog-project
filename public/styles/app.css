@@ -3012,7 +3012,8 @@ nav {
   height: 425px;
   float: left;
   margin: 0 10px 30px 0;
-  overflow: hidden; }
+  overflow: hidden;
+  text-align: center; }
 
 .change_avatar__div, .add_post__div {
   animation: opacity 1s 1; }
@@ -3517,10 +3518,16 @@ nav {
   .content__cabinet__login {
     height: 280px; }
   .content__cabinet__login_ava {
-    width: 220px;
-    height: 267px; }
+    height: 320px; }
+  .content__cabinet__login_ava > .big_avatar {
+    width: 250px;
+    height: 250px; }
   /*end Cabinet*/
+  .label_custom {
+    font-size: 14px; }
   .input_custom {
-    max-width: 590px; } }
+    max-width: 590px;
+    margin-bottom: 5px;
+    height: 10px; } }
 
 /*# sourceMappingURL=app.css.map*/

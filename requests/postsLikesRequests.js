@@ -4,6 +4,7 @@ const UsersModel = require('../models/usersModel');
 PostsLikesModel.belongsTo(UsersModel, {foreignKey: 'user_id'});
 
 let PostsLikes = {
+    // получить лайки к посту
     findPostLikes: (post_id, callback) => {
         PostsLikesModel.findAll({
             attributes: ['id'],
@@ -20,24 +21,7 @@ let PostsLikes = {
             })
     },
 
-
-    //findAll: (callback) => {
-    //    PostsLikesModel.findAll({})
-    //         .then(result => {
-    //             callback(result);
-    //         })
-    //},
-
-    findByPostId: (post_id, callback) => {
-        PostsLikesModel.findAll({
-            where: {
-                post_id: post_id
-            }
-        })
-            .then(result => {
-                callback(result);
-            })
-    },
+    // добавить лайк
     add: (post_id, user_id, callback) => {
         PostsLikesModel.create({
             post_id: post_id,
@@ -45,6 +29,7 @@ let PostsLikes = {
         })
             .then(result => callback(result))
     },
+    // удалить лайк
     delete: (post_id, user_id, callback) => {
         PostsLikesModel.destroy({
             where: {

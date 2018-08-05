@@ -1,3 +1,4 @@
+// удалить лайк
 export function deleteLike(items, like) {
     if (like.result === 1) {
         items.find(item => {

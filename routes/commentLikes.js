@@ -4,12 +4,9 @@ const router = express.Router();
 const CommentLikes = require('../requests/commentsLikesRequests');
 const Users = require('../requests/usersRequests');
 
-router.get('/', (req, res, next) => {
-   CommentLikes.findAll((result) => {
-       res.json(result);
-   })
-});
 
+
+// добавить лайк к комментарию
 router.post('/add/', (req, res, next) => {
    CommentLikes.add(req.body.comment_id, req.body.user_id, (result_like) => {
        let like = result_like.dataValues;
@@ -20,6 +17,7 @@ router.post('/add/', (req, res, next) => {
    })
 });
 
+// удалить лайк к посту
 router.post('/delete/', (req, res, next) => {
    CommentLikes.delete(req.body.comment_id, req.body.user_id, (result) => {
        res.json({result: result,

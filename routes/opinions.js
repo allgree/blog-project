@@ -6,7 +6,7 @@ const Opinions = require('../requests/opinionsRequests');
 const Users = require('../requests/usersRequests');
 
 
-// выборка постов для автоподгрузки
+// выборка отзывов для автоподгрузки
 router.get('/sample/', (req, res, next) => {
     Opinions.findSample(10, +req.query.offset, (result_opinions) => {
         res.json(result_opinions);

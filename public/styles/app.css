@@ -3049,6 +3049,10 @@ nav {
   animation: opacity 0.5s 1; }
 
 /*end Cabinet*/
+.unlogged {
+  font-family: "Arial Cyr Bold", sans-serif;
+  text-align: center; }
+
 /*UserProfile*/
 .user_profile {
   animation: opacity 1s 1; }

@@ -1,3 +1,4 @@
+// автопогрузка контента
 export function autoloadContent(items, empty, payload) {
     let offset = +payload.config.url.split('=').pop();
     if (payload.data.length === 0 && offset === 0) {

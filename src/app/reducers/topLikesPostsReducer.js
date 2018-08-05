@@ -8,7 +8,7 @@ import {deletePostOrComment} from "../reducersFunctions/deletePostOrComment";
 
 export function topLikesPostsReducer(state = {posts: [], is_fetching: false}, action) {
     switch (action.type) {
-
+        // получить топ отмеченных постов
         case TopLikesPosts.FETCH_TOP_LIKES_POSTS_PENDING: {
             state = {
                 ...state,
@@ -33,6 +33,7 @@ export function topLikesPostsReducer(state = {posts: [], is_fetching: false}, ac
             break;
         }
 
+        // добавить лайк
         case PostLikes.ADD_POST_LIKE_PENDING: {
             state = {...state,
                 is_fetching: false};
@@ -50,6 +51,7 @@ export function topLikesPostsReducer(state = {posts: [], is_fetching: false}, ac
             break;
         }
 
+        // удалить лайк
         case PostLikes.DELETE_POST_LIKE_PENDING: {
             state = {...state,
                 is_fetching: false};

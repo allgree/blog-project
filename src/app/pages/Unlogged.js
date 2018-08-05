@@ -27,7 +27,7 @@ export default class Unlogged extends React.Component {
             return <Redirect to="/"/>
         }
         return (
-            <h2><Loader/>Выход...</h2>
+            <h2 className="unlogged"><Loader/>Пожалуйста, подождите, осуществляется выход с сайта...</h2>
         )
     }
 }

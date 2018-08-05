@@ -2,6 +2,7 @@ import * as Bloger from '../constants/blogerConstants';
 
 export function blogerReducer(state = {user: {}, is_fetching: false}, action) {
     switch (action.type) {
+        // получение самого активного блогера
         case Bloger.FETCH_BLOGER_PENDING: {
             state = {...state, is_fetching: true};
             break;

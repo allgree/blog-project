@@ -1,3 +1,4 @@
+// добавить лайк
 export function addLike(items, like) {
     items.find(item => {
         if (item.id === like.post_id || item.id === like.comment_id) {

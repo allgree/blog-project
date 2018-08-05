@@ -8,7 +8,7 @@ import {deletePostOrComment} from "../reducersFunctions/deletePostOrComment";
 
 export function topViewsPostsReducer(state = {posts: [], is_fetching: false}, action) {
     switch (action.type) {
-        // получение постов
+        // получение топ просмотренных постов
         case TopViewsPosts.FETCH_TOP_VIEWS_POSTS_PENDING: {
             state = {...state,
                 is_fetching: true};

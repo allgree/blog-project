@@ -110,7 +110,7 @@ router.get('/user-posts-sample/', (req, res, next) => {
 });
 
 
-// выборка постов в ленте пользователя
+// выборка постов в ленте пользователя для автоподгрузки
 router.get('/feed/', (req, res, next) => {
     let result = [];
     let likes = [];
@@ -118,7 +118,6 @@ router.get('/feed/', (req, res, next) => {
         let arr_sub_users = result_subs.map((sub) => {
             return sub.sub_user_id;
         });
-        console.log(arr_sub_users);
         Posts.findPostsByFeed(5, +req.query.offset, arr_sub_users, (result_posts) => {
             result_posts.forEach((post, i) => {
                 result[i] = result_posts[i].dataValues;

@@ -38,7 +38,7 @@ router.get('/check-login/', (req, res, next) => {
     })
 });
 
-// авторизующийся пользователь
+// авторизация пользователя
 router.post('/login/', (req, res, next) => {
     Users.findByLogin(req.body.login, (result) => {
         if (!result) {

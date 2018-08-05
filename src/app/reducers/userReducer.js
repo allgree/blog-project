@@ -2,6 +2,7 @@ import * as User from '../constants/userConstants';
 
 export function userReducer(state = {user: {}, is_fetching: false}, action) {
     switch (action.type) {
+        // получить пользователя
         case User.FETCH_USER_PENDING: {
             state = {...state, is_fetching: true};
             break;

@@ -4,12 +4,7 @@ const UsersModel = require('../models/usersModel');
 CommentsModel.belongsTo(UsersModel, {as: 'author', foreignKey: 'user_id'});
 
 let Comments = {
-    findAll: (callback) => {
-        CommentsModel.findAll({})
-             .then(result => {
-                 callback(result);
-             })
-    },
+    // получить выборку комментариев для автоподгрузки
     findByPostIdSample: (limit, offset, post_id, callback) => {
         CommentsModel.findAll({
             where: {
@@ -30,6 +25,7 @@ let Comments = {
                 callback(result);
             })
     },
+    // добавить комментаий
     add: (post_id, user_id, body, callback) => {
         CommentsModel.create({
             post_id: post_id,
@@ -38,6 +34,7 @@ let Comments = {
         })
             .then(result => {callback(result)})
     },
+    // удалить коментарий
     deleteById: (comment_id, callback) => {
         CommentsModel.destroy({
             where: {
@@ -48,16 +45,7 @@ let Comments = {
                 callback(result);
             })
     },
-    deleteByPostId: (post_id, callback) => {
-        CommentsModel.destroy({
-            where: {
-                post_id: post_id
-            }
-        })
-            .then(result => {
-                callback(result);
-            })
-    }
+
 };
 
 module.exports = Comments;

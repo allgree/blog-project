@@ -56844,9 +56844,9 @@ var Unlogged = (_dec = (0, _reactRedux.connect)(function (store) {
             }
             return _react2.default.createElement(
                 'h2',
-                null,
+                { className: 'unlogged' },
                 _react2.default.createElement(_Loader2.default, null),
-                '\u0412\u044B\u0445\u043E\u0434...'
+                '\u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u043F\u043E\u0434\u043E\u0436\u0434\u0438\u0442\u0435, \u043E\u0441\u0443\u0449\u0435\u0441\u0442\u0432\u043B\u044F\u0435\u0442\u0441\u044F \u0432\u044B\u0445\u043E\u0434 \u0441 \u0441\u0430\u0439\u0442\u0430...'
             );
         }
     }]);
@@ -57179,6 +57179,7 @@ function blogerReducer() {
     var action = arguments[1];
 
     switch (action.type) {
+        // получение самого активного блогера
         case Bloger.FETCH_BLOGER_PENDING:
             {
                 state = _extends({}, state, { is_fetching: true });
@@ -57229,6 +57230,7 @@ function commentatorReducer() {
     var action = arguments[1];
 
     switch (action.type) {
+        // получение самого активного комментатора
         case Commentator.FETCH_COMMENTATOR_PENDING:
             {
                 state = _extends({}, state, { is_fetching: true });
@@ -58224,7 +58226,7 @@ function topLikesPostsReducer() {
     var action = arguments[1];
 
     switch (action.type) {
-
+        // получить топ отмеченных постов
         case TopLikesPosts.FETCH_TOP_LIKES_POSTS_PENDING:
             {
                 state = _extends({}, state, {
@@ -58249,6 +58251,7 @@ function topLikesPostsReducer() {
                 break;
             }
 
+        // добавить лайк
         case PostLikes.ADD_POST_LIKE_PENDING:
             {
                 state = _extends({}, state, {
@@ -58269,6 +58272,7 @@ function topLikesPostsReducer() {
                 break;
             }
 
+        // удалить лайк
         case PostLikes.DELETE_POST_LIKE_PENDING:
             {
                 state = _extends({}, state, {
@@ -58358,7 +58362,7 @@ function topViewsPostsReducer() {
     var action = arguments[1];
 
     switch (action.type) {
-        // получение постов
+        // получение топ просмотренных постов
         case TopViewsPosts.FETCH_TOP_VIEWS_POSTS_PENDING:
             {
                 state = _extends({}, state, {
@@ -58631,6 +58635,7 @@ function userReducer() {
     var action = arguments[1];
 
     switch (action.type) {
+        // получить пользователя
         case User.FETCH_USER_PENDING:
             {
                 state = _extends({}, state, { is_fetching: true });
@@ -58746,6 +58751,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.addLike = addLike;
+// добавить лайк
 function addLike(items, like) {
     items.find(function (item) {
         if (item.id === like.post_id || item.id === like.comment_id) {
@@ -58771,6 +58777,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.autoloadContent = autoloadContent;
+// автопогрузка контента
 function autoloadContent(items, empty, payload) {
     var offset = +payload.config.url.split('=').pop();
     if (payload.data.length === 0 && offset === 0) {
@@ -58804,6 +58811,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.deleteLike = deleteLike;
+// удалить лайк
 function deleteLike(items, like) {
     if (like.result === 1) {
         items.find(function (item) {
@@ -58835,6 +58843,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.deletePostOrComment = deletePostOrComment;
+// удалить пост или комментарий
 function deletePostOrComment(items, payload) {
     if (payload.data === 1) {
         var deleted_item_id = JSON.parse(payload.config.data).post_id || JSON.parse(payload.config.data).comment_id;

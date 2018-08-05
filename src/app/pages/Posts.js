@@ -5,7 +5,8 @@ import PostItem from '../components/Content/PostItem';
 
 import {connect} from 'react-redux';
 
-import {fetchPostsSample, deletePost} from "../actions/postsListActions";
+import {fetchPostsSample} from "../actions/postsListActions";
+import {deletePost} from "../actions/deletePost";
 import {fetchLoginData} from "../actions/loginActions";
 import {addPostLike, deletePostLike} from "../actions/postLikesActions";
 

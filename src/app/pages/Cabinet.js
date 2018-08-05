@@ -15,7 +15,8 @@ import EditPassForm from '../components/Content/forms/EditPassForm';
 
 
 import {fetchFeedPostsSample} from "../actions/feedActions";
-import {fetchUserPostsSample, addUserPost, deleteUserPost} from "../actions/userPostsActions";
+import {fetchUserPostsSample, addUserPost} from "../actions/userPostsActions";
+import {deletePost} from "../actions/deletePost";
 import {fetchUserSubsSample, deleteSub} from "../actions/subsActions";
 import {fetchUserFollowersSample, deleteFollower} from "../actions/followersActions";
 import {addPostLike, deletePostLike} from "../actions/postLikesActions";
@@ -110,7 +111,7 @@ export default class Cabinet extends React.Component {
     // удалить пост
     deletePost(post_id) {
         if (Object.keys(this.props.login).length === 0) return;
-        this.props.dispatch(deleteUserPost(post_id));
+        this.props.dispatch(deletePost(post_id));
     }
 
     // изменить состояние

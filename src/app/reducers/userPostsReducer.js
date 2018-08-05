@@ -1,4 +1,5 @@
 import * as UserPosts from '../constants/userPostsConstants';
+import * as DeletePost from '../constants/deletePost';
 import * as PostLikes from '../constants/postLikesConstants';
 
 import {addLike} from '../reducersFunctions/addLike';
@@ -76,16 +77,16 @@ export function userPostsReducer(state = {posts: [], is_fetching: false, empty: 
         }
 
         // удаление поста
-        case UserPosts.DELETE_USER_POST_PENDING: {
+        case DeletePost.DELETE_POST_PENDING: {
             state = {...state, is_fetching: true};
             break;
         }
-        case UserPosts.DELETE_USER_POST_FULFILLED: {
+        case DeletePost.DELETE_POST_FULFILLED: {
             let posts = deletePostOrComment([...state.posts], action.payload);
             state = {...state, is_fetching: false, posts: posts};
             break;
         }
-        case UserPosts.DELETE_USER_POST_REJECTED: {
+        case DeletePost.DELETE_POST_REJECTED: {
             state = {...state, is_fetching: false, error_message: action.payload.message};
             break;
         }

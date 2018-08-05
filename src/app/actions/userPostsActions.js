@@ -20,11 +20,3 @@ export function addUserPost(user_id, title, body) {
             })
     }
 }
-
-// удалить пост
-export function deleteUserPost(post_id) {
-    return {
-        type: 'DELETE_USER_POST',
-        payload: axios.post('/api/posts/delete/', {post_id: post_id})
-    }
-}

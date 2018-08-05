@@ -50722,6 +50722,37 @@ function fetchCommentator() {
 
 /***/ }),
 
+/***/ "./app/actions/deletePost.js":
+/*!***********************************!*\
+  !*** ./app/actions/deletePost.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.deletePost = deletePost;
+
+var _axios = __webpack_require__(/*! axios */ "../node_modules/axios/index.js");
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// удалить пост
+function deletePost(post_id) {
+    return {
+        type: 'DELETE_POST',
+        payload: _axios2.default.post('/api/posts/delete/', { post_id: post_id })
+    };
+}
+
+/***/ }),
+
 /***/ "./app/actions/feedActions.js":
 /*!************************************!*\
   !*** ./app/actions/feedActions.js ***!
@@ -51066,7 +51097,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.fetchPostsSample = fetchPostsSample;
-exports.deletePost = deletePost;
 
 var _axios = __webpack_require__(/*! axios */ "../node_modules/axios/index.js");
 
@@ -51079,14 +51109,6 @@ function fetchPostsSample(offset) {
     return {
         type: 'FETCH_POSTS_SAMPLE',
         payload: _axios2.default.get('/api/posts/sample/?offset=' + offset)
-    };
-}
-
-// удалить пост
-function deletePost(post_id) {
-    return {
-        type: 'DELETE_POST',
-        payload: _axios2.default.post('/api/posts/delete/', { post_id: post_id })
     };
 }
 
@@ -51149,7 +51171,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.fetchTopLikesPosts = fetchTopLikesPosts;
-exports.deleteTopLikesPost = deleteTopLikesPost;
 
 var _axios = __webpack_require__(/*! axios */ "../node_modules/axios/index.js");
 
@@ -51162,14 +51183,6 @@ function fetchTopLikesPosts() {
     return {
         type: 'FETCH_TOP_LIKES_POSTS',
         payload: _axios2.default.get('/api/posts/top_likes/')
-    };
-}
-
-// удалить пост через страницу рейтингов
-function deleteTopLikesPost(post_id) {
-    return {
-        type: 'DELETE_TOP_LIKES_POST',
-        payload: _axios2.default.post('/api/posts/delete', { post_id: post_id })
     };
 }
 
@@ -51189,7 +51202,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.fetchTopViewsPosts = fetchTopViewsPosts;
-exports.deleteTopViewsPost = deleteTopViewsPost;
 
 var _axios = __webpack_require__(/*! axios */ "../node_modules/axios/index.js");
 
@@ -51202,14 +51214,6 @@ function fetchTopViewsPosts() {
     return {
         type: 'FETCH_TOP_VIEWS_POSTS',
         payload: _axios2.default.get('api/posts/top_views/')
-    };
-}
-
-// удалить пост через страницу Рейтинги
-function deleteTopViewsPost(post_id) {
-    return {
-        type: 'DELETE_TOP_VIEWS_POST',
-        payload: _axios2.default.post('/api/posts/delete', { post_id: post_id })
     };
 }
 
@@ -51261,7 +51265,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.fetchUserPostsSample = fetchUserPostsSample;
 exports.addUserPost = addUserPost;
-exports.deleteUserPost = deleteUserPost;
 
 var _axios = __webpack_require__(/*! axios */ "../node_modules/axios/index.js");
 
@@ -51286,14 +51289,6 @@ function addUserPost(user_id, title, body) {
             title: title,
             body: body
         })
-    };
-}
-
-// удалить пост
-function deleteUserPost(post_id) {
-    return {
-        type: 'DELETE_USER_POST',
-        payload: _axios2.default.post('/api/posts/delete/', { post_id: post_id })
     };
 }
 
@@ -54330,6 +54325,26 @@ var FETCH_COMMENTATOR_REJECTED = exports.FETCH_COMMENTATOR_REJECTED = 'FETCH_COM
 
 /***/ }),
 
+/***/ "./app/constants/deletePost.js":
+/*!*************************************!*\
+  !*** ./app/constants/deletePost.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+// удалить пост
+var DELETE_POST_PENDING = exports.DELETE_POST_PENDING = 'DELETE_POST_PENDING';
+var DELETE_POST_FULFILLED = exports.DELETE_POST_FULFILLED = 'DELETE_POST_FULFILLED';
+var DELETE_POST_REJECTED = exports.DELETE_POST_REJECTED = 'DELETE_POST_REJECTED';
+
+/***/ }),
+
 /***/ "./app/constants/feedConstants.js":
 /*!****************************************!*\
   !*** ./app/constants/feedConstants.js ***!
@@ -54538,11 +54553,6 @@ var FETCH_POSTS_SAMPLE_PENDING = exports.FETCH_POSTS_SAMPLE_PENDING = 'FETCH_POS
 var FETCH_POSTS_SAMPLE_FULFILLED = exports.FETCH_POSTS_SAMPLE_FULFILLED = 'FETCH_POSTS_SAMPLE_FULFILLED';
 var FETCH_POSTS_SAMPLE_REJECTED = exports.FETCH_POSTS_SAMPLE_REJECTED = 'FETCH_POSTS_SAMPLE_REJECTED';
 
-// удалить пост через страницу Все записи
-var DELETE_POST_PENDING = exports.DELETE_POST_PENDING = 'DELETE_POST_PENDING';
-var DELETE_POST_FULFILLED = exports.DELETE_POST_FULFILLED = 'DELETE_POST_FULFILLED';
-var DELETE_POST_REJECTED = exports.DELETE_POST_REJECTED = 'DELETE_POST_REJECTED';
-
 /***/ }),
 
 /***/ "./app/constants/subsConstants.js":
@@ -54588,11 +54598,6 @@ var FETCH_TOP_LIKES_POSTS_PENDING = exports.FETCH_TOP_LIKES_POSTS_PENDING = 'FET
 var FETCH_TOP_LIKES_POSTS_FULFILLED = exports.FETCH_TOP_LIKES_POSTS_FULFILLED = 'FETCH_TOP_LIKES_POSTS_FULFILLED';
 var FETCH_TOP_LIKES_POSTS_REJECTED = exports.FETCH_TOP_LIKES_POSTS_REJECTED = 'FETCH_TOP_LIKES_POSTS_REJECTED';
 
-// удалить пост со станицы Рейтинги
-var DELETE_TOP_LIKES_POST_PENDING = exports.DELETE_TOP_LIKES_POST_PENDING = 'DELETE_TOP_LIKES_POST_PENDING';
-var DELETE_TOP_LIKES_POST_FULFILLED = exports.DELETE_TOP_LIKES_POST_FULFILLED = 'DELETE_TOP_LIKES_POST_FULFILLED';
-var DELETE_TOP_LIKES_POST_REJECTED = exports.DELETE_TOP_LIKES_POST_REJECTED = 'DELETE_TOP_LIKES_POST_REJECTED';
-
 /***/ }),
 
 /***/ "./app/constants/topViewsPostsConstants.js":
@@ -54612,10 +54617,6 @@ Object.defineProperty(exports, "__esModule", {
 var FETCH_TOP_VIEWS_POSTS_PENDING = exports.FETCH_TOP_VIEWS_POSTS_PENDING = 'FETCH_TOP_VIEWS_POSTS_PENDING';
 var FETCH_TOP_VIEWS_POSTS_FULFILLED = exports.FETCH_TOP_VIEWS_POSTS_FULFILLED = 'FETCH_TOP_VIEWS_POSTS_FULFILLED';
 var FETCH_TOP_VIEWS_POSTS_REJECTED = exports.FETCH_TOP_VIEWS_POSTS_REJECTED = 'FETCH_TOP_VIEWS_POSTS_REJECTED';
-// удалить пост со страницы Рейтинги
-var DELETE_TOP_VIEWS_POST_PENDING = exports.DELETE_TOP_VIEWS_POST_PENDING = 'DELETE_TOP_VIEWS_POST_PENDING';
-var DELETE_TOP_VIEWS_POST_FULFILLED = exports.DELETE_TOP_VIEWS_POST_FULFILLED = 'DELETE_TOP_VIEWS_POST_FULFILLED';
-var DELETE_TOP_VIEWS_POST_REJECTED = exports.DELETE_TOP_VIEWS_POST_REJECTED = 'DELETE_TOP_VIEWS_POST_REJECTED';
 
 /***/ }),
 
@@ -54661,11 +54662,6 @@ var FETCH_USER_POSTS_SAMPLE_REJECTED = exports.FETCH_USER_POSTS_SAMPLE_REJECTED 
 var ADD_USER_POST_PENDING = exports.ADD_USER_POST_PENDING = 'ADD_USER_POST_PENDING';
 var ADD_USER_POST_FULFILLED = exports.ADD_USER_POST_FULFILLED = 'ADD_USER_POST_FULFILLED';
 var ADD_USER_POST_REJECTED = exports.ADD_USER_POST_REJECTED = 'ADD_USER_POST_REJECTED';
-
-// удалить пост
-var DELETE_USER_POST_PENDING = exports.DELETE_USER_POST_PENDING = 'DELETE_USER_POST_PENDING';
-var DELETE_USER_POST_FULFILLED = exports.DELETE_USER_POST_FULFILLED = 'DELETE_USER_POST_FULFILLED';
-var DELETE_USER_POST_REJECTED = exports.DELETE_USER_POST_REJECTED = 'DELETE_USER_POST_REJECTED';
 
 /***/ }),
 
@@ -55244,6 +55240,8 @@ var _feedActions = __webpack_require__(/*! ../actions/feedActions */ "./app/acti
 
 var _userPostsActions = __webpack_require__(/*! ../actions/userPostsActions */ "./app/actions/userPostsActions.js");
 
+var _deletePost2 = __webpack_require__(/*! ../actions/deletePost */ "./app/actions/deletePost.js");
+
 var _subsActions = __webpack_require__(/*! ../actions/subsActions */ "./app/actions/subsActions.js");
 
 var _followersActions = __webpack_require__(/*! ../actions/followersActions */ "./app/actions/followersActions.js");
@@ -55363,7 +55361,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         key: 'deletePost',
         value: function deletePost(post_id) {
             if (Object.keys(this.props.login).length === 0) return;
-            this.props.dispatch((0, _userPostsActions.deleteUserPost)(post_id));
+            this.props.dispatch((0, _deletePost2.deletePost)(post_id));
         }
 
         // изменить состояние
@@ -56075,7 +56073,7 @@ var _commentLikesActions = __webpack_require__(/*! ../actions/commentLikesAction
 
 var _loginActions = __webpack_require__(/*! ../actions/loginActions */ "./app/actions/loginActions.js");
 
-var _postsListActions = __webpack_require__(/*! ../actions/postsListActions */ "./app/actions/postsListActions.js");
+var _deletePost2 = __webpack_require__(/*! ../actions/deletePost */ "./app/actions/deletePost.js");
 
 var _autoload = __webpack_require__(/*! ../componentsFunctions/autoload */ "./app/componentsFunctions/autoload.js");
 
@@ -56187,7 +56185,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
         key: 'deletePost',
         value: function deletePost(post_id) {
             if (Object.keys(this.props.login).length === 0) return;
-            this.props.dispatch((0, _postsListActions.deletePost)(post_id));
+            this.props.dispatch((0, _deletePost2.deletePost)(post_id));
             this.setState({
                 redirect_after_delete: true
             });
@@ -56322,6 +56320,8 @@ var _reactRedux = __webpack_require__(/*! react-redux */ "../node_modules/react-
 
 var _postsListActions = __webpack_require__(/*! ../actions/postsListActions */ "./app/actions/postsListActions.js");
 
+var _deletePost2 = __webpack_require__(/*! ../actions/deletePost */ "./app/actions/deletePost.js");
+
 var _loginActions = __webpack_require__(/*! ../actions/loginActions */ "./app/actions/loginActions.js");
 
 var _postLikesActions = __webpack_require__(/*! ../actions/postLikesActions */ "./app/actions/postLikesActions.js");
@@ -56380,7 +56380,7 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
         key: 'deletePost',
         value: function deletePost(post_id) {
             if (Object.keys(this.props.login).length === 0) return;
-            this.props.dispatch((0, _postsListActions.deletePost)(post_id));
+            this.props.dispatch((0, _deletePost2.deletePost)(post_id));
         }
     }, {
         key: 'render',
@@ -56472,6 +56472,8 @@ var _topViewsPostsActions = __webpack_require__(/*! ../actions/topViewsPostsActi
 
 var _topLikesPostsActions = __webpack_require__(/*! ../actions/topLikesPostsActions */ "./app/actions/topLikesPostsActions.js");
 
+var _deletePost2 = __webpack_require__(/*! ../actions/deletePost */ "./app/actions/deletePost.js");
+
 var _blogerActions = __webpack_require__(/*! ../actions/blogerActions */ "./app/actions/blogerActions.js");
 
 var _commentatorActions = __webpack_require__(/*! ../actions/commentatorActions */ "./app/actions/commentatorActions.js");
@@ -56546,8 +56548,8 @@ var Ratings = (_dec = (0, _reactRedux.connect)(function (store) {
         key: 'deletePost',
         value: function deletePost(post_id) {
             if (Object.keys(this.props.login).length === 0) return;
-            this.props.dispatch((0, _topViewsPostsActions.deleteTopViewsPost)(post_id));
-            this.props.dispatch((0, _topLikesPostsActions.deleteTopLikesPost)(post_id));
+            this.props.dispatch((0, _deletePost2.deletePost)(post_id));
+            this.props.dispatch((0, _deletePost2.deletePost)(post_id));
             this.props.dispatch((0, _topViewsPostsActions.fetchTopViewsPosts)());
             this.props.dispatch((0, _topLikesPostsActions.fetchTopLikesPosts)());
         }
@@ -57974,6 +57976,10 @@ var _postsListConstants = __webpack_require__(/*! ../constants/postsListConstant
 
 var Posts = _interopRequireWildcard(_postsListConstants);
 
+var _deletePost = __webpack_require__(/*! ../constants/deletePost */ "./app/constants/deletePost.js");
+
+var DeletePost = _interopRequireWildcard(_deletePost);
+
 var _postLikesConstants = __webpack_require__(/*! ../constants/postLikesConstants */ "./app/constants/postLikesConstants.js");
 
 var PostLikes = _interopRequireWildcard(_postLikesConstants);
@@ -58061,18 +58067,18 @@ function postsListReducer() {
             }
 
         // удаление поста
-        case Posts.DELETE_POST_PENDING:
+        case DeletePost.DELETE_POST_PENDING:
             {
                 state = _extends({}, state, { is_fetching: true });
                 break;
             }
-        case Posts.DELETE_POST_FULFILLED:
+        case DeletePost.DELETE_POST_FULFILLED:
             {
                 var _posts3 = (0, _deletePostOrComment.deletePostOrComment)([].concat(_toConsumableArray(state.posts)), action.payload);
                 state = _extends({}, state, { is_fetching: false, posts: _posts3 });
                 break;
             }
-        case Posts.DELETE_POST_REJECTED:
+        case DeletePost.DELETE_POST_REJECTED:
             {
                 state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
                 break;
@@ -58195,6 +58201,10 @@ var _topLikesPostsConstants = __webpack_require__(/*! ../constants/topLikesPosts
 
 var TopLikesPosts = _interopRequireWildcard(_topLikesPostsConstants);
 
+var _deletePost = __webpack_require__(/*! ../constants/deletePost */ "./app/constants/deletePost.js");
+
+var DeletePost = _interopRequireWildcard(_deletePost);
+
 var _postLikesConstants = __webpack_require__(/*! ../constants/postLikesConstants */ "./app/constants/postLikesConstants.js");
 
 var PostLikes = _interopRequireWildcard(_postLikesConstants);
@@ -58280,19 +58290,19 @@ function topLikesPostsReducer() {
             }
 
         // удаление поста
-        case TopLikesPosts.DELETE_TOP_LIKES_POST_PENDING:
+        case DeletePost.DELETE_POST_PENDING:
             {
                 state = _extends({}, state, {
                     is_fetching: true });
                 break;
             }
-        case TopLikesPosts.DELETE_TOP_LIKES_POST_FULFILLED:
+        case DeletePost.DELETE_POST_FULFILLED:
             {
                 var _posts2 = (0, _deletePostOrComment.deletePostOrComment)([].concat(_toConsumableArray(state.posts)), action.payload);
                 state = _extends({}, state, { is_fetching: false, posts: _posts2 });
                 break;
             }
-        case TopLikesPosts.DELETE_TOP_LIKES_POST_REJECTED:
+        case DeletePost.DELETE_POST_REJECTED:
             {
                 state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
                 break;
@@ -58324,6 +58334,10 @@ exports.topViewsPostsReducer = topViewsPostsReducer;
 var _topViewsPostsConstants = __webpack_require__(/*! ../constants/topViewsPostsConstants */ "./app/constants/topViewsPostsConstants.js");
 
 var TopViewsPosts = _interopRequireWildcard(_topViewsPostsConstants);
+
+var _deletePost = __webpack_require__(/*! ../constants/deletePost */ "./app/constants/deletePost.js");
+
+var DeletePost = _interopRequireWildcard(_deletePost);
 
 var _postLikesConstants = __webpack_require__(/*! ../constants/postLikesConstants */ "./app/constants/postLikesConstants.js");
 
@@ -58410,19 +58424,19 @@ function topViewsPostsReducer() {
             }
 
         // удаление поста
-        case TopViewsPosts.DELETE_TOP_VIEWS_POST_PENDING:
+        case DeletePost.DELETE_POST_PENDING:
             {
                 state = _extends({}, state, {
                     is_fetching: true });
                 break;
             }
-        case TopViewsPosts.DELETE_TOP_VIEWS_POST_FULFILLED:
+        case DeletePost.DELETE_POST_FULFILLED:
             {
                 var _posts2 = (0, _deletePostOrComment.deletePostOrComment)([].concat(_toConsumableArray(state.posts)), action.payload);
                 state = _extends({}, state, { is_fetching: false, posts: _posts2 });
                 break;
             }
-        case TopViewsPosts.DELETE_TOP_VIEWS_POST_REJECTED:
+        case DeletePost.DELETE_POST_REJECTED:
             {
                 state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
                 break;
@@ -58456,6 +58470,10 @@ exports.userPostsReducer = userPostsReducer;
 var _userPostsConstants = __webpack_require__(/*! ../constants/userPostsConstants */ "./app/constants/userPostsConstants.js");
 
 var UserPosts = _interopRequireWildcard(_userPostsConstants);
+
+var _deletePost = __webpack_require__(/*! ../constants/deletePost */ "./app/constants/deletePost.js");
+
+var DeletePost = _interopRequireWildcard(_deletePost);
 
 var _postLikesConstants = __webpack_require__(/*! ../constants/postLikesConstants */ "./app/constants/postLikesConstants.js");
 
@@ -58562,18 +58580,18 @@ function userPostsReducer() {
             }
 
         // удаление поста
-        case UserPosts.DELETE_USER_POST_PENDING:
+        case DeletePost.DELETE_POST_PENDING:
             {
                 state = _extends({}, state, { is_fetching: true });
                 break;
             }
-        case UserPosts.DELETE_USER_POST_FULFILLED:
+        case DeletePost.DELETE_POST_FULFILLED:
             {
                 var _posts4 = (0, _deletePostOrComment.deletePostOrComment)([].concat(_toConsumableArray(state.posts)), action.payload);
                 state = _extends({}, state, { is_fetching: false, posts: _posts4 });
                 break;
             }
-        case UserPosts.DELETE_USER_POST_REJECTED:
+        case DeletePost.DELETE_POST_REJECTED:
             {
                 state = _extends({}, state, { is_fetching: false, error_message: action.payload.message });
                 break;

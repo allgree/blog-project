@@ -1,4 +1,5 @@
 import * as TopViewsPosts from '../constants/topViewsPostsConstants';
+import * as DeletePost from '../constants/deletePost';
 import * as PostLikes from '../constants/postLikesConstants';
 
 import {addLike} from '../reducersFunctions/addLike';
@@ -64,17 +65,17 @@ export function topViewsPostsReducer(state = {posts: [], is_fetching: false}, ac
         }
 
         // удаление поста
-        case TopViewsPosts.DELETE_TOP_VIEWS_POST_PENDING: {
+        case DeletePost.DELETE_POST_PENDING: {
             state = {...state,
                 is_fetching: true};
             break;
         }
-        case TopViewsPosts.DELETE_TOP_VIEWS_POST_FULFILLED: {
+        case DeletePost.DELETE_POST_FULFILLED: {
             let posts = deletePostOrComment([...state.posts], action.payload);
             state = {...state, is_fetching: false, posts: posts};
             break;
         }
-        case TopViewsPosts.DELETE_TOP_VIEWS_POST_REJECTED: {
+        case DeletePost.DELETE_POST_REJECTED: {
             state = {...state, is_fetching: false, error_message: action.payload.message};
             break;
         }

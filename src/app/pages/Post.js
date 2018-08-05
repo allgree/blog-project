@@ -8,7 +8,7 @@ import {fetchPostCommentsSample, addPostComment, deletePostComment} from "../act
 import {addPostLike, deletePostLike} from "../actions/postLikesActions";
 import {addCommentLike, deleteCommentLike} from "../actions/commentLikesActions";
 import {fetchLoginData} from "../actions/loginActions";
-import {deletePost} from "../actions/postsListActions";
+import {deletePost} from "../actions/deletePost";
 
 import {autoload} from '../componentsFunctions/autoload';
 import {like} from '../componentsFunctions/like';

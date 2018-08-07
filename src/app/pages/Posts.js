@@ -15,6 +15,7 @@ import {autoloadWithSearch} from '../componentsFunctions/autoloadWithSearch';
 import {like} from '../componentsFunctions/like';
 import {linkUp} from "../componentsFunctions/link_up";
 import {scrollTop} from "../componentsFunctions/scrollTop";
+import {searchPosts} from "../componentsFunctions/searchPosts";
 
 
 @connect((store) => {
@@ -58,17 +59,7 @@ export default class Posts extends React.Component {
 
     // обработка строки поиска
     search(form_value) {
-        if (!form_value) {
-            this.setState({
-                search_value: ''
-            });
-            this.props.dispatch(fetchPostsSample(0, ''));
-            return;
-        }
-        this.setState({
-            search_value: form_value || null
-        });
-        this.props.dispatch(fetchPostsSample(0, this.state.search_value))
+        searchPosts(form_value, this, fetchPostsSample);
     }
 
     render() {

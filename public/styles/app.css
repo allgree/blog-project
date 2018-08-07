@@ -3429,11 +3429,6 @@ nav {
 
 /*end OpinionForm*/
 /*SearchForm*/
-.search_form {
-  position: sticky;
-  top: 90px;
-  z-index: 20; }
-
 .search_form > #search {
   width: 300px;
   background-color: #1a1a1a;

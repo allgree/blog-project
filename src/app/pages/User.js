@@ -190,6 +190,7 @@ export default class User extends React.Component {
                              fetchUserPostsSample,
                              this.props.user_posts.length,
                              this.props.match.params.user_id);
+                    autoload(this.props, fetchUserPostsSample);
                     break;
                 }
                 case 'subscriptions': {

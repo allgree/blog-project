@@ -10,6 +10,7 @@ import {fetchPostsSample} from "../actions/postsListActions";
 import {deletePost} from "../actions/deletePost";
 import {fetchLoginData} from "../actions/loginActions";
 import {addPostLike, deletePostLike} from "../actions/postLikesActions";
+import {searchPosts} from "../componentsFunctions/searchPosts";
 
 import {autoloadWithSearch} from '../componentsFunctions/autoloadWithSearch';
 import {like} from '../componentsFunctions/like';
@@ -58,17 +59,7 @@ export default class Posts extends React.Component {
 
     // обработка строки поиска
     search(form_value) {
-        if (!form_value) {
-            this.setState({
-                search_value: ''
-            });
-            this.props.dispatch(fetchPostsSample(0, ''));
-            return;
-        }
-        this.setState({
-            search_value: form_value || null
-        });
-        this.props.dispatch(fetchPostsSample(0, this.state.search_value))
+        searchPosts(form_value, this, fetchPostsSample);
     }
 
     render() {

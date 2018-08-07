@@ -54367,6 +54367,75 @@ function scrollTop() {
 
 /***/ }),
 
+/***/ "./app/componentsFunctions/searchPosts.js":
+/*!************************************************!*\
+  !*** ./app/componentsFunctions/searchPosts.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.searchPosts = searchPosts;
+function searchPosts(form_value, obj, fetch) {
+    var id = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+    if (!form_value) {
+        obj.setState({
+            search_value: ''
+        });
+        obj.props.dispatch(fetch(0, '', id));
+        return;
+    }
+    obj.setState({
+        search_value: form_value || null
+    });
+    obj.props.dispatch(fetch(0, obj.state.search_value, id));
+}
+
+/***/ }),
+
+/***/ "./app/componentsFunctions/searchUsers.js":
+/*!************************************************!*\
+  !*** ./app/componentsFunctions/searchUsers.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.searchUsers = searchUsers;
+function searchUsers(form_value, obj, fetch) {
+    var id = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+    if (!form_value) {
+        obj.setState({
+            val1: '',
+            val2: ''
+        });
+        obj.props.dispatch(fetch(0, '', '', id));
+        return;
+    }
+    var values = form_value.split(' ').map(function (value, i) {
+        if (value !== '') return value;
+    });
+    obj.setState({
+        val1: values[0] || null,
+        val2: values[1] || null
+    });
+    obj.props.dispatch(fetch(0, obj.state.val1, obj.state.val2, id));
+}
+
+/***/ }),
+
 /***/ "./app/constants/blogerConstants.js":
 /*!******************************************!*\
   !*** ./app/constants/blogerConstants.js ***!
@@ -55207,6 +55276,8 @@ var _link_up = __webpack_require__(/*! ../componentsFunctions/link_up */ "./app/
 
 var _scrollTop = __webpack_require__(/*! ../componentsFunctions/scrollTop */ "./app/componentsFunctions/scrollTop.js");
 
+var _searchUsers = __webpack_require__(/*! ../componentsFunctions/searchUsers */ "./app/componentsFunctions/searchUsers.js");
+
 var _autoloadWithSearch = __webpack_require__(/*! ../componentsFunctions/autoloadWithSearch */ "./app/componentsFunctions/autoloadWithSearch.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -55218,7 +55289,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Blogs = (_dec = (0, _reactRedux.connect)(function (store) {
-
     return {
         users: store.usersList.users,
         is_users_fetching: store.usersList.is_fetching,
@@ -55251,22 +55321,7 @@ var Blogs = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(Blogs, [{
         key: 'search',
         value: function search(form_value) {
-            if (!form_value) {
-                this.setState({
-                    val1: '',
-                    val2: ''
-                });
-                this.props.dispatch((0, _usersListActions.fetchUsersSample)(0, '', ''));
-                return;
-            }
-            var values = form_value.split(' ').map(function (value, i) {
-                if (value !== '') return value;
-            });
-            this.setState({
-                val1: values[0] || null,
-                val2: values[1] || null
-            });
-            this.props.dispatch((0, _usersListActions.fetchUsersSample)(0, this.state.val1, this.state.val2));
+            (0, _searchUsers.searchUsers)(form_value, this, _usersListActions.fetchUsersSample);
         }
     }, {
         key: 'render',
@@ -56529,6 +56584,8 @@ var _loginActions = __webpack_require__(/*! ../actions/loginActions */ "./app/ac
 
 var _postLikesActions = __webpack_require__(/*! ../actions/postLikesActions */ "./app/actions/postLikesActions.js");
 
+var _searchPosts = __webpack_require__(/*! ../componentsFunctions/searchPosts */ "./app/componentsFunctions/searchPosts.js");
+
 var _autoloadWithSearch = __webpack_require__(/*! ../componentsFunctions/autoloadWithSearch */ "./app/componentsFunctions/autoloadWithSearch.js");
 
 var _like = __webpack_require__(/*! ../componentsFunctions/like */ "./app/componentsFunctions/like.js");
@@ -56595,17 +56652,7 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'search',
         value: function search(form_value) {
-            if (!form_value) {
-                this.setState({
-                    search_value: ''
-                });
-                this.props.dispatch((0, _postsListActions.fetchPostsSample)(0, ''));
-                return;
-            }
-            this.setState({
-                search_value: form_value || null
-            });
-            this.props.dispatch((0, _postsListActions.fetchPostsSample)(0, this.state.search_value));
+            (0, _searchPosts.searchPosts)(form_value, this, _postsListActions.fetchPostsSample);
         }
     }, {
         key: 'render',
@@ -57355,6 +57402,7 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                     case 'posts':
                         {
                             (0, _autoload.autoload)(_this3.props.is_user_posts_fetching, _this3.props.user_posts_empty, _this3.props.dispatch, _userPostsActions.fetchUserPostsSample, _this3.props.user_posts.length, _this3.props.match.params.user_id);
+                            (0, _autoload.autoload)(_this3.props, _userPostsActions.fetchUserPostsSample);
                             break;
                         }
                     case 'subscriptions':

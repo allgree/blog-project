@@ -10,11 +10,11 @@ import {fetchUsersSample} from "../actions/usersListActions";
 import {fetchLoginData} from "../actions/loginActions";
 import {linkUp} from "../componentsFunctions/link_up";
 import {scrollTop} from "../componentsFunctions/scrollTop";
+import {searchUsers} from "../componentsFunctions/searchUsers";
 
 import {autoloadWithSearch} from '../componentsFunctions/autoloadWithSearch';
 
 @connect((store) => {
-
     return {
         users: store.usersList.users,
         is_users_fetching: store.usersList.is_fetching,
@@ -38,22 +38,7 @@ export default class Blogs extends React.Component {
 
     // обработка строки поиска
     search(form_value) {
-        if (!form_value) {
-            this.setState({
-                val1: '',
-                val2: ''
-            });
-            this.props.dispatch(fetchUsersSample(0, '', ''));
-            return;
-        }
-        let values = form_value.split(' ').map((value, i) => {
-            if (value !== '') return value;
-        });
-        this.setState({
-           val1: values[0] || null,
-           val2: values[1] || null
-        });
-        this.props.dispatch(fetchUsersSample(0, this.state.val1, this.state.val2))
+        searchUsers(form_value, this, fetchUsersSample);
     }
 
     render() {
@@ -79,6 +64,7 @@ export default class Blogs extends React.Component {
             </div>
         )
     }
+
 
     componentDidMount() {
         scrollTop();

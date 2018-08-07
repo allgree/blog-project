@@ -6,7 +6,6 @@ import PostItem from '../components/Content/PostItem';
 import UserItem from '../components/Content/UserItem';
 import UserProfile from '../components/Content/UserProfile';
 import Loader from '../components/Content/Loader';
-import SearchFrom from '../components/Content/forms/SearchForm';
 
 import {fetchUser} from "../actions/userActions";
 import {fetchUserPostsSample} from "../actions/userPostsActions";
@@ -16,12 +15,9 @@ import {fetchUserSubsSample} from "../actions/subsActions";
 import {fetchUserFollowersSample, addFollower, deleteFollower} from "../actions/followersActions";
 
 import {autoload} from '../componentsFunctions/autoload';
-import {autoloadWithSearchById} from "../componentsFunctions/autoloadWithSearchById";
 import {like} from '../componentsFunctions/like';
 import {linkUp} from "../componentsFunctions/link_up";
 import {scrollTop} from "../componentsFunctions/scrollTop";
-import {searchPosts} from "../componentsFunctions/searchPosts";
-import {searchUsers} from "../componentsFunctions/searchUsers";
 
 @connect((store) => {
     return {
@@ -45,28 +41,22 @@ import {searchUsers} from "../componentsFunctions/searchUsers";
     }
 })
 
-
 export default class User extends React.Component {
     constructor() {
         super(...arguments);
         this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchUser(this.props.match.params.user_id));
-        this.props.dispatch(fetchUserPostsSample(0,  '', this.props.match.params.user_id));
-        this.props.dispatch(fetchUserSubsSample(0, '', '', this.props.match.params.user_id));
+        this.props.dispatch(fetchUserPostsSample(0, this.props.match.params.user_id));
+        this.props.dispatch(fetchUserSubsSample(0, this.props.match.params.user_id));
         this.props.dispatch(fetchUserFollowersSample(0, this.props.match.params.user_id));
 
         this.state = {
-            content: 'posts',
-            post_search_value: '',
-            subs_search_value_1: '',
-            subs_search_value_2: '',
+            content: 'posts'
         };
 
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.subscript = this.subscript.bind(this);
         this.unsubscript = this.unsubscript.bind(this);
-        this.searchPosts = this.searchPosts.bind(this);
-        this.searchSubs = this.searchSubs.bind(this);
     }
 
     // добавить/удалить лайк к посту
@@ -92,15 +82,6 @@ export default class User extends React.Component {
     // отписаться от пользователя
     unsubscript() {
         this.props.dispatch(deleteFollower(this.props.login.id, this.props.user.id));
-    }
-
-    // обработка строки поиска постов
-    searchPosts(form_value) {
-        searchPosts(form_value, this, fetchUserPostsSample, this.props.match.params.user_id);
-    }
-
-    searchSubs(form_value) {
-        searchUsers(form_value, this, fetchUserSubsSample, this.props.match.params.user_id)
     }
 
     render() {
@@ -158,8 +139,6 @@ export default class User extends React.Component {
 
                 {this.state.content === 'posts' &&
                     <aside className="content__user_aside user_content">
-                        <SearchFrom search={this.searchPosts}
-                                    placeholder={'Введите заголовок записи'}/>
                         {this.props.user_posts.length !== 0 &&
                         <div>{posts}</div>}
                         <span className="point"/>
@@ -169,8 +148,6 @@ export default class User extends React.Component {
                 }
                 {this.state.content === 'subscriptions' &&
                     <aside className="content__user_aside user_content">
-                        <SearchFrom search={this.searchSubs}
-                                    placeholder={'Введите имя и фамилию'}/>
                         {this.props.subs.length !== 0 &&
                         <div>{subs}</div>}
                         <span className="point"/>
@@ -202,24 +179,21 @@ export default class User extends React.Component {
             linkUp();
             switch (this.state.content) {
                 case 'posts': {
-                    autoloadWithSearchById(this.props.is_user_posts_fetching,
+                    autoload(this.props.is_user_posts_fetching,
                              this.props.user_posts_empty,
                              this.props.dispatch,
                              fetchUserPostsSample,
                              this.props.user_posts.length,
-                             this.props.match.params.user_id,
-                             this.state.post_search_value);
+                             this.props.match.params.user_id);
                     break;
                 }
                 case 'subscriptions': {
-                    autoloadWithSearchById(this.props.is_subs_fetching,
+                    autoload(this.props.is_subs_fetching,
                         this.props.subs_empty,
                         this.props.dispatch,
                         fetchUserSubsSample,
                         this.props.subs.length,
-                        this.props.match.params.user_id,
-                        this.state.subs_search_value_1,
-                        this.state.subs_search_value_2);
+                        this.props.match.params.user_id);
                     break;
                 }
                 case 'followers': {

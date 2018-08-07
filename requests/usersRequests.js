@@ -52,15 +52,35 @@ let Users = {
             attributes: {exclude: ['login', 'password', 'createdAt', 'updatedAt']},
             where: val2 !== 'null'
                 ?
-                {[Sequelize.Op.and]: [
-                        {name: {[Sequelize.Op.like]: `${val1}%`}},
-                        {surname: {[Sequelize.Op.like]: `${val2}%`}}
-                    ]}
+                {
+                    [Sequelize.Op.and]: [
+                        {
+                            name: {
+                                [Sequelize.Op.like]: `${val1}%`
+                            }
+                        },
+                        {
+                            surname: {
+                                [Sequelize.Op.like]: `${val2}%`
+                            }
+                        }
+                    ]
+                }
                 :
-                {[Sequelize.Op.or]: [
-                        {name: {[Sequelize.Op.like]: `${val1}%`}},
-                        {surname: {[Sequelize.Op.like]: `${val1}%`}}
-                    ]},
+                {
+                    [Sequelize.Op.or]: [
+                        {
+                            name: {
+                                [Sequelize.Op.like]: `${val1}%`
+                            }
+                        },
+                        {
+                            surname: {
+                                [Sequelize.Op.like]: `${val1}%`
+                            }
+                        }
+                    ]
+                },
             offset: offset,
             limit: limit
         })

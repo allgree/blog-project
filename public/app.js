@@ -51137,10 +51137,10 @@ var _axios2 = _interopRequireDefault(_axios);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // получить выборку подписок пользователя для автоподгрузки
-function fetchUserSubsSample(offset, val1, val2, user_id) {
+function fetchUserSubsSample(offset, user_id) {
     return {
         type: 'FETCH_USER_SUBS_SAMPLE',
-        payload: _axios2.default.get('/api/subs/sample/subs/?user_id=' + user_id + '&val_1=' + val1 + '&val_2=' + val2 + '&offset=' + offset)
+        payload: _axios2.default.get('/api/subs/sample/subs/?user_id=' + user_id + '&offset=' + offset)
     };
 }
 
@@ -51273,10 +51273,10 @@ var _axios2 = _interopRequireDefault(_axios);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // получить выборку постов пользователя для автоподгрузки
-function fetchUserPostsSample(offset, value, user_id) {
+function fetchUserPostsSample(offset, user_id) {
     return {
         type: 'FETCH_USER_POSTS_SAMPLE',
-        payload: _axios2.default.get('/api/posts/user-posts-sample/?user_id=' + user_id + '&value=' + value + '&offset=' + offset)
+        payload: _axios2.default.get('/api/posts/user-posts-sample/?user_id=' + user_id + '&offset=' + offset)
     };
 }
 
@@ -54253,41 +54253,6 @@ function autoloadWithSearch(is_fetching, is_empty, dispatch, fetch, lenght) {
 
 /***/ }),
 
-/***/ "./app/componentsFunctions/autoloadWithSearchById.js":
-/*!***********************************************************!*\
-  !*** ./app/componentsFunctions/autoloadWithSearchById.js ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function($) {
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.autoloadWithSearchById = autoloadWithSearchById;
-// автоподгрузка контента с поиском
-function autoloadWithSearchById(is_fetching, is_empty, dispatch, fetch, lenght, id) {
-    var val1 = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : '';
-    var val2 = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : '';
-
-    var $point = $('.point');
-    if (!$point[0]) {
-        return;
-    }
-    var point = $point.offset().top; // точка где заканчиваются новые записи
-    var scroll_top = $(document).scrollTop(); //Насколько прокручена страница сверху (без учета высоты окна)
-    var height = $(window).height(); // Высота окна
-    var load_flag = scroll_top + height >= point; // Флаг подгружаем ли данные
-    if (load_flag && !is_fetching && !is_empty) {
-        dispatch(fetch(lenght, id, val1, val2));
-    }
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "../node_modules/jquery/dist/jquery.js")))
-
-/***/ }),
-
 /***/ "./app/componentsFunctions/formatTimestamp.js":
 /*!****************************************************!*\
   !*** ./app/componentsFunctions/formatTimestamp.js ***!
@@ -54393,75 +54358,6 @@ function scrollTop() {
     $('html, body').animate({ scrollTop: 0 }, 'slow');
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "../node_modules/jquery/dist/jquery.js")))
-
-/***/ }),
-
-/***/ "./app/componentsFunctions/searchPosts.js":
-/*!************************************************!*\
-  !*** ./app/componentsFunctions/searchPosts.js ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.searchPosts = searchPosts;
-function searchPosts(form_value, obj, fetch) {
-    var id = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
-
-    if (!form_value) {
-        obj.setState({
-            search_value: ''
-        });
-        obj.props.dispatch(fetch(0, '', id));
-        return;
-    }
-    obj.setState({
-        search_value: form_value || null
-    });
-    obj.props.dispatch(fetch(0, obj.state.search_value, id));
-}
-
-/***/ }),
-
-/***/ "./app/componentsFunctions/searchUsers.js":
-/*!************************************************!*\
-  !*** ./app/componentsFunctions/searchUsers.js ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.searchUsers = searchUsers;
-function searchUsers(form_value, obj, fetch) {
-    var id = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
-
-    if (!form_value) {
-        obj.setState({
-            val1: '',
-            val2: ''
-        });
-        obj.props.dispatch(fetch(0, '', '', id));
-        return;
-    }
-    var values = form_value.split(' ').map(function (value, i) {
-        if (value !== '') return value;
-    });
-    obj.setState({
-        val1: values[0] || null,
-        val2: values[1] || null
-    });
-    obj.props.dispatch(fetch(0, obj.state.val1, obj.state.val2, id));
-}
 
 /***/ }),
 
@@ -55305,8 +55201,6 @@ var _link_up = __webpack_require__(/*! ../componentsFunctions/link_up */ "./app/
 
 var _scrollTop = __webpack_require__(/*! ../componentsFunctions/scrollTop */ "./app/componentsFunctions/scrollTop.js");
 
-var _searchUsers = __webpack_require__(/*! ../componentsFunctions/searchUsers */ "./app/componentsFunctions/searchUsers.js");
-
 var _autoloadWithSearch = __webpack_require__(/*! ../componentsFunctions/autoloadWithSearch */ "./app/componentsFunctions/autoloadWithSearch.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -55351,7 +55245,22 @@ var Blogs = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(Blogs, [{
         key: 'search',
         value: function search(form_value) {
-            (0, _searchUsers.searchUser)(form_value, this, _usersListActions.fetchUsersSample);
+            if (!form_value) {
+                this.setState({
+                    val1: '',
+                    val2: ''
+                });
+                this.props.dispatch((0, _usersListActions.fetchUsersSample)(0, '', ''));
+                return;
+            }
+            var values = form_value.split(' ').map(function (value, i) {
+                if (value !== '') return value;
+            });
+            this.setState({
+                val1: values[0] || null,
+                val2: values[1] || null
+            });
+            this.props.dispatch((0, _usersListActions.fetchUsersSample)(0, this.state.val1, this.state.val2));
         }
     }, {
         key: 'render',
@@ -55466,10 +55375,6 @@ var _EditPassForm = __webpack_require__(/*! ../components/Content/forms/EditPass
 
 var _EditPassForm2 = _interopRequireDefault(_EditPassForm);
 
-var _SearchForm = __webpack_require__(/*! ../components/Content/forms/SearchForm */ "./app/components/Content/forms/SearchForm.js");
-
-var _SearchForm2 = _interopRequireDefault(_SearchForm);
-
 var _feedActions = __webpack_require__(/*! ../actions/feedActions */ "./app/actions/feedActions.js");
 
 var _userPostsActions = __webpack_require__(/*! ../actions/userPostsActions */ "./app/actions/userPostsActions.js");
@@ -55486,15 +55391,11 @@ var _loginActions = __webpack_require__(/*! ../actions/loginActions */ "./app/ac
 
 var _autoload = __webpack_require__(/*! ../componentsFunctions/autoload */ "./app/componentsFunctions/autoload.js");
 
-var _autoloadWithSearchById = __webpack_require__(/*! ../componentsFunctions/autoloadWithSearchById */ "./app/componentsFunctions/autoloadWithSearchById.js");
-
 var _like = __webpack_require__(/*! ../componentsFunctions/like */ "./app/componentsFunctions/like.js");
 
 var _link_up = __webpack_require__(/*! ../componentsFunctions/link_up */ "./app/componentsFunctions/link_up.js");
 
 var _scrollTop = __webpack_require__(/*! ../componentsFunctions/scrollTop */ "./app/componentsFunctions/scrollTop.js");
-
-var _searchPosts2 = __webpack_require__(/*! ../componentsFunctions/searchPosts */ "./app/componentsFunctions/searchPosts.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -55538,7 +55439,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.props.dispatch((0, _loginActions.fetchLoginData)());
         if (_this.props.login.id) {
             _this.props.dispatch((0, _feedActions.fetchFeedPostsSample)(0, _this.props.login.id));
-            _this.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(0, '', _this.props.login.id));
+            _this.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(0, _this.props.login.id));
             _this.props.dispatch((0, _subsActions.fetchUserSubsSample)(0, _this.props.login.id));
             _this.props.dispatch((0, _followersActions.fetchUserFollowersSample)(0, _this.props.login.id));
         }
@@ -55552,7 +55453,6 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.changeAvatar = _this.changeAvatar.bind(_this);
         _this.unsub = _this.unsub.bind(_this);
         _this.unsubscribe = _this.unsubscribe.bind(_this);
-        _this.searchPosts = _this.searchPosts.bind(_this);
 
         _this.state = {
             info: 'info',
@@ -55560,8 +55460,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
             post: 'button',
             content: 'feed',
             valid_old_pass: true,
-            valid_new_pass: true,
-            post_search_value: ''
+            valid_new_pass: true
         };
 
         _this.extensions = ['jpeg', 'jpg'];
@@ -55690,14 +55589,6 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         key: 'unsubscribe',
         value: function unsubscribe(user_id) {
             this.props.dispatch((0, _followersActions.deleteFollower)(user_id, this.props.login.id));
-        }
-
-        // обработка строки поиска постов
-
-    }, {
-        key: 'searchPosts',
-        value: function searchPosts(form_value) {
-            (0, _searchPosts2.searchPosts)(form_value, this, _userPostsActions.fetchUserPostsSample, this.props.login.id);
         }
     }, {
         key: 'render',
@@ -55852,8 +55743,6 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                         trigger: this.trigger,
                         state_param: 'post',
                         state_value: 'button' }),
-                    _react2.default.createElement(_SearchForm2.default, { search: this.searchPosts,
-                        placeholder: 'Введите заголовок записи' }),
                     this.props.user_posts.length !== 0 && _react2.default.createElement(
                         'div',
                         null,
@@ -55910,7 +55799,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                         }
                     case 'posts':
                         {
-                            (0, _autoloadWithSearchById.autoloadWithSearchById)(_this4.props.is_user_posts_fetching, _this4.props.user_posts_empty, _this4.props.dispatch, _userPostsActions.fetchUserPostsSample, _this4.props.user_posts.length, _this4.props.login.id, _this4.state.post_search_value);
+                            (0, _autoload.autoload)(_this4.props.is_user_posts_fetching, _this4.props.user_posts_empty, _this4.props.dispatch, _userPostsActions.fetchUserPostsSample, _this4.props.user_posts.length, _this4.props.login.id);
                             break;
                         }
                     case 'subscriptions':
@@ -56588,8 +56477,6 @@ var _link_up = __webpack_require__(/*! ../componentsFunctions/link_up */ "./app/
 
 var _scrollTop = __webpack_require__(/*! ../componentsFunctions/scrollTop */ "./app/componentsFunctions/scrollTop.js");
 
-var _searchPosts = __webpack_require__(/*! ../componentsFunctions/searchPosts */ "./app/componentsFunctions/searchPosts.js");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -56648,7 +56535,17 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'search',
         value: function search(form_value) {
-            (0, _searchPosts.searchPosts)(form_value, this, _postsListActions.fetchPostsSample);
+            if (!form_value) {
+                this.setState({
+                    search_value: ''
+                });
+                this.props.dispatch((0, _postsListActions.fetchPostsSample)(0, ''));
+                return;
+            }
+            this.setState({
+                search_value: form_value || null
+            });
+            this.props.dispatch((0, _postsListActions.fetchPostsSample)(0, this.state.search_value));
         }
     }, {
         key: 'render',
@@ -57170,10 +57067,6 @@ var _Loader = __webpack_require__(/*! ../components/Content/Loader */ "./app/com
 
 var _Loader2 = _interopRequireDefault(_Loader);
 
-var _SearchForm = __webpack_require__(/*! ../components/Content/forms/SearchForm */ "./app/components/Content/forms/SearchForm.js");
-
-var _SearchForm2 = _interopRequireDefault(_SearchForm);
-
 var _userActions = __webpack_require__(/*! ../actions/userActions */ "./app/actions/userActions.js");
 
 var _userPostsActions = __webpack_require__(/*! ../actions/userPostsActions */ "./app/actions/userPostsActions.js");
@@ -57188,17 +57081,11 @@ var _followersActions = __webpack_require__(/*! ../actions/followersActions */ "
 
 var _autoload = __webpack_require__(/*! ../componentsFunctions/autoload */ "./app/componentsFunctions/autoload.js");
 
-var _autoloadWithSearchById = __webpack_require__(/*! ../componentsFunctions/autoloadWithSearchById */ "./app/componentsFunctions/autoloadWithSearchById.js");
-
 var _like = __webpack_require__(/*! ../componentsFunctions/like */ "./app/componentsFunctions/like.js");
 
 var _link_up = __webpack_require__(/*! ../componentsFunctions/link_up */ "./app/componentsFunctions/link_up.js");
 
 var _scrollTop = __webpack_require__(/*! ../componentsFunctions/scrollTop */ "./app/componentsFunctions/scrollTop.js");
-
-var _searchPosts2 = __webpack_require__(/*! ../componentsFunctions/searchPosts */ "./app/componentsFunctions/searchPosts.js");
-
-var _searchUsers = __webpack_require__(/*! ../componentsFunctions/searchUsers */ "./app/componentsFunctions/searchUsers.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -57238,22 +57125,17 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
 
         _this.props.dispatch((0, _loginActions.fetchLoginData)());
         _this.props.dispatch((0, _userActions.fetchUser)(_this.props.match.params.user_id));
-        _this.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(0, '', _this.props.match.params.user_id));
-        _this.props.dispatch((0, _subsActions.fetchUserSubsSample)(0, '', '', _this.props.match.params.user_id));
+        _this.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(0, _this.props.match.params.user_id));
+        _this.props.dispatch((0, _subsActions.fetchUserSubsSample)(0, _this.props.match.params.user_id));
         _this.props.dispatch((0, _followersActions.fetchUserFollowersSample)(0, _this.props.match.params.user_id));
 
         _this.state = {
-            content: 'posts',
-            post_search_value: '',
-            subs_search_value_1: '',
-            subs_search_value_2: ''
+            content: 'posts'
         };
 
         _this.triggerPostLike = _this.triggerPostLike.bind(_this);
         _this.subscript = _this.subscript.bind(_this);
         _this.unsubscript = _this.unsubscript.bind(_this);
-        _this.searchPosts = _this.searchPosts.bind(_this);
-        _this.searchSubs = _this.searchSubs.bind(_this);
         return _this;
     }
 
@@ -57288,19 +57170,6 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
         key: 'unsubscript',
         value: function unsubscript() {
             this.props.dispatch((0, _followersActions.deleteFollower)(this.props.login.id, this.props.user.id));
-        }
-
-        // обработка строки поиска постов
-
-    }, {
-        key: 'searchPosts',
-        value: function searchPosts(form_value) {
-            (0, _searchPosts2.searchPosts)(form_value, this, _userPostsActions.fetchUserPostsSample, this.props.match.params.user_id);
-        }
-    }, {
-        key: 'searchSubs',
-        value: function searchSubs(form_value) {
-            (0, _searchUsers.searchUsers)(form_value, this, _subsActions.fetchUserSubsSample, this.props.match.params.user_id);
         }
     }, {
         key: 'render',
@@ -57372,8 +57241,6 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                 this.state.content === 'posts' && _react2.default.createElement(
                     'aside',
                     { className: 'content__user_aside user_content' },
-                    _react2.default.createElement(_SearchForm2.default, { search: this.searchPosts,
-                        placeholder: 'Введите заголовок записи' }),
                     this.props.user_posts.length !== 0 && _react2.default.createElement(
                         'div',
                         null,
@@ -57385,8 +57252,6 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                 this.state.content === 'subscriptions' && _react2.default.createElement(
                     'aside',
                     { className: 'content__user_aside user_content' },
-                    _react2.default.createElement(_SearchForm2.default, { search: this.searchSubs,
-                        placeholder: 'Введите имя и фамилию' }),
                     this.props.subs.length !== 0 && _react2.default.createElement(
                         'div',
                         null,
@@ -57427,12 +57292,12 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                 switch (_this3.state.content) {
                     case 'posts':
                         {
-                            (0, _autoloadWithSearchById.autoloadWithSearchById)(_this3.props.is_user_posts_fetching, _this3.props.user_posts_empty, _this3.props.dispatch, _userPostsActions.fetchUserPostsSample, _this3.props.user_posts.length, _this3.props.match.params.user_id, _this3.state.post_search_value);
+                            (0, _autoload.autoload)(_this3.props.is_user_posts_fetching, _this3.props.user_posts_empty, _this3.props.dispatch, _userPostsActions.fetchUserPostsSample, _this3.props.user_posts.length, _this3.props.match.params.user_id);
                             break;
                         }
                     case 'subscriptions':
                         {
-                            (0, _autoloadWithSearchById.autoloadWithSearchById)(_this3.props.is_subs_fetching, _this3.props.subs_empty, _this3.props.dispatch, _subsActions.fetchUserSubsSample, _this3.props.subs.length, _this3.props.match.params.user_id, _this3.state.subs_search_value_1, _this3.state.subs_search_value_2);
+                            (0, _autoload.autoload)(_this3.props.is_subs_fetching, _this3.props.subs_empty, _this3.props.dispatch, _subsActions.fetchUserSubsSample, _this3.props.subs.length, _this3.props.match.params.user_id);
                             break;
                         }
                     case 'followers':

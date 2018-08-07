@@ -57,7 +57,9 @@ let Posts = {
         PostsModel.findAll({
             attributes: {exclude: ['updatedAt']},
             where: {
-                title: {[Sequelize.Op.like]: `${value}%`}
+                title: {
+                    [Sequelize.Op.like]: `${value}%`
+                }
             },
             include: [{
                 model: UsersModel,
@@ -75,13 +77,10 @@ let Posts = {
     },
 
     // выборка постов одного пользователя для автоподгрузки
-    findByUserIdSample: (limit, offset, user_id, value, callback) => {
+    findByUserIdSample: (limit, offset, user_id, callback) => {
         PostsModel.findAll({
             where: {
-                user_id: user_id,
-                title: {
-                    [Sequelize.Op.like]: `${value}%`
-                }
+                user_id: user_id
             },
             attributes: {exclude: ['updatedAt']},
             offset: offset,

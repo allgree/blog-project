@@ -5,7 +5,7 @@ const Subscriptons = require('../requests/subscriptionsRequests');
 
 // выборка подписок пользователя для автоподгрузки
 router.get('/sample/subs/', (req, res, next) => {
-    Subscriptons.findSampleSubs(10, +req.query.offset, +req.query.user_id, req.query.val_1, req.query.val_2, (result) => {
+    Subscriptons.findSampleSubs(10, +req.query.offset, +req.query.user_id, (result) => {
         res.json(result);
     })
 });

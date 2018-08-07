@@ -12,7 +12,6 @@ import AvatarForm from '../components/Content/forms/AvatarForm';
 import LoginProfile from '../components/Content/LoginProfile';
 import EditUserForm from '../components/Content/forms/EditUserForm';
 import EditPassForm from '../components/Content/forms/EditPassForm';
-import SearchFrom from '../components/Content/forms/SearchForm';
 
 
 import {fetchFeedPostsSample} from "../actions/feedActions";
@@ -23,11 +22,9 @@ import {fetchUserFollowersSample, deleteFollower} from "../actions/followersActi
 import {addPostLike, deletePostLike} from "../actions/postLikesActions";
 import {editUser, changeAvatar, fetchLoginData} from "../actions/loginActions";
 import {autoload} from "../componentsFunctions/autoload";
-import {autoloadWithSearchById} from "../componentsFunctions/autoloadWithSearchById";
 import {like} from '../componentsFunctions/like';
 import {linkUp} from "../componentsFunctions/link_up";
 import {scrollTop} from "../componentsFunctions/scrollTop";
-import {searchPosts} from "../componentsFunctions/searchPosts";
 
 @connect((store) => {
     return {
@@ -57,7 +54,7 @@ export default class Cabinet extends React.Component {
         this.props.dispatch(fetchLoginData());
         if (this.props.login.id) {
             this.props.dispatch(fetchFeedPostsSample(0, this.props.login.id));
-            this.props.dispatch(fetchUserPostsSample(0, '', this.props.login.id));
+            this.props.dispatch(fetchUserPostsSample(0, this.props.login.id));
             this.props.dispatch(fetchUserSubsSample(0, this.props.login.id));
             this.props.dispatch(fetchUserFollowersSample(0, this.props.login.id));
         }
@@ -71,7 +68,6 @@ export default class Cabinet extends React.Component {
         this.changeAvatar = this.changeAvatar.bind(this);
         this.unsub = this.unsub.bind(this);
         this.unsubscribe = this.unsubscribe.bind(this);
-        this.searchPosts = this.searchPosts.bind(this);
 
         this.state = {
             info: 'info',
@@ -79,8 +75,7 @@ export default class Cabinet extends React.Component {
             post: 'button',
             content: 'feed',
             valid_old_pass: true,
-            valid_new_pass: true,
-            post_search_value: ''
+            valid_new_pass: true
         };
 
         this.extensions = ['jpeg', 'jpg'];
@@ -159,6 +154,9 @@ export default class Cabinet extends React.Component {
         }
     }
 
+
+
+
     // поменять аватар
     changeAvatar(files) {
         console.log(files);
@@ -188,11 +186,6 @@ export default class Cabinet extends React.Component {
     // отписать пользователя от себя
     unsubscribe(user_id) {
         this.props.dispatch(deleteFollower(user_id, this.props.login.id))
-    }
-
-    // обработка строки поиска постов
-    searchPosts(form_value) {
-        searchPosts(form_value, this, fetchUserPostsSample, this.props.login.id)
     }
 
     render() {
@@ -317,8 +310,7 @@ export default class Cabinet extends React.Component {
                               trigger={this.trigger}
                               state_param="post"
                               state_value="button"/>}
-                    <SearchFrom search={this.searchPosts}
-                                placeholder={'Введите заголовок записи'}/>
+
                     {this.props.user_posts.length !== 0 &&
                     <div>{posts}</div>}
                     <span className="point"/>
@@ -369,13 +361,12 @@ export default class Cabinet extends React.Component {
                     break;
                 }
                 case 'posts': {
-                    autoloadWithSearchById(this.props.is_user_posts_fetching,
+                    autoload(this.props.is_user_posts_fetching,
                              this.props.user_posts_empty,
                              this.props.dispatch,
                              fetchUserPostsSample,
                              this.props.user_posts.length,
-                             this.props.login.id,
-                             this.state.post_search_value);
+                             this.props.login.id);
                     break;
                 }
                 case 'subscriptions': {

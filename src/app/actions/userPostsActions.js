@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 // получить выборку постов пользователя для автоподгрузки
-export function fetchUserPostsSample(offset, value, user_id) {
+export function fetchUserPostsSample(offset, user_id) {
     return {
         type: 'FETCH_USER_POSTS_SAMPLE',
-        payload: axios.get(`/api/posts/user-posts-sample/?user_id=${user_id}&value=${value}&offset=${offset}`)
+        payload: axios.get(`/api/posts/user-posts-sample/?user_id=${user_id}&offset=${offset}`)
     }
 }
 

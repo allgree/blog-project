@@ -18,6 +18,7 @@ import Unlogged from './app/pages/Unlogged';
 import Cabinet from './app/pages/Cabinet';
 import Register from './app/pages/Register';
 import PageNotFound from './app/pages/PageNotFound';
+import ChangeMatchParam from "./app/pages/ChangeMatchParam";
 
 const app = document.getElementById('app');
 
@@ -39,6 +40,7 @@ class App extends React.Component {
                                 <Route path="/unlogged" component={Unlogged}/>
                                 <Route path="/cabinet" component={Cabinet}/>
                                 <Route path="/register" component={Register}/>
+                                <Route path="/change_match_param/:id" component={ChangeMatchParam}/>
                                 <Route path="*" component={PageNotFound}/>
                             </Switch>
                         </Layout>

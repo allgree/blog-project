@@ -154,9 +154,6 @@ export default class Cabinet extends React.Component {
         }
     }
 
-
-
-
     // поменять аватар
     changeAvatar(files) {
         console.log(files);

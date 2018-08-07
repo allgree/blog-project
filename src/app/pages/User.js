@@ -14,6 +14,7 @@ import {fetchLoginData} from "../actions/loginActions";
 import {fetchUserSubsSample} from "../actions/subsActions";
 import {fetchUserFollowersSample, addFollower, deleteFollower} from "../actions/followersActions";
 
+
 import {autoload} from '../componentsFunctions/autoload';
 import {like} from '../componentsFunctions/like';
 import {linkUp} from "../componentsFunctions/link_up";
@@ -45,11 +46,11 @@ export default class User extends React.Component {
     constructor() {
         super(...arguments);
         this.props.dispatch(fetchLoginData());
+
         this.props.dispatch(fetchUser(this.props.match.params.user_id));
         this.props.dispatch(fetchUserPostsSample(0, this.props.match.params.user_id));
         this.props.dispatch(fetchUserSubsSample(0, this.props.match.params.user_id));
         this.props.dispatch(fetchUserFollowersSample(0, this.props.match.params.user_id));
-
         this.state = {
             content: 'posts'
         };
@@ -84,6 +85,8 @@ export default class User extends React.Component {
         this.props.dispatch(deleteFollower(this.props.login.id, this.props.user.id));
     }
 
+
+
     render() {
         if (this.props.login.id && this.props.login.id === +this.props.match.params.user_id) {
             return <Redirect to="/cabinet"/>
@@ -99,13 +102,15 @@ export default class User extends React.Component {
         let subs = this.props.subs.map((sub, index) =>{
             return <UserItem key={index}
                              user={sub.sub_user}
-                             button={false}/>;
+                             button={false}
+                             change_match_param={true}/>;
         });
 
         let followers = this.props.followers.map((subscribe, index) => {
            return <UserItem key={index}
                             user={subscribe.user}
-                            button={false}/>
+                            button={false}
+                            change_match_param={true}/>
         });
 
         return (

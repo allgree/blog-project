@@ -51683,10 +51683,10 @@ exports.default = Loader;
 
 /***/ }),
 
-/***/ "./app/components/Content/LoginProfile.js":
-/*!************************************************!*\
-  !*** ./app/components/Content/LoginProfile.js ***!
-  \************************************************/
+/***/ "./app/components/Content/LoginInfo.js":
+/*!*********************************************!*\
+  !*** ./app/components/Content/LoginInfo.js ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -51712,16 +51712,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var LoginProfile = function (_React$Component) {
-    _inherits(LoginProfile, _React$Component);
+var LoginInfo = function (_React$Component) {
+    _inherits(LoginInfo, _React$Component);
 
-    function LoginProfile() {
-        _classCallCheck(this, LoginProfile);
+    function LoginInfo() {
+        _classCallCheck(this, LoginInfo);
 
-        return _possibleConstructorReturn(this, (LoginProfile.__proto__ || Object.getPrototypeOf(LoginProfile)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (LoginInfo.__proto__ || Object.getPrototypeOf(LoginInfo)).apply(this, arguments));
     }
 
-    _createClass(LoginProfile, [{
+    _createClass(LoginInfo, [{
         key: "render",
         value: function render() {
             var _this2 = this;
@@ -51775,7 +51775,7 @@ var LoginProfile = function (_React$Component) {
                     "button",
                     { className: "button_custom button_edit_profile",
                         onClick: function onClick() {
-                            _this2.props.trigger('info', 'form');
+                            _this2.props.trigger(_this2.props.state_param, _this2.props.state_value_form);
                         } },
                     "\u0420\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u0440\u043E\u0444\u0438\u043B\u044C"
                 ),
@@ -51784,10 +51784,122 @@ var LoginProfile = function (_React$Component) {
                     "button",
                     { className: " button_custom button_edit_password",
                         onClick: function onClick() {
-                            _this2.props.trigger('info', 'pass');
+                            _this2.props.trigger(_this2.props.state_param, _this2.props.state_value_pass);
                         } },
                     "\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u043F\u0430\u0440\u043E\u043B\u044C"
                 )
+            );
+        }
+    }]);
+
+    return LoginInfo;
+}(_react2.default.Component);
+
+exports.default = LoginInfo;
+
+/***/ }),
+
+/***/ "./app/components/Content/LoginProfile.js":
+/*!************************************************!*\
+  !*** ./app/components/Content/LoginProfile.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _AvatarForm = __webpack_require__(/*! ./forms/AvatarForm */ "./app/components/Content/forms/AvatarForm.js");
+
+var _AvatarForm2 = _interopRequireDefault(_AvatarForm);
+
+var _LoginInfo = __webpack_require__(/*! ./LoginInfo */ "./app/components/Content/LoginInfo.js");
+
+var _LoginInfo2 = _interopRequireDefault(_LoginInfo);
+
+var _EditUserForm = __webpack_require__(/*! ./forms/EditUserForm */ "./app/components/Content/forms/EditUserForm.js");
+
+var _EditUserForm2 = _interopRequireDefault(_EditUserForm);
+
+var _EditPassForm = __webpack_require__(/*! ./forms/EditPassForm */ "./app/components/Content/forms/EditPassForm.js");
+
+var _EditPassForm2 = _interopRequireDefault(_EditPassForm);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var LoginProfile = function (_React$Component) {
+    _inherits(LoginProfile, _React$Component);
+
+    function LoginProfile() {
+        _classCallCheck(this, LoginProfile);
+
+        return _possibleConstructorReturn(this, (LoginProfile.__proto__ || Object.getPrototypeOf(LoginProfile)).apply(this, arguments));
+    }
+
+    _createClass(LoginProfile, [{
+        key: "render",
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                "div",
+                { className: "content__cabinet__login" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "content__cabinet__login_ava" },
+                    _react2.default.createElement("img", { src: this.props.login.avatar_path, className: "big_avatar" }),
+                    this.props.state.avatar === 'button' && _react2.default.createElement(
+                        "div",
+                        { className: "change_avatar__div" },
+                        _react2.default.createElement(
+                            "button",
+                            { onClick: function onClick() {
+                                    _this2.props.trigger('avatar', 'form');
+                                },
+                                className: "button_custom button_edit_avatar" },
+                            "\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u0430\u0432\u0430\u0442\u0430\u0440"
+                        )
+                    ),
+                    this.props.state.avatar === 'form' && _react2.default.createElement(_AvatarForm2.default, { changeAvatar: this.props.changeAvatar,
+                        trigger: this.props.trigger,
+                        state_param: "avatar",
+                        state_value: "button",
+                        extensions: this.props.extensions })
+                ),
+                this.props.state.info === 'info' && _react2.default.createElement(_LoginInfo2.default, { login: this.props.login,
+                    trigger: this.props.trigger,
+                    state_param: "info",
+                    state_value_form: "form",
+                    state_value_pass: "pass" }),
+                this.props.state.info === 'form' && _react2.default.createElement(_EditUserForm2.default, { onSubmit: this.props.editUser,
+                    login: this.props.login,
+                    trigger: this.props.trigger,
+                    state_param: "info",
+                    state_value: "info" }),
+                this.props.state.info === 'pass' && _react2.default.createElement(_EditPassForm2.default, { onSubmit: this.props.editPass,
+                    login: this.props.login,
+                    trigger: this.props.trigger,
+                    state_param: "info",
+                    state_value: "info",
+                    valid_old_pass: this.props.state.valid_old_pass,
+                    valid_new_pass: this.props.state.valid_new_pass })
             );
         }
     }]);
@@ -55423,6 +55535,12 @@ exports.default = undefined;
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _dec, _class;
+//import AvatarForm from '../components/Content/forms/AvatarForm';
+
+//import LoginInfo from '../components/Content/LoginInfo';
+//import EditUserForm from '../components/Content/forms/EditUserForm';
+//import EditPassForm from '../components/Content/forms/EditPassForm';
+
 
 var _react = __webpack_require__(/*! react */ "../node_modules/react/index.js");
 
@@ -55452,21 +55570,9 @@ var _PostForm = __webpack_require__(/*! ../components/Content/forms/PostForm */ 
 
 var _PostForm2 = _interopRequireDefault(_PostForm);
 
-var _AvatarForm = __webpack_require__(/*! ../components/Content/forms/AvatarForm */ "./app/components/Content/forms/AvatarForm.js");
-
-var _AvatarForm2 = _interopRequireDefault(_AvatarForm);
-
 var _LoginProfile = __webpack_require__(/*! ../components/Content/LoginProfile */ "./app/components/Content/LoginProfile.js");
 
 var _LoginProfile2 = _interopRequireDefault(_LoginProfile);
-
-var _EditUserForm = __webpack_require__(/*! ../components/Content/forms/EditUserForm */ "./app/components/Content/forms/EditUserForm.js");
-
-var _EditUserForm2 = _interopRequireDefault(_EditUserForm);
-
-var _EditPassForm = __webpack_require__(/*! ../components/Content/forms/EditPassForm */ "./app/components/Content/forms/EditPassForm.js");
-
-var _EditPassForm2 = _interopRequireDefault(_EditPassForm);
 
 var _SearchForm = __webpack_require__(/*! ../components/Content/forms/SearchForm */ "./app/components/Content/forms/SearchForm.js");
 
@@ -55643,7 +55749,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
             var _this2 = this;
 
             this.setState({ valid_old_pass: true });
-            this.setState({ valid_old_pass: true });
+            this.setState({ valid_new_pass: true });
             if (values.pass1 === values.pass2) {
                 _axios2.default.post('/api/login/pass', {
                     user_id: this.props.login.id,
@@ -55668,7 +55774,6 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'changeAvatar',
         value: function changeAvatar(files) {
-            console.log(files);
             this.setState({
                 valid_avatar: true
             });
@@ -55777,46 +55882,13 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
             return _react2.default.createElement(
                 'div',
                 { className: 'content__cabinet' },
-                _react2.default.createElement(
-                    'div',
-                    { className: 'content__cabinet__login' },
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'content__cabinet__login_ava' },
-                        _react2.default.createElement('img', { src: this.props.login.avatar_path, className: 'big_avatar' }),
-                        this.state.avatar === 'button' && _react2.default.createElement(
-                            'div',
-                            { className: 'change_avatar__div' },
-                            _react2.default.createElement(
-                                'button',
-                                { onClick: function onClick() {
-                                        _this3.trigger('avatar', 'form');
-                                    },
-                                    className: 'button_custom button_edit_avatar' },
-                                '\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u0430\u0432\u0430\u0442\u0430\u0440'
-                            )
-                        ),
-                        this.state.avatar === 'form' && _react2.default.createElement(_AvatarForm2.default, { changeAvatar: this.changeAvatar,
-                            trigger: this.trigger,
-                            state_param: 'avatar',
-                            state_value: 'button',
-                            extensions: this.extensions })
-                    ),
-                    this.state.info === 'info' && _react2.default.createElement(_LoginProfile2.default, { login: this.props.login,
-                        trigger: this.trigger }),
-                    this.state.info === 'form' && _react2.default.createElement(_EditUserForm2.default, { onSubmit: this.editUser,
-                        login: this.props.login,
-                        trigger: this.trigger,
-                        state_param: 'info',
-                        state_value: 'info' }),
-                    this.state.info === 'pass' && _react2.default.createElement(_EditPassForm2.default, { onSubmit: this.editPass,
-                        login: this.props.login,
-                        trigger: this.trigger,
-                        state_param: 'info',
-                        state_value: 'info',
-                        valid_old_pass: this.state.valid_old_pass,
-                        valid_new_pass: this.state.valid_new_pass })
-                ),
+                _react2.default.createElement(_LoginProfile2.default, { login: this.props.login,
+                    state: this.state,
+                    trigger: this.trigger,
+                    changeAvatar: this.changeAvatar,
+                    editUser: this.editUser,
+                    editPass: this.editPass,
+                    extensions: this.extensions }),
                 _react2.default.createElement(
                     'div',
                     { className: 'buttons' },

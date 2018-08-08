@@ -1,38 +1,53 @@
 import React from 'react';
 
+import AvatarForm from "./forms/AvatarForm";
+import LoginInfo from "./LoginInfo";
+import EditUserForm from "./forms/EditUserForm";
+import EditPassForm from "./forms/EditPassForm";
+
 export default class LoginProfile extends React.Component {
     render() {
         return (
-            <div className="user_profile">
-                <h2 className="content__cabinet__login_name">{this.props.login.name} {this.props.login.surname}</h2>
-                {this.props.login.city &&
-                <p className="content__cabinet__login_info">Город: {this.props.login.city}</p>}
-                {this.props.login.age &&
-                <p className="content__cabinet__login_info">Возраст: {this.props.login.age}</p>}
-                {this.props.login.email &&
-                <p className="content__cabinet__login_info">
-                    Email: <a href={`mailto:${this.props.login.email}`}
-                              className="login_info_link">
-                                {this.props.login.email}
-                            </a>
-                </p>}
-                {this.props.login.site &&
-                <p className="content__cabinet__login_info">
-                    Веб-сайт: <a href={`http://${this.props.login.site}`}
-                                 target="_blank"
-                                 className="login_info_link">
-                                    {this.props.login.site}
-                              </a>
-                </p>}
-                <button className="button_custom button_edit_profile"
-                        onClick={() => {this.props.trigger('info', 'form')}}>
-                    Редактировать профиль
-                </button>
-                <br/>
-                <button className=" button_custom button_edit_password"
-                        onClick={() => {this.props.trigger('info', 'pass')}}>
-                    Сменить пароль
-                </button>
+            <div className="content__cabinet__login">
+                <div className="content__cabinet__login_ava">
+                    <img src={this.props.login.avatar_path} className="big_avatar"/>
+                    {this.props.state.avatar === 'button' &&
+                    <div className="change_avatar__div">
+                        <button onClick={() => {this.props.trigger('avatar', 'form')}}
+                                className="button_custom button_edit_avatar">
+                            Сменить аватар
+                        </button>
+                    </div>
+                    }
+                    {this.props.state.avatar === 'form' &&
+                    <AvatarForm changeAvatar={this.props.changeAvatar}
+                                trigger={this.props.trigger}
+                                state_param="avatar"
+                                state_value="button"
+                                extensions={this.props.extensions}/>
+                    }
+                </div>
+
+                {this.props.state.info === 'info' &&
+                <LoginInfo login={this.props.login}
+                           trigger={this.props.trigger}
+                           state_param="info"
+                           state_value_form="form"
+                           state_value_pass="pass"/>}
+                {this.props.state.info === 'form' &&
+                <EditUserForm onSubmit={this.props.editUser}
+                              login={this.props.login}
+                              trigger={this.props.trigger}
+                              state_param="info"
+                              state_value="info"/>}
+                {this.props.state.info === 'pass' &&
+                <EditPassForm onSubmit={this.props.editPass}
+                              login={this.props.login}
+                              trigger={this.props.trigger}
+                              state_param="info"
+                              state_value="info"
+                              valid_old_pass={this.props.state.valid_old_pass}
+                              valid_new_pass={this.props.state.valid_new_pass}/>}
             </div>
         )
     }

@@ -8,10 +8,11 @@ import PostItem from '../components/Content/PostItem';
 import UserItem from '../components/Content/UserItem';
 import Loader from '../components/Content/Loader';
 import PostForm from '../components/Content/forms/PostForm';
-import AvatarForm from '../components/Content/forms/AvatarForm';
+//import AvatarForm from '../components/Content/forms/AvatarForm';
 import LoginProfile from '../components/Content/LoginProfile';
-import EditUserForm from '../components/Content/forms/EditUserForm';
-import EditPassForm from '../components/Content/forms/EditPassForm';
+//import LoginInfo from '../components/Content/LoginInfo';
+//import EditUserForm from '../components/Content/forms/EditUserForm';
+//import EditPassForm from '../components/Content/forms/EditPassForm';
 import SearchForm from '../components/Content/forms/SearchForm';
 
 import {fetchFeedPostsSample} from "../actions/feedActions";
@@ -145,7 +146,7 @@ export default class Cabinet extends React.Component {
     // изменить пароль
     editPass(values) {
         this.setState({valid_old_pass: true});
-        this.setState({valid_old_pass: true});
+        this.setState({valid_new_pass: true});
         if (values.pass1 === values.pass2) {
             axios.post('/api/login/pass',
                 {
@@ -168,7 +169,6 @@ export default class Cabinet extends React.Component {
 
     // поменять аватар
     changeAvatar(files) {
-        console.log(files);
         this.setState({
             valid_avatar: true
         });
@@ -271,43 +271,13 @@ export default class Cabinet extends React.Component {
 
         return (
             <div className="content__cabinet">
-                <div className="content__cabinet__login">
-                    <div className="content__cabinet__login_ava">
-                        <img src={this.props.login.avatar_path} className="big_avatar"/>
-                        {this.state.avatar === 'button' &&
-                            <div className="change_avatar__div">
-                                <button onClick={() => {this.trigger('avatar', 'form')}}
-                                        className="button_custom button_edit_avatar">
-                                    Сменить аватар
-                                </button>
-                            </div>
-                        }
-                        {this.state.avatar === 'form' &&
-                            <AvatarForm changeAvatar={this.changeAvatar}
-                                        trigger={this.trigger}
-                                        state_param="avatar"
-                                        state_value="button"
-                                        extensions={this.extensions}/>
-                        }
-                    </div>
-                    {this.state.info === 'info' &&
-                    <LoginProfile login={this.props.login}
-                                 trigger={this.trigger}/>}
-                    {this.state.info === 'form' &&
-                    <EditUserForm onSubmit={this.editUser}
-                                  login={this.props.login}
-                                  trigger={this.trigger}
-                                  state_param="info"
-                                  state_value="info"/>}
-                    {this.state.info === 'pass' &&
-                    <EditPassForm onSubmit={this.editPass}
-                                  login={this.props.login}
-                                  trigger={this.trigger}
-                                  state_param="info"
-                                  state_value="info"
-                                  valid_old_pass={this.state.valid_old_pass}
-                                  valid_new_pass={this.state.valid_new_pass}/>}
-                </div>
+                <LoginProfile login={this.props.login}
+                              state={this.state}
+                              trigger={this.trigger}
+                              changeAvatar={this.changeAvatar}
+                              editUser={this.editUser}
+                              editPass={this.editPass}
+                              extensions={this.extensions}/>
 
                 <div className="buttons">
                     <button disabled={this.state.content === 'feed'}

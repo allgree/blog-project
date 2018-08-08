@@ -52621,6 +52621,90 @@ exports.default = TooltipLikes;
 
 /***/ }),
 
+/***/ "./app/components/Content/UserButtons.js":
+/*!***********************************************!*\
+  !*** ./app/components/Content/UserButtons.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UserButtons = function (_React$Component) {
+    _inherits(UserButtons, _React$Component);
+
+    function UserButtons() {
+        _classCallCheck(this, UserButtons);
+
+        return _possibleConstructorReturn(this, (UserButtons.__proto__ || Object.getPrototypeOf(UserButtons)).apply(this, arguments));
+    }
+
+    _createClass(UserButtons, [{
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'button',
+                    { disabled: this.props.content === 'posts',
+                        onClick: function onClick() {
+                            _this2.props.triggerContent(_this2.props.state_posts);
+                        },
+                        className: 'button_custom button_show_user_content' },
+                    '\u0417\u0430\u043F\u0438\u0441\u0438'
+                ),
+                _react2.default.createElement(
+                    'button',
+                    { disabled: this.props.content === 'subscriptions',
+                        onClick: function onClick() {
+                            _this2.props.triggerContent(_this2.props.state_subs);
+                        },
+                        className: 'button_custom button_show_user_content' },
+                    '\u041F\u043E\u0434\u043F\u0438\u0441\u043A\u0438'
+                ),
+                _react2.default.createElement(
+                    'button',
+                    { disabled: this.props.content === 'followers',
+                        onClick: function onClick() {
+                            _this2.props.triggerContent(_this2.props.state_followers);
+                        },
+                        className: 'button_custom button_show_user_content' },
+                    '\u041F\u043E\u0434\u043F\u0438\u0441\u0447\u0438\u043A\u0438'
+                )
+            );
+        }
+    }]);
+
+    return UserButtons;
+}(_react2.default.Component);
+
+exports.default = UserButtons;
+
+/***/ }),
+
 /***/ "./app/components/Content/UserItem.js":
 /*!********************************************!*\
   !*** ./app/components/Content/UserItem.js ***!
@@ -57399,6 +57483,10 @@ var _SearchForm = __webpack_require__(/*! ../components/Content/forms/SearchForm
 
 var _SearchForm2 = _interopRequireDefault(_SearchForm);
 
+var _UserButtons = __webpack_require__(/*! ../components/Content/UserButtons */ "./app/components/Content/UserButtons.js");
+
+var _UserButtons2 = _interopRequireDefault(_UserButtons);
+
 var _userActions = __webpack_require__(/*! ../actions/userActions */ "./app/actions/userActions.js");
 
 var _userPostsActions = __webpack_require__(/*! ../actions/userPostsActions */ "./app/actions/userPostsActions.js");
@@ -57481,6 +57569,7 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
             val2: '' };
 
         _this.triggerPostLike = _this.triggerPostLike.bind(_this);
+        _this.triggerContent = _this.triggerContent.bind(_this);
         _this.subscript = _this.subscript.bind(_this);
         _this.unsubscript = _this.unsubscript.bind(_this);
         _this.searchPosts = _this.searchPosts.bind(_this);
@@ -57586,33 +57675,11 @@ var User = (_dec = (0, _reactRedux.connect)(function (store) {
                         login: this.props.login,
                         subscript: this.subscript,
                         unsubscript: this.unsubscript }),
-                    _react2.default.createElement(
-                        'button',
-                        { disabled: this.state.content === 'posts',
-                            onClick: function onClick() {
-                                _this2.triggerContent('posts');
-                            },
-                            className: 'button_custom button_show_user_content' },
-                        '\u0417\u0430\u043F\u0438\u0441\u0438'
-                    ),
-                    _react2.default.createElement(
-                        'button',
-                        { disabled: this.state.content === 'subscriptions',
-                            onClick: function onClick() {
-                                _this2.triggerContent('subs');
-                            },
-                            className: 'button_custom button_show_user_content' },
-                        '\u041F\u043E\u0434\u043F\u0438\u0441\u043A\u0438'
-                    ),
-                    _react2.default.createElement(
-                        'button',
-                        { disabled: this.state.content === 'followers',
-                            onClick: function onClick() {
-                                _this2.triggerContent('followers');
-                            },
-                            className: 'button_custom button_show_user_content' },
-                        '\u041F\u043E\u0434\u043F\u0438\u0441\u0447\u0438\u043A\u0438'
-                    )
+                    _react2.default.createElement(_UserButtons2.default, { content: this.state.content,
+                        triggerContent: this.triggerContent,
+                        state_posts: 'posts',
+                        state_subs: 'subs',
+                        state_followers: 'followers' })
                 ),
                 this.state.content === 'posts' && _react2.default.createElement(
                     'aside',

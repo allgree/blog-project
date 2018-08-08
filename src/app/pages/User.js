@@ -7,6 +7,7 @@ import UserItem from '../components/Content/UserItem';
 import UserProfile from '../components/Content/UserProfile';
 import Loader from '../components/Content/Loader';
 import SearchForm from '../components/Content/forms/SearchForm';
+import UserButtons from '../components/Content/UserButtons';
 
 import {fetchUser} from "../actions/userActions";
 import {fetchUserPostsSample} from "../actions/userPostsActions";
@@ -68,6 +69,7 @@ export default class User extends React.Component {
             val2: ''};
 
         this.triggerPostLike = this.triggerPostLike.bind(this);
+        this.triggerContent = this.triggerContent.bind(this);
         this.subscript = this.subscript.bind(this);
         this.unsubscript = this.unsubscript.bind(this);
         this.searchPosts = this.searchPosts.bind(this);
@@ -164,22 +166,11 @@ export default class User extends React.Component {
                                        subscript={this.subscript}
                                        unsubscript={this.unsubscript}/>
                     }
-                    <button disabled={this.state.content === 'posts'}
-                            onClick={() => {this.triggerContent('posts')}}
-                            className="button_custom button_show_user_content">
-                        Записи
-                    </button>
-                    <button disabled={this.state.content === 'subscriptions'}
-                            onClick={() => {this.triggerContent('subs')}}
-                            className="button_custom button_show_user_content">
-                        Подписки
-                    </button>
-                    <button disabled={this.state.content === 'followers'}
-                            onClick={() => {this.triggerContent('followers')}}
-                            className="button_custom button_show_user_content">
-                        Подписчики
-                    </button>
-
+                    <UserButtons content={this.state.content}
+                                 triggerContent={this.triggerContent}
+                                 state_posts="posts"
+                                 state_subs="subs"
+                                 state_followers="followers"/>
                 </aside>
 
                 {this.state.content === 'posts' &&

@@ -94,12 +94,15 @@ let Posts = {
     },
 
     // выюорка постов для автоподгрузки ленты
-    findPostsByFeed: (limit, offset, users_id, callback) => {
+    findPostsByFeed: (limit, offset, users_id, value, callback) => {
         if (users_id.length !== 0) {
             PostsModel.findAll({
                 where: {
                     user_id: {
                         [Sequelize.Op.or]: users_id
+                    },
+                    title: {
+                        [Sequelize.Op.like]: `%${value}%`
                     }
                 },
                 attributes: {exclude: ['updatedAt']},

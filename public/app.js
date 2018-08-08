@@ -50780,10 +50780,10 @@ var _axios2 = _interopRequireDefault(_axios);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // получить выборку постов для автоподгрузки ленты
-function fetchFeedPostsSample(offset, user_id) {
+function fetchFeedPostsSample(offset, value, user_id) {
     return {
         type: 'FETCH_FEED_POSTS_SAMPLE',
-        payload: _axios2.default.get('/api/posts/feed/?user_id=' + user_id + '&offset=' + offset)
+        payload: _axios2.default.get('/api/posts/feed/?user_id=' + user_id + '&value=' + value + '&offset=' + offset)
     };
 }
 
@@ -55468,6 +55468,10 @@ var _EditPassForm = __webpack_require__(/*! ../components/Content/forms/EditPass
 
 var _EditPassForm2 = _interopRequireDefault(_EditPassForm);
 
+var _SearchForm = __webpack_require__(/*! ../components/Content/forms/SearchForm */ "./app/components/Content/forms/SearchForm.js");
+
+var _SearchForm2 = _interopRequireDefault(_SearchForm);
+
 var _feedActions = __webpack_require__(/*! ../actions/feedActions */ "./app/actions/feedActions.js");
 
 var _userPostsActions = __webpack_require__(/*! ../actions/userPostsActions */ "./app/actions/userPostsActions.js");
@@ -55482,13 +55486,19 @@ var _postLikesActions = __webpack_require__(/*! ../actions/postLikesActions */ "
 
 var _loginActions = __webpack_require__(/*! ../actions/loginActions */ "./app/actions/loginActions.js");
 
-var _autoload = __webpack_require__(/*! ../componentsFunctions/autoload */ "./app/componentsFunctions/autoload.js");
+var _autoloadPosts = __webpack_require__(/*! ../componentsFunctions/autoloadPosts */ "./app/componentsFunctions/autoloadPosts.js");
+
+var _autoloadUsers = __webpack_require__(/*! ../componentsFunctions/autoloadUsers */ "./app/componentsFunctions/autoloadUsers.js");
 
 var _like = __webpack_require__(/*! ../componentsFunctions/like */ "./app/componentsFunctions/like.js");
 
 var _link_up = __webpack_require__(/*! ../componentsFunctions/link_up */ "./app/componentsFunctions/link_up.js");
 
 var _scrollTop = __webpack_require__(/*! ../componentsFunctions/scrollTop */ "./app/componentsFunctions/scrollTop.js");
+
+var _searchPosts = __webpack_require__(/*! ../componentsFunctions/searchPosts */ "./app/componentsFunctions/searchPosts.js");
+
+var _searchUsers = __webpack_require__(/*! ../componentsFunctions/searchUsers */ "./app/componentsFunctions/searchUsers.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -55531,10 +55541,10 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
 
         _this.props.dispatch((0, _loginActions.fetchLoginData)());
         if (_this.props.login.id) {
-            _this.props.dispatch((0, _feedActions.fetchFeedPostsSample)(0, _this.props.login.id));
-            _this.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(0, _this.props.login.id));
-            _this.props.dispatch((0, _subsActions.fetchUserSubsSample)(0, _this.props.login.id));
-            _this.props.dispatch((0, _followersActions.fetchUserFollowersSample)(0, _this.props.login.id));
+            _this.props.dispatch((0, _feedActions.fetchFeedPostsSample)(0, '', _this.props.login.id));
+            _this.props.dispatch((0, _userPostsActions.fetchUserPostsSample)(0, '', _this.props.login.id));
+            _this.props.dispatch((0, _subsActions.fetchUserSubsSample)(0, '', '', _this.props.login.id));
+            _this.props.dispatch((0, _followersActions.fetchUserFollowersSample)(0, '', '', _this.props.login.id));
         }
         _this.triggerUserPostLike = _this.triggerUserPostLike.bind(_this);
         _this.triggerFeedPostLike = _this.triggerFeedPostLike.bind(_this);
@@ -55546,6 +55556,10 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         _this.changeAvatar = _this.changeAvatar.bind(_this);
         _this.unsub = _this.unsub.bind(_this);
         _this.unsubscribe = _this.unsubscribe.bind(_this);
+        _this.searchFeedPosts = _this.searchFeedPosts.bind(_this);
+        _this.searchMyPosts = _this.searchMyPosts.bind(_this);
+        _this.searchSubs = _this.searchSubs.bind(_this);
+        _this.searchFollowers = _this.searchFollowers.bind(_this);
 
         _this.state = {
             info: 'info',
@@ -55556,25 +55570,30 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
             valid_new_pass: true
         };
 
+        _this.sch_feed_posts = '';
+        _this.sch_my_posts = '';
+        _this.sch_subs = { val1: '', val2: '' };
+        _this.sch_followers = { val1: '', val2: '' };
+
         _this.extensions = ['jpeg', 'jpg'];
         return _this;
     }
 
-    // поставить/убрать лайк на пост из списка Мои записи
+    //поставить/убрать лайк на пост из списка Лента
 
 
     _createClass(Cabinet, [{
-        key: 'triggerUserPostLike',
-        value: function triggerUserPostLike(post_id) {
-            (0, _like.like)(this.props.user_posts, post_id, this.props.dispatch, _postLikesActions.addPostLike, _postLikesActions.deletePostLike, this.props.login.id);
-        }
-
-        //поставить/убрать лайк на пост из списка Лента
-
-    }, {
         key: 'triggerFeedPostLike',
         value: function triggerFeedPostLike(post_id) {
             (0, _like.like)(this.props.feed_posts, post_id, this.props.dispatch, _postLikesActions.addPostLike, _postLikesActions.deletePostLike, this.props.login.id);
+        }
+
+        // поставить/убрать лайк на пост из списка Мои записи
+
+    }, {
+        key: 'triggerUserPostLike',
+        value: function triggerUserPostLike(post_id) {
+            (0, _like.like)(this.props.user_posts, post_id, this.props.dispatch, _postLikesActions.addPostLike, _postLikesActions.deletePostLike, this.props.login.id);
         }
 
         // добавить пост
@@ -55683,6 +55702,38 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         value: function unsubscribe(user_id) {
             this.props.dispatch((0, _followersActions.deleteFollower)(user_id, this.props.login.id));
         }
+
+        // поиск постов в ленте
+
+    }, {
+        key: 'searchFeedPosts',
+        value: function searchFeedPosts(form_value) {
+            this.sch_feed_posts = (0, _searchPosts.searchPosts)(form_value, this.props.dispatch, this.sch_feed_posts, _feedActions.fetchFeedPostsSample, this.props.login.id);
+        }
+
+        // поиск постов во вкладке Мои записи
+
+    }, {
+        key: 'searchMyPosts',
+        value: function searchMyPosts(form_value) {
+            this.sch_my_posts = (0, _searchPosts.searchPosts)(form_value, this.props.dispatch, this.sch_my_posts, _userPostsActions.fetchUserPostsSample, this.props.login.id);
+        }
+
+        // поиск подписок
+
+    }, {
+        key: 'searchSubs',
+        value: function searchSubs(form_value) {
+            this.sch_subs = (0, _searchUsers.searchUsers)(form_value, this.props.dispatch, this.sch_subs, _subsActions.fetchUserSubsSample, this.props.login.id);
+        }
+
+        // поиск подписчиков
+
+    }, {
+        key: 'searchFollowers',
+        value: function searchFollowers(form_value) {
+            this.sch_followers = (0, _searchUsers.searchUsers)(form_value, this.props.dispatch, this.sch_followers, _followersActions.fetchUserFollowersSample, this.props.login.id);
+        }
     }, {
         key: 'render',
         value: function render() {
@@ -55789,9 +55840,9 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                     ),
                     _react2.default.createElement(
                         'button',
-                        { disabled: this.state.content === 'subscriptions',
+                        { disabled: this.state.content === 'subs',
                             onClick: function onClick() {
-                                _this3.trigger('content', 'subscriptions');
+                                _this3.trigger('content', 'subs');
                             },
                             className: 'button_custom button_show_content' },
                         '\u041F\u043E\u0434\u043F\u0438\u0441\u043A\u0438'
@@ -55809,6 +55860,8 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                 this.state.content === 'feed' && _react2.default.createElement(
                     'div',
                     { className: 'content__cabinet__content' },
+                    _react2.default.createElement(_SearchForm2.default, { search: this.searchFeedPosts,
+                        placeholder: 'Введите заголовок записи' }),
                     this.props.feed_posts.length !== 0 && _react2.default.createElement(
                         'div',
                         null,
@@ -55836,6 +55889,8 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                         trigger: this.trigger,
                         state_param: 'post',
                         state_value: 'button' }),
+                    _react2.default.createElement(_SearchForm2.default, { search: this.searchMyPosts,
+                        placeholder: 'Введите заголовок записи' }),
                     this.props.user_posts.length !== 0 && _react2.default.createElement(
                         'div',
                         null,
@@ -55844,9 +55899,11 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                     _react2.default.createElement('span', { className: 'point' }),
                     this.props.is_user_posts_fetching && _react2.default.createElement(_Loader2.default, null)
                 ),
-                this.state.content === 'subscriptions' && _react2.default.createElement(
+                this.state.content === 'subs' && _react2.default.createElement(
                     'div',
                     { className: 'content__cabinet__content' },
+                    _react2.default.createElement(_SearchForm2.default, { search: this.searchSubs,
+                        placeholder: 'Введите имя и фамилию' }),
                     this.props.subs.length !== 0 && _react2.default.createElement(
                         'div',
                         null,
@@ -55858,6 +55915,8 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                 this.state.content === 'followers' && _react2.default.createElement(
                     'div',
                     { className: 'content__cabinet__content' },
+                    _react2.default.createElement(_SearchForm2.default, { search: this.searchFollowers,
+                        placeholder: 'Введите имя и фамилию' }),
                     this.props.followers.length !== 0 && _react2.default.createElement(
                         'div',
                         null,
@@ -55887,22 +55946,22 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                 switch (_this4.state.content) {
                     case 'feed':
                         {
-                            (0, _autoload.autoload)(_this4.props.is_feed_posts_fetching, _this4.props.feed_posts_empty, _this4.props.dispatch, _feedActions.fetchFeedPostsSample, _this4.props.feed_posts.length, _this4.props.login.id);
+                            (0, _autoloadPosts.autoloadPosts)(_this4.props.is_feed_posts_fetching, _this4.props.feed_posts_empty, _this4.props.dispatch, _feedActions.fetchFeedPostsSample, _this4.props.feed_posts.length, _this4.sch_feed_posts, _this4.props.login.id);
                             break;
                         }
                     case 'posts':
                         {
-                            (0, _autoload.autoload)(_this4.props.is_user_posts_fetching, _this4.props.user_posts_empty, _this4.props.dispatch, _userPostsActions.fetchUserPostsSample, _this4.props.user_posts.length, _this4.props.login.id);
+                            (0, _autoloadPosts.autoloadPosts)(_this4.props.is_user_posts_fetching, _this4.props.user_posts_empty, _this4.props.dispatch, _userPostsActions.fetchUserPostsSample, _this4.props.user_posts.length, _this4.sch_my_posts, _this4.props.login.id);
                             break;
                         }
-                    case 'subscriptions':
+                    case 'subs':
                         {
-                            (0, _autoload.autoload)(_this4.props.is_subs_fetching, _this4.props.subs_empty, _this4.props.dispatch, _subsActions.fetchUserSubsSample, _this4.props.subs.length, _this4.props.login.id);
+                            (0, _autoloadUsers.autoloadUsers)(_this4.props.is_subs_fetching, _this4.props.subs_empty, _this4.props.dispatch, _subsActions.fetchUserSubsSample, _this4.props.subs.length, _this4.sch_subs.val1, _this4.sch_subs.val2, _this4.props.login.id);
                             break;
                         }
                     case 'followers':
                         {
-                            (0, _autoload.autoload)(_this4.props.is_followers_fetching, _this4.props.followers_empty, _this4.props.dispatch, _followersActions.fetchUserFollowersSample, _this4.props.followers.length, _this4.props.login.id);
+                            (0, _autoloadUsers.autoloadUsers)(_this4.props.is_followers_fetching, _this4.props.followers_empty, _this4.props.dispatch, _followersActions.fetchUserFollowersSample, _this4.props.followers.length, _this4.sch_followers.val1, _this4.sch_followers.val2, _this4.props.login.id);
                             break;
                         }
                 }

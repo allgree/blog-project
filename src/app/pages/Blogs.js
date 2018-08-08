@@ -12,7 +12,7 @@ import {linkUp} from "../componentsFunctions/link_up";
 import {scrollTop} from "../componentsFunctions/scrollTop";
 import {searchUsers} from "../componentsFunctions/searchUsers";
 
-import {autoloadWithSearch} from '../componentsFunctions/autoloadWithSearch';
+import {autoloadUsers} from '../componentsFunctions/autoloadUsers';
 
 @connect((store) => {
     return {
@@ -27,9 +27,9 @@ import {autoloadWithSearch} from '../componentsFunctions/autoloadWithSearch';
 export default class Blogs extends React.Component {
     constructor() {
         super(...arguments);
-        this.state = {
-           val1: '',
-           val2: ''
+        this.search_values = {
+            val1: '',
+            val2: ''
         };
         this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchUsersSample(0, '', ''));
@@ -38,7 +38,10 @@ export default class Blogs extends React.Component {
 
     // обработка строки поиска
     search(form_value) {
-        searchUsers(form_value, this, fetchUsersSample);
+        this.search_values = searchUsers(form_value,
+                                         this.props.dispatch,
+                                         this.search_values,
+                                         fetchUsersSample);
     }
 
     render() {
@@ -71,13 +74,13 @@ export default class Blogs extends React.Component {
         $(document).off();
         $(document).on('scroll', () => {
             linkUp();
-            autoloadWithSearch(this.props.is_users_fetching,
+            autoloadUsers(this.props.is_users_fetching,
                                this.props.users_empty,
                                this.props.dispatch,
                                fetchUsersSample,
                                this.props.users.length,
-                               this.state.val1,
-                               this.state.val2)
+                               this.search_values.val1,
+                               this.search_values.val2)
         });
     }
 }

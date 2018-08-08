@@ -1,5 +1,5 @@
 // автоподгрузка контента с поиском
-export function autoloadWithSearch(is_fetching, is_empty, dispatch, fetch, lenght, val1 = '', val2 = '') {
+export function autoloadUsers(is_fetching, is_empty, dispatch, fetch, lenght, val1 = '', val2 = '', id = null) {
     let $point = $('.point');
     if (!$point[0]) {
         return;
@@ -9,6 +9,6 @@ export function autoloadWithSearch(is_fetching, is_empty, dispatch, fetch, lengh
     let height = $(window).height();   // Высота окна
     let load_flag = scroll_top + height >= point;   // Флаг подгружаем ли данные
     if (load_flag && !is_fetching && !is_empty) {
-        dispatch(fetch(lenght, val1, val2));
+        dispatch(fetch(lenght, val1, val2, id));
     }
 }

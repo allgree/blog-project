@@ -6,6 +6,7 @@ import PostItem from '../components/Content/PostItem';
 import UserItem from '../components/Content/UserItem';
 import UserProfile from '../components/Content/UserProfile';
 import Loader from '../components/Content/Loader';
+import SearchForm from '../components/Content/forms/SearchForm';
 
 import {fetchUser} from "../actions/userActions";
 import {fetchUserPostsSample} from "../actions/userPostsActions";
@@ -14,11 +15,13 @@ import {fetchLoginData} from "../actions/loginActions";
 import {fetchUserSubsSample} from "../actions/subsActions";
 import {fetchUserFollowersSample, addFollower, deleteFollower} from "../actions/followersActions";
 
-
-import {autoload} from '../componentsFunctions/autoload';
+import {autoloadPosts} from "../componentsFunctions/autoloadPosts";
+import {autoloadUsers} from "../componentsFunctions/autoloadUsers";
 import {like} from '../componentsFunctions/like';
 import {linkUp} from "../componentsFunctions/link_up";
 import {scrollTop} from "../componentsFunctions/scrollTop";
+import {searchPosts} from "../componentsFunctions/searchPosts";
+import {searchUsers} from "../componentsFunctions/searchUsers";
 
 @connect((store) => {
     return {
@@ -48,16 +51,28 @@ export default class User extends React.Component {
         this.props.dispatch(fetchLoginData());
 
         this.props.dispatch(fetchUser(this.props.match.params.user_id));
-        this.props.dispatch(fetchUserPostsSample(0, this.props.match.params.user_id));
-        this.props.dispatch(fetchUserSubsSample(0, this.props.match.params.user_id));
-        this.props.dispatch(fetchUserFollowersSample(0, this.props.match.params.user_id));
+        this.props.dispatch(fetchUserPostsSample(0, '', this.props.match.params.user_id));
+        this.props.dispatch(fetchUserSubsSample(0, '', '', this.props.match.params.user_id));
+        this.props.dispatch(fetchUserFollowersSample(0, '', '', this.props.match.params.user_id));
+
         this.state = {
             content: 'posts'
         };
 
+        this.sch_posts = '';
+        this.sch_subs = {
+            val1: '',
+            val2: ''};
+        this.sch_followers = {
+            val1: '',
+            val2: ''};
+
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.subscript = this.subscript.bind(this);
         this.unsubscript = this.unsubscript.bind(this);
+        this.searchPosts = this.searchPosts.bind(this);
+        this.searchSubs = this.searchSubs.bind(this);
+        this.searchFollowers = this.searchFollowers.bind(this);
     }
 
     // добавить/удалить лайк к посту
@@ -85,7 +100,32 @@ export default class User extends React.Component {
         this.props.dispatch(deleteFollower(this.props.login.id, this.props.user.id));
     }
 
+    // поиск записей
+    searchPosts(form_value) {
+        this.sch_posts = searchPosts(form_value,
+                                     this.props.dispatch,
+                                     this.sch_posts,
+                                     fetchUserPostsSample,
+                                     this.props.match.params.user_id)
+    }
 
+    // поиск подписок
+    searchSubs(form_value) {
+        this.sch_subs = searchUsers(form_value,
+                                    this.props.dispatch,
+                                    this.sch_subs,
+                                    fetchUserSubsSample,
+                                    this.props.match.params.user_id)
+    }
+
+    //поиск подписчиков
+    searchFollowers(form_value) {
+        this.sch_followers = searchUsers(form_value,
+                             this.props.dispatch,
+                             this.sch_followers,
+                             fetchUserFollowersSample,
+                             this.props.match.params.user_id)
+    }
 
     render() {
         if (this.props.login.id && this.props.login.id === +this.props.match.params.user_id) {
@@ -130,7 +170,7 @@ export default class User extends React.Component {
                         Записи
                     </button>
                     <button disabled={this.state.content === 'subscriptions'}
-                            onClick={() => {this.triggerContent('subscriptions')}}
+                            onClick={() => {this.triggerContent('subs')}}
                             className="button_custom button_show_user_content">
                         Подписки
                     </button>
@@ -144,6 +184,8 @@ export default class User extends React.Component {
 
                 {this.state.content === 'posts' &&
                     <aside className="content__user_aside user_content">
+                        <SearchForm search={this.searchPosts}
+                                    placeholder={'Введите заголовок записи'}/>
                         {this.props.user_posts.length !== 0 &&
                         <div>{posts}</div>}
                         <span className="point"/>
@@ -151,8 +193,10 @@ export default class User extends React.Component {
                         <Loader/>}
                     </aside>
                 }
-                {this.state.content === 'subscriptions' &&
+                {this.state.content === 'subs' &&
                     <aside className="content__user_aside user_content">
+                        <SearchForm search={this.searchSubs}
+                                    placeholder={'Введите имя и фамилию'}/>
                         {this.props.subs.length !== 0 &&
                         <div>{subs}</div>}
                         <span className="point"/>
@@ -162,6 +206,8 @@ export default class User extends React.Component {
                 }
                 {this.state.content === 'followers' &&
                 <aside className="content__user_aside user_content">
+                    <SearchForm search={this.searchFollowers}
+                                placeholder={'Введите имя и фамилию'}/>
                     {this.props.subs.length !== 0 &&
                     <div>{followers}</div>}
                     <span className="point"/>
@@ -184,30 +230,34 @@ export default class User extends React.Component {
             linkUp();
             switch (this.state.content) {
                 case 'posts': {
-                    autoload(this.props.is_user_posts_fetching,
+                    autoloadPosts(this.props.is_user_posts_fetching,
                              this.props.user_posts_empty,
                              this.props.dispatch,
                              fetchUserPostsSample,
                              this.props.user_posts.length,
+                             this.sch_posts,
                              this.props.match.params.user_id);
-                    autoload(this.props, fetchUserPostsSample);
                     break;
                 }
-                case 'subscriptions': {
-                    autoload(this.props.is_subs_fetching,
-                        this.props.subs_empty,
-                        this.props.dispatch,
-                        fetchUserSubsSample,
-                        this.props.subs.length,
-                        this.props.match.params.user_id);
+                case 'subs': {
+                    autoloadUsers(this.props.is_subs_fetching,
+                             this.props.subs_empty,
+                             this.props.dispatch,
+                             fetchUserSubsSample,
+                             this.props.subs.length,
+                             this.sch_subs.val1,
+                             this.sch_subs.val2,
+                             this.props.match.params.user_id);
                     break;
                 }
                 case 'followers': {
-                    autoload(this.props.is_followers_fetching,
+                    autoloadUsers(this.props.is_followers_fetching,
                              this.props.followers_empty,
                              this.props.dispatch,
                              fetchUserFollowersSample,
                              this.props.followers.length,
+                             this.sch_followers.val1,
+                             this.sch_followers.val2,
                              this.props.match.params.user_id);
                     break;
                 }

@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 // получить выборку подписчиков пользователя для автоподгрузки
-export function fetchUserFollowersSample(offset, sub_user_id) {
+export function fetchUserFollowersSample(offset, val1, val2, sub_user_id) {
     return {
         type: 'FETCH_USER_FOLLOWERS_SAMPLE',
-        payload: axios.get(`/api/subs/sample/followers/?sub_user_id=${sub_user_id}&offset=${offset}`)
+        payload: axios.get(`/api/subs/sample/followers/?sub_user_id=${sub_user_id}&val_1=${val1}&val_2=${val2}&offset=${offset}`)
     }
 }
 

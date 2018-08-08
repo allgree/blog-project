@@ -12,7 +12,7 @@ import {fetchLoginData} from "../actions/loginActions";
 import {addPostLike, deletePostLike} from "../actions/postLikesActions";
 import {searchPosts} from "../componentsFunctions/searchPosts";
 
-import {autoloadWithSearch} from '../componentsFunctions/autoloadWithSearch';
+import {autoloadPosts} from '../componentsFunctions/autoloadPosts';
 import {like} from '../componentsFunctions/like';
 import {linkUp} from "../componentsFunctions/link_up";
 import {scrollTop} from "../componentsFunctions/scrollTop";
@@ -33,12 +33,12 @@ export default class Posts extends React.Component {
 
         this.props.dispatch(fetchLoginData());
         this.props.dispatch(fetchPostsSample(0, ''));
+
         this.triggerPostLike = this.triggerPostLike.bind(this);
         this.deletePost = this.deletePost.bind(this);
         this.search = this.search.bind(this);
-        this.state = {
-            search_value: ''
-        }
+
+        this.search_value = '';
     }
 
     // добавить/удалить лайк
@@ -59,7 +59,10 @@ export default class Posts extends React.Component {
 
     // обработка строки поиска
     search(form_value) {
-        searchPosts(form_value, this, fetchPostsSample);
+        this.search_value = searchPosts(form_value,
+                                        this.props.dispatch,
+                                        this.search_value,
+                                        fetchPostsSample);
     }
 
     render() {
@@ -90,12 +93,12 @@ export default class Posts extends React.Component {
         $(document).off();
         $(document).on('scroll', () => {
             linkUp();
-            autoloadWithSearch(this.props.is_posts_fetching,
+            autoloadPosts(this.props.is_posts_fetching,
                      this.props.posts_empty,
                      this.props.dispatch,
                      fetchPostsSample,
                      this.props.posts.length,
-                     this.state.search_value)
+                     this.search_value)
         });
     }
 

@@ -87,9 +87,10 @@ router.get('/sample/', (req, res, next) => {
 
 // выборка постов пользователя для автоподгрузки
 router.get('/user-posts-sample/', (req, res, next) => {
+    console.log(req.query);
     let result = [];
     let likes = [];
-    Posts.findByUserIdSample(10, +req.query.offset, +req.query.user_id, (result_posts) => {
+    Posts.findByUserIdSample(10, +req.query.offset, +req.query.user_id, req.query.value, result_posts => {
         result_posts.forEach((post, i) => {
             result[i] = post.dataValues;
             likes.push(new Promise((resolve, reject) => {

@@ -5,16 +5,26 @@ const Subscriptons = require('../requests/subscriptionsRequests');
 
 // выборка подписок пользователя для автоподгрузки
 router.get('/sample/subs/', (req, res, next) => {
-    Subscriptons.findSampleSubs(10, +req.query.offset, +req.query.user_id, (result) => {
-        res.json(result);
-    })
+    Subscriptons.findSampleSubs(10,
+                                +req.query.offset,
+                                +req.query.user_id,
+                                req.query.val_1,
+                                req.query.val_2,
+                                result => {
+                                    res.json(result);
+                                })
 });
 
 // выборка подписчиков пользователя для автоподгрузки
 router.get('/sample/followers/', (req, res, next) => {
-    Subscriptons.findSampleFollowers(10, +req.query.offset, +req.query.sub_user_id, (result) => {
-        res.json(result);
-    })
+    Subscriptons.findSampleFollowers(10,
+                                     +req.query.offset,
+                                     +req.query.sub_user_id,
+                                     req.query.val_1,
+                                     req.query.val_2,
+                                     result => {
+                                         res.json(result);
+                                     })
 });
 
 // добавить подписку

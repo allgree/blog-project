@@ -8,11 +8,8 @@ import PostItem from '../components/Content/PostItem';
 import UserItem from '../components/Content/UserItem';
 import Loader from '../components/Content/Loader';
 import PostForm from '../components/Content/forms/PostForm';
-//import AvatarForm from '../components/Content/forms/AvatarForm';
 import LoginProfile from '../components/Content/LoginProfile';
-//import LoginInfo from '../components/Content/LoginInfo';
-//import EditUserForm from '../components/Content/forms/EditUserForm';
-//import EditPassForm from '../components/Content/forms/EditPassForm';
+import LoginButtons from '../components/Content/LoginButtons';
 import SearchForm from '../components/Content/forms/SearchForm';
 
 import {fetchFeedPostsSample} from "../actions/feedActions";
@@ -279,28 +276,13 @@ export default class Cabinet extends React.Component {
                               editPass={this.editPass}
                               extensions={this.extensions}/>
 
-                <div className="buttons">
-                    <button disabled={this.state.content === 'feed'}
-                            onClick={() => {this.trigger('content', 'feed')}}
-                            className="button_custom button_show_content">
-                        Лента
-                    </button>
-                    <button disabled={this.state.content === 'posts'}
-                            onClick={() => {this.trigger('content', 'posts')}}
-                            className="button_custom button_show_content">
-                        Мои записи
-                    </button>
-                    <button disabled={this.state.content === 'subs'}
-                            onClick={() => {this.trigger('content', 'subs')}}
-                            className="button_custom button_show_content">
-                        Подписки
-                    </button>
-                    <button disabled={this.state.content === 'followers'}
-                            onClick={() => {this.trigger('content', 'followers')}}
-                            className="button_custom button_show_content">
-                        Подписчики
-                    </button>
-                </div>
+                <LoginButtons content={this.state.content}
+                              trigger={this.trigger}
+                              state_param="content"
+                              state_feed="feed"
+                              state_posts="posts"
+                              state_subs="subs"
+                              state_followers="followers"/>
                 {this.state.content === 'feed' &&
                 <div className="content__cabinet__content">
                     <SearchForm search={this.searchFeedPosts}

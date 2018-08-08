@@ -51683,6 +51683,99 @@ exports.default = Loader;
 
 /***/ }),
 
+/***/ "./app/components/Content/LoginButtons.js":
+/*!************************************************!*\
+  !*** ./app/components/Content/LoginButtons.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var LoginButtons = function (_React$Component) {
+    _inherits(LoginButtons, _React$Component);
+
+    function LoginButtons() {
+        _classCallCheck(this, LoginButtons);
+
+        return _possibleConstructorReturn(this, (LoginButtons.__proto__ || Object.getPrototypeOf(LoginButtons)).apply(this, arguments));
+    }
+
+    _createClass(LoginButtons, [{
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                'div',
+                { className: 'buttons' },
+                _react2.default.createElement(
+                    'button',
+                    { disabled: this.props.content === 'feed',
+                        onClick: function onClick() {
+                            _this2.props.trigger(_this2.props.state_param, _this2.props.state_feed);
+                        },
+                        className: 'button_custom button_show_content' },
+                    '\u041B\u0435\u043D\u0442\u0430'
+                ),
+                _react2.default.createElement(
+                    'button',
+                    { disabled: this.props.content === 'posts',
+                        onClick: function onClick() {
+                            _this2.props.trigger(_this2.props.state_param, _this2.props.state_posts);
+                        },
+                        className: 'button_custom button_show_content' },
+                    '\u041C\u043E\u0438 \u0437\u0430\u043F\u0438\u0441\u0438'
+                ),
+                _react2.default.createElement(
+                    'button',
+                    { disabled: this.props.content === 'subs',
+                        onClick: function onClick() {
+                            _this2.props.trigger(_this2.props.state_param, _this2.props.state_subs);
+                        },
+                        className: 'button_custom button_show_content' },
+                    '\u041F\u043E\u0434\u043F\u0438\u0441\u043A\u0438'
+                ),
+                _react2.default.createElement(
+                    'button',
+                    { disabled: this.props.content === 'followers',
+                        onClick: function onClick() {
+                            _this2.props.trigger(_this2.props.state_param, _this2.props.state_followers);
+                        },
+                        className: 'button_custom button_show_content' },
+                    '\u041F\u043E\u0434\u043F\u0438\u0441\u0447\u0438\u043A\u0438'
+                )
+            );
+        }
+    }]);
+
+    return LoginButtons;
+}(_react2.default.Component);
+
+exports.default = LoginButtons;
+
+/***/ }),
+
 /***/ "./app/components/Content/LoginInfo.js":
 /*!*********************************************!*\
   !*** ./app/components/Content/LoginInfo.js ***!
@@ -55535,12 +55628,6 @@ exports.default = undefined;
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _dec, _class;
-//import AvatarForm from '../components/Content/forms/AvatarForm';
-
-//import LoginInfo from '../components/Content/LoginInfo';
-//import EditUserForm from '../components/Content/forms/EditUserForm';
-//import EditPassForm from '../components/Content/forms/EditPassForm';
-
 
 var _react = __webpack_require__(/*! react */ "../node_modules/react/index.js");
 
@@ -55573,6 +55660,10 @@ var _PostForm2 = _interopRequireDefault(_PostForm);
 var _LoginProfile = __webpack_require__(/*! ../components/Content/LoginProfile */ "./app/components/Content/LoginProfile.js");
 
 var _LoginProfile2 = _interopRequireDefault(_LoginProfile);
+
+var _LoginButtons = __webpack_require__(/*! ../components/Content/LoginButtons */ "./app/components/Content/LoginButtons.js");
+
+var _LoginButtons2 = _interopRequireDefault(_LoginButtons);
 
 var _SearchForm = __webpack_require__(/*! ../components/Content/forms/SearchForm */ "./app/components/Content/forms/SearchForm.js");
 
@@ -55889,46 +55980,13 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
                     editUser: this.editUser,
                     editPass: this.editPass,
                     extensions: this.extensions }),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'buttons' },
-                    _react2.default.createElement(
-                        'button',
-                        { disabled: this.state.content === 'feed',
-                            onClick: function onClick() {
-                                _this3.trigger('content', 'feed');
-                            },
-                            className: 'button_custom button_show_content' },
-                        '\u041B\u0435\u043D\u0442\u0430'
-                    ),
-                    _react2.default.createElement(
-                        'button',
-                        { disabled: this.state.content === 'posts',
-                            onClick: function onClick() {
-                                _this3.trigger('content', 'posts');
-                            },
-                            className: 'button_custom button_show_content' },
-                        '\u041C\u043E\u0438 \u0437\u0430\u043F\u0438\u0441\u0438'
-                    ),
-                    _react2.default.createElement(
-                        'button',
-                        { disabled: this.state.content === 'subs',
-                            onClick: function onClick() {
-                                _this3.trigger('content', 'subs');
-                            },
-                            className: 'button_custom button_show_content' },
-                        '\u041F\u043E\u0434\u043F\u0438\u0441\u043A\u0438'
-                    ),
-                    _react2.default.createElement(
-                        'button',
-                        { disabled: this.state.content === 'followers',
-                            onClick: function onClick() {
-                                _this3.trigger('content', 'followers');
-                            },
-                            className: 'button_custom button_show_content' },
-                        '\u041F\u043E\u0434\u043F\u0438\u0441\u0447\u0438\u043A\u0438'
-                    )
-                ),
+                _react2.default.createElement(_LoginButtons2.default, { content: this.state.content,
+                    trigger: this.trigger,
+                    state_param: 'content',
+                    state_feed: 'feed',
+                    state_posts: 'posts',
+                    state_subs: 'subs',
+                    state_followers: 'followers' }),
                 this.state.content === 'feed' && _react2.default.createElement(
                     'div',
                     { className: 'content__cabinet__content' },

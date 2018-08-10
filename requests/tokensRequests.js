@@ -8,9 +8,7 @@ let Tokens = {
                 token: token
             }
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
   },
     // обновить токен по id пользователя
   updateByUserId: (user_id, token, callback) => {
@@ -21,16 +19,14 @@ let Tokens = {
               user_id: user_id
           }
       })
-          .then(result => {callback(result)})
+          .then(result => callback(result))
   },
     // добавить строку с id пользователя
   addUserId: (user_id, callback) => {
       TokensModel.create({
           user_id: user_id
       })
-          .then(result => {
-              callback(result);
-          })
+          .then(result => callback(result))
   }
 };
 

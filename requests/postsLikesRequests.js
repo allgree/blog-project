@@ -16,9 +16,7 @@ let PostsLikes = {
                 attributes: ['id', 'name', 'surname', 'avatar_path']
             }]
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
     // добавить лайк
@@ -37,9 +35,7 @@ let PostsLikes = {
                 user_id: user_id
             }
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     }
 };
 

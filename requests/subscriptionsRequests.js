@@ -40,9 +40,7 @@ let Subscriptions = {
           limit: limit,
           order: [['createdAt', 'DESC']]
       })
-          .then(result => {
-              callback(result);
-          })
+          .then(result => callback(result))
   },
 
     // выборка подписчиков пользователя для автоподгрузки
@@ -100,9 +98,7 @@ let Subscriptions = {
                 sub_user_id: sub_user_id
 
       }})
-          .then(result => {
-              callback(result);
-          })
+          .then(result => callback(result))
       },
 
 
@@ -126,9 +122,7 @@ let Subscriptions = {
                 duplicating: false,
             }],
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
     // добавить подписчика
@@ -150,9 +144,7 @@ let Subscriptions = {
               sub_user_id: sub_user_id
           }
       })
-          .then(result => {
-              callback(result);
-          })
+          .then(result => callback(result))
   },
 
 

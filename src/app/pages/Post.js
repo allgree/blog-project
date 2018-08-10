@@ -55,7 +55,7 @@ export default class Post extends React.Component {
 
     // добавить/удалить лайк к посту
     triggerPostLike() {
-        if (Object.keys(this.props.login).length === 0) return;
+        if (!this.props.login.id) return;
         if (this.props.post.likes.find(like => like.user.id === this.props.login.id)) {
             this.props.dispatch(deletePostLike(this.props.post.id, this.props.login.id));
         } else {
@@ -82,7 +82,7 @@ export default class Post extends React.Component {
 
     // удалить пост
     deletePost(post_id) {
-        if (Object.keys(this.props.login).length === 0) return;
+        if (!this.props.login.id) return;
         this.props.dispatch(deletePost(post_id));
         this.setState({
             redirect_after_delete: true
@@ -100,7 +100,7 @@ export default class Post extends React.Component {
 
     // удалить комментарий
     deleteComment(comment_id) {
-        if (Object.keys(this.props.login).length === 0) return;
+        if (!this.props.login.id) return;
         this.props.dispatch(deletePostComment(comment_id));
     }
 
@@ -129,12 +129,12 @@ export default class Post extends React.Component {
 
                 <div className="content__post_comments">
                     <h3 className="content__post_comments_header">Комментарии</h3>
-                    {(Object.keys(this.props.login).length !== 0 && !this.state.form) &&
+                    {(this.props.login.id && !this.state.form) &&
                     <button onClick={() => {this.triggerCommentForm()}}
                             className="button_custom button_add_comment">
                         Добавить комментарий
                     </button>}
-                    {(Object.keys(this.props.login).length !== 0 && this.state.form) &&
+                    {(this.props.login.id && this.state.form) &&
                     <CommentForm onSubmit={this.addComment}
                                  trigger={this.triggerCommentForm}/>}
 

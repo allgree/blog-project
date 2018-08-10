@@ -52,14 +52,14 @@ export default class Ratings extends React.Component {
 
     // добавить/удалить лайк
     like(post_id) {
-        if (Object.keys(this.props.login).length === 0) return;
+        if (!this.props.login.id) return;
         like(this.props.topViewsPosts, post_id, this.props.dispatch, addPostLike, deletePostLike, this.props.login.id);
         like(this.props.topLikesPosts, post_id, this.props.dispatch, addPostLike, deletePostLike, this.props.login.id);
     }
 
     // удалить пост
     deletePost(post_id) {
-        if (Object.keys(this.props.login).length === 0) return;
+        if (!this.props.login.id) return;
         this.props.dispatch(deletePost(post_id));
         this.props.dispatch(deletePost(post_id));
         this.props.dispatch(fetchTopViewsPosts());

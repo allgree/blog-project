@@ -29,10 +29,10 @@ router.get('/sample/followers/', (req, res, next) => {
 
 // добавить подписку
 router.post('/add/', (req, res, next) => {
-    Subscriptons.findSub(req.body.user_id, req.body.sub_user_id, (result_find) => {
+    Subscriptons.findSub(req.body.user_id, req.body.sub_user_id, result_find => {
         result_find.length
             ? res.json(0)
-            : Subscriptons.addSub(req.body.user_id, req.body.sub_user_id, (result_add) => {
+            : Subscriptons.addSub(req.body.user_id, req.body.sub_user_id, result_add => {
                 Subscriptons.findSubWithUsers(result_add.user_id, result_add.sub_user_id, result_sub => {
                     res.json(result_sub);
                 });
@@ -42,8 +42,7 @@ router.post('/add/', (req, res, next) => {
 
 // удалить подписку
 router.post('/delete/', (req, res, next) => {
-    console.log('!!!  ROUTER !!!');
-   Subscriptons.deleteSub(req.body.user_id, req.body.sub_user_id, (result) => {
+   Subscriptons.deleteSub(req.body.user_id, req.body.sub_user_id, result => {
        res.json(result);
    })
 });

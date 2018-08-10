@@ -53,7 +53,7 @@ export default class Posts extends React.Component {
 
     // удалить пост
     deletePost(post_id) {
-        if (Object.keys(this.props.login).length === 0) return;
+        if (!this.props.login.id) return;
         this.props.dispatch(deletePost(post_id));
     }
 

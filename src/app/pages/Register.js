@@ -46,7 +46,7 @@ export default class Register extends React.Component {
     }
 
     render() {
-        if (Object.keys(this.props.login).length !== 0) {
+        if (this.props.login.id) {
             return <Redirect to="/"/>
         }
         if (this.state.register) {

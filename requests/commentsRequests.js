@@ -21,9 +21,7 @@ let Comments = {
             limit: limit,
             order: [['createdAt', 'DESC']]
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
     // добавить комментаий
     add: (post_id, user_id, body, callback) => {
@@ -32,7 +30,7 @@ let Comments = {
             user_id: user_id,
             body: body
         })
-            .then(result => {callback(result)})
+            .then(result => callback(result))
     },
     // удалить коментарий
     deleteById: (comment_id, callback) => {
@@ -41,9 +39,7 @@ let Comments = {
                 id: comment_id
             }
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
 };

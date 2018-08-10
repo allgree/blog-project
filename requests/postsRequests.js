@@ -22,9 +22,7 @@ let Posts = {
             order: [['views', 'DESC']],
             limit: 5
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
 
@@ -47,9 +45,7 @@ let Posts = {
             order: [[Sequelize.fn('count', Sequelize.col('likes.id')), 'DESC']],
             limit: 5
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
     // выборка постов для автоподгрузки
@@ -71,9 +67,7 @@ let Posts = {
             limit: limit,
             order: [['createdAt', 'DESC']],
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
     // выборка постов одного пользователя для автоподгрузки
@@ -145,9 +139,7 @@ let Posts = {
                 }]
             }],
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
 
@@ -159,9 +151,7 @@ let Posts = {
             body: body,
             views: 0
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
     // удалить пост
@@ -171,9 +161,7 @@ let Posts = {
                 id: post_id
             }
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
     // добавить просмотр
@@ -185,9 +173,7 @@ let Posts = {
                 id: post_id
             }
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     }
 };
 

@@ -6,9 +6,9 @@ const Users = require('../requests/usersRequests');
 
 // добавить лайк к посту
 router.post('/add/', (req, res, next) => {
-    PostLikes.add(req.body.post_id, req.body.user_id, (result_like) => {
+    PostLikes.add(req.body.post_id, req.body.user_id, result_like => {
         let like = result_like.dataValues;
-        Users.findUserByIdForLike(like.user_id, (result_user) => {
+        Users.findUserByIdForLike(like.user_id, result_user => {
             like.user = result_user.dataValues;
             res.json(like);
         });
@@ -17,7 +17,7 @@ router.post('/add/', (req, res, next) => {
 
 // удалить лайк к посту
 router.post('/delete/', (req, res, next) => {
-    PostLikes.delete(req.body.post_id, req.body.user_id, (result) => {
+    PostLikes.delete(req.body.post_id, req.body.user_id, result => {
         res.json({result: result,
                   post_id: req.body.post_id,
                   user_id: req.body.user_id});

@@ -10,7 +10,7 @@ const Users = require('../requests/usersRequests');
 router.get('/sample/post/', (req, res, next) => {
     let result = [];
     let likes = [];
-    Comments.findByPostIdSample(10, +req.query.offset, +req.query.post_id, (result_comments) => {
+    Comments.findByPostIdSample(10, +req.query.offset, +req.query.post_id, result_comments => {
         result_comments.forEach((comment, i) => {
             result[i] = result_comments[i].dataValues;
             likes.push(new Promise((resolve, reject) => {
@@ -33,9 +33,9 @@ router.get('/sample/post/', (req, res, next) => {
 
 // добавить комментарий
 router.post('/add/', (req, res, next) => {
-    Comments.add(req.body.post_id, req.body.user_id, req.body.body, (result_comment) => {
+    Comments.add(req.body.post_id, req.body.user_id, req.body.body, result_comment => {
         let comment = result_comment.dataValues;
-        Users.findUserByIdForNewItem(req.body.user_id, (result_user) => {
+        Users.findUserByIdForNewItem(req.body.user_id, result_user => {
            comment.author = result_user.dataValues;
            comment.likes = [];
            res.json(comment);
@@ -47,7 +47,7 @@ router.post('/add/', (req, res, next) => {
 
 // удалить комментарий
 router.post('/delete/', (req, res, next) => {
-    Comments.deleteById(req.body.comment_id, (result) => {
+    Comments.deleteById(req.body.comment_id, result => {
         res.json(result);
     })
 });

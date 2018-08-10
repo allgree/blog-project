@@ -23,8 +23,8 @@ router.post('/register/',  (req, res, next) => {
     let password = crypto.createHash('md5')
         .update(salts.salt1 + req.body.pass1 + salts.salt2)
         .digest('hex');
-    Users.register(req.body, avatar, password, (result_users) => {
-        Tokens.addUserId(result_users.id, (result_tokens) => {
+    Users.register(req.body, avatar, password, result_users => {
+        Tokens.addUserId(result_users.id, result_tokens => {
             console.log(result_tokens.dataValues);
         });
         res.json(result_users.dataValues);
@@ -33,14 +33,14 @@ router.post('/register/',  (req, res, next) => {
 
 // запрос наличия логина для избежания повторяющегося логина
 router.get('/check-login/', (req, res, next) => {
-    Users.findByLogin(req.query.login, (result) => {
+    Users.findByLogin(req.query.login, result => {
         result === null ? res.json(1) : res.json(0);
     })
 });
 
 // авторизация пользователя
 router.post('/login/', (req, res, next) => {
-    Users.findByLogin(req.body.login, (result) => {
+    Users.findByLogin(req.body.login, result => {
         if (!result) {
             res.json({});
             return;
@@ -53,7 +53,7 @@ router.post('/login/', (req, res, next) => {
         } else {
             delete result.dataValues.password;
             let token = tokenGenerator.createToken({uid: String(result.id), some: "arbitrary", data: "here"});
-            Tokens.updateByUserId(result.id, token, (result) => {
+            Tokens.updateByUserId(result.id, token, result => {
                 //console.log(result);
             });
             if (req.body.remember_me) {
@@ -68,7 +68,7 @@ router.post('/login/', (req, res, next) => {
 // запрос авторизованного пользователя
 router.get('/login-data', (req, res, next) => {
     if (req.session.token) {
-        Tokens.findByToken(req.session.token, (result_token) => {
+        Tokens.findByToken(req.session.token, result_token => {
             if (result_token) {
                 Users.findLoginById(+result_token.user_id, result_user => {
                     res.json(result_user);
@@ -84,7 +84,7 @@ router.get('/login-data', (req, res, next) => {
 
 // выход из аккаунта
 router.post('/unlogged', (req, res, next) => {
-    Tokens.updateByUserId(req.body.user_id, null, (result) => {
+    Tokens.updateByUserId(req.body.user_id, null, result => {
         if (result[0] === 1) {
             delete req.session.token;
             res.json({result: 1})
@@ -94,14 +94,14 @@ router.post('/unlogged', (req, res, next) => {
 
 // редактирование профиля
 router.post('/edit', (req, res, next) => {
-    Users.editProfile(req.body, (result) => {
+    Users.editProfile(req.body, result => {
         res.json(result);
     })
 });
 
 //изменение пароля
 router.post('/pass', (req, res, next) => {
-    Users.findLoginForPass(req.body.user_id, (result_user) => {
+    Users.findLoginForPass(req.body.user_id, result_user => {
         let hash_old_pass = crypto.createHash('md5')
             .update(salts.salt1 + req.body.password + salts.salt2)
             .digest('hex');
@@ -111,7 +111,7 @@ router.post('/pass', (req, res, next) => {
             let hash_new_pass = crypto.createHash('md5')
                 .update(salts.salt1 + req.body.new_pass + salts.salt2)
                 .digest('hex');
-            Users.editPass(req.body.user_id, hash_new_pass, (result_pass) => {
+            Users.editPass(req.body.user_id, hash_new_pass, result_pass => {
                 res.json({result: result_pass[0]})
             })
         }

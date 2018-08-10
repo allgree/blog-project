@@ -55882,7 +55882,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'addPost',
         value: function addPost(values) {
-            if (Object.keys(this.props.login).length === 0 || !values.title || !values.body) return;
+            if (!this.props.login.id || !values.title || !values.body) return;
             this.props.dispatch((0, _userPostsActions.addUserPost)(this.props.login.id, values.title, values.body));
             this.trigger('post', 'button');
         }
@@ -55892,7 +55892,7 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'deletePost',
         value: function deletePost(post_id) {
-            if (Object.keys(this.props.login).length === 0) return;
+            if (!this.props.login.id) return;
             this.props.dispatch((0, _deletePost2.deletePost)(post_id));
         }
 
@@ -56712,7 +56712,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
         value: function triggerPostLike() {
             var _this2 = this;
 
-            if (Object.keys(this.props.login).length === 0) return;
+            if (!this.props.login.id) return;
             if (this.props.post.likes.find(function (like) {
                 return like.user.id === _this2.props.login.id;
             })) {
@@ -56743,7 +56743,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'deletePost',
         value: function deletePost(post_id) {
-            if (Object.keys(this.props.login).length === 0) return;
+            if (!this.props.login.id) return;
             this.props.dispatch((0, _deletePost2.deletePost)(post_id));
             this.setState({
                 redirect_after_delete: true
@@ -56767,7 +56767,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'deleteComment',
         value: function deleteComment(comment_id) {
-            if (Object.keys(this.props.login).length === 0) return;
+            if (!this.props.login.id) return;
             this.props.dispatch((0, _postCommentsActions.deletePostComment)(comment_id));
         }
     }, {
@@ -56800,7 +56800,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                         { className: 'content__post_comments_header' },
                         '\u041A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0438'
                     ),
-                    Object.keys(this.props.login).length !== 0 && !this.state.form && _react2.default.createElement(
+                    this.props.login.id && !this.state.form && _react2.default.createElement(
                         'button',
                         { onClick: function onClick() {
                                 _this3.triggerCommentForm();
@@ -56808,7 +56808,7 @@ var Post = (_dec = (0, _reactRedux.connect)(function (store) {
                             className: 'button_custom button_add_comment' },
                         '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439'
                     ),
-                    Object.keys(this.props.login).length !== 0 && this.state.form && _react2.default.createElement(_CommentForm2.default, { onSubmit: this.addComment,
+                    this.props.login.id && this.state.form && _react2.default.createElement(_CommentForm2.default, { onSubmit: this.addComment,
                         trigger: this.triggerCommentForm }),
                     this.props.comments.length !== 0 && _react2.default.createElement(
                         'div',
@@ -56948,7 +56948,7 @@ var Posts = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'deletePost',
         value: function deletePost(post_id) {
-            if (Object.keys(this.props.login).length === 0) return;
+            if (!this.props.login.id) return;
             this.props.dispatch((0, _deletePost2.deletePost)(post_id));
         }
 
@@ -57116,7 +57116,7 @@ var Ratings = (_dec = (0, _reactRedux.connect)(function (store) {
     _createClass(Ratings, [{
         key: 'like',
         value: function like(post_id) {
-            if (Object.keys(this.props.login).length === 0) return;
+            if (!this.props.login.id) return;
             (0, _like2.like)(this.props.topViewsPosts, post_id, this.props.dispatch, _postLikesActions.addPostLike, _postLikesActions.deletePostLike, this.props.login.id);
             (0, _like2.like)(this.props.topLikesPosts, post_id, this.props.dispatch, _postLikesActions.addPostLike, _postLikesActions.deletePostLike, this.props.login.id);
         }
@@ -57126,7 +57126,7 @@ var Ratings = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'deletePost',
         value: function deletePost(post_id) {
-            if (Object.keys(this.props.login).length === 0) return;
+            if (!this.props.login.id) return;
             this.props.dispatch((0, _deletePost2.deletePost)(post_id));
             this.props.dispatch((0, _deletePost2.deletePost)(post_id));
             this.props.dispatch((0, _topViewsPostsActions.fetchTopViewsPosts)());
@@ -57334,7 +57334,7 @@ var Register = (_dec = (0, _reactRedux.connect)(function (store) {
     }, {
         key: 'render',
         value: function render() {
-            if (Object.keys(this.props.login).length !== 0) {
+            if (this.props.login.id) {
                 return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' });
             }
             if (this.state.register) {

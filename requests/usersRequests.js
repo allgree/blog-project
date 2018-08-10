@@ -21,9 +21,7 @@ let Users = {
             order: [[Sequelize.fn('count', Sequelize.col('posts.id')), 'DESC']],
             limit: 1,
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
     // самый активный комментатор
@@ -39,9 +37,7 @@ let Users = {
             order: [[Sequelize.fn('count', Sequelize.col('comments.id')), 'DESC']],
             limit: 1,
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
     // выборка пользователей
@@ -64,9 +60,7 @@ let Users = {
             offset: offset,
             limit: limit
         })
-            .then(result => {
-                callback(result)
-            })
+            .then(result => callback(result))
     },
 
     // запрос одного пользователя для отображения на странице
@@ -77,9 +71,7 @@ let Users = {
                 id: user_id
             }
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
     //Запрос одного пользователя для добавления лайка
@@ -90,9 +82,7 @@ let Users = {
                 id: user_id
             }
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
     // запрос пользователя для добавления информации о авторе в сохраняемом посте
@@ -103,9 +93,7 @@ let Users = {
                 id: user_id
             }
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
     // регистрация нового пользователя
@@ -120,9 +108,7 @@ let Users = {
             site: user.site,
             email: user.email
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
     // авторизация пользователя
@@ -132,9 +118,7 @@ let Users = {
                 login: login
             }
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
     //  запрос авторизованного пользователя
@@ -145,9 +129,7 @@ let Users = {
                 id: user_id
             }
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
 
@@ -165,9 +147,7 @@ let Users = {
                 id: profile.id
             }
         })
-            .then(result => {
-                callback(result)
-            })
+            .then(result => callback(result))
     },
 
     // Запрос пользователя для проверки пароля при изменении
@@ -178,9 +158,7 @@ let Users = {
                 id: user_id
             }
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
 
     // изменение пароля пользователя
@@ -192,9 +170,7 @@ let Users = {
                 id: user_id
             }
         })
-            .then(result => {
-                callback(result)
-            })
+            .then(result => callback(result))
     },
 
     // смена аватара пользователя
@@ -206,9 +182,7 @@ let Users = {
                 id: user_id
             }
         })
-            .then(result => {
-                callback(result)
-            })
+            .then(result => callback(result))
     }
 
 };

@@ -113,14 +113,14 @@ export default class Cabinet extends React.Component {
 
     // добавить пост
     addPost(values) {
-        if (Object.keys(this.props.login).length === 0 || !values.title || !values.body) return;
+        if (!this.props.login.id || !values.title || !values.body) return;
         this.props.dispatch(addUserPost(this.props.login.id, values.title, values.body));
         this.trigger('post', 'button');
     }
 
     // удалить пост
     deletePost(post_id) {
-        if (Object.keys(this.props.login).length === 0) return;
+        if (!this.props.login.id) return;
         this.props.dispatch(deletePost(post_id));
     }
 

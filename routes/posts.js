@@ -64,7 +64,7 @@ router.get('/top_likes/', (req, res, next) => {
 router.get('/sample/', (req, res, next) => {
     let result = [];
     let likes = [];
-    Posts.findSample(10, +req.query.offset, req.query.value, (result_posts) => {
+    Posts.findSample(10, +req.query.offset, req.query.value, result_posts => {
         result_posts.forEach((post, i) => {
             result[i] = post.dataValues;
             likes.push(new Promise((resolve, reject) => {
@@ -115,7 +115,7 @@ router.get('/user-posts-sample/', (req, res, next) => {
 router.get('/feed/', (req, res, next) => {
     let result = [];
     let likes = [];
-    Subscriptions.findSubs(+req.query.user_id, (result_subs) => {
+    Subscriptions.findSubs(+req.query.user_id, result_subs => {
         let arr_sub_users = result_subs.map((sub) => {
             return sub.sub_user_id;
         });
@@ -143,7 +143,7 @@ router.get('/feed/', (req, res, next) => {
 
 // один пост по id
 router.get('/:post_id', (req, res, next) => {
-    Posts.findById(req.params.post_id, (resultPost) => {
+    Posts.findById(req.params.post_id, resultPost => {
         resultPost.dataValues.views++;
         Posts.updateViews(resultPost.dataValues.id, resultPost.dataValues.views, (resultUpdate) => {
             res.json(resultPost);
@@ -154,9 +154,9 @@ router.get('/:post_id', (req, res, next) => {
 
 // добавить пост
 router.post('/add/', (req, res, next) => {
-   Posts.add(req.body.user_id, req.body.title, req.body.body, (result_post) => {
+   Posts.add(req.body.user_id, req.body.title, req.body.body, result_post => {
        let post = result_post.dataValues;
-       Users.findUserByIdForNewItem(req.body.user_id, (result_user) => {
+       Users.findUserByIdForNewItem(req.body.user_id, result_user => {
            post.author = result_user.dataValues;
            post.likes = [];
            res.json(post);
@@ -166,7 +166,7 @@ router.post('/add/', (req, res, next) => {
 
 // удалить пост
 router.post('/delete/', (req, res, next) => {
-   Posts.delete(req.body.post_id, (result_delete_post) => {
+   Posts.delete(req.body.post_id, result_delete_post => {
            res.json(result_delete_post);
    })
 });

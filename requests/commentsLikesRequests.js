@@ -16,9 +16,7 @@ let CommentsLikes = {
                 attributes: ['id', 'name', 'surname', 'avatar_path']
             }]
         })
-            .then(result => {
-                callback(result);
-            })
+            .then(result => callback(result))
     },
     // добавить лайк к комметарию
     add: (comment_id, user_id, callback) => {
@@ -26,7 +24,7 @@ let CommentsLikes = {
             comment_id: comment_id,
             user_id: user_id
         })
-            .then(result => {callback(result)})
+            .then(result => callback(result))
     },
     // удалить лайк к комментарию
     delete: (comment_id, user_id, callback) => {
@@ -36,7 +34,7 @@ let CommentsLikes = {
                 user_id: user_id
             }
         })
-            .then(result => {callback(result);})
+            .then(result => callback(result))
     }
 };
 

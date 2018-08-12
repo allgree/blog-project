@@ -24,7 +24,7 @@ module.exports = {
         publicPath: '/'
     },
 
-    devtool: 'source-map',
+   // devtool: 'source-map',
 
     module: {
         rules: [
@@ -116,18 +116,18 @@ module.exports = {
             filename: path.join(__dirname, 'public', 'index.html')
         }),
 
-    //    // Image optimizer
-    //    new ImageminPlugin({
-    //    test: /\.(jpe?g|png|gif|svg)$/i
-    //}),
-//
-    //    new UglifyJSPlugin({
-    //    sourceMap: true
-    //}),
-//
-    //    new webpack.LoaderOptionsPlugin({
-    //    minimize: true
-    //}),
+        // Image optimizer
+        new ImageminPlugin({
+        test: /\.(jpe?g|png|gif|svg)$/i
+    }),
+
+        new UglifyJSPlugin({
+        sourceMap: true
+    }),
+
+        new webpack.LoaderOptionsPlugin({
+        minimize: true
+    }),
     ]
 };
 

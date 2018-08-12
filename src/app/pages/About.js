@@ -103,7 +103,7 @@ export default class Main extends React.Component {
                 {this.state.form === false
                   ?  <button onClick={() => {this.triggerForm('form', true)}}
                             className="button_custom button_add_opinion">
-                        Добавить пост
+                        Добавить отзыв
                     </button>
                   : <OpinionForm onSubmit={this.addOpinion}
                                  trigger={this.triggerForm}

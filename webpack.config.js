@@ -1,6 +1,7 @@
 const path = require('path');
 const Html = require('html-webpack-plugin');
 const webpack = require('webpack');
+const argv = require('yargs').argv;
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -8,6 +9,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
+const isDevelopment = argv.mode === 'development';
+const isProduction = !isDevelopment;
 module.exports = {
     context: path.resolve(__dirname, 'src'),
 
@@ -24,7 +27,7 @@ module.exports = {
         publicPath: '/'
     },
 
-   // devtool: 'source-map',
+    devtool: isDevelopment ? 'source-map' : false,
 
     module: {
         rules: [
@@ -115,19 +118,27 @@ module.exports = {
             template: path.join(__dirname, 'src', 'index.html'),
             filename: path.join(__dirname, 'public', 'index.html')
         }),
-
-        // Image optimizer
-        new ImageminPlugin({
-        test: /\.(jpe?g|png|gif|svg)$/i
-    }),
-
-        new UglifyJSPlugin({
-        sourceMap: true
-    }),
-
-        new webpack.LoaderOptionsPlugin({
-        minimize: true
-    }),
     ]
 };
+
+if (isProduction) {
+    module.exports.plugins.push(
+        // Image optimizer
+        new ImageminPlugin({
+            test: /\.(jpe?g|png|gif|svg)$/i
+        })
+    );
+
+    module.exports.plugins.push(
+        new UglifyJSPlugin({
+            sourceMap: true
+        })
+    );
+
+    module.exports.plugins.push(
+        new webpack.LoaderOptionsPlugin({
+            minimize: true
+        })
+    );
+}
 

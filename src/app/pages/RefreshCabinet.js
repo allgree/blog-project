@@ -1,8 +1,9 @@
 import React from 'react';
-
-import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 
 import {fetchLoginData} from "../actions/loginActions";
+
+import {connect} from 'react-redux';
 
 @connect((store) => {
     return {
@@ -10,17 +11,18 @@ import {fetchLoginData} from "../actions/loginActions";
         is_login_fetching: store.login.is_fetching
     }
 })
-export default class Main extends React.Component {
+
+export default class RefreshCabinet extends React.Component {
     constructor() {
         super(...arguments);
         this.props.dispatch(fetchLoginData());
     }
 
     render() {
-        return (
-            <div className="content__not_found">
-                <h1>Страница не найдена.</h1>
-            </div>
-        )
+        if (this.props.login.id) {
+            return <Redirect to="/cabinet"/>
+        } else {
+            return null;
+        }
     }
 }

@@ -29,7 +29,7 @@ export default class UserItem extends React.Component {
                                question={this.props.flag
                                    ? `Отписаться от пользователя ${this.props.user.name} ${this.props.user.surname}?`
                                    : `Отписать пользователя ${this.props.user.name} ${this.props.user.surname}?`}/>}
-                <Link to={this.props.change_match_param ? `/change_match_param/${this.props.user.id}` : `/user/${this.props.user.id}`}
+                <Link to={this.props.change_match_param ? `/redirect_component/user/${this.props.user.id}` : `/user/${this.props.user.id}`}
                       className="user_item__link">
                     <p className="user_item__ava">
                         <img src={this.props.user.avatar_path} className="user_item__ava__img"/>

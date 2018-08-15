@@ -18,7 +18,8 @@ import Unlogged from './app/pages/Unlogged';
 import Cabinet from './app/pages/Cabinet';
 import Register from './app/pages/Register';
 import PageNotFound from './app/pages/PageNotFound';
-import ChangeMatchParam from "./app/pages/ChangeMatchParam";
+import RedirectComponent from "./app/pages/RedirectComponent";
+import RefreshCabinet from "./app/pages/RefreshCabinet";
 
 const app = document.getElementById('app');
 
@@ -40,7 +41,8 @@ class App extends React.Component {
                                 <Route path="/unlogged" component={Unlogged}/>
                                 <Route path="/cabinet" component={Cabinet}/>
                                 <Route path="/register" component={Register}/>
-                                <Route path="/change_match_param/:id" component={ChangeMatchParam}/>
+                                <Route path="/redirect_component" component={RedirectComponent}/>
+                                <Route path="/refresh_cabinet" component={RefreshCabinet}/>
                                 <Route path="*" component={PageNotFound}/>
                             </Switch>
                         </Layout>

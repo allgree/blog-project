@@ -50557,9 +50557,13 @@ var _PageNotFound = __webpack_require__(/*! ./app/pages/PageNotFound */ "./app/p
 
 var _PageNotFound2 = _interopRequireDefault(_PageNotFound);
 
-var _ChangeMatchParam = __webpack_require__(/*! ./app/pages/ChangeMatchParam */ "./app/pages/ChangeMatchParam.js");
+var _RedirectComponent = __webpack_require__(/*! ./app/pages/RedirectComponent */ "./app/pages/RedirectComponent.js");
 
-var _ChangeMatchParam2 = _interopRequireDefault(_ChangeMatchParam);
+var _RedirectComponent2 = _interopRequireDefault(_RedirectComponent);
+
+var _RefreshCabinet = __webpack_require__(/*! ./app/pages/RefreshCabinet */ "./app/pages/RefreshCabinet.js");
+
+var _RefreshCabinet2 = _interopRequireDefault(_RefreshCabinet);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -50606,7 +50610,8 @@ var App = function (_React$Component) {
                             _react2.default.createElement(_reactRouterDom.Route, { path: '/unlogged', component: _Unlogged2.default }),
                             _react2.default.createElement(_reactRouterDom.Route, { path: '/cabinet', component: _Cabinet2.default }),
                             _react2.default.createElement(_reactRouterDom.Route, { path: '/register', component: _Register2.default }),
-                            _react2.default.createElement(_reactRouterDom.Route, { path: '/change_match_param/:id', component: _ChangeMatchParam2.default }),
+                            _react2.default.createElement(_reactRouterDom.Route, { path: '/redirect_component', component: _RedirectComponent2.default }),
+                            _react2.default.createElement(_reactRouterDom.Route, { path: '/refresh_cabinet', component: _RefreshCabinet2.default }),
                             _react2.default.createElement(_reactRouterDom.Route, { path: '*', component: _PageNotFound2.default })
                         )
                     )
@@ -52779,7 +52784,7 @@ var UserItem = function (_React$Component) {
                     question: this.props.flag ? '\u041E\u0442\u043F\u0438\u0441\u0430\u0442\u044C\u0441\u044F \u043E\u0442 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F ' + this.props.user.name + ' ' + this.props.user.surname + '?' : '\u041E\u0442\u043F\u0438\u0441\u0430\u0442\u044C \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F ' + this.props.user.name + ' ' + this.props.user.surname + '?' }),
                 _react2.default.createElement(
                     _reactRouterDom.Link,
-                    { to: this.props.change_match_param ? '/change_match_param/' + this.props.user.id : '/user/' + this.props.user.id,
+                    { to: this.props.change_match_param ? '/redirect_component/user/' + this.props.user.id : '/user/' + this.props.user.id,
                         className: 'user_item__link' },
                     _react2.default.createElement(
                         'p',
@@ -56028,7 +56033,8 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
             var _this3 = this;
 
             if (!this.props.login.id) {
-                return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/login' });
+                //return <Redirect to="/login"/>
+                return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/refresh_cabinet' });
             }
 
             var feed_posts = this.props.feed_posts.map(function (post, index) {
@@ -56195,60 +56201,6 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
 }(_react2.default.Component)) || _class);
 exports.default = Cabinet;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "../node_modules/jquery/dist/jquery.js")))
-
-/***/ }),
-
-/***/ "./app/pages/ChangeMatchParam.js":
-/*!***************************************!*\
-  !*** ./app/pages/ChangeMatchParam.js ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "../node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "../node_modules/react-router-dom/es/index.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var ChangeMatchParam = function (_React$Component) {
-    _inherits(ChangeMatchParam, _React$Component);
-
-    function ChangeMatchParam() {
-        _classCallCheck(this, ChangeMatchParam);
-
-        return _possibleConstructorReturn(this, (ChangeMatchParam.__proto__ || Object.getPrototypeOf(ChangeMatchParam)).apply(this, arguments));
-    }
-
-    _createClass(ChangeMatchParam, [{
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/user/' + this.props.match.params.id });
-        }
-    }]);
-
-    return ChangeMatchParam;
-}(_react2.default.Component);
-
-exports.default = ChangeMatchParam;
 
 /***/ }),
 
@@ -56591,7 +56543,7 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
                 _react2.default.createElement(
                     'h1',
                     null,
-                    'Page Not Found'
+                    '\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u0430 \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u0430.'
                 )
             );
         }
@@ -57242,6 +57194,132 @@ var Ratings = (_dec = (0, _reactRedux.connect)(function (store) {
 }(_react2.default.Component)) || _class);
 exports.default = Ratings;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "../node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./app/pages/RedirectComponent.js":
+/*!****************************************!*\
+  !*** ./app/pages/RedirectComponent.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "../node_modules/react-router-dom/es/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var RedirectComponent = function (_React$Component) {
+    _inherits(RedirectComponent, _React$Component);
+
+    function RedirectComponent() {
+        _classCallCheck(this, RedirectComponent);
+
+        return _possibleConstructorReturn(this, (RedirectComponent.__proto__ || Object.getPrototypeOf(RedirectComponent)).apply(this, arguments));
+    }
+
+    _createClass(RedirectComponent, [{
+        key: 'render',
+        value: function render() {
+            var route = this.props.location.pathname.replace('/redirect_component', '');
+            return _react2.default.createElement(_reactRouterDom.Redirect, { to: route });
+        }
+    }]);
+
+    return RedirectComponent;
+}(_react2.default.Component);
+
+exports.default = RedirectComponent;
+
+/***/ }),
+
+/***/ "./app/pages/RefreshCabinet.js":
+/*!*************************************!*\
+  !*** ./app/pages/RefreshCabinet.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _class;
+
+var _react = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "../node_modules/react-router-dom/es/index.js");
+
+var _loginActions = __webpack_require__(/*! ../actions/loginActions */ "./app/actions/loginActions.js");
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "../node_modules/react-redux/es/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var RefreshCabinet = (_dec = (0, _reactRedux.connect)(function (store) {
+    return {
+        login: store.login.login,
+        is_login_fetching: store.login.is_fetching
+    };
+}), _dec(_class = function (_React$Component) {
+    _inherits(RefreshCabinet, _React$Component);
+
+    function RefreshCabinet() {
+        _classCallCheck(this, RefreshCabinet);
+
+        var _this = _possibleConstructorReturn(this, (RefreshCabinet.__proto__ || Object.getPrototypeOf(RefreshCabinet)).apply(this, arguments));
+
+        _this.props.dispatch((0, _loginActions.fetchLoginData)());
+        return _this;
+    }
+
+    _createClass(RefreshCabinet, [{
+        key: 'render',
+        value: function render() {
+            if (this.props.login.id) {
+                return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/cabinet' });
+            } else {
+                return null;
+            }
+        }
+    }]);
+
+    return RefreshCabinet;
+}(_react2.default.Component)) || _class);
+exports.default = RefreshCabinet;
 
 /***/ }),
 

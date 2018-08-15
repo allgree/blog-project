@@ -3280,6 +3280,12 @@ nav {
   font-family: "Quant Antiqua Plain", sans-serif; }
 
 /*end UserTop*/
+/*PageNotFound*/
+.content__not_found > h1 {
+  font-family: "Arial Cyr Bold", sans-serif;
+  text-align: center; }
+
+/*end PageNotFound*/
 /*TooltipLikes*/
 .tooltip_content {
   background-color: #9A4D2C;

@@ -91,6 +91,7 @@ export default class Cabinet extends React.Component {
         this.extensions = ['jpeg', 'jpg'];
     }
 
+
     //поставить/убрать лайк на пост из списка Лента
     triggerFeedPostLike(post_id) {
         like(this.props.feed_posts,
@@ -232,7 +233,8 @@ export default class Cabinet extends React.Component {
 
     render() {
         if (!this.props.login.id) {
-            return <Redirect to="/login"/>
+            //return <Redirect to="/login"/>
+            return <Redirect to="/refresh_cabinet"/>
         }
 
         let feed_posts = this.props.feed_posts.map((post, index) => {

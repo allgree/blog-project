@@ -39,7 +39,7 @@ export default class Login extends React.Component {
 
     render() {
         if (this.props.login.id) {
-            return <Redirect to="/cabinet"/>
+            return <Redirect to="/"/>
         }
 
         return (

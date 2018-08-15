@@ -56290,7 +56290,7 @@ var Login = (_dec = (0, _reactRedux.connect)(function (store) {
         key: 'render',
         value: function render() {
             if (this.props.login.id) {
-                return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/cabinet' });
+                return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' });
             }
 
             return _react2.default.createElement(
@@ -56400,6 +56400,15 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
                             { to: '/register', className: 'main_welcome_link' },
                             '\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u0442\u044C\u0441\u044F'
                         )
+                    ),
+                    this.props.login.id && _react2.default.createElement(
+                        'div',
+                        null,
+                        _react2.default.createElement(
+                            _reactRouterDom.Link,
+                            { to: '/cabinet', className: 'main_welcome_link' },
+                            '\u041B\u0438\u0447\u043D\u044B\u0439 \u043A\u0430\u0431\u0438\u043D\u0435\u0442'
+                        )
                     )
                 ),
                 _react2.default.createElement(
@@ -56442,20 +56451,6 @@ var Main = (_dec = (0, _reactRedux.connect)(function (store) {
                         'p',
                         { className: 'content_main_p' },
                         '\u041F\u0440\u043E\u0441\u043C\u0430\u0442\u0440\u0438\u0432\u0430\u0439\u0442\u0435 \u0440\u0435\u0439\u0442\u0438\u043D\u0433\u0438 \u0441\u0430\u0439\u0442\u0430!'
-                    )
-                ),
-                this.props.login.id && _react2.default.createElement(
-                    _reactRouterDom.Link,
-                    { to: '/cabinet', className: 'content__main__link block_item' },
-                    _react2.default.createElement(
-                        'p',
-                        null,
-                        '\u041B\u0438\u0447\u043D\u044B\u0439 \u043A\u0430\u0431\u0438\u043D\u0435\u0442'
-                    ),
-                    _react2.default.createElement(
-                        'p',
-                        { className: 'content_main_p' },
-                        '\u0417\u0430\u0439\u0434\u0438\u0442\u0435 \u0432 \u0441\u0432\u043E\u0439 \u043B\u0438\u0447\u043D\u044B\u0439 \u043A\u0430\u0431\u0438\u043D\u0435\u0442!'
                     )
                 ),
                 _react2.default.createElement(

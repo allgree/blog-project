@@ -25,6 +25,10 @@ export default class Main extends React.Component {
                         <Link to='/login' className='main_welcome_link'>Войти</Link>
                         <Link to='/register' className='main_welcome_link'>Зарегистрироваться</Link>
                     </div>}
+                    {this.props.login.id &&
+                    <div>
+                        <Link to='/cabinet' className='main_welcome_link'>Личный кабинет</Link>
+                    </div> }
                 </div>
                 <Link to="/posts" className="content__main__link block_item">
                     <p>Записи</p>
@@ -44,15 +48,6 @@ export default class Main extends React.Component {
                         Просматривайте рейтинги сайта!
                     </p>
                 </Link>
-
-                {this.props.login.id &&
-                <Link to="/cabinet" className="content__main__link block_item">
-                    <p>Личный кабинет</p>
-                    <p className="content_main_p">
-                        Зайдите в свой личный кабинет!
-                    </p>
-                </Link>}
-
                 <Link to="/about" className="content__main__link block_item">
                     <p>О проекте</p>
                     <p className="content_main_p">

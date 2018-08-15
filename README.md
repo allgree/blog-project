@@ -17,6 +17,7 @@
 Структура проекта:
 - models - модели таблиц базы данных
 - requests - запросы к базе данных с помощью моделей из папки models
+- public - frontend-приложение, собранное с помощью webpack
 - routes - обработчики запросов клиента
 + src - исходные файлы frontend-приложения
    + app - js-файлы React-приложения
@@ -45,3 +46,5 @@
 - index.js - входная точка node.js-приложения
 - package.json - конфигурация npm
 - webpack.config.js - конфигурация webpack
+
+Приложене также доступно по адресу: http://personal-blog.ru.

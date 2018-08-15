@@ -19,7 +19,7 @@ class PostForm extends React.Component {
                     <Field component="textarea"
                            name="body"
                            id="post_body"
-                           className="input_custom"
+                           className="input_custom textarea_custom"
                            cols="110"
                            rows="10"
                            required/>

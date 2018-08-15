@@ -10,7 +10,7 @@ class CommentForm extends React.Component {
                        cols="110"
                        rows="10"
                        id="comment_body"
-                       className="input_custom"
+                       className="input_custom textarea_custom"
                        required/>
                 <br/>
                 <button onClick={() => {this.submit()}}

@@ -2468,6 +2468,11 @@ html {
   border: none;
   border-radius: 5px; }
 
+.textarea_custom {
+  width: 950px;
+  height: 150px;
+  transition: all 0.1s linear; }
+
 /*end form*/
 /*link to up*/
 .link_to_up {
@@ -3471,6 +3476,9 @@ nav {
 
 /*end Delete Window*/
 @media screen and (max-width: 1280px) and (min-width: 1024px) {
+  .textarea_custom {
+    width: 750px;
+    height: 150px; }
   .content {
     min-width: 800px;
     width: 840px; }
@@ -3483,6 +3491,15 @@ nav {
   .content {
     min-width: 600px;
     width: 640px; }
+  .label_custom {
+    font-size: 14px; }
+  .input_custom {
+    max-width: 590px;
+    margin-bottom: 5px;
+    height: 10px; }
+  .textarea_custom {
+    width: 550px;
+    height: 150px; }
   /*Nav*/
   #nav_input:checked ~ .nav_menu {
     width: 110px; }
@@ -3519,12 +3536,6 @@ nav {
   .content__cabinet__login_ava > .big_avatar {
     width: 250px;
     height: 250px; }
-  /*end Cabinet*/
-  .label_custom {
-    font-size: 14px; }
-  .input_custom {
-    max-width: 590px;
-    margin-bottom: 5px;
-    height: 10px; } }
+  /*end Cabinet*/ }
 
 /*# sourceMappingURL=app.css.map*/

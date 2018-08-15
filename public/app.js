@@ -53202,7 +53202,7 @@ var CommentForm = function (_React$Component) {
                     cols: '110',
                     rows: '10',
                     id: 'comment_body',
-                    className: 'input_custom',
+                    className: 'input_custom textarea_custom',
                     required: true }),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
@@ -53705,7 +53705,7 @@ var OpinionForm = function (_React$Component) {
 
             return _react2.default.createElement(
                 'form',
-                { onSubmit: this.props.handleSubmit, className: 'opinion_form' },
+                { onSubmit: this.props.handleSubmit, className: 'opinion_form ' },
                 !this.props.login.id && _react2.default.createElement(
                     'div',
                     null,
@@ -53727,7 +53727,7 @@ var OpinionForm = function (_React$Component) {
                     id: 'body',
                     cols: '110',
                     rows: '10',
-                    className: 'input_custom',
+                    className: 'input_custom textarea_custom',
                     maxLength: '200',
                     required: true }),
                 _react2.default.createElement('br', null),
@@ -53826,7 +53826,7 @@ var PostForm = function (_React$Component) {
                     _react2.default.createElement(_reduxForm.Field, { component: 'textarea',
                         name: 'body',
                         id: 'post_body',
-                        className: 'input_custom',
+                        className: 'input_custom textarea_custom',
                         cols: '110',
                         rows: '10',
                         required: true }),

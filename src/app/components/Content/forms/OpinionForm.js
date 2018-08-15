@@ -4,7 +4,7 @@ import {Field, reduxForm } from 'redux-form';
 class OpinionForm extends React.Component {
     render() {
         return (
-            <form onSubmit={this.props.handleSubmit} className="opinion_form">
+            <form onSubmit={this.props.handleSubmit} className="opinion_form ">
                 {!this.props.login.id &&
                 <div>
                     <label htmlFor="name"
@@ -23,7 +23,7 @@ class OpinionForm extends React.Component {
                        id="body"
                        cols="110"
                        rows="10"
-                       className="input_custom"
+                       className="input_custom textarea_custom"
                        maxLength="200"
                        required/>
                 <br/>

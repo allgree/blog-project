@@ -54259,10 +54259,10 @@ var LoginPanel = (_dec = (0, _reactRedux.connect)(function (store) {
 
     _createClass(LoginPanel, [{
         key: 'hideMenu',
-        value: function hideMenu() {
+        value: function hideMenu(event) {
             var label = document.querySelector('.login__panel__label');
             var input = document.querySelector('#login__panel_input');
-            if (event.srcElement !== label && event.srcElement !== input) {
+            if (event.target !== label && event.target !== input) {
                 input.checked = false;
             }
         }

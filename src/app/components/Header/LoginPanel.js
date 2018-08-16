@@ -13,10 +13,10 @@ export default class LoginPanel extends React.Component {
     }
 
     // скрыть меню логина (Личный кабинет, Выход)
-    hideMenu() {
+    hideMenu(event) {
         let label = document.querySelector('.login__panel__label');
         let input = document.querySelector('#login__panel_input');
-        if (event.srcElement !== label && event.srcElement !== input) {
+        if (event.target !== label && event.target !== input) {
             input.checked = false;
         }
     }

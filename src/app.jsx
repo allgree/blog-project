@@ -19,6 +19,7 @@ import Cabinet from './app/pages/Cabinet';
 import Register from './app/pages/Register';
 import PageNotFound from './app/pages/PageNotFound';
 import RedirectComponent from "./app/pages/RedirectComponent";
+import RefreshCabinet from "./app/pages/RefreshCabinet";
 
 const app = document.getElementById('app');
 
@@ -41,6 +42,7 @@ class App extends React.Component {
                                 <Route path="/cabinet" component={Cabinet}/>
                                 <Route path="/register" component={Register}/>
                                 <Route path="/redirect_component" component={RedirectComponent}/>
+                                <Route path="/refresh_cabinet" component={RefreshCabinet}/>
                                 <Route path="*" component={PageNotFound}/>
                             </Switch>
                         </Layout>

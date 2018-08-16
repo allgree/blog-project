@@ -27,7 +27,6 @@ import {scrollTop} from "../componentsFunctions/scrollTop";
 import {searchPosts} from "../componentsFunctions/searchPosts";
 import {searchUsers} from "../componentsFunctions/searchUsers";
 
-
 @connect((store) => {
     return {
         login: store.login.login,
@@ -234,7 +233,8 @@ export default class Cabinet extends React.Component {
 
     render() {
         if (!this.props.login.id) {
-            return <Redirect to="/login"/>
+            //return <Redirect to="/login"/>
+            return <Redirect to="/refresh_cabinet"/>
         }
 
         let feed_posts = this.props.feed_posts.map((post, index) => {

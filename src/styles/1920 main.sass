@@ -82,6 +82,10 @@ html
   border: none
   border-radius: 5px
 
+
+.input_custom:invalid
+  box-shadow: none
+
 .textarea_custom
   width: $content_width - 50px
   height: 150px
@@ -326,6 +330,7 @@ nav
   height: 0
   position: fixed
   margin-top: $nav_height/2 - 6px
+  -moz-margin-top: $nav_height/2 - 5px
   right: 0
   overflow: hidden
   transition: height 0.1s ease

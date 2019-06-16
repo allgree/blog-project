@@ -53207,10 +53207,7 @@ var CommentForm = function (_React$Component) {
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     'button',
-                    { onClick: function onClick() {
-                            _this2.submit();
-                        },
-                        className: 'button_custom button_custom__save' },
+                    { className: 'button_custom button_custom__save' },
                     '\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C'
                 ),
                 _react2.default.createElement(
@@ -55918,6 +55915,9 @@ var Cabinet = (_dec = (0, _reactRedux.connect)(function (store) {
         key: 'editUser',
         value: function editUser(values) {
             values.id = this.props.login.id;
+            if (values.age && (values.age ^ 0) !== values.age) {
+                values.age = null;
+            }
             this.props.dispatch((0, _loginActions.editUser)(values));
             this.setState({
                 info: 'info'

@@ -5,8 +5,8 @@ CommentsLikesModel.belongsTo(UsersModel, {foreignKey: 'user_id'});
 
 let CommentsLikes = {
     // получить лайки к комментарию
-    findByCommentId: (comment_id, callback) => {
-        CommentsLikesModel.findAll({
+    findByCommentId: (comment_id) => {
+        return CommentsLikesModel.findAll({
             attributes: ['id'],
             where: {
                 comment_id: comment_id
@@ -16,25 +16,22 @@ let CommentsLikes = {
                 attributes: ['id', 'name', 'surname', 'avatar_path']
             }]
         })
-            .then(result => callback(result))
     },
     // добавить лайк к комметарию
-    add: (comment_id, user_id, callback) => {
-        CommentsLikesModel.create({
+    add: (comment_id, user_id) => {
+        return CommentsLikesModel.create({
             comment_id: comment_id,
             user_id: user_id
         })
-            .then(result => callback(result))
     },
     // удалить лайк к комментарию
-    delete: (comment_id, user_id, callback) => {
-        CommentsLikesModel.destroy({
+    delete: (comment_id, user_id) => {
+        return CommentsLikesModel.destroy({
             where: {
                 comment_id: comment_id,
                 user_id: user_id
             }
         })
-            .then(result => callback(result))
     }
 };
 

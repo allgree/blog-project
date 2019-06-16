@@ -1,17 +1,18 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
 
+const {INTEGER, TEXT, DATE} = Sequelize;
 const model = db.define('comments', {
     id: {
-        type: Sequelize.INTEGER,
+        type: INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    post_id: Sequelize.INTEGER,
-    user_id: Sequelize.INTEGER,
-    body: Sequelize.TEXT,
-    createdAt: Sequelize.DATE,
-    updatedAt: Sequelize.DATE
+    post_id: INTEGER,
+    user_id: INTEGER,
+    body: TEXT,
+    createdAt: DATE,
+    updatedAt: DATE
 });
 
 module.exports = model;

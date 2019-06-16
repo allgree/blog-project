@@ -12,14 +12,10 @@ const Subscriptions = require('../requests/subscriptionsRequests');
 router.get('/top_views/', (req, res, next) => {
         let result = [];
         let likes = [];
-        Posts.findTopViewsPosts(result_posts => {
+        Posts.findTopViewsPosts().then(result_posts => {
             result_posts.forEach((post, i) => {
                 result[i] = post.dataValues;
-                likes.push(new Promise((resolve, reject) => {
-                    PostsLikes.findPostLikes(post.id, result_likes => {
-                        resolve(result_likes);
-                    })
-                }));
+                likes.push(PostsLikes.findPostLikes(post.id));
             });
             Promise.all(likes).then(resultMessage => {
                 result.forEach((item, i) => {
@@ -29,7 +25,7 @@ router.get('/top_views/', (req, res, next) => {
             }, errMessage => {
                 console.log(errMessage);
             });
-        })
+        });
     }
 );
 
@@ -38,14 +34,10 @@ router.get('/top_views/', (req, res, next) => {
 router.get('/top_likes/', (req, res, next) => {
         let result = [];
         let likes = [];
-        Posts.findTopLikesPosts(result_posts => {
+        Posts.findTopLikesPosts().then(result_posts => {
             result_posts.forEach((post, i) => {
                 result[i] = post.dataValues;
-                likes.push(new Promise((resolve, reject) => {
-                    PostsLikes.findPostLikes(post.id, result_likes => {
-                        resolve(result_likes);
-                    })
-                }));
+                likes.push(PostsLikes.findPostLikes(post.id));
             });
             Promise.all(likes).then(resultMessage => {
                 result.forEach((item, i) => {
@@ -64,14 +56,10 @@ router.get('/top_likes/', (req, res, next) => {
 router.get('/sample/', (req, res, next) => {
     let result = [];
     let likes = [];
-    Posts.findSample(10, +req.query.offset, req.query.value, result_posts => {
+    Posts.findSample(10, +req.query.offset, req.query.value).then(result_posts => {
         result_posts.forEach((post, i) => {
             result[i] = post.dataValues;
-            likes.push(new Promise((resolve, reject) => {
-                PostsLikes.findPostLikes(post.id, result_likes => {
-                    resolve(result_likes);
-                })
-            }));
+            likes.push(PostsLikes.findPostLikes(post.id));
         });
         Promise.all(likes).then(resultMessage => {
             result.forEach((item, i) => {
@@ -87,17 +75,13 @@ router.get('/sample/', (req, res, next) => {
 
 // выборка постов пользователя для автоподгрузки
 router.get('/user-posts-sample/', (req, res, next) => {
-    console.log(req.query);
+    let {offset, user_id, value} = req.query;
     let result = [];
     let likes = [];
-    Posts.findByUserIdSample(10, +req.query.offset, +req.query.user_id, req.query.value, result_posts => {
+    Posts.findByUserIdSample(10, +offset, +user_id, value).then(result_posts => {
         result_posts.forEach((post, i) => {
             result[i] = post.dataValues;
-            likes.push(new Promise((resolve, reject) => {
-                PostsLikes.findPostLikes(post.id, result_likes => {
-                    resolve(result_likes);
-                })
-            }));
+            likes.push(PostsLikes.findPostLikes(post.id));
         });
         Promise.all(likes).then(resultMessage => {
             result.forEach((item, i) => {
@@ -107,68 +91,70 @@ router.get('/user-posts-sample/', (req, res, next) => {
         }, errMessage => {
             console.log(errMessage);
         });
-    })
+    });
 });
 
 
 // выборка постов в ленте пользователя для автоподгрузки
 router.get('/feed/', (req, res, next) => {
+    let {user_id, offset, value} = req.query;
     let result = [];
     let likes = [];
-    Subscriptions.findSubs(+req.query.user_id, result_subs => {
-        let arr_sub_users = result_subs.map((sub) => {
-            return sub.sub_user_id;
-        });
-        Posts.findPostsByFeed(10, +req.query.offset, arr_sub_users, req.query.value, result_posts => {
-            result_posts.forEach((post, i) => {
-                result[i] = result_posts[i].dataValues;
-                likes.push(new Promise((resolve, reject) => {
-                    PostsLikes.findPostLikes(post.id, result_likes => {
-                        resolve(result_likes);
-                    })
-                }))
+    Subscriptions.findSubs(+user_id)
+        .then(result_subs => {
+            let arr_sub_users = result_subs.map((sub) => {
+                return sub.sub_user_id;
             });
-            Promise.all(likes).then(resultMessage => {
-                result.forEach((item, i) => {
-                    result[i].likes = resultMessage[i];
-                });
-                res.json(result);
-            }, errMessage => {
-                console.log(errMessage);
-            })
+            return Posts.findPostsByFeed(10, +offset, arr_sub_users, value);
+    }).then(result_posts => {
+        result_posts.forEach((post, i) => {
+            result[i] = result_posts[i].dataValues;
+            likes.push(PostsLikes.findPostLikes(post.id))
+        });
+        Promise.all(likes).then(resultMessage => {
+            result.forEach((item, i) => {
+                result[i].likes = resultMessage[i];
+            });
+            res.json(result);
+        }, errMessage => {
+            console.log(errMessage);
         })
     });
-
 });
 
 // один пост по id
 router.get('/:post_id', (req, res, next) => {
-    Posts.findById(req.params.post_id, resultPost => {
+    let post;
+    Posts.findById(req.params.post_id).then(resultPost => {
         resultPost.dataValues.views++;
-        Posts.updateViews(resultPost.dataValues.id, resultPost.dataValues.views, (resultUpdate) => {
-            res.json(resultPost);
-        });
-    })
+        post = resultPost;
+        return Posts.updateViews(resultPost.dataValues.id, resultPost.dataValues.views)
+    }).then(() => {
+        res.json(post);
+    });
 });
 
 
 // добавить пост
 router.post('/add/', (req, res, next) => {
-   Posts.add(req.body.user_id, req.body.title, req.body.body, result_post => {
-       let post = result_post.dataValues;
-       Users.findUserByIdForNewItem(req.body.user_id, result_user => {
-           post.author = result_user.dataValues;
-           post.likes = [];
-           res.json(post);
-       });
-   })
+    let {user_id, title, body} = req.body;
+    let post; //TODO проверка авторизации
+    Posts.add(user_id, title, body).then(result_post => {
+        post = result_post.dataValues;
+        return Users.findUserByIdForNewItem(user_id)
+    }).then(result_user => {
+        post.author = result_user.dataValues;
+        post.likes = [];
+        res.json(post);
+    });
 });
 
 // удалить пост
 router.post('/delete/', (req, res, next) => {
-   Posts.delete(req.body.post_id, result_delete_post => {
-           res.json(result_delete_post);
-   })
+    //TODO проверка авторизации и авторства удаляемого поста
+    Posts.delete(req.body.post_id).then(result_delete_post => {
+        res.json(result_delete_post);
+    });
 });
 
 

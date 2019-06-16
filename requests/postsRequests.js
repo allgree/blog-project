@@ -3,15 +3,15 @@ const UsersModel = require('../models/usersModel');
 const PostsLikesModel = require('../models/postsLikesModel');
 
 const Sequelize = require('sequelize');
-
+const {fn, col, Op} = Sequelize;
 PostsModel.belongsTo(UsersModel, {as: 'author', foreignKey: 'user_id'});
 PostsModel.hasMany(PostsLikesModel, {as: 'likes', foreignKey: 'post_id'});
 PostsLikesModel.belongsTo(UsersModel, {as: 'user', foreignKey: 'user_id'});
 
 let Posts = {
     // выборка постов для отображения топ-5 просмотренных постов
-    findTopViewsPosts: (callback) => {
-        PostsModel.findAll({
+    findTopViewsPosts: () => {
+        return PostsModel.findAll({
             attributes: {exclude: ['updatedAt']},
             include: [{
                 model: UsersModel,
@@ -21,14 +21,13 @@ let Posts = {
             }],
             order: [['views', 'DESC']],
             limit: 5
-        })
-            .then(result => callback(result))
+        });
     },
 
 
     // выборка постов для отображения топ-5 отмеченных постов
-    findTopLikesPosts: (callback) => {
-        PostsModel.findAll({
+    findTopLikesPosts: () => {
+        return PostsModel.findAll({
             attributes: ['id', 'user_id', 'title', 'body', 'views', 'createdAt'],
             group: ['posts.id'],
             include: [{
@@ -42,19 +41,18 @@ let Posts = {
                 attributes: [],
                 duplicating: false,
             }],
-            order: [[Sequelize.fn('count', Sequelize.col('likes.id')), 'DESC']],
+            order: [[fn('count', col('likes.id')), 'DESC']],
             limit: 5
         })
-            .then(result => callback(result))
     },
 
     // выборка постов для автоподгрузки
-    findSample: (limit, offset, value, callback) => {
-        PostsModel.findAll({
+    findSample: (limit, offset, value) => {
+        return PostsModel.findAll({
             attributes: {exclude: ['updatedAt']},
             where: {
                 title: {
-                    [Sequelize.Op.like]: `%${value}%`
+                    [Op.like]: `%${value}%`
                 }
             },
             include: [{
@@ -66,17 +64,16 @@ let Posts = {
             offset: offset,
             limit: limit,
             order: [['createdAt', 'DESC']],
-        })
-            .then(result => callback(result))
+        });
     },
 
     // выборка постов одного пользователя для автоподгрузки
-    findByUserIdSample: (limit, offset, user_id, value, callback) => {
-        PostsModel.findAll({
+    findByUserIdSample: (limit, offset, user_id, value) => {
+        return PostsModel.findAll({
             where: {
                 user_id: user_id,
                 title: {
-                    [Sequelize.Op.like]: `%${value}%`
+                    [Op.like]: `%${value}%`
                 }
             },
             attributes: {exclude: ['updatedAt']},
@@ -84,42 +81,36 @@ let Posts = {
             limit: limit,
             order: [['createdAt', 'DESC']]
         })
-            .then(result => callback(result))
     },
 
     // выюорка постов для автоподгрузки ленты
-    findPostsByFeed: (limit, offset, users_id, value, callback) => {
-        if (users_id.length !== 0) {
-            PostsModel.findAll({
-                where: {
-                    user_id: {
-                        [Sequelize.Op.or]: users_id
-                    },
-                    title: {
-                        [Sequelize.Op.like]: `%${value}%`
-                    }
+    findPostsByFeed: (limit, offset, users_id, value) => {
+        if (users_id.length === 0) return [];
+        return PostsModel.findAll({
+            where: {
+                user_id: {
+                    [Op.or]: users_id
                 },
-                attributes: {exclude: ['updatedAt']},
-                include: [{
-                    model: UsersModel,
-                    as: 'author',
-                    attributes: ['id', 'name', 'surname'],
-                    duplicating: false,
-                }],
-                offset: offset,
-                limit: limit,
-                order: [['createdAt', 'DESC']]
-            })
-                .then(result => callback(result))
-        } else {
-            callback([]);
-        }
-
+                title: {
+                    [Op.like]: `%${value}%`
+                }
+            },
+            attributes: {exclude: ['updatedAt']},
+            include: [{
+                model: UsersModel,
+                as: 'author',
+                attributes: ['id', 'name', 'surname'],
+                duplicating: false,
+            }],
+            offset: offset,
+            limit: limit,
+            order: [['createdAt', 'DESC']]
+        });
     },
 
     // найти один пост по id
-    findById: (post_id, callback) => {
-        PostsModel.findOne({
+    findById: (post_id) => {
+        return PostsModel.findOne({
             where: {
                 id: post_id
             },
@@ -139,41 +130,37 @@ let Posts = {
                 }]
             }],
         })
-            .then(result => callback(result))
     },
 
 
     // добавить пост
-    add: (user_id, title, body, callback) => {
-        PostsModel.create({
+    add: (user_id, title, body) => {
+        return PostsModel.create({
             user_id: user_id,
             title: title,
             body: body,
             views: 0
         })
-            .then(result => callback(result))
     },
 
     // удалить пост
-    delete: (post_id, callback) => {
-        PostsModel.destroy({
+    delete: (post_id) => {
+        return PostsModel.destroy({
             where: {
                 id: post_id
             }
         })
-            .then(result => callback(result))
     },
 
     // добавить просмотр
-    updateViews: (post_id, views, callback) => {
-        PostsModel.update({
+    updateViews: (post_id, views) => {
+        return PostsModel.update({
             views: views
         }, {
             where: {
                 id: post_id
             }
         })
-            .then(result => callback(result))
     }
 };
 

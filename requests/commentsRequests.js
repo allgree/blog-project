@@ -5,8 +5,8 @@ CommentsModel.belongsTo(UsersModel, {as: 'author', foreignKey: 'user_id'});
 
 let Comments = {
     // получить выборку комментариев для автоподгрузки
-    findByPostIdSample: (limit, offset, post_id, callback) => {
-        CommentsModel.findAll({
+    findByPostIdSample: (limit, offset, post_id) => {
+        return CommentsModel.findAll({
             where: {
                 post_id: post_id
             },
@@ -21,25 +21,22 @@ let Comments = {
             limit: limit,
             order: [['createdAt', 'DESC']]
         })
-            .then(result => callback(result))
     },
     // добавить комментаий
-    add: (post_id, user_id, body, callback) => {
-        CommentsModel.create({
+    add: (post_id, user_id, body) => {
+        return CommentsModel.create({
             post_id: post_id,
             user_id: user_id,
             body: body
         })
-            .then(result => callback(result))
     },
     // удалить коментарий
-    deleteById: (comment_id, callback) => {
-        CommentsModel.destroy({
+    deleteById: (comment_id) => {
+        return CommentsModel.destroy({
             where: {
                 id: comment_id
             }
         })
-            .then(result => callback(result))
     },
 
 };

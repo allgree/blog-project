@@ -2,31 +2,28 @@ const TokensModel = require('../models/tokensModel');
 
 let Tokens = {
  // найти токен
-  findByToken: (token, callback) => {
-      TokensModel.findOne({
+  findByToken: (token) => {
+      return TokensModel.findOne({
             where: {
                 token: token
             }
         })
-            .then(result => callback(result))
   },
     // обновить токен по id пользователя
-  updateByUserId: (user_id, token, callback) => {
-      TokensModel.update({
+  updateByUserId: (user_id, token) => {
+      return TokensModel.update({
           token: token
       }, {
           where: {
               user_id: user_id
           }
       })
-          .then(result => callback(result))
   },
     // добавить строку с id пользователя
-  addUserId: (user_id, callback) => {
-      TokensModel.create({
+  addUserId: (user_id) => {
+      return TokensModel.create({
           user_id: user_id
       })
-          .then(result => callback(result))
   }
 };
 

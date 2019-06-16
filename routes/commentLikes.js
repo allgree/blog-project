@@ -8,22 +8,23 @@ const Users = require('../requests/usersRequests');
 
 // добавить лайк к комментарию
 router.post('/add/', (req, res, next) => {
-   CommentLikes.add(req.body.comment_id, req.body.user_id, result_like => {
-       let like = result_like.dataValues;
-       Users.findUserByIdForLike(like.user_id, (result_user) => {
-           like.user = result_user.dataValues;
-           res.json(like);
-       })
-   })
+    let {comment_id, user_id} = req.body;
+    let like;
+    CommentLikes.add(comment_id, user_id).then(result_like => {
+        like = result_like.dataValues;
+        return Users.findUserByIdForLike(like.user_id)
+    }).then(result_user => {
+        like.user = result_user.dataValues;
+        res.json(like);
+    });
 });
 
-// удалить лайк к посту
+// удалить лайк к комментарию
 router.post('/delete/', (req, res, next) => {
-   CommentLikes.delete(req.body.comment_id, req.body.user_id, result => {
-       res.json({result: result,
-                comment_id: req.body.comment_id,
-                user_id: req.body.user_id});
-   })
+    let {comment_id, user_id} = req.body;
+    CommentLikes.delete(comment_id, user_id).then(result => {
+        res.json({result, comment_id, user_id});
+    });
 });
 
 module.exports = router;

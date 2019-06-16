@@ -2701,6 +2701,10 @@ nav {
   overflow: hidden;
   transition: height 0.1s ease; }
 
+@-moz-document url-prefix() {
+  .login__menu {
+    margin-top: 33px; } }
+
 #login__panel_input {
   display: none; }
 

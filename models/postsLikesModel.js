@@ -1,14 +1,15 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
 
+const {INTEGER} = Sequelize;
 const model = db.define('posts_likes', {
     id: {
-        type: Sequelize.INTEGER,
+        type: INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    post_id: Sequelize.INTEGER,
-    user_id: Sequelize.INTEGER
+    post_id: INTEGER,
+    user_id: INTEGER
 }, {
     timestamps: false
 });

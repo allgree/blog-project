@@ -1,23 +1,24 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
 
+const {INTEGER, STRING, DATE} = Sequelize;
 const model = db.define('users', {
     id: {
-        type: Sequelize.INTEGER,
+        type: INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    login: Sequelize.STRING(255),
-    password: Sequelize.STRING(255),
-    name: Sequelize.STRING(255),
-    surname: Sequelize.STRING(255),
-    city: Sequelize.STRING(255),
-    age: Sequelize.INTEGER,
-    site: Sequelize.STRING(100),
-    email: Sequelize.STRING(100),
-    avatar_path: Sequelize.STRING(100),
-    createdAt: Sequelize.DATE,
-    updatedAt: Sequelize.DATE
+    login: STRING(255),
+    password: STRING(255),
+    name: STRING(255),
+    surname: STRING(255),
+    city: STRING(255),
+    age: INTEGER,
+    site: STRING(100),
+    email: STRING(100),
+    avatar_path: STRING(100),
+    createdAt: DATE,
+    updatedAt: DATE
 }, //{
    // classMethods: {
    //     associate: (models) => {

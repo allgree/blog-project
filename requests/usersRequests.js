@@ -8,7 +8,20 @@ UsersModel.hasMany(PostsModel, {foreignKey: 'user_id'});
 UsersModel.hasMany(CommentsModel, {foreignKey: 'user_id'});
 
 let Users = {
-    // самый активный автор
+    /**самый активный автор
+      SELECT `users`.`id`,
+             `users`.`name`,
+             `users`.`surname`,
+             `users`.`city`,
+             `users`.`avatar_path`,
+             count(`posts`.`id`) AS `posts_count`
+        FROM `users` AS `users`
+        LEFT OUTER JOIN `posts` AS `posts`
+            ON `users`.`id` = `posts`.`user_id`
+        GROUP BY `users`.`id`
+        ORDER BY count(`posts`.`id`) DESC
+        LIMIT 1;
+      */
     findTopBloger: () => {
         return UsersModel.findAll({
             attributes: ['id', 'name', 'surname', 'city', 'avatar_path', [fn('count', col('posts.id')), 'posts_count']],
@@ -23,7 +36,20 @@ let Users = {
         })
     },
 
-    // самый активный комментатор
+    /**самый активный комментатор
+     SELECT `users`.`id`,
+            `users`.`name`,
+            `users`.`surname`,
+            `users`.`city`,
+            `users`.`avatar_path`,
+             count(`comments`.`id`) AS `comments_count`
+     FROM `users` AS `users`
+     LEFT OUTER JOIN `comments` AS `comments`
+        ON `users`.`id` = `comments`.`user_id`
+     GROUP BY `users`.`id`
+     ORDER BY count(`comments`.`id`) DESC
+     LIMIT 1;
+      */
     findTopCommentator: () => {
         return UsersModel.findAll({
             attributes: ['id', 'name', 'surname', 'city', 'avatar_path', [fn('count', col('comments.id')), 'comments_count']],
@@ -38,7 +64,17 @@ let Users = {
         })
     },
 
-    // выборка пользователей
+    /**выборка пользователей
+      SELECT `id`, `name`,
+             `surname`, `city`,
+             `age`, `site`,
+             `email`, `avatar_path`
+        FROM `users` AS `users`
+        WHERE (`users`.`name` LIKE '%'
+               AND
+              `users`.`surname` LIKE '%')
+        LIMIT {offset}, 10;
+      */
     findSample: (limit, offset, val1, val2) => {
         return UsersModel.findAll({
             attributes: {exclude: ['login', 'password', 'createdAt', 'updatedAt']},
@@ -58,7 +94,11 @@ let Users = {
         })
     },
 
-    // запрос одного пользователя для отображения на странице
+    /**запрос одного пользователя для отображения на странице
+       SELECT `id`, `name`, `surname`, `city`, `age`, `site`, `email`, `avatar_path`
+       FROM `users` AS `users`
+       WHERE `users`.`id` = {user_id};
+      */
     findUserById: (user_id) => {
         return UsersModel.findOne({
             attributes: {exclude: ['login', 'password', 'createdAt', 'updatedAt']},
@@ -68,7 +108,11 @@ let Users = {
         })
     },
 
-    //Запрос одного пользователя для добавления лайка
+    /**Запрос одного пользователя для добавления лайка
+       SELECT `id`, `name`, `surname`, `avatar_path`
+        FROM `users` AS `users`
+        WHERE `users`.`id` = {user_id};
+     */
     findUserByIdForLike: (user_id) => {
         return UsersModel.findOne({
             attributes: ['id', 'name', 'surname', 'avatar_path'],
@@ -78,7 +122,11 @@ let Users = {
         })
     },
 
-    // запрос пользователя для добавления информации о авторе в сохраняемом посте
+    /**запрос пользователя для добавления информации о авторе в сохраняемом посте
+      SELECT `id`, `name`, `surname`
+        FROM `users` AS `users`
+        WHERE `users`.`id` = {user_id}
+      */
     findUserByIdForNewItem: (user_id) => {
         return UsersModel.findOne({
             attributes: ['id', 'name', 'surname'],
@@ -88,7 +136,10 @@ let Users = {
         })
     },
 
-    // регистрация нового пользователя
+    /**регистрация нового пользователя
+     INSERT INTO `users` (`id`,`login`,`password`,`name`,`surname`,`avatar_path`,`createdAt`,`updatedAt`)
+      VALUES (DEFAULT,{login},{password},{name},{surname},{avatar_path},{createdAt},{updatedAt});
+      */
     register: (user, avatar, password) => {
         return UsersModel.create({
             login: user.login,
@@ -102,7 +153,12 @@ let Users = {
         })
     },
 
-    // авторизация пользователя
+    /** авторизация пользователя
+     SELECT `id`, `login`, `password`, `name`, `surname`, `city`, `age`, `site`, `email`, `avatar_path`, `createdAt`, `updatedAt`
+        FROM `users` AS `users`
+        WHERE `users`.`login` = {login}
+        LIMIT 1;
+      */
     findByLogin: (login) => {
         return UsersModel.findOne({
             where: {
@@ -111,7 +167,11 @@ let Users = {
         })
     },
 
-    //  запрос авторизованного пользователя
+    /**запрос авторизованного пользователя
+      SELECT `id`, `login`, `name`, `surname`, `city`, `age`, `site`, `email`, `avatar_path`
+        FROM `users` AS `users`
+        WHERE `users`.`id` = {user_id};
+      */
     findLoginById: (user_id) => {
         return UsersModel.findOne({
             attributes: {exclude: ['password', 'createdAt', 'updatedAt']},
@@ -122,7 +182,18 @@ let Users = {
     },
 
 
-    // редактирование профиля пользователя
+    /**редактирование профиля пользователя
+       UPDATE `users`
+       SET `login`={login},
+           `name`={name},
+           `surname`={surname},
+           `city`={city},
+           `age`={age},
+           `site`={site},
+           `email`={email},
+           `updatedAt`={updatedAt}
+        WHERE `id` = {user_id}
+      */
     editProfile: (profile) => {
         return UsersModel.update({
             login: profile.login,
@@ -139,7 +210,11 @@ let Users = {
         })
     },
 
-    // Запрос пользователя для проверки пароля при изменении
+    /**Запрос пользователя для проверки пароля при изменении
+      SELECT `id`, `login`, `password`
+        FROM `users` AS `users`
+        WHERE `users`.`id` = {user_id};
+      */
     findLoginForPass: (user_id) => {
         return UsersModel.findOne({
             attributes: ['id', 'login', 'password'],
@@ -149,7 +224,11 @@ let Users = {
         });
     },
 
-    // изменение пароля пользователя
+    /**изменение пароля пользователя
+      UPDATE `users`
+        SET `password`={password},`updatedAt`={updatedAt}
+        WHERE `id` = {user_id}
+      */
     editPass: (user_id, password) => {
         return UsersModel.update({
             password: password
@@ -160,7 +239,11 @@ let Users = {
         })
     },
 
-    // смена аватара пользователя
+    /**смена аватара пользователя
+      UPDATE `users`
+        SET `avatar_path`={avatar_path},`updatedAt`={updatedAt}
+        WHERE `id` = 16
+      */
     editAvatar: (user_id, avatar_path) => {
         return UsersModel.update({
             avatar_path: avatar_path

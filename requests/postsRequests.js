@@ -9,7 +9,22 @@ PostsModel.hasMany(PostsLikesModel, {as: 'likes', foreignKey: 'post_id'});
 PostsLikesModel.belongsTo(UsersModel, {as: 'user', foreignKey: 'user_id'});
 
 let Posts = {
-    // выборка постов для отображения топ-5 просмотренных постов
+    /**выборка постов для отображения топ-5 просмотренных постов
+      SELECT `posts`.`id`,
+             `posts`.`user_id`,
+             `posts`.`title`,
+             `posts`.`body`,
+             `posts`.`views`,
+             `posts`.`createdAt`,
+             `author`.`id` AS `author.id`,
+             `author`.`name` AS `author.name`,
+             `author`.`surname` AS `author.surname`
+        FROM `posts` AS `posts`
+        LEFT OUTER JOIN `users` AS `author`
+            ON `posts`.`user_id` = `author`.`id`
+        ORDER BY `posts`.`views` DESC
+        LIMIT 5;
+      */
     findTopViewsPosts: () => {
         return PostsModel.findAll({
             attributes: {exclude: ['updatedAt']},
@@ -25,7 +40,25 @@ let Posts = {
     },
 
 
-    // выборка постов для отображения топ-5 отмеченных постов
+    /**выборка постов для отображения топ-5 отмеченных постов
+      SELECT `posts`.`id`,
+             `posts`.`user_id`,
+             `posts`.`title`,
+             `posts`.`body`,
+             `posts`.`views`,
+             `posts`.`createdAt`,
+             `author`.`id` AS `author.id`,
+             `author`.`name` AS `author.name`,
+             `author`.`surname` AS `author.surname`
+        FROM `posts` AS `posts`
+        LEFT OUTER JOIN `users` AS `author`
+            ON `posts`.`user_id` = `author`.`id`
+        LEFT OUTER JOIN `posts_likes` AS `likes`
+            ON `posts`.`id` = `likes`.`post_id`
+        GROUP BY `posts`.`id`
+        ORDER BY count(`likes`.`id`) DESC
+        LIMIT 5;
+      */
     findTopLikesPosts: () => {
         return PostsModel.findAll({
             attributes: ['id', 'user_id', 'title', 'body', 'views', 'createdAt'],
@@ -46,7 +79,23 @@ let Posts = {
         })
     },
 
-    // выборка постов для автоподгрузки
+    /**выборка постов для автоподгрузки
+     * SELECT `posts`.`id`,
+              `posts`.`user_id`,
+              `posts`.`title`,
+              `posts`.`body`,
+              `posts`.`views`,
+              `posts`.`createdAt`,
+              `author`.`id` AS `author.id`,
+              `author`.`name` AS `author.name`,
+              `author`.`surname` AS `author.surname`
+     FROM `posts` AS `posts`
+     LEFT OUTER JOIN `users` AS `author`
+        ON `posts`.`user_id` = `author`.`id`
+     WHERE `posts`.`title` LIKE '%%'
+     ORDER BY `posts`.`createdAt` DESC
+     LIMIT {offset}, 10;
+      */
     findSample: (limit, offset, value) => {
         return PostsModel.findAll({
             attributes: {exclude: ['updatedAt']},
@@ -67,7 +116,18 @@ let Posts = {
         });
     },
 
-    // выборка постов одного пользователя для автоподгрузки
+    /** выборка постов одного пользователя для автоподгрузки
+      SELECT `id`,
+             `user_id`,
+             `title`, `body`,
+             `views`, `createdAt`
+        FROM `posts` AS `posts`
+        WHERE `posts`.`user_id` = 1
+            AND `posts`.`title`
+        LIKE '%{search value}%'
+        ORDER BY `posts`.`createdAt` DESC
+        LIMIT {offset}, 10;
+      */
     findByUserIdSample: (limit, offset, user_id, value) => {
         return PostsModel.findAll({
             where: {
@@ -83,7 +143,24 @@ let Posts = {
         })
     },
 
-    // выюорка постов для автоподгрузки ленты
+    /**выборка постов для автоподгрузки ленты
+       SELECT `posts`.`id`,
+              `posts`.`user_id`,
+              `posts`.`title`,
+              `posts`.`body`,
+              `posts`.`views`,
+              `posts`.`createdAt`,
+              `author`.`id` AS `author.id`,
+              `author`.`name` AS `author.name`,
+              `author`.`surname` AS `author.surname`
+     FROM `posts` AS `posts`
+     LEFT OUTER JOIN `users` AS `author`
+        ON `posts`.`user_id` = `author`.`id`
+     WHERE (`posts`.`user_id` = {user_id} OR `posts`.`user_id` = {user_id})
+        AND `posts`.`title` LIKE '%%'
+     ORDER BY `posts`.`createdAt` DESC
+     LIMIT {offset}, 10;
+      */
     findPostsByFeed: (limit, offset, users_id, value) => {
         if (users_id.length === 0) return [];
         return PostsModel.findAll({
@@ -108,7 +185,29 @@ let Posts = {
         });
     },
 
-    // найти один пост по id
+    /**найти один пост по id
+       SELECT `posts`.`id`,
+            `posts`.`title`,
+            `posts`.`body`,
+            `posts`.`views`,
+            `posts`.`createdAt`,
+            `author`.`id` AS `author.id`,
+            `author`.`name` AS `author.name`,
+            `author`.`surname` AS `author.surname`,
+            `likes`.`id` AS `likes.id`,
+            `likes->user`.`id` AS `likes.user.id`,
+            `likes->user`.`name` AS `likes.user.name`,
+            `likes->user`.`surname` AS `likes.user.surname`,
+            `likes->user`.`avatar_path` AS `likes.user.avatar_path`
+        FROM `posts` AS `posts`
+        LEFT OUTER JOIN `users` AS `author`
+            ON `posts`.`user_id` = `author`.`id`
+        LEFT OUTER JOIN `posts_likes` AS `likes`
+            ON `posts`.`id` = `likes`.`post_id`
+        LEFT OUTER JOIN `users` AS `likes->user`
+            ON `likes`.`user_id` = `likes->user`.`id`
+        WHERE `posts`.`id` = {post_id};
+      */
     findById: (post_id) => {
         return PostsModel.findOne({
             where: {
@@ -133,7 +232,10 @@ let Posts = {
     },
 
 
-    // добавить пост
+    /**добавить пост
+      INSERT INTO `posts` (`id`,`user_id`,`title`,`body`,`views`,`createdAt`,`updatedAt`)
+        VALUES (DEFAULT,{user_id},{title},{body},{views},{createdAt},{updatedAt});
+      */
     add: (user_id, title, body) => {
         return PostsModel.create({
             user_id: user_id,
@@ -143,7 +245,9 @@ let Posts = {
         })
     },
 
-    // удалить пост
+    /**удалить пост
+       DELETE FROM `posts` WHERE `id` = {post_id}
+      */
     delete: (post_id) => {
         return PostsModel.destroy({
             where: {
@@ -152,7 +256,9 @@ let Posts = {
         })
     },
 
-    // добавить просмотр
+    /**добавить просмотр
+      UPDATE `posts` SET `views`={views},`updatedAt`={updatedAt} WHERE `id` = {post_id}
+      */
     updateViews: (post_id, views) => {
         return PostsModel.update({
             views: views

@@ -40,7 +40,7 @@
     "redux-promise-middleware": "^4.3.0",
     "redux-thunk": "^2.2.0",
     "save": "^2.3.2",
-    "sequelize": "^4.36.0",
+    "sequelize": "^5.15.1",
     "tunnel-agent": "^0.6.0"
   },
   "devDependencies": {
